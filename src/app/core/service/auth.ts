@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { signConfig } from '../interface/interfaces';
+import { registerConfig, signConfig } from '../interface/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,9 @@ export class Auth {
 
   signin(data:signConfig){
     return this.http.post(`${this.BASE_URL}/login`,data);
+  }
+  register(data:registerConfig){
+    return this.http.post(`${this.BASE_URL}/register`,data);
   }
   
 }

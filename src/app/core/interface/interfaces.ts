@@ -3,3 +3,9 @@ export interface signConfig {
     password:string
 
 }
+export interface registerConfig {
+    username:string,
+    email:string,
+    password:string,
+    role: 'STUDENT' | 'INSTRUCTOR' | 'USER',
+}
