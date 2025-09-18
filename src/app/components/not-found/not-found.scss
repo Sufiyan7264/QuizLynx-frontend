@@ -1,0 +1,139 @@
+:host {
+  display: block;
+}
+
+.error-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #1e40af 0%, #3b82f6 100%);
+  color: #ffffff;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.error-hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  aspect-ratio: 1 / 1;
+}
+
+.ring-outer {
+  top: calc(100% - 30rem);
+  width: 820px;
+}
+
+.ring-middle {
+  top: calc(100% - 28rem);
+  width: 680px;
+}
+
+.ring-inner {
+  top: calc(100% - 26rem);
+  width: 520px;
+}
+
+.error-hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.watermark {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  img {
+    width: 255px;
+    height: 255px;
+    opacity: 0.8;
+    filter: saturate(0) brightness(1.8);
+  }
+}
+
+.content {
+  margin-top: 24px;
+}
+
+.heading {
+  margin-top: 24px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.subheading {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.actions {
+  margin-top: 20px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #ffffff;
+  color: #1345d5;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.brand-mark {
+  font-size: 96px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.title {
+  margin-top: 16px;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 12px;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+}
+
+
