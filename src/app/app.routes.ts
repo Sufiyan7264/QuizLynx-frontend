@@ -5,11 +5,14 @@ import { childAuthGuard } from './core/auth-guards/childAuth/child-auth-guard';
 export const routes: Routes = [
     {
         path:'signin',
-        loadComponent:()=>import('./components/sign-in/sign-in').then(m=>m.SignIn)
+        loadComponent:()=>import('./components/sign-in/sign-in').then(m=>m.SignIn),
+        canActivate:[authGuard]
+
     },
     {
         path:'register',
-        loadComponent:()=>import('./components/register/register').then(m=>m.Register)
+        loadComponent:()=>import('./components/register/register').then(m=>m.Register),
+        canActivate:[authGuard]
     },
     {
         path:'forgot-password',
@@ -20,48 +23,57 @@ export const routes: Routes = [
         loadComponent:()=>import('./components/otp/otp').then(m=>m.Otp),
     },
     {
+        path:'new-password',
+        loadComponent:()=>import('./components/new-password/new-password').then(m=>m.NewPassword),
+    },
+    {
         path:'',
         loadComponent:()=>import('./components/landing/landing').then(m=>m.Landing)
     },
 
-{
+    {
+    path:'dashboard',
+    loadComponent:()=>import('./components/dashboard/dashboard').then(m=>m.Dashboard),
+    canActivate:[authGuard]
+    },
+    {
     path:'question/create',
     loadComponent:()=>import('./components/question/create/create').then(m=>m.Create),
     canActivate:[childAuthGuard,authGuard]
-},
-{
-    path:'question/update/:id',
-    loadComponent:()=>import('./components/question/create/create').then(m=>m.Create),
-    canActivate:[childAuthGuard,authGuard]
-},
-{
-    path:'quiz/create',
-    loadComponent:()=>import('./components/quiz/create/create').then(m=>m.Create),
-    canActivate:[childAuthGuard,authGuard]
-},
-{
-    path:'quiz/update/:id',
-    loadComponent:()=>import('./components/quiz/create/create').then(m=>m.Create),
-    canActivate:[childAuthGuard,authGuard]
-},
-{
-    path:'leaderboard',
-    loadComponent:()=>import('./components/leaderboard/leaderboard').then(m=>m.Leaderboard),
-    canActivate:[childAuthGuard,authGuard]
-},
-{
-    path:'quiz/score',
-    loadComponent:()=>import('./components/quiz/score/score').then(m=>m.Score),
-    canActivate:[childAuthGuard,authGuard]
-},
-{
-    path:'question/all',
-    loadComponent:()=>import('./components/question/list/list').then(m=>m.List),
-    canActivate:[childAuthGuard,authGuard]
-}
-,
-{
-    path:'**',
-    loadComponent:()=>import('./components/not-found/not-found').then(m=>m.NotFound)
-}
+    },
+    {
+        path:'question/update/:id',
+        loadComponent:()=>import('./components/question/create/create').then(m=>m.Create),
+        canActivate:[childAuthGuard,authGuard]
+    },
+    {
+        path:'quiz/create',
+        loadComponent:()=>import('./components/quiz/create/create').then(m=>m.Create),
+        canActivate:[childAuthGuard,authGuard]
+    },
+    {
+        path:'quiz/update/:id',
+        loadComponent:()=>import('./components/quiz/create/create').then(m=>m.Create),
+        canActivate:[childAuthGuard,authGuard]
+    },
+    {
+        path:'leaderboard',
+        loadComponent:()=>import('./components/leaderboard/leaderboard').then(m=>m.Leaderboard),
+        canActivate:[childAuthGuard,authGuard]
+    },
+    {
+        path:'quiz/score',
+        loadComponent:()=>import('./components/quiz/score/score').then(m=>m.Score),
+        canActivate:[childAuthGuard,authGuard]
+    },
+    {
+        path:'question/all',
+        loadComponent:()=>import('./components/question/list/list').then(m=>m.List),
+        canActivate:[childAuthGuard,authGuard]
+    }
+    ,
+    {
+        path:'**',
+        loadComponent:()=>import('./components/not-found/not-found').then(m=>m.NotFound)
+    }
 ];

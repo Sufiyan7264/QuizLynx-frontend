@@ -20,7 +20,6 @@ export class Register {
   private readonly fb = inject(FormBuilder);
   private readonly authS = inject(Auth);
   private readonly router = inject(Router);
-  private readonly formService = inject(FormDataService);
   private readonly messageService = inject(MessageService);
   roles: Array<{ key: 'student' | 'instructor' | 'user'; label: string }> = [
     { key: 'student', label: 'Student' },
@@ -53,13 +52,12 @@ export class Register {
     this.spinner.show();
     this.authS.register(this.registerForm.value).subscribe({
       next: (res:any) => {
-        this.formService.setFormData({ email: this.registerForm.value.email });
+        localStorage.setItem('register',JSON.stringify({email:this.registerForm.value.email,username:this.registerForm.value.username,type:'register'}));
         this.spinner.hide();
         this.router.navigate(['/otp']);
       } ,
       error: (err:any) => {
-        // console.error('Registration failed', err);
-        this.messageService.add({severity:'error', summary:'Error', detail: err?.error?.message || 'Registration failed'});}
+        this.messageService.add({severity:'error', summary:'Error', detail: err?.error?.message ?? 'Registration failed'});}
     })
   }
 

@@ -3,16 +3,19 @@ import { HalfCircle } from '../common/half-circle/half-circle';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../core/service/auth';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sign-in',
   imports: [HalfCircle, ReactiveFormsModule],
   templateUrl: './sign-in.html',
   styleUrl: './sign-in.scss',
-  providers:[Auth,MessageService]
 })
 export class SignIn {
   private readonly fb = inject(FormBuilder);
+  private readonly spinner = inject(NgxSpinnerService);
+  private readonly router = inject(Router);
   private readonly messageService=inject(MessageService)
   private readonly authService = inject(Auth);
 
@@ -27,13 +30,17 @@ export class SignIn {
       this.signInForm.markAllAsTouched();
       return;
     }
+    this.spinner.show();
     this.authService.signin(this.signInForm.value).subscribe({
       next:(res:any)=>{
-
+        const user = { username: res.username, role: res?.role[0] ? res?.role[0]?.authority : res?.role  };
+        this.authService.setLoggedIn(user);
+        this.router.navigate(['/dashboard']);
+        this.spinner.hide();
       },
-      error:(error:Error)=>{
-        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
-
+      error:(error:any)=>{
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error?.status ==401 ? "Username or password is incorrect" :  'Something went wrong'});
+        this.spinner.hide();
       }
     })
   }

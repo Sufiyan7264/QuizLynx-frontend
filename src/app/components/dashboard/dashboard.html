@@ -1,0 +1,297 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo and Title -->
+        <div class="flex items-center space-x-4">
+          <img src="assets/single-logo.png" alt="QuizLynx" class="h-8 w-8" />
+          <h1 class="text-xl font-bold text-gray-900">QuizLynx Dashboard</h1>
+        </div>
+        
+        <!-- User Info and Actions -->
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-3">
+            <p-avatar 
+              [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" 
+              styleClass="bg-blue-500 text-white"
+              size="normal">
+            </p-avatar>
+            <div class="text-right">
+              <p class="text-sm font-medium text-gray-900">{{ currentUser?.username }}</p>
+              <p-tag 
+                [value]="userRole" 
+                [styleClass]="getRoleColor(userRole)"
+                [icon]="getRoleIcon(userRole)">
+              </p-tag>
+            </div>
+          </div>
+          <p-button 
+            label="Logout" 
+            icon="pi pi-sign-out" 
+            severity="secondary" 
+            size="small"
+            (onClick)="logout()">
+          </p-button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">
+        Welcome back, {{ currentUser?.username }}!
+      </h2>
+      <p class="text-gray-600">
+        @if (userRole === 'STUDENT') {
+          Ready to continue your learning journey? Check out your recent quizzes and upcoming challenges.
+        } @else if (userRole === 'INSTRUCTOR') {
+          Manage your quizzes and track student performance. Create engaging content for your students.
+        } @else if (userRole === 'ADMIN') {
+          Monitor platform activity, manage users, and oversee the entire QuizLynx ecosystem.
+        } @else {
+          Explore quizzes, track your progress, and discover new learning opportunities.
+        }
+      </p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Total Quizzes Card -->
+      <p-card class="hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Total Quizzes</p>
+            <p class="text-2xl font-bold text-gray-900">{{ stats.totalQuizzes }}</p>
+          </div>
+          <div class="p-3 bg-blue-100 rounded-full">
+            <i class="pi pi-file text-blue-600 text-xl"></i>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Completed/Questions Card -->
+      <p-card class="hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            @if (userRole === 'STUDENT' || userRole === 'USER') {
+              <p class="text-sm font-medium text-gray-600">Completed</p>
+              <p class="text-2xl font-bold text-gray-900">{{ stats.completedQuizzes }}</p>
+            } @else {
+              <p class="text-sm font-medium text-gray-600">Total Questions</p>
+              <p class="text-2xl font-bold text-gray-900">{{ stats.totalQuestions }}</p>
+            }
+          </div>
+          <div class="p-3 bg-green-100 rounded-full">
+            <i class="pi pi-check-circle text-green-600 text-xl"></i>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Average Score/Students Card -->
+      <p-card class="hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            @if (userRole === 'STUDENT' || userRole === 'USER') {
+              <p class="text-sm font-medium text-gray-600">Average Score</p>
+              <p class="text-2xl font-bold text-gray-900">{{ stats.averageScore }}%</p>
+            } @else {
+              <p class="text-sm font-medium text-gray-600">Total Students</p>
+              <p class="text-2xl font-bold text-gray-900">{{ stats.totalStudents }}</p>
+            }
+          </div>
+          <div class="p-3 bg-yellow-100 rounded-full">
+            <i class="pi pi-chart-line text-yellow-600 text-xl"></i>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Progress/Instructors Card -->
+      <p-card class="hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            @if (userRole === 'STUDENT' || userRole === 'USER') {
+              <p class="text-sm font-medium text-gray-600">Progress</p>
+              <p class="text-2xl font-bold text-gray-900">{{ getCompletionPercentage() }}%</p>
+            } @else if (userRole === 'ADMIN') {
+              <p class="text-sm font-medium text-gray-600">Instructors</p>
+              <p class="text-2xl font-bold text-gray-900">{{ stats.totalInstructors }}</p>
+            } @else {
+              <p class="text-sm font-medium text-gray-600">Active Quizzes</p>
+              <p class="text-2xl font-bold text-gray-900">{{ getActiveQuizzesCount() }}</p>
+            }
+          </div>
+          <div class="p-3 bg-purple-100 rounded-full">
+            <i class="pi pi-users text-purple-600 text-xl"></i>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Recent Quizzes Section -->
+      <div class="lg:col-span-2">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="flex items-center justify-between p-6 border-b">
+              <h3 class="text-lg font-semibold text-gray-900">Recent Quizzes</h3>
+              <p-button 
+                label="View All" 
+                icon="pi pi-arrow-right" 
+                severity="secondary" 
+                size="small"
+                [routerLink]="['/quiz/list']">
+              </p-button>
+            </div>
+          </ng-template>
+          
+          <div class="space-y-4">
+            @for (quiz of stats.recentQuizzes; track quiz.id) {
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div class="flex-1">
+                  <h4 class="font-medium text-gray-900">{{ quiz.title }}</h4>
+                  <p class="text-sm text-gray-600">{{ quiz.date }}</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                  @if (userRole === 'STUDENT' || userRole === 'USER') {
+                    @if (quiz.score > 0) {
+                      <span class="text-sm font-medium text-green-600">{{ quiz.score }}%</span>
+                    } @else {
+                      <p-tag value="Pending" severity="warning"></p-tag>
+                    }
+                  } @else {
+                    <div class="text-right">
+                      <p class="text-sm text-gray-600">{{ quiz.participants }} participants</p>
+                      @if (quiz.avgScore > 0) {
+                        <p class="text-sm font-medium text-blue-600">{{ quiz.avgScore }}% avg</p>
+                      }
+                    </div>
+                  }
+                  <p-tag 
+                    [value]="quiz.status" 
+                    [severity]="quiz.status === 'completed' || quiz.status === 'active' ? 'success' : quiz.status === 'pending' ? 'warning' : 'info'">
+                  </p-tag>
+                </div>
+              </div>
+            }
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Quick Actions & Performance -->
+      <div class="space-y-6">
+        <!-- Quick Actions -->
+        <p-card>
+          <ng-template pTemplate="header">
+            <h3 class="text-lg font-semibold text-gray-900 p-6 border-b">Quick Actions</h3>
+          </ng-template>
+          
+          <div class="p-6 space-y-3">
+            @if (userRole === 'STUDENT' || userRole === 'USER') {
+              <p-button 
+                label="Take a Quiz" 
+                icon="pi pi-play" 
+                class="w-full justify-start" 
+                severity="primary"
+                [routerLink]="['/quiz/list']">
+              </p-button>
+              <p-button 
+                label="View Leaderboard" 
+                icon="pi pi-trophy" 
+                class="w-full justify-start" 
+                severity="secondary"
+                [routerLink]="['/leaderboard']">
+              </p-button>
+            } @else if (userRole === 'INSTRUCTOR') {
+              <p-button 
+                label="Create Quiz" 
+                icon="pi pi-plus" 
+                class="w-full justify-start" 
+                severity="primary"
+                [routerLink]="['/quiz/create']">
+              </p-button>
+              <p-button 
+                label="Create Question" 
+                icon="pi pi-question-circle" 
+                class="w-full justify-start" 
+                severity="secondary"
+                [routerLink]="['/question/create']">
+              </p-button>
+              <p-button 
+                label="View All Quizzes" 
+                icon="pi pi-list" 
+                class="w-full justify-start" 
+                severity="secondary"
+                [routerLink]="['/quiz/list']">
+              </p-button>
+            } @else if (userRole === 'ADMIN') {
+              <p-button 
+                label="Manage Users" 
+                icon="pi pi-users" 
+                class="w-full justify-start" 
+                severity="primary">
+              </p-button>
+              <p-button 
+                label="System Analytics" 
+                icon="pi pi-chart-bar" 
+                class="w-full justify-start" 
+                severity="secondary">
+              </p-button>
+              <p-button 
+                label="Platform Settings" 
+                icon="pi pi-cog" 
+                class="w-full justify-start" 
+                severity="secondary">
+              </p-button>
+            }
+          </div>
+        </p-card>
+
+        <!-- Performance Chart -->
+        <p-card>
+          <ng-template pTemplate="header">
+            <h3 class="text-lg font-semibold text-gray-900 p-6 border-b">Performance</h3>
+          </ng-template>
+          
+          <div class="p-6 space-y-4">
+            @for (subject of stats.performanceData; track subject.subject) {
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-gray-700">{{ subject.subject }}</span>
+                  <span class="text-sm text-gray-600">{{ subject.score }}/{{ subject.total }}</span>
+                </div>
+                <p-progressBar 
+                  [value]="subject.score" 
+                  [showValue]="false"
+                  styleClass="h-2">
+                </p-progressBar>
+              </div>
+            }
+          </div>
+        </p-card>
+
+        <!-- Upcoming Quizzes (for Students/Users) -->
+        @if ((userRole === 'STUDENT' || userRole === 'USER') && stats.upcomingQuizzes.length > 0) {
+          <p-card>
+            <ng-template pTemplate="header">
+              <h3 class="text-lg font-semibold text-gray-900 p-6 border-b">Upcoming Quizzes</h3>
+            </ng-template>
+            
+            <div class="p-6 space-y-3">
+              @for (quiz of stats.upcomingQuizzes; track quiz.id) {
+                <div class="p-3 bg-blue-50 rounded-lg">
+                  <h4 class="font-medium text-gray-900">{{ quiz.title }}</h4>
+                  <p class="text-sm text-gray-600">{{ quiz.date }} • {{ quiz.duration }} min</p>
+                </div>
+              }
+            </div>
+          </p-card>
+        }
+      </div>
+    </div>
+  </main>
+</div>

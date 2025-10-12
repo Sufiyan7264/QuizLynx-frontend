@@ -14,7 +14,7 @@ export class NotFound {
     private readonly router = inject(Router);
 
     goHome() {
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
     }
 
     goSignIn() {
