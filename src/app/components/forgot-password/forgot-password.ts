@@ -30,7 +30,7 @@ export class ForgotPassword {
     this.authService.forgotPassword(this.forgotPasswordForm.value).subscribe({
       next:(res:any)=>{
         localStorage.setItem('register',JSON.stringify({email:this.forgotPasswordForm.value.email,type:'forgot-password'}));
-        this.router.navigate(['/otp']);
+        this.router.navigate(['/new-password']);
         this.spinner.hide();
       },
       error:(error:any)=>{

@@ -51,7 +51,6 @@ export class Dashboard implements OnInit {
   };
 
   ngOnInit() {
-    this.currentUser = this.authService.getCachedUser();
     this.userRole = this.currentUser?.role || 'USER';
     this.loadDashboardData();
   }

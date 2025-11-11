@@ -5,10 +5,11 @@ import { Auth } from '../../core/service/auth';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { InputOtp } from "primeng/inputotp";
 
 @Component({
   selector: 'app-new-password',
-  imports: [HalfCircle, ReactiveFormsModule],
+  imports: [HalfCircle, ReactiveFormsModule, InputOtp],
   templateUrl: './new-password.html',
   styleUrl: './new-password.scss',
 })
@@ -21,7 +22,8 @@ export class NewPassword {
 
   newPasswordForm: FormGroup = this.fb.group({
     password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]]
+    confirmPassword: ['', [Validators.required]],
+    otp:['', [Validators.required]]
   }, { validators: this.passwordMatchValidator });
 
   passwordMatchValidator(form: FormGroup) {
@@ -51,7 +53,7 @@ export class NewPassword {
     const passwordData = {
       password: this.newPasswordForm.value.password,
       email: this.getEmailFromStorage(),
-      otp: this.getOtpFromStorage()
+      otp: this.newPasswordForm.value.otp
     };
     
     this.authService.updatePassword(passwordData).subscribe({
@@ -84,12 +86,8 @@ export class NewPassword {
     }
     return '';
   }
-  private getOtpFromStorage(): string {
-    const registerData = localStorage.getItem('register');
-    if (registerData) {
-      const parsed = JSON.parse(registerData);
-      return parsed.otp;
-    }
-    return '';
-  }
+    isInvalid(controlName: string) {
+    const control = this.newPasswordForm.get(controlName);
+    return control?.invalid && control.touched ;
+}
 }

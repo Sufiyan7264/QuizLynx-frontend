@@ -12,6 +12,8 @@ export class Auth {
   private readonly http = inject(HttpClient);
   public isLoggedIn$ = new BehaviorSubject<boolean>(!!this.getCachedUser());
 
+ private userSubject = new BehaviorSubject<UserInfo | null>(this.getCachedUser());
+  public user$ = this.userSubject.asObservable();
 
   getCachedUser(): UserInfo | null {
     try {
@@ -24,6 +26,7 @@ export class Auth {
   setLoggedIn(user: UserInfo) {
     try {
       this.isLoggedIn$.next(true);
+      this.userSubject.next(user);          // NEW: notify subscriber
       sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
     } catch {
       // ignore storage errors
@@ -32,13 +35,11 @@ export class Auth {
   setLoggedOut() {
     try {
       this.isLoggedIn$.next(false);
+      this.userSubject.next(null);          // NEW: notify subscriber
       sessionStorage.removeItem(this.STORAGE_KEY);
     } catch {}
   }
 
-  click(){
-    return this.http.get(`${this.BASE_URL}/quiz/get`);
-  }
   signin(data:signConfig){
     return this.http.post(`${this.BASE_URL}/login`,data,{withCredentials: true});
   }
@@ -55,7 +56,7 @@ export class Auth {
     return this.http.post(`${this.BASE_URL}/logout`,null,{withCredentials:true,observe:'response'});
   }
   updatePassword(data:any){
-    return this.http.patch(`${this.BASE_URL}/update-password`,data);
+    return this.http.post(`${this.BASE_URL}/reset-password`,data);
   }
   forgotPassword(data:any){
     return this.http.post(`${this.BASE_URL}/forgot-password`,data);

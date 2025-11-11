@@ -18,14 +18,25 @@
         <li><a href="#contact" class="hover:text-[#3b5ccc] hover:bg-slate-100 hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
       </ul>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
         @if(!(isLoggedIn$ | async)){
           <a href="/signin" class="rounded-full bg-white px-5 py-2 text-sm  font-medium text-slate-700 hover:shadow-xl duration-200 ease-in hover:shadow-black/30 hover:bg-slate-50">Login</a>
           <a href="/register" class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30">Register</a>
         }
-        @else {
-          <button class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm  font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30 " (click)="logout()">Logout</button>
-          <button class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm  font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30 " (click)="cick()">lcick</button>
+        @else if(isLoggedIn$ | async) {
+          <div class="flex gap-2">
+              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-blue-500 text-white" size="normal"></p-avatar>
+              <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
+                [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
+            <!-- <span>{{currentUser?.role}}</span> -->
+          </div>
+          <!-- <button class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm  font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30 " (click)="logout()">Logout</button> -->
+           <p-button 
+            label="Logout" 
+            icon="pi pi-sign-out"
+            class="hover:shadow-xl px-5 py-2 rounded-full duration-200 ease-in hover:shadow-black/10"
+            (onClick)="logout()">
+          </p-button>
         }
       </div>
     </div>

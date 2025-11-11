@@ -8,3 +8,16 @@
 // @import "primeng/resources/themes/aura-light-blue/theme.css";
 // @import "primeng/resources/primeng.min.css";
 // @import "primeicons/primeicons.css";
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    // font-family: 'josefin Sans', sans-serif;
+}
+.p-tag-label{
+    font-size: 12px;
+}
+.p-toast-message{
+    padding: 1rem;
+}
