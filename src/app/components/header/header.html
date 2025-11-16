@@ -5,39 +5,48 @@
   >
     <div
       class="py-3 pl-4 md:pl-7 pr-4 transition-all duration-300"
-      [ngClass]="isScrolled ? 'rounded-full bg-white/40 shadow-lg ring-1 ring-black/5 backdrop-blur' : 'bg-transparent'"
+      [ngClass]="isScrolled ? 'rounded-full bg-white/40 dark:bg-black/40 shadow-lg ring-1 ring-black/5 backdrop-blur' : 'bg-transparent'"
     >
       <div class="relative mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="assets/logo.png" loading="lazy" alt="QuizLynx" height="32" width="90" class=" cursor-pointer" routerLink="/" />
+        <img src="assets/logo.png" loading="lazy" alt="QuizLynx" height="32" width="90" class=" filter-icon cursor-pointer" routerLink="/" />
       </div>
 
-      <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-base font-medium text-black md:flex">
-        <li><a href="#about" class="hover:text-[#3b5ccc] hover:bg-slate-100 hover:shadow-inner rounded-full py-1 px-4">About</a></li>
-        <li><a href="#pricing" class="hover:text-[#3b5ccc] hover:bg-slate-100 hover:shadow-inner rounded-full py-1 px-4">Pricing</a></li>
-        <li><a href="#contact" class="hover:text-[#3b5ccc] hover:bg-slate-100 hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
+      <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-base font-medium text-text md:flex">
+        <li><a href="#about" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">About</a></li>
+        <li><a href="#pricing" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Pricing</a></li>
+        <li><a href="#contact" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
       </ul>
 
       <div class="flex items-center gap-2">
         @if(!(isLoggedIn$ | async)){
-          <a href="/signin" class="rounded-full bg-white px-5 py-2 text-sm  font-medium text-slate-700 hover:shadow-xl duration-200 ease-in hover:shadow-black/30 hover:bg-slate-50">Login</a>
+          <a href="/signin" class="rounded-full bg-bg px-5 py-2 text-sm  font-medium text-text hover:shadow-xl duration-200 ease-in hover:shadow-black/30 hover:bg-option-hover">Login</a>
           <a href="/register" class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30">Register</a>
         }
         @else if(isLoggedIn$ | async) {
           <div class="flex gap-2">
-              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-blue-500 text-white" size="normal"></p-avatar>
+              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary text-white" size="normal"></p-avatar>
               <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
                 [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
-            <!-- <span>{{currentUser?.role}}</span> -->
           </div>
           <!-- <button class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm  font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30 " (click)="logout()">Logout</button> -->
-           <p-button 
-            label="Logout" 
-            icon="pi pi-sign-out"
-            class="hover:shadow-xl px-5 py-2 rounded-full duration-200 ease-in hover:shadow-black/10"
-            (onClick)="logout()">
-          </p-button>
-        }
+          <p-button 
+          label="Logout" 
+          icon="pi pi-sign-out"
+          class="hover:shadow-xl px-5 py-2 rounded-full duration-200 ease-in hover:shadow-black/10"
+          (onClick)="logout()">
+        </p-button>
+      }
+      @if(darkMode()){
+        <button class="p-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+          <i class="pi pi-sun text-text"></i>
+        </button>
+      }
+      @else{
+        <button class="p-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+          <i class="pi pi-moon text-gray-800"></i>
+        </button>
+      }
       </div>
     </div>
     </div>

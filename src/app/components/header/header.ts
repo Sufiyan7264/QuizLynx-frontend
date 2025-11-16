@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from "@angular/router";
 import { Auth } from '../../core/service/auth';
@@ -23,12 +23,21 @@ export class Header implements OnInit {
   isLoggedIn$!: Observable<boolean>;
   user$!: Observable<UserInfo | null>;
   currentUser: any = 'user';
+  darkMode = signal<boolean>(false);
   
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.currentUser = this.authService.getCachedUser();
     this.user$ = this.authService.user$; 
     this.authService.user$.subscribe(u => this.currentUser = u);   // subscribe in template via async pipe
+    let localTheme = localStorage.getItem('theme');
+    if (localTheme === 'dark') {
+      this.darkMode.set(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      this.darkMode.set(false);
+      document.documentElement.classList.remove('dark');
+    }
   }
 
   @HostListener('window:scroll')
@@ -62,6 +71,16 @@ export class Header implements OnInit {
       case 'INSTRUCTOR': return 'pi pi-users';
       case 'ADMIN': return 'pi pi-cog';
       default: return 'pi pi-user';
+    }
+  }
+  toggleDarkMode(){
+    this.darkMode.update(value => !value);
+    if(this.darkMode()){
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme','dark');
+    }else{
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme','light');
     }
   }
 }

@@ -1,33 +1,33 @@
-<section class="min-h-[100vh] w-full bg-gradient-to-t from-[#1e40af] to-[#3b82f6] relative overflow-hidden flex items-center pt-24 pb-8">
+<section class="min-h-[100vh] w-full bg-gradient-to-t from-[#fafafa] to-[#a4a4a4] dark:from-[#323232] dark:to-[#000000]  relative overflow-hidden flex items-center pt-24 pb-8">
   <div class="absolute inset-0 bg-[radial-gradient(80%_50%_at_50%_120%,rgba(255,255,255,0.12),transparent_60%)]"></div>
 
   <div class="relative mx-auto w-full px-4">
     <app-half-circle></app-half-circle>
     <div class="mx-auto w-full max-w-[640px] rounded-3xl bg-white/8 ring-1 ring-white/15 backdrop-blur-xl shadow-[0_10px_60px_rgba(0,0,0,0.25)] p-6 md:p-10">
       <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/20">
-        <img src="assets/single-logo.png" alt="QuizLynx" width="28" height="28" loading="lazy"/>
+        <img src="assets/single-logo.png" class="filter-icon" alt="QuizLynx" width="28" height="28" loading="lazy"/>
       </div>
 
-      <h1 class="mt-6 text-center text-4xl font-semibold text-white">Create Account</h1>
-      <p class="mt-3 text-center text-white/80">Sign up to get started with QuizLynx.</p>
+      <h1 class="mt-6 text-center text-4xl font-semibold text-text">Create Account</h1>
+      <p class="mt-3 text-center text-muted-text">Sign up to get started with QuizLynx.</p>
 
       <!-- Role Toggle -->
       <div class="mt-6">
-        <label class="mb-2 block text-sm text-white/80">Select your role</label>
-        <div class="inline-flex gap-2 rounded-full bg-white/10 ring-1 ring-white/20 p-1">
+        <label class="mb-2 block text-sm text-label font-semibold">Select your role</label>
+        <div class="inline-flex gap-2 rounded-xl bg-black/10 dark:bg-white/10 ring-1 ring-gray-500 p-1">
           <button type="button" (click)="setRole('STUDENT')"
-                  class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-                  [ngClass]="selectedRole === 'STUDENT' ? 'bg-white text-[#1345d5]' : 'text-white/80 hover:bg-white/10'">
+                  class="px-4 py-2 rounded-xl text-sm transition-all duration-200"
+                  [ngClass]="selectedRole === 'STUDENT' ? 'bg-white text-black font-bold' : 'text-black/80 hover:bg-black/10 font-medium dark:text-white/80 dark:hover:bg-white/10'">
             Student
           </button>
           <button type="button" (click)="setRole('INSTRUCTOR')"
-                  class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-                  [ngClass]="selectedRole === 'INSTRUCTOR' ? 'bg-white text-[#1345d5]' : 'text-white/80 hover:bg-white/10'">
+                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+                  [ngClass]="selectedRole === 'INSTRUCTOR' ? 'bg-white text-black font-bold' : 'font-medium dark:text-white/80 dark:hover:bg-white/10 text-black/80 hover:bg-black/10'">
             Instructor
           </button>
           <button type="button" (click)="setRole('USER')"
-                  class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-                  [ngClass]="selectedRole === 'USER' ? 'bg-white text-[#1345d5]' : 'text-white/80 hover:bg-white/10'">
+                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+                  [ngClass]="selectedRole === 'USER' ? 'bg-white text-black font-bold' : 'font-medium text-black/80 hover:bg-black/10 dark:text-white/80 dark:hover:bg-white/10'">
             User
           </button>
         </div>
@@ -35,8 +35,8 @@
 
       <form class="mt-6 space-y-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div>
-          <label class="mb-2 block text-sm text-white/80">Username</label>
-          <input formControlName="username" class="w-full rounded-full bg-white/10 px-5 py-3 text-white placeholder-white/60 outline-none ring-1 ring-white/20 focus:ring-white/40" placeholder="JaneDoe" />
+          <label class="mb-2 block text-sm text-label font-semibold">Username</label>
+          <input formControlName="username" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="JaneDoe" />
           @if(registerForm.get('username')?.invalid && registerForm.get('username')?.touched){
             <div  class="text-red-500 ps-3 font-semibold text-[14px]">
               Username is required.
@@ -49,8 +49,8 @@
           }
         </div>
         <div>
-          <label class="mb-2 block text-sm text-white/80">Email Address</label>
-          <input formControlName="email" type="email" class="w-full rounded-full bg-white/10 px-5 py-3 text-white placeholder-white/60 outline-none ring-1 ring-white/20 focus:ring-white/40" placeholder="you@example.com" />
+          <label class="mb-2 block text-sm text-label">Email Address</label>
+          <input formControlName="email" type="email" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="you@example.com" />
           @if(registerForm.get('email')?.invalid && registerForm.get('email')?.touched){
             <div  class="text-red-500 ps-3 font-semibold text-[14px]">
               Please enter a valid email address.
@@ -58,8 +58,8 @@
           }
         </div>
         <div>
-          <label class="mb-2 block text-sm text-white/80">Password</label>
-          <input formControlName="password" type="password" class="w-full rounded-full bg-white/10 px-5 py-3 text-white placeholder-white/60 outline-none ring-1 ring-white/20 focus:ring-white/40" placeholder="••••••••" />
+          <label class="mb-2 block text-sm text-label">Password</label>
+          <input formControlName="password" type="password" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="••••••••" />
           @if(registerForm.get('password')?.invalid && registerForm.get('password')?.touched){
             <div  class="text-red-500 ps-3 font-semibold text-[14px]">
               Password must be at least 6 characters long.
@@ -67,8 +67,8 @@
           }
         </div>
         <div>
-          <label class="mb-2 block text-sm text-white/80">Confirm Password</label>
-          <input formControlName="confirmPassword" type="password" class="w-full rounded-full bg-white/10 px-5 py-3 text-white placeholder-white/60 outline-none ring-1 ring-white/20 focus:ring-white/40" placeholder="••••••••" />
+          <label class="mb-2 block text-sm text-label">Confirm Password</label>
+          <input formControlName="confirmPassword" type="password" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="••••••••" />
           @if(registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched){
             <div  class="text-red-500 ps-3 font-semibold text-[14px]">
               Please confirm your password.
@@ -80,20 +80,20 @@
             </div>
           }
         </div>
-        <button type="submit" class="mt-2 w-full rounded-full bg-white px-6 py-3 font-medium text-[#1345d5] shadow-lg shadow-black/20 hover:bg-slate-50">Create account</button>
+        <button type="submit" class="mt-2 w-full rounded-xl bg-primary px-6 py-3 font-medium text-[white] shadow-lg shadow-black/20 ">Create account</button>
       </form>
 
-      <p class="mt-4 text-center text-white/80">
-        Already have an account? <a href="/signin" class="text-white hover:underline cursor-pointer">Sign In</a>
+      <p class="mt-4 text-center text-muted-text">
+        Already have an account? <a href="/signin" class="text-primary hover:underline cursor-pointer">Sign In</a>
       </p>
       <div class="my-6 flex items-center gap-4">
-        <div class="h-px flex-1 bg-white/20"></div>
-        <span class="text-white/70">or</span>
-        <div class="h-px flex-1 bg-white/20"></div>
+        <div class="h-px flex-1 bg-border-hover"></div>
+        <span class="text-muted-text">OR</span>
+        <div class="h-px flex-1 bg-border-hover"></div>
       </div>
       <div class="mt-8 flex gap-3 justify-center items-center">
-        <button class="flex items-center justify-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white ring-1 ring-white/20 hover:bg-white/20">
-          <i class="pi pi-google text-white"></i>
+        <button class="flex items-center justify-center gap-2 rounded-xl bg-black/15 dark:bg-white/15 px-4 py-2 text-text ring-1 ring-white/20 hover:bg-black/20 dark:hover:bg-white/20 font-semibold">
+          <i class="pi pi-google text-text"></i>
           <span>Sign in with Google</span>
         </button>
         <!-- <button class="flex items-center justify-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white ring-1 ring-white/20 hover:bg-white/20">

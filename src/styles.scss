@@ -2,22 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Core */
+  --color-bg: #0f1724; /* fallback: dark-ish background for apps, but we'll override below */
+  --color-surface: #ffffff;
+  --color-border: #e6e9ef;
+  --color-glass: rgba(15, 23, 42, 0.04);
 
-/* PrimeNG global CSS */
-// @import "primeng/resources/themes/aura-light-blue/theme.css";
-// @import "primeng/resources/primeng.min.css";
-// @import "primeicons/primeicons.css";
+  /* Main brand */
+  --color-primary: #4f95ff; /* Indigo-600 */
+  --color-primary-foreground: #ffffff;
 
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    // font-family: 'josefin Sans', sans-serif;
+  --color-secondary: #06b6d4; /* Cyan-500 */
+  --color-accent: #f97316; /* Orange-500 */
+
+  /* Feedback */
+  --color-success: #16a34a; /* Green-600 */
+  --color-warning: #f59e0b; /* Amber-500 */
+  --color-danger: #ef4444; /* Red-500 */
+
+  /* Text */
+  --color-text: #0b1220; /* primary text */
+  --color-muted-text: #55607a; /* subdued text */
+
+  /* Background variants */
+  --color-bg-page: #f7f9fc; /* page background (light) */
+  --color-bg: var(--color-bg-page);
+  --icon-filter: brightness(0) saturate(100%) invert(0); /* black icons */
+
+  /* Elevation */
+  --elev-1: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --elev-2: 0 6px 18px rgba(15, 23, 42, 0.06);
+  // }
+    --label-color: #333;
+  /* Light theme overrides */
+  // :root.light-theme {
+  --color-bg-page: #f7f9fc;
+  --color-bg: var(--color-bg-page);
+  --color-surface: #ffffff;
+  --color-border: #e6e9ef;
+  --color-glass: rgba(2, 6, 23, 0.04);
+
+  --color-text: #0b1220;
+  --color-muted-text: #445363;
+
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #06b6d4;
+  --color-accent: #f97316;
+
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-border-hover: #d0d7e3;
+
+  --color-option-hover: #eef2ff;
 }
-.p-tag-label{
-    font-size: 12px;
+
+/* Dark theme overrides (applies when .dark class is on <html> or <body>) */
+.dark {
+  --icon-filter: brightness(0) saturate(100%) invert(1); /* white icons */
+  --color-bg-page: #071023;
+  --color-bg: var(--color-bg-page);
+  --color-surface: #071128; /* deep surface */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-glass: rgba(255, 255, 255, 0.03);
+  --label-color:#e0e0e0;  /* Light text for dark background */
+  --color-text: #e6eef8;
+  --color-muted-text: #9fb0ca;
+
+  --color-primary: #3b82f6; /* slightly lighter indigo in dark */
+  --color-primary-foreground: #0b1220;
+  --color-secondary: #22d3ee;
+  --color-accent: #fb923c;
+
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #fb7185;
+  --color-border-hover: rgba(255, 255, 255, 0.12);
+
+  --color-option-hover: rgba(99, 102, 241, 0.15);
 }
-.p-toast-message{
-    padding: 1rem;
+
+/* Utilities that map CSS variables to Tailwind-friendly classes (optional) */
+.theme-bg {
+  background-color: var(--color-bg) !important;
+}
+.theme-surface {
+  background-color: var(--color-surface) !important;
+}
+.theme-text {
+  color: var(--color-text) !important;
+}
+.theme-muted {
+  color: var(--color-muted-text) !important;
+}
+.filter-icon {
+  filter: var(--icon-filter) !important;
+}
+.theme-border {
+  border-color: var(--color-border) !important;
+}
+
+/* small helper for glass effect */
+.bg-glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(6px);
+}
+
+*,
+body,
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  // font-family: 'josefin Sans', sans-serif;
+}
+html {
+//   scrollbar-track-color: var(--color-primary-foreground);
+  scrollbar-color: #b5b5b5 #f0f0f0; /* thumb track */
+  scrollbar-width: thin;
+}
+html.dark {
+    // scrollbar-track-color: var(--color-primary-foreground);
+  scrollbar-color: #555 #1e1e1e;
+  scrollbar-width: thin;
+}
+.p-tag-label {
+  font-size: 12px;
+}
+.p-toast-message {
+  padding: 1rem;
 }

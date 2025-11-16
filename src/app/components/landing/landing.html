@@ -1,5 +1,5 @@
 <!-- Hero Section -->
-<section #heroSection class="min-h-screen bg-white flex flex-col justify-center items-center px-4 py-20 relative overflow-hidden">
+<section #heroSection class="min-h-screen bg-bg flex flex-col justify-center items-center px-4 py-20 relative overflow-hidden">
   <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
@@ -7,7 +7,7 @@
   
   <div class="max-w-6xl mx-auto text-center relative z-10">
     <!-- Subtitle -->
-    <p class="text-lg text-gray-600 italic font-serif mb-4 animate-in" data-animate="hero-subtitle">unlock knowledge</p>
+    <p class="text-lg text-muted-text italic font-serif mb-4 animate-in" data-animate="hero-subtitle">unlock knowledge</p>
     
     <!-- Main Heading -->
     <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-in" data-animate="hero-title">
@@ -18,7 +18,7 @@
     <div class="w-24 h-0.5 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8 animate-in" data-animate="hero-divider"></div>
     
     <!-- Description -->
-    <p class="text-xl text-gray-700 max-w-3xl mx-auto mb-12 leading-relaxed animate-in" data-animate="hero-description">
+    <p class="text-xl text-muted-text max-w-3xl mx-auto mb-12 leading-relaxed animate-in" data-animate="hero-description">
       Where Every Question Unveils a World of Wisdom, Sparking the Flames of Learning and Illuminating the Path to Intellectual Brilliance!
     </p>
     
@@ -27,7 +27,7 @@
       <button (click)="tryQuizlynx()" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
         Try Quizlynx out!
       </button>
-      <button (click)="register()" class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-full text-lg font-semibold hover:border-purple-600 hover:text-purple-600 transition-all duration-300">
+      <button (click)="register()" class="border-2 border-gray-300 text-muted-text px-8 py-4 rounded-full text-lg font-semibold hover:border-border-hover hover:bg-option-hover transition-all duration-300">
         Sign up
       </button>
     </div>
@@ -35,7 +35,7 @@
 </section>
 
 <!-- Features Section -->
-<section #featuresSection class="py-20 bg-gray-50 relative overflow-hidden">
+<section #featuresSection class="py-20 bg-bg relative overflow-hidden">
   <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
@@ -44,35 +44,37 @@
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <!-- Section Title -->
     <div class="text-center mb-16" data-animate="features-title">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-in">What Quizlynx offers</h2>
+      <h2 class="text-4xl font-bold text-text mb-4 animate-in">What Quizlynx offers</h2>
       <div class="flex items-center justify-center gap-2 animate-in">
-        <span class="text-gray-600 italic font-serif text-lg">Discover our quiz categories</span>
+        <span class="text-muted-text italic font-serif text-lg">Discover our quiz categories</span>
         <span class="text-yellow-500 text-2xl">✨</span>
       </div>
     </div>
     
     <!-- Feature Cards -->
     <div class="grid md:grid-cols-3 gap-8" data-animate="features-cards">
-      <div *ngFor="let feature of features; let i = index" class="feature-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
-        <div class="text-center">
-          <div class="w-16 h-16 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span class="text-2xl">{{ feature.icon }}</span>
+      @for(feature of features; track $index){
+        <div class="feature-card bg-primary-foreground rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-border-hover">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span class="text-2xl">{{ feature.icon }}</span>
+            </div>
+            <h3 class="text-2xl font-bold text-text mb-4">{{ feature.title }}</h3>
+            <p class="text-muted-text mb-6 leading-relaxed">
+              {{ feature.description }}
+            </p>
+            <button (click)="exploreCategory(feature.title)" class="bg-gray-800 text-white px-6 py-3 rounded-full  transition-all duration-300 flex items-center gap-2 mx-auto">
+              Explore now <span>→</span>
+            </button>
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-4">{{ feature.title }}</h3>
-          <p class="text-gray-600 mb-6 leading-relaxed">
-            {{ feature.description }}
-          </p>
-          <button (click)="exploreCategory(feature.title)" class="bg-gray-800 text-white px-6 py-3 rounded-full hover:bg-purple-600 transition-all duration-300 flex items-center gap-2 mx-auto">
-            Explore now <span>→</span>
-          </button>
         </div>
-      </div>
+      }
     </div>
   </div>
 </section>
 
 <!-- Statistics Section -->
-<section #statsSection class="py-20 bg-white relative overflow-hidden">
+<section #statsSection class="py-20 bg-bg relative overflow-hidden">
   <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
@@ -80,21 +82,21 @@
   
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <div class="text-center mb-16" data-animate="stats-title">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-in">Join Our Community</h2>
-      <p class="text-xl text-gray-600 animate-in">Millions of learners trust Quizlynx for their knowledge journey</p>
+      <h2 class="text-4xl font-bold text-text mb-4 animate-in">Join Our Community</h2>
+      <p class="text-xl text-muted-text animate-in">Millions of learners trust Quizlynx for their knowledge journey</p>
     </div>
     
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8" data-animate="stats-cards">
       <div *ngFor="let stat of stats" class="text-center stat-card">
         <div class="text-4xl font-bold mb-2 stat-counter" [ngClass]="stat.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ stat.value }}</div>
-        <div class="text-gray-600">{{ stat.label }}</div>
+        <div class="text-muted-text">{{ stat.label }}</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Testimonials Section -->
-<section #testimonialsSection class="py-20 bg-gray-50 relative overflow-hidden">
+<section #testimonialsSection class="py-20 bg-bg relative overflow-hidden">
   <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
@@ -102,31 +104,35 @@
   
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <div class="text-center mb-16" data-animate="testimonials-title">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-in">What Our Users Say</h2>
-      <p class="text-xl text-gray-600 animate-in">Real feedback from our amazing community</p>
+      <h2 class="text-4xl font-bold text-text mb-4 animate-in">What Our Users Say</h2>
+      <p class="text-xl text-muted-text animate-in">Real feedback from our amazing community</p>
     </div>
     
     <div class="grid md:grid-cols-3 gap-8" data-animate="testimonials-cards">
-      <div *ngFor="let testimonial of testimonials" class="testimonial-card bg-white rounded-2xl p-8 shadow-lg">
-        <div class="flex items-center mb-4">
-          <div class="w-12 h-12 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center mr-4">
-            <span class="text-lg font-bold" [ngClass]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
-          </div>
-          <div>
-            <h4 class="font-semibold text-gray-800">{{ testimonial.name }}</h4>
-            <div class="flex text-yellow-500">
-              <span *ngFor="let star of getStarRating(testimonial.rating)">{{ star }}</span>
+      @for (testimonial of testimonials; track $index) {
+        <div class="testimonial-card bg-primary-foreground border border-border rounded-2xl p-8 shadow-lg">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mr-4">
+              <span class="text-lg font-bold" [ngClass]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-text">{{ testimonial.name }}</h4>
+              <div class="flex text-yellow-500">
+                @for(star of getStarRating(testimonial.rating); track $index){
+                  <span>{{ star }}</span>
+                }
+              </div>
             </div>
           </div>
+          <p class="text-muted-text italic">"{{ testimonial.comment }}"</p>
         </div>
-        <p class="text-gray-600 italic">"{{ testimonial.comment }}"</p>
-      </div>
+      }
     </div>
   </div>
 </section>
 
 <!-- FAQ Section -->
-<section #faqSection class="py-20 bg-white relative overflow-hidden">
+<section #faqSection class="py-20 bg-bg relative overflow-hidden">
   <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
@@ -134,30 +140,32 @@
   
   <div class="max-w-4xl mx-auto px-4 relative z-10">
     <div class="text-center mb-16" data-animate="faq-title">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4 animate-in">Frequently Asked Questions</h2>
-      <p class="text-xl text-gray-600 animate-in">Everything you need to know about Quizlynx</p>
+      <h2 class="text-4xl font-bold text-text mb-4 animate-in">Frequently Asked Questions</h2>
+      <p class="text-xl text-muted-text animate-in">Everything you need to know about Quizlynx</p>
     </div>
     
     <div class="space-y-6" data-animate="faq-cards">
-      <div *ngFor="let faq of faqs" class="faq-item bg-gray-50 rounded-2xl p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">{{ faq.question }}</h3>
-        <p class="text-gray-600">{{ faq.answer }}</p>
-      </div>
+      @for (faq of faqs; track $index) {
+        <div class="faq-item bg-primary-foreground hover:bg-option-hover border border-border rounded-2xl p-6">
+          <h3 class="text-xl font-semibold text-text mb-3">{{ faq.question }}</h3>
+          <p class="text-muted-text">{{ faq.answer }}</p>
+        </div>
+      }
     </div>
   </div>
 </section>
 
 <!-- Footer (minimalist light theme) -->
-<footer class="bg-white border-t border-gray-200">
+<footer class="bg-bg border-t border-border">
   <div class="max-w-7xl mx-auto px-6 py-12">
     <div class="grid md:grid-cols-3 gap-8 items-start">
       <!-- Brand -->
       <div>
-        <h3 class="text-2xl font-semibold text-gray-900">Quizlynx</h3>
-        <p class="mt-3 text-gray-500 max-w-sm">Learn smarter with bite‑sized quizzes. Track progress, revisit topics, and keep growing.</p>
+        <h3 class="text-2xl font-semibold text-text">Quizlynx</h3>
+        <p class="mt-3 text-muted-text max-w-sm">Learn smarter with bite-sized quizzes. Track progress, revisit topics, and keep growing.</p>
         <div class="mt-4 flex items-center gap-3">
           <a aria-label="Twitter" href="#" class="social-btn">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.9-2.6 1.1A3.9 3.9 0 0 0 12 8.6c0 .3 0 .6.1.9-3.3-.2-6.2-1.7-8.2-4.1-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.6 1.8 3.3-.6 0-1.2-.2-1.7-.5 0 2 1.4 3.7 3.3 4.1-.4.1-.8.1-1.2.1-.3 0-.6 0-.9-.1.6 1.7 2.2 3 4.1 3A7.9 7.9 0 0 1 2 19.6 11.2 11.2 0 0 0 8.1 21c7.3 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg>
+            <svg class="h-4 w-4 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.9-2.6 1.1A3.9 3.9 0 0 0 12 8.6c0 .3 0 .6.1.9-3.3-.2-6.2-1.7-8.2-4.1-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.6 1.8 3.3-.6 0-1.2-.2-1.7-.5 0 2 1.4 3.7 3.3 4.1-.4.1-.8.1-1.2.1-.3 0-.6 0-.9-.1.6 1.7 2.2 3 4.1 3A7.9 7.9 0 0 1 2 19.6 11.2 11.2 0 0 0 8.1 21c7.3 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg>
           </a>
           <a aria-label="Instagram" href="#" class="social-btn">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16.5 7.5h.01"/><circle cx="12" cy="12" r="4"/></svg>
@@ -171,7 +179,7 @@
       <!-- Links -->
       <div class="grid grid-cols-2 gap-8">
         <div>
-          <h4 class="text-sm font-semibold text-gray-900">Product</h4>
+          <h4 class="text-sm font-semibold text-text">Product</h4>
           <ul class="mt-3 space-y-2 text-sm">
             <li><a class="footer-link" href="#">Features</a></li>
             <li><a class="footer-link" href="#">Pricing</a></li>
@@ -180,7 +188,7 @@
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-gray-900">Company</h4>
+          <h4 class="text-sm font-semibold text-text">Company</h4>
           <ul class="mt-3 space-y-2 text-sm">
             <li><a class="footer-link" href="#">About</a></li>
             <li><a class="footer-link" href="#">Contact</a></li>
@@ -192,15 +200,15 @@
 
       <!-- Newsletter -->
       <div>
-        <h4 class="text-sm font-semibold text-gray-900">Stay in the loop</h4>
+        <h4 class="text-sm font-semibold text-text">Stay in the loop</h4>
         <form class="mt-3 flex gap-2">
-          <input type="email" placeholder="Email address" class="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
-          <button type="submit" class="rounded-md bg-gray-900 text-white px-3 py-2 text-sm hover:bg-black transition-colors">Subscribe</button>
+          <input type="email" placeholder="Email address" class="flex-1 rounded-md border border-border bg-primary-foreground px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+          <button type="submit" class="rounded-md bg-primary text-white px-3 py-2 text-sm transition-colors">Subscribe</button>
         </form>
       </div>
     </div>
 
-    <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-gray-200 pt-6 text-sm text-gray-500">
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-6 text-sm text-muted-text">
       <p>© 2025 Quizlynx. All rights reserved.</p>
       <div class="flex items-center gap-4">
         <a class="footer-link" href="#">Privacy</a>

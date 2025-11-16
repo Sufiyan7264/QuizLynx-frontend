@@ -150,7 +150,7 @@ section:first-of-type .fade-in-up {
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #f9fafb;
+    // background-color: #f9fafb;
     transform: translateX(4px);
   }
 }
@@ -286,24 +286,25 @@ section:first-of-type .fade-in-up {
   height: 36px;
   width: 36px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb; /* gray-200 */
-  color: #6b7280; /* gray-500 */
-  background: #ffffff;
+  // border: 1px solid #e5e7eb; /* gray-200 */
+  color: var(--color-text); /* gray-500 */
+  background: var(--color-primary-foreground);
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease;
 
   &:hover {
-    color: #111827; /* gray-900 */
-    border-color: #d1d5db; /* gray-300 */
+    // color: var(--color-option-hover); /* gray-900 */
+    border-color: var(--color-border-hover); /* gray-300 */
     transform: translateY(-2px);
   }
 }
 
 .footer-link {
-  color: #6b7280; /* gray-500 */
+  color: var(--color-muted-text); /* gray-500 */
   transition: color 0.2s ease;
 
   &:hover {
-    color: #111827; /* gray-900 */
+    color: var(--color-primary); /* gray-900 */
   }
 }
 
