@@ -4,24 +4,24 @@
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
-  
+
   <div class="max-w-6xl mx-auto text-center relative z-10">
     <!-- Subtitle -->
     <p class="text-lg text-muted-text italic font-serif mb-4 animate-in" data-animate="hero-subtitle">unlock knowledge</p>
-    
+
     <!-- Main Heading -->
     <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-in" data-animate="hero-title">
       Embrace the Quest
     </h1>
-    
+
     <!-- Divider Line -->
     <div class="w-24 h-0.5 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8 animate-in" data-animate="hero-divider"></div>
-    
+
     <!-- Description -->
     <p class="text-xl text-muted-text max-w-3xl mx-auto mb-12 leading-relaxed animate-in" data-animate="hero-description">
       Where Every Question Unveils a World of Wisdom, Sparking the Flames of Learning and Illuminating the Path to Intellectual Brilliance!
     </p>
-    
+
     <!-- CTA Buttons -->
     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in" data-animate="hero-buttons">
       <button (click)="tryQuizlynx()" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
@@ -40,7 +40,7 @@
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
-  
+
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <!-- Section Title -->
     <div class="text-center mb-16" data-animate="features-title">
@@ -50,7 +50,7 @@
         <span class="text-yellow-500 text-2xl">✨</span>
       </div>
     </div>
-    
+
     <!-- Feature Cards -->
     <div class="grid md:grid-cols-3 gap-8" data-animate="features-cards">
       @for(feature of features; track $index){
@@ -79,18 +79,20 @@
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
-  
+
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <div class="text-center mb-16" data-animate="stats-title">
       <h2 class="text-4xl font-bold text-text mb-4 animate-in">Join Our Community</h2>
       <p class="text-xl text-muted-text animate-in">Millions of learners trust Quizlynx for their knowledge journey</p>
     </div>
-    
+
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8" data-animate="stats-cards">
-      <div *ngFor="let stat of stats" class="text-center stat-card">
-        <div class="text-4xl font-bold mb-2 stat-counter" [ngClass]="stat.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ stat.value }}</div>
-        <div class="text-muted-text">{{ stat.label }}</div>
-      </div>
+      @for (stat of stats; track stat) {
+        <div class="text-center stat-card">
+          <div class="text-4xl font-bold mb-2 stat-counter" [class]="stat.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ stat.value }}</div>
+          <div class="text-muted-text">{{ stat.label }}</div>
+        </div>
+      }
     </div>
   </div>
 </section>
@@ -101,19 +103,19 @@
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
-  
+
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <div class="text-center mb-16" data-animate="testimonials-title">
       <h2 class="text-4xl font-bold text-text mb-4 animate-in">What Our Users Say</h2>
       <p class="text-xl text-muted-text animate-in">Real feedback from our amazing community</p>
     </div>
-    
+
     <div class="grid md:grid-cols-3 gap-8" data-animate="testimonials-cards">
       @for (testimonial of testimonials; track $index) {
         <div class="testimonial-card bg-primary-foreground border border-border rounded-2xl p-8 shadow-lg">
           <div class="flex items-center mb-4">
             <div class="w-12 h-12 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mr-4">
-              <span class="text-lg font-bold" [ngClass]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
+              <span class="text-lg font-bold" [class]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
             </div>
             <div>
               <h4 class="font-semibold text-text">{{ testimonial.name }}</h4>
@@ -137,13 +139,13 @@
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
-  
+
   <div class="max-w-4xl mx-auto px-4 relative z-10">
     <div class="text-center mb-16" data-animate="faq-title">
       <h2 class="text-4xl font-bold text-text mb-4 animate-in">Frequently Asked Questions</h2>
       <p class="text-xl text-muted-text animate-in">Everything you need to know about Quizlynx</p>
     </div>
-    
+
     <div class="space-y-6" data-animate="faq-cards">
       @for (faq of faqs; track $index) {
         <div class="faq-item bg-primary-foreground hover:bg-option-hover border border-border rounded-2xl p-6">

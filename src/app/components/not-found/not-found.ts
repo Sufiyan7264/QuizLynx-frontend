@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { HalfCircle } from '../common/half-circle/half-circle';
 
 @Component({
     selector: 'app-not-found',
-    imports: [CommonModule, HalfCircle],
+    imports: [HalfCircle],
     standalone: true,
     templateUrl: './not-found.html',
     styleUrl: './not-found.scss'
