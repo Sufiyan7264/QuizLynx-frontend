@@ -53,6 +53,10 @@ export class Header implements OnInit {
         this.authService.setLoggedOut();
         this.router.navigate(['']);
         this.msg.add({severity:'success', summary:'Success', detail: 'User Logout successfully'});
+      },
+      error:(error:any)=>{
+        this.router.navigate(['']);
+        this.authService.setLoggedOut();
       }
     })
   }

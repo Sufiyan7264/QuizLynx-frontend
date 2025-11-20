@@ -35,7 +35,10 @@ export class SignIn {
       next:(res:any)=>{
         const user = { username: res.username, role: res?.role[0] ? res?.role[0]?.authority : res?.role  };
         this.authService.setLoggedIn(user);
-        this.router.navigate(['/dashboard']);
+        if(user.role == 'ADMIN' || user.role == 'INSTRUCTOR')
+          this.router.navigate(['/dashboard']);
+        else
+          this.router.navigate(['/user-dashboard']);
         this.spinner.hide();
       },
       error:(error:any)=>{

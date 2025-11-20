@@ -32,8 +32,13 @@ export const routes: Routes = [
     },
 
     {
-    path:'dashboard',
+    path:'user-dashboard',
     loadComponent:()=>import('./components/user-dashboard/user-dashboard').then(m=>m.UserDashboard),
+    canActivate:[authGuard]
+    },
+    {
+    path:'dashboard',
+    loadComponent:()=>import('./components/admin-dashboard/admin-dashboard').then(m=>m.AdminDashboard),
     canActivate:[authGuard]
     },
     {
