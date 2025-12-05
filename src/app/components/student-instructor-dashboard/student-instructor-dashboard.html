@@ -1,0 +1,194 @@
+<div class="student-instructor-dashboard !pt-20">
+  <!-- Statistics Cards Section -->
+  <div class="stats-section">
+    @for(stat of stats; track stat.title){
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">{{ stat.title }}</span>
+          <span class="stat-period">{{ stat.period }}</span>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">{{ stat.value }}</span>
+          <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
+            <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+            {{ stat.change }}%
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="main-content">
+    <!-- Left Section -->
+    <div class="left-section">
+      <!-- My Instructors Card -->
+      <div class="instructors-card">
+        <div class="card-header">
+          <h3 class="card-title">My Instructors</h3>
+          <a href="#" class="view-all-link">View all</a>
+        </div>
+        <div class="instructors-list">
+          @for(instructor of instructors; track instructor.id){
+            <div class="instructor-item">
+              <div class="instructor-avatar">
+                <i class="pi pi-user"></i>
+              </div>
+              <div class="instructor-info">
+                <div class="instructor-name">{{ instructor.name }}</div>
+                <div class="instructor-subject">{{ instructor.subject }}</div>
+                <div class="instructor-details">
+                  <span class="detail-item">
+                    <i class="pi pi-envelope"></i>
+                    {{ instructor.email }}
+                  </span>
+                  <span class="detail-item">
+                    <i class="pi pi-clock"></i>
+                    {{ instructor.lastActive }}
+                  </span>
+                </div>
+                <div class="instructor-stats">
+                  <span class="stat-badge">
+                    <i class="pi pi-file"></i>
+                    {{ instructor.totalQuizzes }} Quizzes
+                  </span>
+                  <span class="stat-badge">
+                    <i class="pi pi-star"></i>
+                    Avg: {{ instructor.averageScore }}%
+                  </span>
+                </div>
+              </div>
+              <button class="contact-btn" title="Contact Instructor">
+                <i class="pi pi-send"></i>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Instructor Quizzes Card -->
+      <div class="quizzes-card">
+        <div class="card-header">
+          <h3 class="card-title">Instructor Quizzes</h3>
+          <a href="#" class="view-all-link">View all</a>
+        </div>
+        <table class="quizzes-table">
+          <thead>
+            <tr>
+              <th>Quiz Title</th>
+              <th>Instructor</th>
+              <th>Subject</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(quiz of instructorQuizzes; track quiz.id){
+              <tr>
+                <td class="quiz-title">{{ quiz.title }}</td>
+                <td>{{ quiz.instructorName }}</td>
+                <td>
+                  <span class="subject-tag">{{ quiz.subject }}</span>
+                </td>
+                <td>{{ formatDate(quiz.dueDate) }}</td>
+                <td>
+                  <span class="status-badge" [class.completed]="quiz.status === 'Completed'" 
+                        [class.pending]="quiz.status === 'Pending'" 
+                        [class.overdue]="quiz.status === 'Overdue'">
+                    {{ quiz.status }}
+                  </span>
+                </td>
+                <td>
+                  @if(quiz.score && quiz.maxScore){
+                    <span class="score-value">{{ quiz.score }}/{{ quiz.maxScore }}</span>
+                  } @else {
+                    <span class="score-placeholder">-</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="right-section">
+      <!-- Performance Comparison Chart -->
+      <div class="performance-card">
+        <app-chart-configuration
+          [chartType]="'bar'"
+          [data]="performanceComparisonData"
+          [width]="'100%'"
+          [height]="'250px'"
+          [options]="performanceComparisonOptions">
+        </app-chart-configuration>
+      </div>
+
+      <!-- Quiz Completion by Instructor Chart -->
+      <div class="completion-card">
+        <app-chart-configuration
+          [chartType]="'pie'"
+          [data]="quizCompletionData"
+          [width]="'100%'"
+          [height]="'250px'"
+          [options]="quizCompletionOptions">
+        </app-chart-configuration>
+      </div>
+
+      <!-- Instructor Feedback Card -->
+      <div class="feedback-card">
+        <div class="card-header">
+          <h3 class="card-title">Instructor Feedback</h3>
+          <a href="#" class="view-all-link">View all</a>
+        </div>
+        <div class="feedback-list">
+          @for(feedback of instructorFeedback; track feedback.id){
+            <div class="feedback-item">
+              <div class="feedback-header">
+                <div class="feedback-instructor">{{ feedback.instructorName }}</div>
+                <div class="feedback-date">{{ formatDate(feedback.date) }}</div>
+              </div>
+              <div class="feedback-quiz">{{ feedback.quizTitle }}</div>
+              <div class="feedback-message">{{ feedback.feedback }}</div>
+              @if(feedback.rating){
+                <div class="feedback-rating">
+                  @for(star of [1,2,3,4,5]; track star){
+                    <i class="pi" [class.pi-star-fill]="star <= feedback.rating" [class.pi-star]="star > feedback.rating"></i>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Instructor Announcements Card -->
+      <div class="announcements-card">
+        <div class="card-header">
+          <h3 class="card-title">Instructor Announcements</h3>
+          <a href="#" class="view-all-link">View all</a>
+        </div>
+        <div class="announcements-list">
+          @for(announcement of instructorAnnouncements; track announcement.id){
+            <div class="announcement-item" [class.high-priority]="announcement.priority === 'high'">
+              <div class="announcement-header">
+                <div class="announcement-title">{{ announcement.title }}</div>
+                <span class="priority-badge" [class.high]="announcement.priority === 'high'" 
+                      [class.medium]="announcement.priority === 'medium'" 
+                      [class.low]="announcement.priority === 'low'">
+                  {{ announcement.priority }}
+                </span>
+              </div>
+              <div class="announcement-instructor">{{ announcement.instructorName }}</div>
+              <div class="announcement-message">{{ announcement.message }}</div>
+              <div class="announcement-date">{{ formatDate(announcement.date) }}</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

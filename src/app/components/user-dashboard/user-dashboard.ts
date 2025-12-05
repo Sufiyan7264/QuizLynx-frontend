@@ -32,30 +32,30 @@ export class UserDashboard {
   // Statistics Cards
   stats: StatCard[] = [
     {
-      title: 'Total quizzes created',
-      value: 45,
-      change: 15,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Active students',
-      value: 234,
-      change: 12,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Average completion rate',
-      value: '87%',
+      title: 'Quizzes Taken',
+      value: 24,
       change: 5,
       changeType: 'increase',
       period: 'Last 7 days'
     },
     {
-      title: 'Students enrolled',
-      value: 156,
+      title: 'Average Score',
+      value: '82%',
       change: 8,
+      changeType: 'increase',
+      period: 'Last 7 days'
+    },
+    {
+      title: 'Quizzes Completed',
+      value: 18,
+      change: 3,
+      changeType: 'increase',
+      period: 'Last 7 days'
+    },
+    {
+      title: 'Current Streak',
+      value: '7 days',
+      change: 2,
       changeType: 'increase',
       period: 'Last 7 days'
     }
@@ -63,9 +63,9 @@ export class UserDashboard {
 
   // Progress Card
   progressData = {
-    milestone: '100 Quizzes Created',
-    message: 'Outstanding achievement!',
-    description: 'You have successfully created 100 quizzes and helped countless students learn'
+    milestone: '50 Quizzes Completed',
+    message: 'Great progress!',
+    description: 'You have completed 50 quizzes and are improving your knowledge every day'
   };
 
   // Quiz History
@@ -92,9 +92,9 @@ export class UserDashboard {
 
   // Overall Performance Chart (Donut Chart)
   performanceChartData: ChartData = {
-    labels: ['Completed', 'In progress', 'Scores over 90%'],
+    labels: ['Excellent (90-100%)', 'Good (75-89%)', 'Average (60-74%)', 'Needs Improvement (<60%)'],
     series: [{
-      name: 'Quiz Performance',
+      name: 'My Performance',
       type: 'pie',
       radius: ['50%', '75%'],
       center: ['50%', '55%'],
@@ -116,16 +116,17 @@ export class UserDashboard {
         }
       },
       data: [
-        { value: 375, name: 'Completed', itemStyle: { color: '#3b82f6' } },
-        { value: 375, name: 'In progress', itemStyle: { color: '#e5e7eb' } },
-        { value: 375, name: 'Scores over 90%', itemStyle: { color: '#fbbf24' } }
+        { value: 8, name: 'Excellent (90-100%)', itemStyle: { color: '#10b981' } },
+        { value: 10, name: 'Good (75-89%)', itemStyle: { color: '#3b82f6' } },
+        { value: 4, name: 'Average (60-74%)', itemStyle: { color: '#f59e0b' } },
+        { value: 2, name: 'Needs Improvement (<60%)', itemStyle: { color: '#ef4444' } }
       ]
     }]
   };
 
   performanceChartOptions: ChartOptions = {
     title: {
-      text: 'Overall quiz performance',
+      text: 'My Performance Breakdown',
       left: 'center',
       top: '0%',
       textStyle: {
@@ -136,7 +137,7 @@ export class UserDashboard {
     },
     tooltip: {
       trigger: 'item',
-      formatter: '{b}: {c} ({d}%)'
+      formatter: '{b}: {c} quizzes ({d}%)'
     },
     legend: {
       orient: 'vertical',
@@ -155,7 +156,7 @@ export class UserDashboard {
       top: 'center',
       z: 10,
       style: {
-        text: 'Total quizzes\n1500',
+        text: 'Total quizzes\n24',
         fontSize: 12,
         fontWeight: 'bold',
         fontFamily: 'Mona Sans, sans-serif',
@@ -168,11 +169,12 @@ export class UserDashboard {
 
   private formatLegend(name: string): string {
     const dataMap: { [key: string]: number } = {
-      'Completed': 375,
-      'In progress': 375,
-      'Scores over 90%': 375
+      'Excellent (90-100%)': 8,
+      'Good (75-89%)': 10,
+      'Average (60-74%)': 4,
+      'Needs Improvement (<60%)': 2
     };
-    return `${name} ${dataMap[name] || 0}/1500`;
+    return `${name} ${dataMap[name] || 0}/24`;
   }
 
   // Practice Suggestion
@@ -182,5 +184,5 @@ export class UserDashboard {
     message: 'Keep practising! Improve your confidence in Computer Science by practicing another quiz'
   };
 
-  totalQuizzes = 1500;
+  totalQuizzes = 24;
 }

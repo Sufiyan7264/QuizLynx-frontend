@@ -34,7 +34,7 @@ export class Register {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', Validators.required],
-    role: [this.selectedRole]
+    role: [this.selectedRole,[Validators.required]]
   });
 
   onSubmit() {
@@ -64,5 +64,6 @@ export class Register {
 
   setRole(role: 'STUDENT' | 'INSTRUCTOR' | 'USER') {
     this.selectedRole = role;
+    this.registerForm.get('role')?.setValue(role);
   }
 }

@@ -37,6 +37,11 @@ export const routes: Routes = [
     canActivate:[authGuard]
     },
     {
+    path:'student-dashboard',
+    loadComponent:()=>import('./components/student-instructor-dashboard/student-instructor-dashboard').then(m=>m.StudentInstructorDashboard),
+    canActivate:[authGuard]
+    },
+    {
     path:'dashboard',
     loadComponent:()=>import('./components/admin-dashboard/admin-dashboard').then(m=>m.AdminDashboard),
     canActivate:[authGuard]
