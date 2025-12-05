@@ -25,17 +25,17 @@
         }
         @else if(isLoggedIn$ | async) {
           <div class="flex gap-2">
-              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary text-white" size="normal"></p-avatar>
-              <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
-                [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
+              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white" size="normal" (click)="menu.toggle($event)"></p-avatar>
+              <!-- <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
+                [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" /> -->
           </div>
           <!-- <button class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm  font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30 " (click)="logout()">Logout</button> -->
-          <p-button 
+          <!-- <p-button 
           label="Logout" 
           icon="pi pi-sign-out"
-          class="hover:shadow-xl px-5 py-2 rounded-full duration-200 ease-in hover:shadow-black/10"
+          class="hover:shadow-xl text-text px-5 py-2 rounded-full duration-200 ease-in hover:shadow-black/10"
           (onClick)="logout()">
-        </p-button>
+        </p-button> -->
       }
       @if(darkMode()){
         <button class="p-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
@@ -43,7 +43,7 @@
         </button>
       }
       @else{
-        <button class="p-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+        <button class="p-1 px-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
           <i class="pi pi-moon text-gray-800"></i>
         </button>
       }
@@ -52,4 +52,34 @@
     </div>
 </nav>
 </header>
+<div class="card shadow-lg">
+  <p-menu [model]="items" class="flex justify-center" styleClass="w-full md:w-60" #menu [popup]="true">
+
+      <ng-template #submenuheader let-item>
+          <span class="text-primary font-bold">{{ item.label }}</span>
+      </ng-template>
+      <ng-template #item let-item>
+          <a pRipple class="flex items-center px-3 py-2 cursor-pointer" [class]="item.linkClass">
+              <span [class]="item.icon"></span>
+              <span class="ms-2">{{ item.label }}</span>
+              @if(item.badge){
+                <p-badge class="ms-auto" [value]="item.badge" />
+              }
+              @if(item.shortcut){
+                <span class="ms-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+              }
+          </a>
+      </ng-template>
+      <ng-template #end>
+          <button pRipple class=" gap-3 items-center relative overflow-hidden w-full border-t border-border border-0 bg-transparent flex p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
+            <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white rounded-full" size="normal" (click)="menu.toggle($event)"></p-avatar>
+            <span class="inline-flex flex-col">
+                  <span class="font-bold">{{currentUser?.username}}</span>
+                  <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
+                [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
+              </span>
+          </button>
+      </ng-template>
+  </p-menu>
+</div>
 

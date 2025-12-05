@@ -1,1 +1,180 @@
-<p>admin-dashboard works!</p>
+<div class="instructor-dashboard !pt-24">
+  <!-- Statistics Cards Section -->
+  <div class="stats-section">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-header">
+        <span class="stat-title">{{ stat.title }}</span>
+        <span class="stat-period">{{ stat.period }}</span>
+      </div>
+      <div class="stat-content">
+        <span class="stat-value">{{ stat.value }}</span>
+        <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
+          <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+          {{ stat.change }}%
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="main-content">
+    <!-- Left Section -->
+    <div class="left-section">
+      <!-- Charts Grid -->
+      <div class="charts-grid">
+        <!-- Line Chart - Student Engagement -->
+        <div class="chart-card">
+          <app-chart-configuration
+            [chartType]="'line'"
+            [data]="studentEngagementData"
+            [width]="'100%'"
+            [height]="'300px'"
+            [options]="studentEngagementOptions">
+          </app-chart-configuration>
+        </div>
+
+        <!-- Bar Chart - Student Performance by Quiz -->
+        <div class="chart-card">
+          <app-chart-configuration
+            [chartType]="'bar'"
+            [data]="studentPerformanceData"
+            [width]="'100%'"
+            [height]="'300px'"
+            [options]="studentPerformanceOptions">
+          </app-chart-configuration>
+        </div>
+
+        <!-- Pie Chart - Quiz Completion Status -->
+        <div class="chart-card">
+          <app-chart-configuration
+            [chartType]="'pie'"
+            [data]="quizCompletionData"
+            [width]="'100%'"
+            [height]="'300px'"
+            [options]="quizCompletionOptions">
+          </app-chart-configuration>
+        </div>
+              <!-- Quick Stats Card -->
+      <div class=" chart-card quick-stats-card">
+        <div class="card-header">
+          <h3 class="card-title">Quick Statistics</h3>
+        </div>
+        <div class="quick-stats-grid">
+          <div class="quick-stat-item">
+            <div class="quick-stat-icon">
+              <i class="pi pi-users"></i>
+            </div>
+            <div class="quick-stat-content">
+              <div class="quick-stat-value">{{ quickStats.totalStudents }}</div>
+              <div class="quick-stat-label">Total Students</div>
+            </div>
+          </div>
+          <div class="quick-stat-item">
+            <div class="quick-stat-icon">
+              <i class="pi pi-check-circle"></i>
+            </div>
+            <div class="quick-stat-content">
+              <div class="quick-stat-value">{{ quickStats.topPerformers }}</div>
+              <div class="quick-stat-label">Top Performers (90%+)</div>
+            </div>
+          </div>
+          <div class="quick-stat-item">
+            <div class="quick-stat-icon">
+              <i class="pi pi-clock"></i>
+            </div>
+            <div class="quick-stat-content">
+              <div class="quick-stat-value">{{ quickStats.averageCompletionTime }}</div>
+              <div class="quick-stat-label">Avg. Completion Time</div>
+            </div>
+          </div>
+          <div class="quick-stat-item">
+            <div class="quick-stat-icon">
+              <i class="pi pi-star"></i>
+            </div>
+            <div class="quick-stat-content">
+              <div class="quick-stat-value">{{ quickStats.averageScore }}%</div>
+              <div class="quick-stat-label">Overall Average Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </div>
+
+
+    <!-- Right Section -->
+    <div class="right-section">
+      <!-- Performance Summary Chart -->
+      <div class="performance-summary-card">
+        <app-chart-configuration
+          [chartType]="'pie'"
+          [data]="performanceSummaryData"
+          [width]="'100%'"
+          [height]="'280px'"
+          [options]="performanceSummaryOptions">
+        </app-chart-configuration>
+      </div>
+
+      <!-- Students Needing Attention -->
+      <div class="attention-card">
+        <div class="card-header">
+          <h3 class="card-title">Students Needing Attention</h3>
+        </div>
+        <div class="attention-list">
+          <div class="attention-item" *ngFor="let student of studentsNeedingAttention">
+            <div class="student-info">
+              <div class="student-name">{{ student.name }}</div>
+              <div class="student-details">
+                <span class="detail-item">Score: {{ student.score }}%</span>
+                <span class="detail-item">Quizzes: {{ student.quizzesCompleted }}</span>
+              </div>
+            </div>
+            <div class="attention-badge">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+      <!-- Top Students Card -->
+      <div class="chart-card top-students-card">
+        <div class="card-header">
+          <h3 class="card-title">Top Performing Students</h3>
+          <a href="#" class="view-all-link">View all</a>
+        </div>
+        <table class="students-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Student Name</th>
+              <th>Average Score</th>
+              <th>Quizzes Completed</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of topStudents; let i = index">
+              <td class="rank-cell">
+                <span class="rank-badge" [class.top-1]="i === 0" [class.top-2]="i === 1" [class.top-3]="i === 2">
+                  {{ i + 1 }}
+                </span>
+              </td>
+              <td>{{ student.name }}</td>
+              <td>
+                <span class="score-value">{{ student.averageScore }}%</span>
+              </td>
+              <td>{{ student.quizzesCompleted }}</td>
+              <td>
+                <span class="status-badge" [class.excellent]="student.averageScore >= 90" [class.good]="student.averageScore >= 75 && student.averageScore < 90" [class.average]="student.averageScore < 75">
+                  {{ student.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>

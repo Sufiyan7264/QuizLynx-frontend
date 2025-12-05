@@ -1,17 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
 
 :root {
   /* Core */
-  --color-bg: #0f1724; /* fallback: dark-ish background for apps, but we'll override below */
+  // --color-bg: #0f1724; /* fallback: dark-ish background for apps, but we'll override below */
   --color-surface: #ffffff;
-  --color-border: #e6e9ef;
+  --color-border: #dbdbdb;
   --color-glass: rgba(15, 23, 42, 0.04);
 
   /* Main brand */
   --color-primary: #4f95ff; /* Indigo-600 */
-  --color-primary-foreground: #ffffff;
+  --color-primary-foreground: #ebebeb;
 
   --color-secondary: #06b6d4; /* Cyan-500 */
   --color-accent: #f97316; /* Orange-500 */
@@ -20,14 +21,20 @@
   --color-success: #16a34a; /* Green-600 */
   --color-warning: #f59e0b; /* Amber-500 */
   --color-danger: #ef4444; /* Red-500 */
+  --color-danger-bg: #f00b0b5c; /* Red-500 */
+  --hover-color: #c4c4c4;
 
   /* Text */
   --color-text: #0b1220; /* primary text */
   --color-muted-text: #55607a; /* subdued text */
 
   /* Background variants */
-  --color-bg-page: #f7f9fc; /* page background (light) */
+  --color-bg-page: #ffffff; /* page background (light) */
   --color-bg: var(--color-bg-page);
+  --color-primary-bg: #3b82f65c;
+  --color-warning-bg: #f59e0b5c;
+  --color-danger-bg: #f00b0b5c;
+  --color-success-bg: #16a34a5c;
   --icon-filter: brightness(0) saturate(100%) invert(0); /* black icons */
 
   /* Elevation */
@@ -36,52 +43,38 @@
   // }
     --label-color: #333;
   /* Light theme overrides */
-  // :root.light-theme {
-  --color-bg-page: #f7f9fc;
-  --color-bg: var(--color-bg-page);
-  --color-surface: #ffffff;
-  --color-border: #e6e9ef;
-  --color-glass: rgba(2, 6, 23, 0.04);
 
-  --color-text: #0b1220;
-  --color-muted-text: #445363;
 
-  --color-primary: #3b82f6;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #06b6d4;
-  --color-accent: #f97316;
-
-  --color-success: #16a34a;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-border-hover: #d0d7e3;
-
-  --color-option-hover: #eef2ff;
+  // --color-option-hover: #eef2ff;
 }
 
 /* Dark theme overrides (applies when .dark class is on <html> or <body>) */
 .dark {
   --icon-filter: brightness(0) saturate(100%) invert(1); /* white icons */
-  --color-bg-page: #071023;
+  --color-bg-page: #000000;
   --color-bg: var(--color-bg-page);
   --color-surface: #071128; /* deep surface */
-  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(226, 226, 226, 0.18);
   --color-glass: rgba(255, 255, 255, 0.03);
   --label-color:#e0e0e0;  /* Light text for dark background */
   --color-text: #e6eef8;
   --color-muted-text: #9fb0ca;
 
   --color-primary: #3b82f6; /* slightly lighter indigo in dark */
-  --color-primary-foreground: #0b1220;
+  --color-primary-foreground: #171717;
   --color-secondary: #22d3ee;
   --color-accent: #fb923c;
 
   --color-success: #34d399;
+  --color-success-bg: #16a34a5c;
   --color-warning: #fbbf24;
+  --color-warning-bg: #f59e0b5c;
   --color-danger: #fb7185;
+  --color-danger-bg: #fb71855c;
   --color-border-hover: rgba(255, 255, 255, 0.12);
 
-  --color-option-hover: rgba(99, 102, 241, 0.15);
+  // --color-option-hover: rgba(99, 102, 241, 0.15);
+  --hover-color: #333;
 }
 
 /* Utilities that map CSS variables to Tailwind-friendly classes (optional) */
@@ -116,8 +109,11 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
+  font-family: 'Mona Sans', sans-serif;
   // font-family: 'josefin Sans', sans-serif;
+}
+body{
+  background-color: var(--color-bg);
 }
 html {
 //   scrollbar-track-color: var(--color-primary-foreground);

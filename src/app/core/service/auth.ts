@@ -26,7 +26,8 @@ export class Auth {
   setLoggedIn(user: UserInfo) {
     try {
       this.isLoggedIn$.next(true);
-      this.userSubject.next(user);          // NEW: notify subscriber
+      this.userSubject.next(user);      
+      console.log(user);    // NEW: notify subscriber
       sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
     } catch {
       // ignore storage errors
