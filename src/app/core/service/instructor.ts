@@ -11,4 +11,7 @@ export class Instructor {
     getInstructorInfo(){
         return this.http.get(`${this.BASE_URL}/me`);
     }
+    updateInstructorProfile(data:any){
+        return this.http.post(`${this.BASE_URL}/me`,data);
+    }
 }

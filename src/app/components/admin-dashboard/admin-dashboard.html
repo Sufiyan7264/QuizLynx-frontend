@@ -2,19 +2,23 @@
   <!-- Statistics Cards Section -->
   <div class="stats-section">
     @for (stat of stats; track $index) {
-      <div class="stat-card" >
-        <div class="stat-header">
-          <span class="stat-title">{{ stat.title }}</span>
-          <span class="stat-period">{{ stat.period }}</span>
-        </div>
-        <div class="stat-content">
-          <span class="stat-value">{{ stat.value }}</span>
-          <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
-            <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
-            {{ stat.change }}%
-          </span>
-        </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-title">{{ stat.title }}</span>
+        <span class="stat-period">{{ stat.period }}</span>
       </div>
+      <div class="stat-content">
+        <span class="stat-value">{{ stat.value }}</span>
+        <span
+          class="stat-change"
+          [class.increase]="stat.changeType === 'increase'"
+          [class.decrease]="stat.changeType === 'decrease'"
+        >
+          <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+          {{ stat.change }}%
+        </span>
+      </div>
+    </div>
 
     }
   </div>
@@ -32,7 +36,8 @@
             [data]="studentEngagementData"
             [width]="'100%'"
             [height]="'300px'"
-            [options]="studentEngagementOptions">
+            [options]="studentEngagementOptions"
+          >
           </app-chart-configuration>
         </div>
 
@@ -43,7 +48,8 @@
             [data]="studentPerformanceData"
             [width]="'100%'"
             [height]="'300px'"
-            [options]="studentPerformanceOptions">
+            [options]="studentPerformanceOptions"
+          >
           </app-chart-configuration>
         </div>
 
@@ -54,57 +60,56 @@
             [data]="quizCompletionData"
             [width]="'100%'"
             [height]="'300px'"
-            [options]="quizCompletionOptions">
+            [options]="quizCompletionOptions"
+          >
           </app-chart-configuration>
         </div>
-              <!-- Quick Stats Card -->
-      <div class=" chart-card quick-stats-card">
-        <div class="card-header">
-          <h3 class="card-title">Quick Statistics</h3>
-        </div>
-        <div class="quick-stats-grid">
-          <div class="quick-stat-item">
-            <div class="quick-stat-icon">
-              <i class="pi pi-users"></i>
-            </div>
-            <div class="quick-stat-content">
-              <div class="quick-stat-value">{{ quickStats.totalStudents }}</div>
-              <div class="quick-stat-label">Total Students</div>
-            </div>
+        <!-- Quick Stats Card -->
+        <div class="chart-card quick-stats-card">
+          <div class="card-header">
+            <h3 class="card-title">Quick Statistics</h3>
           </div>
-          <div class="quick-stat-item">
-            <div class="quick-stat-icon">
-              <i class="pi pi-check-circle"></i>
+          <div class="quick-stats-grid">
+            <div class="quick-stat-item">
+              <div class="quick-stat-icon">
+                <i class="pi pi-users"></i>
+              </div>
+              <div class="quick-stat-content">
+                <div class="quick-stat-value">{{ quickStats.totalStudents }}</div>
+                <div class="quick-stat-label">Total Students</div>
+              </div>
             </div>
-            <div class="quick-stat-content">
-              <div class="quick-stat-value">{{ quickStats.topPerformers }}</div>
-              <div class="quick-stat-label">Top Performers (90%+)</div>
+            <div class="quick-stat-item">
+              <div class="quick-stat-icon">
+                <i class="pi pi-check-circle"></i>
+              </div>
+              <div class="quick-stat-content">
+                <div class="quick-stat-value">{{ quickStats.topPerformers }}</div>
+                <div class="quick-stat-label">Top Performers (90%+)</div>
+              </div>
             </div>
-          </div>
-          <div class="quick-stat-item">
-            <div class="quick-stat-icon">
-              <i class="pi pi-clock"></i>
+            <div class="quick-stat-item">
+              <div class="quick-stat-icon">
+                <i class="pi pi-clock"></i>
+              </div>
+              <div class="quick-stat-content">
+                <div class="quick-stat-value">{{ quickStats.averageCompletionTime }}</div>
+                <div class="quick-stat-label">Avg. Completion Time</div>
+              </div>
             </div>
-            <div class="quick-stat-content">
-              <div class="quick-stat-value">{{ quickStats.averageCompletionTime }}</div>
-              <div class="quick-stat-label">Avg. Completion Time</div>
-            </div>
-          </div>
-          <div class="quick-stat-item">
-            <div class="quick-stat-icon">
-              <i class="pi pi-star"></i>
-            </div>
-            <div class="quick-stat-content">
-              <div class="quick-stat-value">{{ quickStats.averageScore }}%</div>
-              <div class="quick-stat-label">Overall Average Score</div>
+            <div class="quick-stat-item">
+              <div class="quick-stat-icon">
+                <i class="pi pi-star"></i>
+              </div>
+              <div class="quick-stat-content">
+                <div class="quick-stat-value">{{ quickStats.averageScore }}%</div>
+                <div class="quick-stat-label">Overall Average Score</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
-
     </div>
-
 
     <!-- Right Section -->
     <div class="right-section">
@@ -115,7 +120,8 @@
           [data]="performanceSummaryData"
           [width]="'100%'"
           [height]="'280px'"
-          [options]="performanceSummaryOptions">
+          [options]="performanceSummaryOptions"
+        >
         </app-chart-configuration>
       </div>
 
@@ -139,63 +145,114 @@
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
-      <!-- Top Students Card -->
-      <div class="chart-card top-students-card">
-        <div class="card-header">
-          <h3 class="card-title">Top Performing Students</h3>
-          <a href="#" class="view-all-link">View all</a>
-        </div>
-        <table class="students-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Student Name</th>
-              <th>Average Score</th>
-              <th>Quizzes Completed</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (student of topStudents; track $index) {
-              <tr >
-                <td class="rank-cell">
-                  <span class="rank-badge" [class.top-1]="$index === 0" [class.top-2]="$index === 1" [class.top-3]="$index === 2">
-                    {{ $index + 1 }}
-                  </span>
-                </td>
-                <td>{{ student.name }}</td>
-                <td>
-                  <span class="score-value">{{ student.averageScore }}%</span>
-                </td>
-                <td>{{ student.quizzesCompleted }}</td>
-                <td>
-                  <span class="status-badge" [class.excellent]="student.averageScore >= 90" [class.good]="student.averageScore >= 75 && student.averageScore < 90" [class.average]="student.averageScore < 75">
-                    {{ student.status }}
-                  </span>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+  <!-- Top Students Card -->
+  <div class="chart-card top-students-card">
+    <div class="card-header">
+      <h3 class="card-title">Top Performing Students</h3>
+      <a href="#" class="view-all-link">View all</a>
+    </div>
+    <table class="students-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Student Name</th>
+          <th>Average Score</th>
+          <th>Quizzes Completed</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (student of topStudents; track $index) {
+        <tr>
+          <td class="rank-cell">
+            <span
+              class="rank-badge"
+              [class.top-1]="$index === 0"
+              [class.top-2]="$index === 1"
+              [class.top-3]="$index === 2"
+            >
+              {{ $index + 1 }}
+            </span>
+          </td>
+          <td>{{ student.name }}</td>
+          <td>
+            <span class="score-value">{{ student.averageScore }}%</span>
+          </td>
+          <td>{{ student.quizzesCompleted }}</td>
+          <td>
+            <span
+              class="status-badge"
+              [class.excellent]="student.averageScore >= 90"
+              [class.good]="student.averageScore >= 75 && student.averageScore < 90"
+              [class.average]="student.averageScore < 75"
+            >
+              {{ student.status }}
+            </span>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<p-dialog header="Update Profile" [(visible)]="visible" [style]="{ width: '50rem' }" [modal]="true" [closable]="false">
-    <span class="p-text-secondary block mb-8">Update your information.</span>
-    <div class="flex items-center gap-4 mb-4">
-        <label for="username" class="font-semibold w-24">Username</label>
-        <input pInputText id="username" class="flex-auto" autocomplete="off" />
+<p-dialog
+  header="Update Profile"
+  styleClass="p-4 bg-bg border text-text border-border"
+  [(visible)]="visible"
+  [style]="{ width: '50rem' }"
+  [modal]="true"
+  [closable]="false"
+>
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+    <span class="p-text-secondary block mb-8 text-text">Update your information.</span>
+    <div class="flex items-center gap-4 h-[36px] mb-8">
+      <label for="username" class="font-semibold w-24 required">Full Name</label>
+      <input
+        pInputText
+        formControlName="displayName"
+        id="username"
+        class="flex-auto border-border border h-full px-2"
+        placeholder="Enter the full name"
+        autocomplete="off"
+      />
     </div>
     <div class="flex items-center gap-4 mb-8">
-        <label for="email" class="font-semibold w-24">Email</label>
-        <input pInputText id="email" class="flex-auto" autocomplete="off" />
+      <label for="email" class="font-semibold w-24">Bio</label>
+      <textarea
+        pInputText
+        formControlName="bio"
+        id="email"
+        placeholder="Enter the bio (max 1000 characters)"
+        class="flex-auto border border-border px-1 py-1"
+        autocomplete="off"
+      ></textarea>
+    </div>
+    <div class="flex items-center gap-4 mb-8 h-[36px]">
+      <label for="email" class="font-semibold w-28 required">Subjects</label>
+      <!-- <textarea pInputText  id="email" class="flex-auto border border-border px-1 py-1" autocomplete="off"></textarea> -->
+      <p-multiselect
+        formControlName="subjects"
+        [options]="subjectOptions"
+        appendTo="body"
+        [filter]="true"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select Subjects"
+        [maxSelectedLabels]="3"
+        class="w-full h-full border border-border px-2"
+        fluid
+      />
     </div>
     <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-        <p-button label="Save" (click)="visible = false" />
+      <!-- <p-button label="Cancel" severity="secondary" (click)="visible = false" /> -->
+      <p-button
+        type="submit"
+        class="bg-primary p-2 rounded-md text-white hover:bg-blue-500 hover:shadow-lg"
+        label="Save"
+      />
     </div>
+  </form>
 </p-dialog>

@@ -1,3 +1,4 @@
+@use 'primeicons/primeicons.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +9,7 @@
   // --color-bg: #0f1724; /* fallback: dark-ish background for apps, but we'll override below */
   --color-surface: #ffffff;
   --color-border: #dbdbdb;
-  --color-glass: rgba(15, 23, 42, 0.04);
+  --color-glass: rgba(15, 23, 42, 1);
 
   /* Main brand */
   --color-primary: #4f95ff; /* Indigo-600 */
@@ -27,12 +28,14 @@
   /* Text */
   --color-text: #0b1220; /* primary text */
   --color-muted-text: #55607a; /* subdued text */
-
+  --placeholder-color: #334155;
+  --selected-bg: #706f6f93;
   /* Background variants */
   --color-bg-page: #ffffff; /* page background (light) */
   --color-bg: var(--color-bg-page);
   --color-primary-bg: #3b82f65c;
   --color-warning-bg: #f59e0b5c;
+  --input-bg-col: #f3f4f6;
   --color-danger-bg: #f00b0b5c;
   --color-success-bg: #16a34a5c;
   --icon-filter: brightness(0) saturate(100%) invert(0); /* black icons */
@@ -53,13 +56,15 @@
   --icon-filter: brightness(0) saturate(100%) invert(1); /* white icons */
   --color-bg-page: #000000;
   --color-bg: var(--color-bg-page);
+  --input-bg-col: #1e1e1e;
   --color-surface: #071128; /* deep surface */
+  --selected-bg: #5555555c;
   --color-border: rgba(226, 226, 226, 0.18);
-  --color-glass: rgba(255, 255, 255, 0.03);
+  --color-glass: rgba(255, 255, 255, 0.5);
   --label-color:#e0e0e0;  /* Light text for dark background */
   --color-text: #e6eef8;
   --color-muted-text: #9fb0ca;
-
+  --placeholder-color: #64748b;
   --color-primary: #3b82f6; /* slightly lighter indigo in dark */
   --color-primary-foreground: #171717;
   --color-secondary: #22d3ee;
@@ -130,4 +135,74 @@ html.dark {
 }
 .p-toast-message {
   padding: 1rem;
+}
+.required::after {
+  content: " *";
+  color: red;
+}
+.p-multiselect .p-multiselect-label-container {
+  display: flex;
+  align-items: center;
+
+}
+input::placeholder,textarea::placeholder,.p-multiselect .p-placeholder{
+  color: var(--placeholder-color);
+}
+input,textarea,select,.p-multiselect{
+background: var(--input-bg-col);
+color: var(--color-muted-text);
+border: 1px solid var(--color-border);
+min-height: 36px;
+}
+label{
+  color: var(--color-muted-text);
+}
+.p-multiselect-panel,.p-multiselect-overlay {
+  background-color: var(--color-primary-foreground);
+  color: var(--color-text);
+  padding: 0.5rem;
+}
+.p-multiselect-option{
+  color: var(--color-text);
+  background: var(--color-primary-foreground);
+  &:hover{
+    background-color: var(--hover-color);
+  }
+}
+.p-multiselect-label{
+  color: var(--color-muted-text);
+}
+.p-checkbox-box{
+  border:1px solid var(--color-border);
+  background: var(--color-bg);
+}
+.p-multiselect-header{
+  gap: 1rem;
+  margin-bottom: 0.2rem;
+}
+.p-multiselect-header p-iconfield .p-icon{
+  position: absolute;
+    top: -6px;
+    right: 0px;
+}
+p-multiselect-item li{
+  padding : 0.5rem 0.2rem
+}
+p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
+  background: var(--selected-bg);
+}
+.p-multiselect-list{
+    gap: 0.2rem;
+}
+.p-toast-message-success{
+  background: linear-gradient(180deg, rgb(214 246 169 / 17%), rgb(132 233 90 / 20%));
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.p-toast-detail{
+      color: var(--color-text);
+}
+.p-checkbox-icon{
+  filter: var(--icon-filter);
 }

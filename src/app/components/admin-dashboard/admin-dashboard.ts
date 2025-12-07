@@ -7,6 +7,10 @@ import { Button } from 'primeng/button';
 import { Auth } from '../../core/service/auth';
 import { Instructor } from '../../core/service/instructor';
 import { InputText } from 'primeng/inputtext';
+import { MultiSelect } from 'primeng/multiselect';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
 // import { inject } from '@angular/core/types/primitives-di';
 
 interface StatCard {
@@ -30,15 +34,187 @@ interface StudentNeedingAttention {
   quizzesCompleted: number;
 }
 
+
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, ChartConfiguration,Dialog,Button,InputText],
+  imports: [CommonModule, ChartConfiguration,Dialog,Button,InputText,MultiSelect,ReactiveFormsModule],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss'
 })
 export class AdminDashboard implements OnInit {
   // Statistics Cards
   visible: boolean = false;
+  private fb = inject(FormBuilder);
+  private spinner = inject(NgxSpinnerService);
+  private messageService = inject(MessageService);
+  updateForm = this.fb.group({
+    displayName:['',[Validators.required,Validators.minLength(3)]],
+    bio:['',[Validators.maxLength(1000)]],
+    subjects:[[],[Validators.required]],
+    avatarUrl:['']
+  })
+subjectOptions = [
+  {
+    "label": "Mathematics",
+    "value": "mathematics"
+  },
+  {
+    "label": "English",
+    "value": "english"
+  },
+  {
+    "label": "Science",
+    "value": "science"
+  },
+  {
+    "label": "Physics",
+    "value": "physics"
+  },
+  {
+    "label": "Chemistry",
+    "value": "chemistry"
+  },
+  {
+    "label": "Biology",
+    "value": "biology"
+  },
+  {
+    "label": "History",
+    "value": "history"
+  },
+  {
+    "label": "Geography",
+    "value": "geography"
+  },
+  {
+    "label": "Social Studies",
+    "value": "social_studies"
+  },
+  {
+    "label": "Computer Science",
+    "value": "computer_science"
+  },
+  {
+    "label": "Information Technology",
+    "value": "information_technology"
+  },
+  {
+    "label": "Economics",
+    "value": "economics"
+  },
+  {
+    "label": "Business Studies",
+    "value": "business_studies"
+  },
+  {
+    "label": "Accounting",
+    "value": "accounting"
+  },
+  {
+    "label": "Physical Education",
+    "value": "physical_education"
+  },
+  {
+    "label": "Art & Design",
+    "value": "art_design"
+  },
+  {
+    "label": "Music",
+    "value": "music"
+  },
+  {
+    "label": "Drama",
+    "value": "drama"
+  },
+  {
+    "label": "French",
+    "value": "french"
+  },
+  {
+    "label": "Spanish",
+    "value": "spanish"
+  },
+  {
+    "label": "German",
+    "value": "german"
+  },
+  {
+    "label": "Hindi",
+    "value": "hindi"
+  },
+  {
+    "label": "Sanskrit",
+    "value": "sanskrit"
+  },
+  {
+    "label": "Literature",
+    "value": "literature"
+  },
+  {
+    "label": "Philosophy",
+    "value": "philosophy"
+  },
+  {
+    "label": "Psychology",
+    "value": "psychology"
+  },
+  {
+    "label": "Sociology",
+    "value": "sociology"
+  },
+  {
+    "label": "Political Science",
+    "value": "political_science"
+  },
+  {
+    "label": "Environmental Science",
+    "value": "environmental_science"
+  },
+  {
+    "label": "Statistics",
+    "value": "statistics"
+  },
+  {
+    "label": "Home Science",
+    "value": "home_science"
+  },
+  {
+    "label": "Agriculture",
+    "value": "agriculture"
+  },
+  {
+    "label": "Engineering Drawing",
+    "value": "engineering_drawing"
+  },
+  {
+    "label": "Electronics",
+    "value": "electronics"
+  },
+  {
+    "label": "Law",
+    "value": "law"
+  },
+  {
+    "label": "Civics",
+    "value": "civics"
+  },
+  {
+    "label": "Religious Studies",
+    "value": "religious_studies"
+  },
+  {
+    "label": "Health Education",
+    "value": "health_education"
+  },
+  {
+    "label": "Nutrition",
+    "value": "nutrition"
+  },
+  {
+    "label": "Other",
+    "value": "other"
+  }
+];
   stats: StatCard[] = [
     {
       title: 'Total Students',
@@ -365,7 +541,7 @@ export class AdminDashboard implements OnInit {
     this.instructorService.getInstructorInfo().subscribe({
       next:(res:any)=>{
         if(res){
-          console.log(res.data);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile updated successfully' });
           this.visible = false;
         }
         else{
@@ -374,6 +550,26 @@ export class AdminDashboard implements OnInit {
       },
       error:(err:any)=>{
         console.log(err);
+      }
+    })
+  }
+  onSubmit(){
+    if(this.updateForm.invalid){
+      this.updateForm.markAllAsTouched();
+      return;
+    }
+    this.spinner.show();
+    this.instructorService.updateInstructorProfile(this.updateForm.value).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile updated successfully' });
+        this.visible = false;
+        this.spinner.hide();
+      },
+      error:(err:any)=>{
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message || 'Something went wrong' });
+        this.spinner.hide();
       }
     })
   }
