@@ -32,7 +32,7 @@ export class Header implements OnInit {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.currentUser = this.authService.getCachedUser();
     this.user$ = this.authService.user$;
-    this.authService.user$.subscribe(u => this.currentUser = u);   // subscribe in template via async pipe
+    this.authService.user$.subscribe((u:any) => this.currentUser = u);   // subscribe in template via async pipe
     let localTheme = localStorage.getItem('theme');
     if (localTheme === 'dark') {
       this.darkMode.set(true);

@@ -18,4 +18,19 @@ export interface otpConfig{
 export interface UserInfo {
     username: string;
     role: string;
+    enabled?: boolean;
   }
+  export interface Instructor {
+  id: string;
+  userId: string;
+  firstName?: string;
+  lastName?: string;
+  bio?: string;
+  specialties?: string[]; // subjects/tags
+  avatarUrl?: string;
+  verified?: boolean;
+  approved?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+

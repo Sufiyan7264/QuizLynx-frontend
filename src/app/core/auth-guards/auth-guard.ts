@@ -44,9 +44,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   // Routes that are only for guests
   const guestOnlyRoutes = ['/signin', '/register'];
-
-  const currentUrl = state.url;
-
+  const currentUrl = state.url.split('?')[0];   // remove query params
   if (isLoggedIn && guestOnlyRoutes.includes(currentUrl)) {
     console.log(currentUrl)
     // Logged-in users cannot access guest-only routes
@@ -55,7 +53,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 
   if (!isLoggedIn && !guestOnlyRoutes.includes(currentUrl)) {
-    console.log(currentUrl)
+    console.log(currentUrl,state.url)
 
     // Not logged-in users cannot access protected routes
     router.navigate(['/signin'], { queryParams: { returnUrl: state.url } });

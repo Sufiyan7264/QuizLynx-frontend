@@ -1,19 +1,22 @@
 <div class="instructor-dashboard !pt-24">
   <!-- Statistics Cards Section -->
   <div class="stats-section">
-    <div class="stat-card" *ngFor="let stat of stats">
-      <div class="stat-header">
-        <span class="stat-title">{{ stat.title }}</span>
-        <span class="stat-period">{{ stat.period }}</span>
+    @for (stat of stats; track $index) {
+      <div class="stat-card" >
+        <div class="stat-header">
+          <span class="stat-title">{{ stat.title }}</span>
+          <span class="stat-period">{{ stat.period }}</span>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">{{ stat.value }}</span>
+          <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
+            <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+            {{ stat.change }}%
+          </span>
+        </div>
       </div>
-      <div class="stat-content">
-        <span class="stat-value">{{ stat.value }}</span>
-        <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
-          <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
-          {{ stat.change }}%
-        </span>
-      </div>
-    </div>
+
+    }
   </div>
 
   <!-- Main Content Section -->
@@ -157,24 +160,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let student of topStudents; let i = index">
-              <td class="rank-cell">
-                <span class="rank-badge" [class.top-1]="i === 0" [class.top-2]="i === 1" [class.top-3]="i === 2">
-                  {{ i + 1 }}
-                </span>
-              </td>
-              <td>{{ student.name }}</td>
-              <td>
-                <span class="score-value">{{ student.averageScore }}%</span>
-              </td>
-              <td>{{ student.quizzesCompleted }}</td>
-              <td>
-                <span class="status-badge" [class.excellent]="student.averageScore >= 90" [class.good]="student.averageScore >= 75 && student.averageScore < 90" [class.average]="student.averageScore < 75">
-                  {{ student.status }}
-                </span>
-              </td>
-            </tr>
+            @for (student of topStudents; track $index) {
+              <tr >
+                <td class="rank-cell">
+                  <span class="rank-badge" [class.top-1]="$index === 0" [class.top-2]="$index === 1" [class.top-3]="$index === 2">
+                    {{ $index + 1 }}
+                  </span>
+                </td>
+                <td>{{ student.name }}</td>
+                <td>
+                  <span class="score-value">{{ student.averageScore }}%</span>
+                </td>
+                <td>{{ student.quizzesCompleted }}</td>
+                <td>
+                  <span class="status-badge" [class.excellent]="student.averageScore >= 90" [class.good]="student.averageScore >= 75 && student.averageScore < 90" [class.average]="student.averageScore < 75">
+                    {{ student.status }}
+                  </span>
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>
 </div>
+
+<p-dialog header="Update Profile" [(visible)]="visible" [style]="{ width: '50rem' }" [modal]="true" [closable]="false">
+    <span class="p-text-secondary block mb-8">Update your information.</span>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Username</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Email</label>
+        <input pInputText id="email" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" (click)="visible = false" />
+    </div>
+</p-dialog>

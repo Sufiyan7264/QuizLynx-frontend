@@ -42,7 +42,10 @@ export class SignIn {
         this.spinner.hide();
       },
       error:(error:any)=>{
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error?.status ==401 ? "Username or password is incorrect" :  'Something went wrong'});
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error?.status ==401 ? "Username or password is incorrect" :   error?.error?.message ?? 'Something went wrong' });
+        if(error?.error?.message =='User is not verified. Please verify your account using the OTP sent to your email.'){
+          this.router.navigate(['/otp']);
+        }
         this.spinner.hide();
       }
     })

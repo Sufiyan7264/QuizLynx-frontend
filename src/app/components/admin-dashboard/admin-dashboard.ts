@@ -1,6 +1,13 @@
-import { Component } from '@angular/core';
+import { Component,OnInit,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
+import { Dialog } from 'primeng/dialog';
+import { Button } from 'primeng/button';
+// import { OnInit } from '@angular/core/types/core';
+import { Auth } from '../../core/service/auth';
+import { Instructor } from '../../core/service/instructor';
+import { InputText } from 'primeng/inputtext';
+// import { inject } from '@angular/core/types/primitives-di';
 
 interface StatCard {
   title: string;
@@ -25,12 +32,13 @@ interface StudentNeedingAttention {
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, ChartConfiguration],
+  imports: [CommonModule, ChartConfiguration,Dialog,Button,InputText],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss'
 })
-export class AdminDashboard {
+export class AdminDashboard implements OnInit {
   // Statistics Cards
+  visible: boolean = false;
   stats: StatCard[] = [
     {
       title: 'Total Students',
@@ -342,4 +350,31 @@ export class AdminDashboard {
       }
     }
   };
+  private authService = inject(Auth);
+  private instructorService = inject(Instructor);
+  private currentUser: any = "";
+
+  ngOnInit(): void {
+      this.authService.user$.subscribe((u:any) => this.currentUser = u);
+      console.log(this.currentUser);
+      if(this.currentUser.role == 'INSTRUCTOR'){
+        this.getInstructorInfo();
+      }
+  }
+  getInstructorInfo(){
+    this.instructorService.getInstructorInfo().subscribe({
+      next:(res:any)=>{
+        if(res){
+          console.log(res.data);
+          this.visible = false;
+        }
+        else{
+          this.visible = true;
+        }
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+  }
 }

@@ -42,13 +42,13 @@ export class Auth {
   }
 
   signin(data:signConfig){
-    return this.http.post(`${this.BASE_URL}/login`,data,{withCredentials: true});
+    return this.http.post(`${this.BASE_URL}/login`,data);
   }
   register(data:registerConfig){
     return this.http.post(`${this.BASE_URL}/register`,data);
   }
   verifyOtp(data:otpConfig){
-    return this.http.post(`${this.BASE_URL}/verify-otp`,data,{withCredentials:true});
+    return this.http.post(`${this.BASE_URL}/verify-otp`,data);
   }
   resendOtp(data:otpConfig){
     return this.http.post(`${this.BASE_URL}/resend-otp`,data);

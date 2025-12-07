@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject,OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HalfCircle } from "../common/half-circle/half-circle";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from "@angular/forms";
@@ -15,7 +15,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
-export class Register {
+export class Register{
   private readonly spinner = inject(NgxSpinnerService)
   private readonly fb = inject(FormBuilder);
   private readonly authS = inject(Auth);
@@ -48,17 +48,22 @@ export class Register {
       this.passwordError = true;
       return;
     }
-    delete this.registerForm.value.confirmPassword;
+    // delete this.registerForm.value.confirmPassword;
     this.spinner.show();
     this.authS.register(this.registerForm.value).subscribe({
       next: (res:any) => {
         localStorage.setItem('register',JSON.stringify({email:this.registerForm.value.email,username:this.registerForm.value.username,type:'register'}));
-        this.spinner.hide();
         this.router.navigate(['/otp']);
+        this.spinner.hide();
       } ,
       error: (err:any) => {
-        this.messageService.add({severity:'error', summary:'Error', detail: err?.error?.message ?? 'Registration failed'});}
-    })
+        this.messageService.add({severity:'error', summary:'Error', detail:err?.error?.message ?? 'Registration failed'});
+        this.spinner.hide();
+        localStorage.setItem('register',JSON.stringify({email:this.registerForm.value.email,username:this.registerForm.value.username,type:'register'}));
+        if(err?.error?.message == "User exists but not verified. Please verify your account using the OTP sent to your email."){
+          this.router.navigate(['/otp']);
+      }
+      }})
   }
 
 
@@ -66,4 +71,5 @@ export class Register {
     this.selectedRole = role;
     this.registerForm.get('role')?.setValue(role);
   }
+
 }

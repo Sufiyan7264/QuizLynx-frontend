@@ -32,7 +32,7 @@ export class Otp {
   onSubmit() {
     const otpValue = Object.values(this.otpForm.value).join('');
     let payload = {
-      otp: otpValue,
+      otp: otpValue.trim(),
       email:this.email
     }
     this.spinner.show();
@@ -53,7 +53,7 @@ export class Otp {
         this.spinner.hide();
       },
       error:(error:any)=>{
-        this.msgService.add({severity:'error', summary:'Error', detail: error?.error ?? error?.error?.message ?? 'OTP is incorrect'});
+        this.msgService.add({severity:'error', summary:'Error', detail: error?.message ?? error?.error?.message ?? 'OTP is incorrect'});
         this.spinner.hide();
       }
     })
@@ -81,9 +81,11 @@ export class Otp {
       email: this.email,
       username:this.username
     }
+    this.spinner.show();
     this.authService.resendOtp(payload).subscribe({
       next:(res:any)=>{
         this.msgService.add({severity:'success', summary:'Success', detail:  res?.message ?? "OTP Resent Successfully"});
+        this.spinner.hide();
       },
       error:(error:any)=>{
         this.msgService.add({severity:'error', summary:'Error', detail: error?.error ?? error?.error?.message ?? 'OTP is incorrect'});
