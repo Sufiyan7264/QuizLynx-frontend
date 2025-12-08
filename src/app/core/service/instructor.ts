@@ -6,7 +6,7 @@ import { inject, Injectable } from '@angular/core';
 })
 export class Instructor {
     private readonly http = inject(HttpClient);
-    private readonly BASE_URL = 'http://localhost:8080/api/instructor';
+    private readonly BASE_URL = 'https://localhost:8080/api/instructor';
 
     getInstructorInfo(){
         return this.http.get(`${this.BASE_URL}/me`);

@@ -34,3 +34,22 @@ export interface UserInfo {
   updatedAt?: string;
 }
 
+export interface Batch {
+  id?: string;
+  name: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+  instructorId?: string;
+  studentCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateBatchRequest {
+  name: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+}
+

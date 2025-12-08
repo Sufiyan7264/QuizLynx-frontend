@@ -19,8 +19,8 @@ import { BadgeModule } from 'primeng/badge';
 })
 export class Header implements OnInit {
   isScrolled = false;
-  private readonly authService = inject(Auth)
-  private readonly router = inject(Router)
+  public readonly authService = inject(Auth)
+  public readonly router = inject(Router)
   private readonly msg = inject(MessageService)
   isLoggedIn$!: Observable<boolean>;
   user$!: Observable<UserInfo | null>;

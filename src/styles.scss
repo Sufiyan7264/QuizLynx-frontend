@@ -9,7 +9,7 @@
   // --color-bg: #0f1724; /* fallback: dark-ish background for apps, but we'll override below */
   --color-surface: #ffffff;
   --color-border: #dbdbdb;
-  --color-glass: rgba(15, 23, 42, 1);
+  --color-glass: rgba(15, 23, 42, 0.03);
 
   /* Main brand */
   --color-primary: #4f95ff; /* Indigo-600 */
@@ -60,7 +60,7 @@
   --color-surface: #071128; /* deep surface */
   --selected-bg: #5555555c;
   --color-border: rgba(226, 226, 226, 0.18);
-  --color-glass: rgba(255, 255, 255, 0.5);
+  --color-glass: rgba(255, 255, 255, 0.03);
   --label-color:#e0e0e0;  /* Light text for dark background */
   --color-text: #e6eef8;
   --color-muted-text: #9fb0ca;

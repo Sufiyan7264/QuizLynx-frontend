@@ -12,12 +12,35 @@
         <img src="assets/logo.png" alt="QuizLynx" height="32" width="90" class=" filter-icon cursor-pointer" routerLink="/" />
       </div>
 
-      <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-base font-medium text-text md:flex">
-        <li><a href="#about" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">About</a></li>
-        <li><a href="#pricing" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Pricing</a></li>
-        <li><a href="#contact" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
-      </ul>
 
+
+      @if(authService.user$ | async; as user){
+        @if(user.role === 'INSTRUCTOR'){
+        <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-sm font-medium text-text md:flex">
+          <li><a routerLink="/dashboard" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/dashboard'"><i class="pi pi-home"></i> Dashboard</a></li>
+          <li><a routerLink="/instructor/batches" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/batches'"><i class="pi pi-book"></i> My Classes</a></li>
+          <li><a routerLink="/instructor/quizzes" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/quizzes'"><i class="pi pi-list"></i> My Quizzes</a></li>
+          <li><a routerLink="/instructor/students" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2"><i class="pi pi-users"></i> Students</a></li>
+          <li><a routerLink="/instructor/me" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/me'"><i class="pi pi-user"></i> Profile</a></li>
+        </ul>
+      }
+        @if(user.role === 'STUDENT'){ 
+        <ul  class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-sm font-medium text-text md:flex">
+          <li><a routerLink="/student-dashboard" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student-dashboard'"><i class="pi pi-home"></i> Dashboard</a></li>
+          <li><a routerLink="/student/join" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/join'"><i class="pi pi-plus"></i> Join Class</a></li>
+          <li><a routerLink="/student/batches" class=" hover:shadow-inner hover:shadow-muted-text rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/batches'"><i class="pi pi-book"></i> My Classrooms</a></li>
+          <li><a routerLink="/student/quizzes" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/quizzes'"><i class="pi pi-list"></i> Active Quizzes</a></li>
+          <li><a routerLink="/student/attempts" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/attempts'"><i class="pi pi-chart-bar"></i> Results</a></li>
+        </ul>
+        }
+      }
+      @else {
+          <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-base font-medium text-text md:flex">
+            <li><a href="#about" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">About</a></li>
+            <li><a href="#pricing" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Pricing</a></li>
+            <li><a href="#contact" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
+          </ul>
+      }
       <div class="flex items-center gap-2">
         @if(!(isLoggedIn$ | async)){
           <a href="/signin" class="rounded-full bg-bg px-5 py-2 text-sm  font-medium text-text hover:shadow-xl duration-200 ease-in hover:shadow-black/30 hover:bg-option-hover">Login</a>
@@ -38,12 +61,12 @@
         </p-button> -->
       }
       @if(darkMode()){
-        <button class="p-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+        <button class="px-2 py-1 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
           <i class="pi pi-sun text-text"></i>
         </button>
       }
       @else{
-        <button class="p-1 px-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+        <button class="py-1 px-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
           <i class="pi pi-moon text-gray-800"></i>
         </button>
       }

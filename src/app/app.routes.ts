@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth-guards/auth-guard';
 import { childAuthGuard } from './core/auth-guards/childAuth/child-auth-guard';
+import { roleGuard } from './core/auth-guards/role-guard';
 
 export const routes: Routes = [
     {
@@ -39,17 +40,20 @@ export const routes: Routes = [
     {
     path:'student-dashboard',
     loadComponent:()=>import('./components/student-instructor-dashboard/student-instructor-dashboard').then(m=>m.StudentInstructorDashboard),
-    canActivate:[authGuard]
+    canActivate:[authGuard,roleGuard],
+    data:{role:'STUDENT'}
     },
     {
     path:'dashboard',
     loadComponent:()=>import('./components/admin-dashboard/admin-dashboard').then(m=>m.AdminDashboard),
-    canActivate:[authGuard]
+    canActivate:[authGuard,roleGuard],
+    data:{role:'INSTRUCTOR'}
     },
     {
     path:'question/create',
     loadComponent:()=>import('./components/question/create/create').then(m=>m.Create),
-    canActivate:[childAuthGuard,authGuard]
+    canActivate:[childAuthGuard,authGuard,roleGuard],
+    data:{role:'INSTRUCTOR'}
     },
     {
         path:'question/update/:id',
@@ -59,7 +63,8 @@ export const routes: Routes = [
     {
         path:'quiz/create',
         loadComponent:()=>import('./components/quiz/create/create').then(m=>m.Create),
-        canActivate:[childAuthGuard,authGuard]
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
     },
     {
         path:'quiz/update/:id',
@@ -80,8 +85,13 @@ export const routes: Routes = [
         path:'question/all',
         loadComponent:()=>import('./components/question/list/list').then(m=>m.List),
         canActivate:[childAuthGuard,authGuard]
-    }
-    ,
+    },
+    {
+        path:'instructor/batches',
+        loadComponent:()=>import('./components/batches/batches').then(m=>m.Batches),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
+    },
     {
         path:'**',
         loadComponent:()=>import('./components/not-found/not-found').then(m=>m.NotFound)
