@@ -1,0 +1,249 @@
+<div class="settings-container !pt-24">
+  <p-toast></p-toast>
+  
+  <div class="settings-content">
+    <!-- Header -->
+    <div class="settings-header">
+      <h1 class="page-title">Account Settings</h1>
+      <p class="page-subtitle">Manage your profile and account preferences</p>
+    </div>
+
+    <!-- Edit Profile Card -->
+    <div class="settings-card">
+      <div class="card-header">
+        <div class="header-icon">
+          <i class="pi pi-user-edit"></i>
+        </div>
+        <div class="header-content">
+          <h2 class="card-title">Edit Profile</h2>
+          <p class="card-subtitle">Update your personal information</p>
+        </div>
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
+        <div class="form-group">
+          <label for="displayName" class="form-label required">Display Name / Full Name</label>
+          <input
+            id="displayName"
+            type="text"
+            pInputText
+            formControlName="displayName"
+            placeholder="Enter your full name"
+            class="form-input"
+            [class.error]="profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched"
+          />
+          @if (profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched) {
+            <span class="error-message">
+              @if (profileForm.get('displayName')?.errors?.['required']) {
+                Display name is required
+              } @else if (profileForm.get('displayName')?.errors?.['minlength']) {
+                Display name must be at least 3 characters
+              }
+            </span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName" class="form-label">First Name</label>
+            <input
+              id="firstName"
+              type="text"
+              pInputText
+              formControlName="firstName"
+              placeholder="First name"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input
+              id="lastName"
+              type="text"
+              pInputText
+              formControlName="lastName"
+              placeholder="Last name"
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        @if (isInstructor) {
+          <div class="form-group">
+            <label for="avatarUrl" class="form-label">Avatar URL</label>
+            <input
+              id="avatarUrl"
+              type="url"
+              pInputText
+              formControlName="avatarUrl"
+              placeholder="https://example.com/avatar.jpg"
+              class="form-input"
+            />
+            <div class="input-hint">
+              <i class="pi pi-info-circle"></i>
+              <span>Enter a URL to your profile picture</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea
+              id="bio"
+              pInputText
+              formControlName="bio"
+              placeholder="Tell us about yourself..."
+              rows="4"
+              class="form-textarea"
+              [maxlength]="1000"
+            ></textarea>
+            <div class="input-hint">
+              <span>{{ profileForm.get('bio')?.value?.length || 0 }} / 1000 characters</span>
+            </div>
+          </div>
+        }
+
+        <div class="form-actions">
+          <button type="submit" pButton [disabled]="profileForm.invalid" class="save-btn">
+            <i class="pi pi-save"></i>
+            <span>Save Changes</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Security Card -->
+    <div class="settings-card">
+      <div class="card-header">
+        <div class="header-icon">
+          <i class="pi pi-lock"></i>
+        </div>
+        <div class="header-content">
+          <h2 class="card-title">Security</h2>
+          <p class="card-subtitle">Change your password</p>
+        </div>
+      </div>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="password-form">
+        <div class="form-group">
+          <label for="currentPassword" class="form-label required">Current Password</label>
+          <input
+            id="currentPassword"
+            type="password"
+            pInputText
+            formControlName="currentPassword"
+            placeholder="Enter your current password"
+            class="form-input"
+            [class.error]="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched"
+          />
+          @if (passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched) {
+            <span class="error-message">Current password is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword" class="form-label required">New Password</label>
+          <input
+            id="newPassword"
+            type="password"
+            pInputText
+            formControlName="newPassword"
+            placeholder="Enter your new password"
+            class="form-input"
+            [class.error]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched"
+          />
+          @if (passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched) {
+            <span class="error-message">
+              @if (passwordForm.get('newPassword')?.errors?.['required']) {
+                New password is required
+              } @else if (passwordForm.get('newPassword')?.errors?.['minlength']) {
+                Password must be at least 6 characters
+              }
+            </span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label required">Confirm New Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            pInputText
+            formControlName="confirmPassword"
+            placeholder="Confirm your new password"
+            class="form-input"
+            [class.error]="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched"
+          />
+          @if (passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched) {
+            <span class="error-message">
+              @if (passwordForm.get('confirmPassword')?.errors?.['required']) {
+                Please confirm your password
+              } @else if (passwordForm.get('confirmPassword')?.errors?.['passwordMismatch']) {
+                Passwords do not match
+              }
+            </span>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" pButton [disabled]="passwordForm.invalid" class="update-password-btn">
+            <i class="pi pi-key"></i>
+            <span>Update Password</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="settings-card danger-card">
+      <div class="card-header">
+        <div class="header-icon danger-icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </div>
+        <div class="header-content">
+          <h2 class="card-title">Danger Zone</h2>
+          <p class="card-subtitle">Irreversible and destructive actions</p>
+        </div>
+      </div>
+
+      <div class="danger-content">
+        <div class="danger-info">
+          <h3>Delete Account</h3>
+          <p>Once you delete your account, there is no going back. Please be certain.</p>
+        </div>
+        <button pButton (click)="openDeleteDialog()" class="delete-btn">
+          <i class="pi pi-trash"></i>
+          <span>Delete Account</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Account Dialog -->
+  <p-dialog
+    [(visible)]="showDeleteDialog"
+    header="Delete Account"
+    [modal]="true"
+    [style]="{ width: '500px' }"
+    [closable]="true"
+    (onHide)="closeDeleteDialog()"
+  >
+    <div class="delete-dialog-content">
+      <div class="warning-icon">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+      <h3>Are you absolutely sure?</h3>
+      <p>This action cannot be undone. This will permanently delete your account and remove all your data from our servers.</p>
+      <div class="dialog-actions">
+        <button pButton (click)="closeDeleteDialog()" class="cancel-btn">
+          Cancel
+        </button>
+        <button pButton (click)="deleteAccount()" class="confirm-delete-btn">
+          <i class="pi pi-trash"></i>
+          <span>Yes, Delete My Account</span>
+        </button>
+      </div>
+    </div>
+  </p-dialog>
+</div>
+

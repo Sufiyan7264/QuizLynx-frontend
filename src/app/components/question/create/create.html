@@ -1,1 +1,148 @@
-<p>create works!</p>
+<div class="question-create-container !pt-24">
+  <p-toast></p-toast>
+  
+  <div class="question-create-content">
+    <div class="page-header">
+      <div class="header-info">
+        <h1 class="page-title">{{ isEditMode ? 'Edit Question' : 'Create Question' }}</h1>
+        @if (quiz) {
+          <p class="page-subtitle">Quiz: {{ quiz.title }}</p>
+        }
+      </div>
+      <button pButton (click)="finishAndGoBack()" class="back-btn">
+        <i class="pi pi-arrow-left"></i>
+        <span>Back to Quiz</span>
+      </button>
+    </div>
+
+    <form [formGroup]="questionForm" (ngSubmit)="onSubmit()" class="question-form">
+      <div class="form-group">
+        <label for="questionType" class="form-label required">Question Type</label>
+        <p-select
+          id="questionType"
+          formControlName="questionType"
+          [options]="questionTypeOptions"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full"
+        ></p-select>
+      </div>
+
+      <div class="form-group">
+        <label for="questionText" class="form-label required">Question Text</label>
+        <textarea
+          id="questionText"
+          pInputText
+          formControlName="questionText"
+          placeholder="Enter your question here..."
+          rows="4"
+          class="form-textarea"
+          [class.error]="questionForm.get('questionText')?.invalid && questionForm.get('questionText')?.touched"
+        ></textarea>
+        @if (questionForm.get('questionText')?.invalid && questionForm.get('questionText')?.touched) {
+          <span class="error-message">
+            @if (questionForm.get('questionText')?.errors?.['required']) {
+              Question text is required
+            } @else if (questionForm.get('questionText')?.errors?.['minlength']) {
+              Question text must be at least 5 characters
+            }
+          </span>
+        }
+      </div>
+
+      @if (questionType === 'MULTIPLE_CHOICE' || questionType === 'TRUE_FALSE') {
+        <div class="form-group">
+          <div class="options-header">
+            <label class="form-label required">Options</label>
+            @if (questionType === 'MULTIPLE_CHOICE') {
+              <button type="button" class="add-option-btn" (click)="addOption()">
+                <i class="pi pi-plus"></i>
+                <span>Add Option</span>
+              </button>
+            }
+          </div>
+          <div class="options-list">
+            @for (option of optionControls; track $index) {
+              <div class="option-item">
+                <input
+                  type="text"
+                  pInputText
+                  [formControl]="option"
+                  [placeholder]="'Option ' + ($index + 1)"
+                  class="form-input option-input"
+                />
+                @if (questionType === 'MULTIPLE_CHOICE' && options.length > 2) {
+                  <button type="button" class="remove-option-btn" (click)="removeOption($index)">
+                    <i class="pi pi-times"></i>
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="correctAnswer" class="form-label required">Correct Answer</label>
+          @if (questionType === 'TRUE_FALSE') {
+            <p-select
+              id="correctAnswer"
+              formControlName="correctAnswer"
+              [options]="trueFalseOptions"
+              placeholder="Select correct answer"
+              styleClass="w-full"
+            ></p-select>
+          } @else {
+            <input
+              id="correctAnswer"
+              type="text"
+              pInputText
+              formControlName="correctAnswer"
+              placeholder="Enter the correct answer (must match one of the options)"
+              class="form-input"
+              [class.error]="questionForm.get('correctAnswer')?.invalid && questionForm.get('correctAnswer')?.touched"
+            />
+          }
+          @if (questionForm.get('correctAnswer')?.invalid && questionForm.get('correctAnswer')?.touched) {
+            <span class="error-message">Correct answer is required</span>
+          }
+        </div>
+      } @else {
+        <div class="form-group">
+          <label for="correctAnswer" class="form-label">Expected Answer (for reference)</label>
+          <textarea
+            id="correctAnswer"
+            pInputText
+            formControlName="correctAnswer"
+            placeholder="Enter the expected answer or answer key..."
+            rows="3"
+            class="form-textarea"
+          ></textarea>
+        </div>
+      }
+
+      <div class="form-group">
+        <label for="marks" class="form-label required">Marks</label>
+        <p-inputNumber
+          id="marks"
+          formControlName="marks"
+          [min]="1"
+          placeholder="1"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        ></p-inputNumber>
+        @if (questionForm.get('marks')?.invalid && questionForm.get('marks')?.touched) {
+          <span class="error-message">Marks is required</span>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="button" pButton (click)="finishAndGoBack()" class="cancel-btn">
+          Finish
+        </button>
+        <button type="submit" pButton [disabled]="questionForm.invalid" class="submit-btn">
+          {{ isEditMode ? 'Update Question' : 'Add Question' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

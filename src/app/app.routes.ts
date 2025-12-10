@@ -82,6 +82,18 @@ export const routes: Routes = [
         canActivate:[childAuthGuard,authGuard]
     },
     {
+        path:'quiz/attempt/:id',
+        loadComponent:()=>import('./components/quiz-attempt/quiz-attempt').then(m=>m.QuizAttempt),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'STUDENT'}
+    },
+    {
+        path:'quiz/result/:id',
+        loadComponent:()=>import('./components/quiz-result/quiz-result').then(m=>m.QuizResult),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'STUDENT'}
+    },
+    {
         path:'question/all',
         loadComponent:()=>import('./components/question/list/list').then(m=>m.List),
         canActivate:[childAuthGuard,authGuard]
@@ -91,6 +103,35 @@ export const routes: Routes = [
         loadComponent:()=>import('./components/batches/batches').then(m=>m.Batches),
         canActivate:[childAuthGuard,authGuard,roleGuard],
         data:{role:'INSTRUCTOR'}
+    },
+    {
+        path:'instructor/quizzes',
+        loadComponent:()=>import('./components/instructor-quizzes/instructor-quizzes').then(m=>m.InstructorQuizzes),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
+    },
+    {
+        path:'instructor/students',
+        loadComponent:()=>import('./components/instructor-students/instructor-students').then(m=>m.InstructorStudents),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
+    },
+    {
+        path:'student/join',
+        loadComponent:()=>import('./components/student-join/student-join').then(m=>m.StudentJoin),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'STUDENT'}
+    },
+    {
+        path:'batch/:batchId/results',
+        loadComponent:()=>import('./components/batch-results/batch-results').then(m=>m.BatchResults),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
+    },
+    {
+        path:'settings',
+        loadComponent:()=>import('./components/common/settings/settings').then(m=>m.Settings),
+        canActivate:[childAuthGuard,authGuard]
     },
     {
         path:'**',
