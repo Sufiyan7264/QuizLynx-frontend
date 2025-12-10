@@ -1,0 +1,211 @@
+<div class="batch-results-container !pt-24">
+  <p-toast></p-toast>
+  
+  <!-- Header Section -->
+  <div class="results-header">
+    <div class="header-content">
+      <h1 class="page-title">Class Results & Analytics</h1>
+      <p class="page-subtitle">View and analyze student performance</p>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label for="batchSelect" class="filter-label">
+        <i class="pi pi-users"></i>
+        Select Batch
+      </label>
+      <p-select
+        id="batchSelect"
+        [(ngModel)]="selectedBatchId"
+        (ngModelChange)="onBatchChange()"
+        [options]="batches"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select a batch"
+        styleClass="w-full"
+      ></p-select>
+    </div>
+
+    <div class="filter-group">
+      <label for="quizSelect" class="filter-label">
+        <i class="pi pi-file-edit"></i>
+        Select Quiz
+      </label>
+      <p-select
+        id="quizSelect"
+        [(ngModel)]="selectedQuizId"
+        (ngModelChange)="onQuizChange()"
+        [options]="quizzes"
+        optionLabel="title"
+        optionValue="id"
+        placeholder="Select a quiz"
+        styleClass="w-full"
+        [disabled]="!selectedBatchId || quizzes.length === 0"
+      ></p-select>
+    </div>
+
+    @if (batchResult) {
+      <div class="filter-group">
+        <label for="sortSelect" class="filter-label">
+          <i class="pi pi-sort"></i>
+          Sort By
+        </label>
+        <p-select
+          id="sortSelect"
+          [(ngModel)]="sortOption"
+          (ngModelChange)="onSortChange()"
+          [options]="sortOptions"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full"
+        ></p-select>
+      </div>
+    }
+  </div>
+
+  <!-- Results Section -->
+  @if (batchResult) {
+    <div class="results-section">
+      <!-- Summary Cards -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="card-icon">
+            <i class="pi pi-users"></i>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Total Students</span>
+            <span class="card-value">{{ batchResult.totalStudents }}</span>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="card-icon">
+            <i class="pi pi-check-circle"></i>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Completed</span>
+            <span class="card-value">{{ batchResult.studentsCompleted }} / {{ batchResult.totalStudents }}</span>
+          </div>
+        </div>
+        @if (batchResult.averagePercentage !== undefined) {
+          <div class="summary-card">
+            <div class="card-icon">
+              <i class="pi pi-chart-line"></i>
+            </div>
+            <div class="card-content">
+              <span class="card-label">Average Score</span>
+              <span class="card-value">{{ batchResult.averagePercentage.toFixed(1) }}%</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Leaderboard Table -->
+      <div class="leaderboard-section">
+        <div class="section-header">
+          <h2 class="section-title">Leaderboard</h2>
+          <p class="section-subtitle">{{ batchResult.quizTitle }}</p>
+        </div>
+
+        @if (sortedResults.length === 0) {
+          <div class="empty-state">
+            <i class="pi pi-inbox empty-icon"></i>
+            <h3>No results yet</h3>
+            <p>Students haven't completed this quiz yet</p>
+          </div>
+        } @else {
+          <div class="table-container">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th class="rank-col">Rank</th>
+                  <th class="name-col">Name</th>
+                  <th class="score-col">Score</th>
+                  <th class="percentage-col">Percentage</th>
+                  <th class="time-col">Time Taken</th>
+                  <th class="date-col">Date Submitted</th>
+                  <th class="status-col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (result of sortedResults; track result.studentId) {
+                  <tr>
+                    <td class="rank-cell">
+                      <div class="rank-badge" [class.top-three]="result.rank && result.rank <= 3">
+                        @if (result.rank === 1) {
+                          <i class="pi pi-trophy"></i>
+                        } @else if (result.rank === 2) {
+                          <i class="pi pi-trophy"></i>
+                        } @else if (result.rank === 3) {
+                          <i class="pi pi-trophy"></i>
+                        } @else {
+                          <span>{{ result.rank }}</span>
+                        }
+                      </div>
+                    </td>
+                    <td class="name-cell">
+                      <div class="student-info">
+                        <div class="student-avatar">
+                          {{ result.studentName.charAt(0).toUpperCase() }}
+                        </div>
+                        <div class="student-details">
+                          <span class="student-name">{{ result.studentName }}</span>
+                          @if (result.studentEmail) {
+                            <span class="student-email">{{ result.studentEmail }}</span>
+                          }
+                        </div>
+                      </div>
+                    </td>
+                    <td class="score-cell">
+                      <span class="score-value">{{ result.score }} / {{ result.totalMarks }}</span>
+                    </td>
+                    <td class="percentage-cell">
+                      <span class="percentage-badge" [class]="'badge-' + getScoreColor(result.percentage)">
+                        {{ result.percentage.toFixed(1) }}%
+                      </span>
+                    </td>
+                    <td class="time-cell">
+                      <div class="time-info">
+                        <i class="pi pi-clock"></i>
+                        <span>{{ formatTime(result.timeTaken) }}</span>
+                      </div>
+                    </td>
+                    <td class="date-cell">
+                      <div class="date-info">
+                        <i class="pi pi-calendar"></i>
+                        <span>{{ formatDate(result.submittedAt) }}</span>
+                      </div>
+                    </td>
+                    <td class="status-cell">
+                      @if (result.passed !== undefined) {
+                        <span class="status-badge" [class.passed]="result.passed" [class.failed]="!result.passed">
+                          <i [class]="result.passed ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+                          <span>{{ result.passed ? 'Passed' : 'Failed' }}</span>
+                        </span>
+                      } @else {
+                        <span class="status-badge pending">-</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    </div>
+  } @else if (selectedBatchId && selectedQuizId) {
+    <div class="loading-section">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Loading results...</p>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <i class="pi pi-filter empty-icon"></i>
+      <h3>Select Batch and Quiz</h3>
+      <p>Choose a batch and quiz to view results and analytics</p>
+    </div>
+  }
+</div>
+

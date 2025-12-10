@@ -46,5 +46,15 @@ export class BatchService {
       body: { studentIds } 
     });
   }
+
+  // Join a batch using a code (for students)
+  joinBatchByCode(code: string): Observable<Batch> {
+    return this.http.post<Batch>(`${this.BASE_URL}/join`, { code });
+  }
+
+  // Get batch by code (for preview before joining)
+  getBatchByCode(code: string): Observable<Batch> {
+    return this.http.get<Batch>(`${this.BASE_URL}/code/${code}`);
+  }
 }
 

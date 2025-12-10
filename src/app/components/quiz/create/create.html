@@ -1,1 +1,179 @@
-<p>create works!</p>
+<div class="quiz-create-container !pt-24">
+  <p-toast></p-toast>
+  
+  <div class="quiz-create-content">
+    <div class="page-header">
+      <h1 class="page-title">{{ isEditMode ? 'Edit Quiz' : 'Create New Quiz' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update quiz details' : 'Fill in the details to create a new quiz' }}</p>
+    </div>
+
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
+      <div class="form-group">
+        <label for="title" class="form-label required">Quiz Title</label>
+        <input
+          id="title"
+          type="text"
+          pInputText
+          formControlName="title"
+          placeholder="e.g. Algebra Fundamentals Quiz"
+          class="form-input"
+          [class.error]="quizForm.get('title')?.invalid && quizForm.get('title')?.touched"
+        />
+        @if (quizForm.get('title')?.invalid && quizForm.get('title')?.touched) {
+          <span class="error-message">
+            @if (quizForm.get('title')?.errors?.['required']) {
+              Quiz title is required
+            } @else if (quizForm.get('title')?.errors?.['minlength']) {
+              Quiz title must be at least 3 characters
+            }
+          </span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          pInputText
+          formControlName="description"
+          placeholder="Enter quiz description (optional)"
+          rows="4"
+          class="form-textarea"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="subject" class="form-label">Subject</label>
+          <input
+            id="subject"
+            type="text"
+            pInputText
+            formControlName="subject"
+            placeholder="e.g. Mathematics"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="batchId" class="form-label">Batch</label>
+          <p-select
+            id="batchId"
+            formControlName="batchId"
+            [options]="batches"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select batch (optional)"
+            styleClass="w-full"
+            [showClear]="true"
+          ></p-select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="duration" class="form-label required">Duration (minutes)</label>
+          <p-inputNumber
+            id="duration"
+            formControlName="duration"
+            [min]="1"
+            [max]="300"
+            placeholder="60"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputNumber>
+          @if (quizForm.get('duration')?.invalid && quizForm.get('duration')?.touched) {
+            <span class="error-message">Duration is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="status" class="form-label required">Status</label>
+          <p-select
+            id="status"
+            formControlName="status"
+            [options]="statusOptions"
+            optionLabel="label"
+            optionValue="value"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="totalMarks" class="form-label required">Total Marks</label>
+          <p-inputNumber
+            id="totalMarks"
+            formControlName="totalMarks"
+            [min]="1"
+            placeholder="100"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputNumber>
+        </div>
+
+        <div class="form-group">
+          <label for="passingMarks" class="form-label required">Passing Marks</label>
+          <p-inputNumber
+            id="passingMarks"
+            formControlName="passingMarks"
+            [min]="0"
+            placeholder="50"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate" class="form-label">Start Date</label>
+          <p-datepicker
+            id="startDate"
+            formControlName="startDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Select start date"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-datepicker>
+        </div>
+
+        <div class="form-group">
+          <label for="endDate" class="form-label">End Date</label>
+          <p-datepicker
+            id="endDate"
+            formControlName="endDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Select end date"
+            [minDate]="minEndDate"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate" class="form-label">Due Date</label>
+        <p-datepicker
+          id="dueDate"
+          formControlName="dueDate"
+          dateFormat="yy-mm-dd"
+          placeholder="Select due date"
+          [minDate]="minDueDate"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        ></p-datepicker>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" pButton (click)="router.navigate(['/instructor/quizzes'])" class="cancel-btn">
+          Cancel
+        </button>
+        <button type="submit" pButton [disabled]="quizForm.invalid" class="submit-btn">
+          {{ isEditMode ? 'Update Quiz' : 'Create Quiz' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

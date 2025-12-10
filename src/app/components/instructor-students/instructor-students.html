@@ -1,0 +1,149 @@
+<div class="students-container !pt-24">
+  <p-toast></p-toast>
+  
+  <!-- Header Section -->
+  <div class="students-header">
+    <div class="header-content">
+      <h1 class="page-title">My Students</h1>
+      <p class="page-subtitle">View and manage all your students</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-value">{{ students.length }}</span>
+        <span class="stat-label">Total Students</span>
+      </div>
+      @if (selectedBatchId) {
+        <div class="stat-item">
+          <span class="stat-value">{{ filteredStudents.length }}</span>
+          <span class="stat-label">Filtered</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label for="search" class="filter-label">
+        <i class="pi pi-search"></i>
+        Search Students
+      </label>
+      <input
+        id="search"
+        type="text"
+        pInputText
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search by name, username, or email..."
+        class="search-input"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="batchFilter" class="filter-label">
+        <i class="pi pi-filter"></i>
+        Filter by Batch
+      </label>
+      <p-select
+        id="batchFilter"
+        [(ngModel)]="selectedBatchId"
+        (ngModelChange)="onBatchFilterChange()"
+        [options]="batches"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="All batches"
+        styleClass="w-full"
+        [showClear]="true"
+      ></p-select>
+    </div>
+
+    @if (selectedBatchId || searchTerm) {
+      <button class="clear-filters-btn" (click)="clearFilters()">
+        <i class="pi pi-times"></i>
+        <span>Clear Filters</span>
+      </button>
+    }
+  </div>
+
+  <!-- Students List -->
+  <div class="students-list">
+    @if (filteredStudents.length === 0) {
+      <div class="empty-state">
+        @if (students.length === 0) {
+          <i class="pi pi-users empty-icon"></i>
+          <h3>No students yet</h3>
+          <p>Students will appear here once they enroll in your batches</p>
+        } @else {
+          <i class="pi pi-search empty-icon"></i>
+          <h3>No students found</h3>
+          <p>Try adjusting your search or filter criteria</p>
+          <button class="clear-filters-btn" (click)="clearFilters()">
+            <i class="pi pi-times"></i>
+            <span>Clear Filters</span>
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="students-grid">
+        @for (student of filteredStudents; track student.id) {
+          <div class="student-card">
+            <div class="student-header">
+              <div class="student-avatar">
+                @if (student.avatarUrl) {
+                  <img [src]="student.avatarUrl" [alt]="getStudentDisplayName(student)" />
+                } @else {
+                  <span class="avatar-initials">{{ getStudentInitials(student) }}</span>
+                }
+              </div>
+              <div class="student-info">
+                <h3 class="student-name">{{ getStudentDisplayName(student) }}</h3>
+                <p class="student-username">@{{ student.username || 'N/A' }}</p>
+              </div>
+            </div>
+            
+            <div class="student-content">
+              <div class="info-row">
+                <div class="info-item">
+                  <i class="pi pi-envelope"></i>
+                  <span>{{ student.email || 'No email' }}</span>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <i class="pi pi-users"></i>
+                  <span>{{ getBatchNames(student) }}</span>
+                </div>
+              </div>
+
+              @if (student.quizzesCompleted !== undefined || student.averageScore !== undefined) {
+                <div class="student-stats">
+                  @if (student.quizzesCompleted !== undefined) {
+                    <div class="stat-badge">
+                      <i class="pi pi-file-edit"></i>
+                      <span>{{ student.quizzesCompleted }} Quizzes</span>
+                    </div>
+                  }
+                  @if (student.averageScore !== undefined) {
+                    <div class="stat-badge score-badge">
+                      <i class="pi pi-star"></i>
+                      <span>{{ student.averageScore }}% Avg</span>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (student.lastActive) {
+                <div class="info-item last-active">
+                  <i class="pi pi-clock"></i>
+                  <span>Last active: {{ formatDate(student.lastActive) }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+

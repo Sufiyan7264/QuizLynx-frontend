@@ -1,0 +1,38 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { QuizAttempt, SubmitQuizRequest, QuizResults, QuestionWrapper } from '../interface/interfaces';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class QuizAttemptService {
+  private readonly http = inject(HttpClient);
+  private readonly BASE_URL = 'https://localhost:8080/api/quiz-attempts';
+
+  // Start a quiz attempt (records startedAt time)
+  startQuizAttempt(quizId: string): Observable<QuizAttempt> {
+    return this.http.post<QuizAttempt>(`${this.BASE_URL}/start`, { quizId });
+  }
+
+  // Get questions for a quiz (without correct answers)
+  getQuizQuestions(quizId: string): Observable<QuestionWrapper[]> {
+    return this.http.get<QuestionWrapper[]>(`${this.BASE_URL}/quiz/${quizId}/questions`);
+  }
+
+  // Submit quiz attempt (sends responses, backend grades and saves result)
+  submitQuizAttempt(request: SubmitQuizRequest): Observable<QuizResults> {
+    return this.http.post<QuizResults>(`${this.BASE_URL}/submit`, request);
+  }
+
+  // Get quiz result by attempt ID
+  getQuizResult(attemptId: string): Observable<QuizResults> {
+    return this.http.get<QuizResults>(`${this.BASE_URL}/${attemptId}/result`);
+  }
+
+  // Get quiz result by quiz ID (for current student)
+  getQuizResultByQuizId(quizId: string): Observable<QuizResults> {
+    return this.http.get<QuizResults>(`${this.BASE_URL}/quiz/${quizId}/result`);
+  }
+}
+

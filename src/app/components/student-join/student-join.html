@@ -1,0 +1,113 @@
+<div class="join-container !pt-24">
+  <p-toast></p-toast>
+  
+  <div class="join-content">
+    <div class="join-header">
+      <div class="header-icon">
+        <i class="pi pi-users"></i>
+      </div>
+      <h1 class="page-title">Join a Class</h1>
+      <p class="page-subtitle">Enter the class code provided by your instructor to join</p>
+    </div>
+
+    <form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="join-form">
+      <div class="form-group">
+        <label for="code" class="form-label required">Class Code</label>
+        <div class="code-input-wrapper">
+          <input
+            id="code"
+            type="text"
+            pInputText
+            formControlName="code"
+            placeholder="Enter class code (e.g., ABC123)"
+            class="code-input"
+            (input)="onCodeInput()"
+            (keyup)="onCodeInput()"
+            maxlength="10"
+            [class.error]="joinForm.get('code')?.invalid && joinForm.get('code')?.touched"
+            autocomplete="off"
+          />
+          <div class="input-hint">
+            <i class="pi pi-info-circle"></i>
+            <span>Ask your instructor for the class code</span>
+          </div>
+        </div>
+        @if (joinForm.get('code')?.invalid && joinForm.get('code')?.touched) {
+          <span class="error-message">
+            @if (joinForm.get('code')?.errors?.['required']) {
+              Class code is required
+            } @else if (joinForm.get('code')?.errors?.['minlength']) {
+              Class code must be at least 4 characters
+            } @else if (joinForm.get('code')?.errors?.['maxlength']) {
+              Class code must be no more than 10 characters
+            }
+          </span>
+        }
+      </div>
+
+      <!-- Preview Section -->
+      @if (showPreview && previewBatchs) {
+        <div class="preview-section">
+          <div class="preview-header">
+            <i class="pi pi-eye"></i>
+            <span>Class Preview</span>
+          </div>
+          <div class="preview-card">
+            <div class="preview-content">
+              <h3 class="preview-name">{{ previewBatchs?.name }}</h3>
+              @if (previewBatchs?.description) {
+                <p class="preview-description">{{ previewBatchs?.description }}</p>
+              }
+              <div class="preview-info">
+                @if (previewBatchs?.startDate || previewBatchs?.endDate) {
+                  <div class="info-item">
+                    <i class="pi pi-calendar"></i>
+                    <span>
+                      @if (previewBatchs?.startDate && previewBatchs?.endDate) {
+                        {{ formatDate(previewBatchs?.startDate) }} - {{ formatDate(previewBatchs?.endDate) }}
+                      } @else if (previewBatchs?.startDate) {
+                        Starts: {{ formatDate(previewBatchs?.startDate) }}
+                      } @else if (previewBatchs?.endDate) {
+                        Ends: {{ formatDate(previewBatchs?.endDate) }}
+                      }
+                    </span>
+                  </div>
+                }
+                @if (previewBatchs?.studentCount !== undefined) {
+                  <div class="info-item">
+                    <i class="pi pi-users"></i>
+                    <span>{{ previewBatchs?.studentCount }} students enrolled</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else if (isLoadingPreview) {
+        <div class="preview-loading">
+          <i class="pi pi-spin pi-spinner"></i>
+          <span>Checking code...</span>
+        </div>
+      }
+
+      <div class="form-actions">
+        <button type="submit" pButton [disabled]="joinForm.invalid || isLoadingPreview" class="join-btn">
+          <i class="pi pi-sign-in"></i>
+          <span>Join Class</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <div class="help-card">
+        <i class="pi pi-question-circle"></i>
+        <div class="help-content">
+          <h4>Need help?</h4>
+          <p>Contact your instructor to get the class code. The code is usually 4-10 characters long.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

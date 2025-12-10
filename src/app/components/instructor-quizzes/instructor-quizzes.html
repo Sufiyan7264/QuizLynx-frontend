@@ -1,0 +1,290 @@
+<div class="quizzes-container !pt-24">
+  <p-toast></p-toast>
+  
+  <!-- Header Section -->
+  <div class="quizzes-header">
+    <div class="header-content">
+      <h1 class="page-title">My Quizzes</h1>
+      <p class="page-subtitle">Create and manage your quizzes</p>
+    </div>
+    <button class="create-btn" (click)="openCreateDialog()">
+      <i class="pi pi-plus"></i>
+      <span>Create Quiz</span>
+    </button>
+  </div>
+
+  <!-- Quizzes List -->
+  <div class="quizzes-list">
+    @if (quizzes.length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-file-edit empty-icon"></i>
+        <h3>No quizzes yet</h3>
+        <p>Create your first quiz to get started</p>
+        <button class="create-btn" (click)="openCreateDialog()">
+          <i class="pi pi-plus"></i>
+          <span>Create Quiz</span>
+        </button>
+      </div>
+    } @else {
+      <div class="quizzes-grid">
+        @for (quiz of quizzes; track quiz.id) {
+          <div class="quiz-card">
+            <div class="quiz-header">
+              <div class="quiz-icon">
+                <i class="pi pi-file-edit"></i>
+              </div>
+              <div class="quiz-actions">
+                <button class="action-btn questions-btn" (click)="addQuestions(quiz)" title="Add Questions">
+                  <i class="pi pi-plus-circle"></i>
+                </button>
+                <button class="action-btn view-btn" (click)="viewQuestions(quiz)" title="View Questions">
+                  <i class="pi pi-list"></i>
+                </button>
+                <button class="action-btn edit-btn" (click)="openEditDialog(quiz)" title="Edit">
+                  <i class="pi pi-pencil"></i>
+                </button>
+                <button class="action-btn delete-btn" (click)="deleteQuiz(quiz)" title="Delete">
+                  <i class="pi pi-trash"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="quiz-content">
+              <h3 class="quiz-title">{{ quiz.title }}</h3>
+              @if (quiz.description) {
+                <p class="quiz-description">{{ quiz.description }}</p>
+              }
+              
+              <div class="quiz-info">
+                <div class="info-row">
+                  <div class="info-item">
+                    <i class="pi pi-book"></i>
+                    <span>{{ quiz.subject || 'No subject' }}</span>
+                  </div>
+                  <div class="info-item">
+                    <i class="pi pi-clock"></i>
+                    <span>{{ quiz.duration || 0 }} min</span>
+                  </div>
+                </div>
+                <div class="info-row">
+                  <div class="info-item">
+                    <i class="pi pi-star"></i>
+                    <span>{{ quiz.totalMarks || 0 }} marks</span>
+                  </div>
+                  <div class="info-item">
+                    <i class="pi pi-check-circle"></i>
+                    <span>Pass: {{ quiz.passingMarks || 0 }}</span>
+                  </div>
+                </div>
+                @if (quiz.questionCount !== undefined) {
+                  <div class="info-item">
+                    <i class="pi pi-question-circle"></i>
+                    <span>{{ quiz.questionCount }} questions</span>
+                  </div>
+                }
+                @if (quiz.dueDate) {
+                  <div class="info-item">
+                    <i class="pi pi-calendar"></i>
+                    <span>Due: {{ formatDisplayDate(quiz.dueDate) }}</span>
+                  </div>
+                }
+              </div>
+
+              <div class="quiz-footer">
+                <span class="status-badge" [class]="getStatusClass(quiz.status)">
+                  {{ quiz.status || 'DRAFT' }}
+                </span>
+                <button class="add-questions-btn" (click)="addQuestions(quiz)">
+                  <i class="pi pi-plus"></i>
+                  <span>Add Questions</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Create/Edit Dialog -->
+  <p-dialog
+    [(visible)]="showCreateDialog"
+    [header]="isEditMode ? 'Edit Quiz' : 'Create New Quiz'"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    [closable]="true"
+    (onHide)="closeDialog()"
+  >
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
+      <div class="form-group">
+        <label for="title" class="form-label required">
+          Quiz Title
+        </label>
+        <input
+          id="title"
+          type="text"
+          pInputText
+          formControlName="title"
+          placeholder="e.g. Algebra Fundamentals Quiz"
+          class="form-input"
+          [class.error]="quizForm.get('title')?.invalid && quizForm.get('title')?.touched"
+        />
+        @if (quizForm.get('title')?.invalid && quizForm.get('title')?.touched) {
+          <span class="error-message">
+            @if (quizForm.get('title')?.errors?.['required']) {
+              Quiz title is required
+            } @else if (quizForm.get('title')?.errors?.['minlength']) {
+              Quiz title must be at least 3 characters
+            }
+          </span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          pInputText
+          formControlName="description"
+          placeholder="Enter quiz description (optional)"
+          rows="3"
+          class="form-textarea"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="subject" class="form-label">Subject</label>
+          <input
+            id="subject"
+            type="text"
+            pInputText
+            formControlName="subject"
+            placeholder="e.g. Mathematics"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="batchId" class="form-label">Batch</label>
+          <p-select
+            id="batchId"
+            formControlName="batchId"
+            [options]="batches"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select batch (optional)"
+            styleClass="w-full"
+            [showClear]="true"
+          ></p-select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="duration" class="form-label required">Duration (minutes)</label>
+          <p-inputNumber
+            id="duration"
+            formControlName="duration"
+            [min]="1"
+            [max]="300"
+            placeholder="60"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputNumber>
+          @if (quizForm.get('duration')?.invalid && quizForm.get('duration')?.touched) {
+            <span class="error-message">Duration is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="status" class="form-label required">Status</label>
+          <p-select
+            id="status"
+            formControlName="status"
+            [options]="statusOptions"
+            optionLabel="label"
+            optionValue="value"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="totalMarks" class="form-label required">Total Marks</label>
+          <p-inputNumber
+            id="totalMarks"
+            formControlName="totalMarks"
+            [min]="1"
+            placeholder="100"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputNumber>
+        </div>
+
+        <div class="form-group">
+          <label for="passingMarks" class="form-label required">Passing Marks</label>
+          <p-inputNumber
+            id="passingMarks"
+            formControlName="passingMarks"
+            [min]="0"
+            placeholder="50"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate" class="form-label">Start Date</label>
+          <p-datepicker
+            id="startDate"
+            formControlName="startDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Select start date"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-datepicker>
+        </div>
+
+        <div class="form-group">
+          <label for="endDate" class="form-label">End Date</label>
+          <p-datepicker
+            id="endDate"
+            formControlName="endDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Select end date"
+            [minDate]="minEndDate"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate" class="form-label">Due Date</label>
+        <p-datepicker
+          id="dueDate"
+          formControlName="dueDate"
+          dateFormat="yy-mm-dd"
+          placeholder="Select due date"
+          [minDate]="minDueDate"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        ></p-datepicker>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" pButton (click)="closeDialog()" class="cancel-btn">
+          Cancel
+        </button>
+        <button type="submit" pButton [disabled]="quizForm.invalid" class="submit-btn">
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </p-dialog>
+</div>
+

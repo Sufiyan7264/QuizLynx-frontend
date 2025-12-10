@@ -1,0 +1,159 @@
+<div class="quiz-result-container !pt-24">
+  <p-toast></p-toast>
+
+  @if (result) {
+    <div class="result-content">
+      <!-- Score Card Section -->
+      <div class="score-card-section">
+        <div class="score-display">
+          <div class="score-main">
+            <span class="score-value">{{ result.score }}</span>
+            <span class="score-separator">/</span>
+            <span class="score-total">{{ result.totalMarks }}</span>
+          </div>
+          <div class="score-percentage">{{ percentage }}%</div>
+        </div>
+
+        <div class="score-status" [class.passed]="passed" [class.failed]="!passed">
+          <i [class]="passed ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+          <span>{{ passed ? 'Passed' : 'Failed' }}</span>
+        </div>
+
+        <div class="time-taken">
+          <i class="pi pi-clock"></i>
+          <span>Completed in {{ timeTaken }}</span>
+        </div>
+      </div>
+
+      <!-- Quiz Info -->
+      <div class="quiz-info-section">
+        <h2 class="section-title">{{ result.quizTitle || 'Quiz Result' }}</h2>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <i class="pi pi-star"></i>
+            <div class="info-content">
+              <span class="info-label">Your Score</span>
+              <span class="info-value">{{ result.score }} / {{ result.totalMarks }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="pi pi-percentage"></i>
+            <div class="info-content">
+              <span class="info-label">Percentage</span>
+              <span class="info-value">{{ percentage }}%</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="pi pi-check-circle"></i>
+            <div class="info-content">
+              <span class="info-label">Correct</span>
+              <span class="info-value">{{ getCorrectAnswersCount() }} / {{ questionReviews.length }}</span>
+            </div>
+          </div>
+          @if (result.startedAt) {
+            <div class="info-item">
+              <i class="pi pi-calendar"></i>
+              <div class="info-content">
+                <span class="info-label">Submitted At</span>
+                <span class="info-value">{{ formatDate(result.submittedAt) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Answer Review Section -->
+      @if (questionReviews.length > 0) {
+        <div class="review-section">
+          <h2 class="section-title">Answer Review</h2>
+          <p class="section-subtitle">Review your answers and learn from mistakes</p>
+
+          <div class="questions-review">
+            @for (review of questionReviews; track review.questionId; let i = $index) {
+              <div class="question-review-card" [class.correct]="review.isCorrect" [class.incorrect]="!review.isCorrect">
+                <div class="question-header">
+                  <div class="question-number">
+                    <span>Question {{ i + 1 }}</span>
+                    <span class="question-marks">({{ review.earnedMarks }}/{{ review.marks }} marks)</span>
+                  </div>
+                  <div class="answer-status">
+                    @if (review.isCorrect) {
+                      <i class="pi pi-check-circle correct-icon"></i>
+                      <span class="status-text correct-text">Correct</span>
+                    } @else {
+                      <i class="pi pi-times-circle incorrect-icon"></i>
+                      <span class="status-text incorrect-text">Incorrect</span>
+                    }
+                  </div>
+                </div>
+
+                <div class="question-text">
+                  {{ review.questionText }}
+                </div>
+
+                @if (review.questionType === 'MULTIPLE_CHOICE' || review.questionType === 'TRUE_FALSE') {
+                  <div class="options-review">
+                    @for (option of review.options; track $index) {
+                      <div class="option-item" 
+                           [class.selected]="isOptionSelected(option, review.selectedAnswer)"
+                           [class.correct-answer]="isCorrectAnswer(option, review.correctAnswer)"
+                           [class.wrong-selected]="!review.isCorrect && isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)">
+                        <div class="option-indicator">
+                          @if (isCorrectAnswer(option, review.correctAnswer)) {
+                            <i class="pi pi-check correct-mark"></i>
+                          } @else if (isOptionSelected(option, review.selectedAnswer) && !review.isCorrect) {
+                            <i class="pi pi-times wrong-mark"></i>
+                          } @else {
+                            <div class="option-circle"></div>
+                          }
+                        </div>
+                        <span class="option-text">{{ option }}</span>
+                        @if (isCorrectAnswer(option, review.correctAnswer)) {
+                          <span class="correct-label">Correct Answer</span>
+                        }
+                        @if (isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)) {
+                          <span class="wrong-label">Your Answer</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <div class="text-answer-review">
+                    <div class="answer-box">
+                      <label class="answer-label">Your Answer:</label>
+                      <div class="answer-text">{{ getAnswerText(review.selectedAnswer) }}</div>
+                    </div>
+                    @if (!review.isCorrect) {
+                      <div class="answer-box correct-box">
+                        <label class="answer-label">Correct Answer:</label>
+                        <div class="answer-text">{{ getAnswerText(review.correctAnswer) }}</div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Actions -->
+      <div class="actions-section">
+        <button pButton (click)="goToDashboard()" class="action-btn primary-btn">
+          <i class="pi pi-home"></i>
+          <span>Back to Dashboard</span>
+        </button>
+        <button pButton (click)="viewAttempts()" class="action-btn secondary-btn">
+          <i class="pi pi-list"></i>
+          <span>View All Attempts</span>
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="loading-section">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Loading result...</p>
+    </div>
+  }
+</div>

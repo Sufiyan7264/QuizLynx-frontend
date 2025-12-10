@@ -51,7 +51,7 @@ export class Header implements OnInit {
           {
             label: 'Settings',
             icon: 'pi pi-cog',
-            // shortcut: '⌘+O'
+            routerLink: '/settings'
           },
           // {
           //   label: 'Messages',

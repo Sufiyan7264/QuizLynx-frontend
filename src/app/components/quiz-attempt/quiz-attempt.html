@@ -1,0 +1,196 @@
+<div class="quiz-attempt-container !pt-24">
+  <p-toast></p-toast>
+
+  @if (viewState === 'start') {
+    <!-- Start Screen -->
+    <div class="start-screen">
+      <div class="start-content">
+        <div class="quiz-header">
+          <h1 class="quiz-title">{{ quiz?.title }}</h1>
+          @if (quiz?.description) {
+            <p class="quiz-description">{{ quiz?.description }}</p>
+          }
+        </div>
+
+        <div class="quiz-info">
+          <div class="info-card">
+            <i class="pi pi-clock"></i>
+            <div class="info-content">
+              <span class="info-label">Duration</span>
+              <span class="info-value">{{ quiz?.duration || 0 }} minutes</span>
+            </div>
+          </div>
+          <div class="info-card">
+            <i class="pi pi-file-edit"></i>
+            <div class="info-content">
+              <span class="info-label">Questions</span>
+              <span class="info-value">{{ quiz?.questionCount || 0 }} questions</span>
+            </div>
+          </div>
+          <div class="info-card">
+            <i class="pi pi-star"></i>
+            <div class="info-content">
+              <span class="info-label">Total Marks</span>
+              <span class="info-value">{{ quiz?.totalMarks || 0 }} marks</span>
+            </div>
+          </div>
+          @if (quiz?.passingMarks) {
+            <div class="info-card">
+              <i class="pi pi-check-circle"></i>
+              <div class="info-content">
+                <span class="info-label">Passing Marks</span>
+                <span class="info-value">{{ quiz?.passingMarks }} marks</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="instructions">
+          <h3>Instructions</h3>
+          <ul>
+            <li>Read each question carefully before answering</li>
+            <li>You can navigate between questions using the question navigation</li>
+            <li>The timer will start once you click "Start Quiz"</li>
+            <li>Once submitted, you cannot change your answers</li>
+            <li>Make sure to answer all questions before submitting</li>
+          </ul>
+        </div>
+
+        <button pButton (click)="startQuiz()" class="start-btn">
+          <i class="pi pi-play"></i>
+          <span>Start Quiz</span>
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (viewState === 'exam') {
+    <!-- Exam UI -->
+    <div class="exam-screen">
+      <!-- Header with Timer and Progress -->
+      <div class="exam-header">
+        <div class="header-left">
+          <h2 class="exam-title">{{ quiz?.title }}</h2>
+          <div class="progress-info">
+            Question {{ currentQuestionIndex + 1 }} of {{ totalQuestions }}
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="timer" [class.warning]="timeRemaining < 300" [class.danger]="timeRemaining < 60">
+            <i class="pi pi-clock"></i>
+            <span>{{ formatTime(timeRemaining) }}</span>
+          </div>
+          <div class="answered-count">
+            <i class="pi pi-check-circle"></i>
+            <span>{{ answeredCount }}/{{ totalQuestions }} answered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Navigation -->
+      <div class="question-nav">
+        @for (question of questions; track question.id; let i = $index) {
+          <button
+            class="nav-btn"
+            [class.active]="i === currentQuestionIndex"
+            [class.answered]="isQuestionAnswered(i)"
+            (click)="goToQuestion(i)"
+          >
+            {{ i + 1 }}
+          </button>
+        }
+      </div>
+
+      <!-- Question Content -->
+      <div class="question-content">
+        <div class="question-header">
+          <span class="question-number">Question {{ currentQuestionIndex + 1 }}</span>
+          <span class="question-marks">{{ currentQuestion?.marks }} marks</span>
+        </div>
+        <h3 class="question-text">{{ currentQuestion?.questionText }}</h3>
+
+        <!-- Options -->
+        @if (currentQuestion?.questionType === 'MULTIPLE_CHOICE' || currentQuestion?.questionType === 'TRUE_FALSE') {
+          <div class="options-list">
+            @for (option of currentQuestion?.options; track $index) {
+              <button
+                class="option-btn"
+                [class.selected]="isAnswerSelected(option)"
+                (click)="selectAnswer(option)"
+              >
+                <div class="option-content">
+                  <div class="option-radio">
+                    @if (isAnswerSelected(option)) {
+                      <i class="pi pi-check-circle"></i>
+                    } @else {
+                      <i class="pi pi-circle"></i>
+                    }
+                  </div>
+                  <span class="option-text">{{ option }}</span>
+                </div>
+              </button>
+            }
+          </div>
+        } @else {
+          <div class="text-answer">
+            <textarea
+              pInputText
+              [value]="getSelectedAnswer()"
+              (input)="selectAnswer($any($event.target).value)"
+              placeholder="Type your answer here..."
+              rows="6"
+              class="answer-textarea"
+            ></textarea>
+          </div>
+        }
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="exam-footer">
+        <button
+          pButton
+          (click)="previousQuestion()"
+          [disabled]="currentQuestionIndex === 0"
+          class="nav-button prev-btn"
+        >
+          <i class="pi pi-arrow-left"></i>
+          <span>Previous</span>
+        </button>
+
+        <div class="footer-center">
+          <button
+            pButton
+            (click)="submitQuiz()"
+            [disabled]="!canSubmit()"
+            class="submit-btn"
+          >
+            <i class="pi pi-check"></i>
+            <span>Submit Quiz</span>
+          </button>
+        </div>
+
+        <button
+          pButton
+          (click)="nextQuestion()"
+          [disabled]="currentQuestionIndex === totalQuestions - 1"
+          class="nav-button next-btn"
+        >
+          <span>Next</span>
+          <i class="pi pi-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (viewState === 'submitting') {
+    <!-- Submitting Screen -->
+    <div class="submitting-screen">
+      <div class="submitting-content">
+        <i class="pi pi-spin pi-spinner"></i>
+        <h2>Submitting your quiz...</h2>
+        <p>Please wait while we process your answers</p>
+      </div>
+    </div>
+  }
+</div>
+
