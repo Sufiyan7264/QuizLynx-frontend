@@ -49,7 +49,7 @@
         }
         @else if(isLoggedIn$ | async) {
           <div class="flex gap-2">
-              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white hidden sm:block" size="normal" (click)="menu.toggle($event)"></p-avatar>
+              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white hidden sm:flex " size="normal" (click)="menu.toggle($event)"></p-avatar>
           </div>
       }
       <div>
@@ -78,7 +78,7 @@
 
 <!-- Mobile Menu -->
 @if(mobileMenuOpen()){
-  <div class="fixed inset-0 top-16 bg-bg/95 dark:bg-bg/95 backdrop-blur-md z-40 md:hidden">
+  <div class="fixed inset-0 top-20 bg-bg/95 dark:bg-bg/95 backdrop-blur-md z-40 md:hidden">
     <div class="flex flex-col p-6 space-y-4 bg-bg border-border border">
       @if(authService.user$ | async; as user){
         @if(user.role === 'INSTRUCTOR'){
