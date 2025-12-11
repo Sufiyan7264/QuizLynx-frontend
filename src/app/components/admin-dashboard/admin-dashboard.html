@@ -1,6 +1,6 @@
-<div class="instructor-dashboard !pt-24">
+<div class="instructor-dashboard !pt-24 px-2 sm:px-4 md:px-6">
   <!-- Statistics Cards Section -->
-  <div class="stats-section">
+  <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
     @for (stat of stats; track $index) {
     <div class="stat-card">
       <div class="stat-header">
@@ -24,11 +24,11 @@
   </div>
 
   <!-- Main Content Section -->
-  <div class="main-content">
+  <div class="main-content grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-2 md:gap-4">
     <!-- Left Section -->
-    <div class="left-section">
+    <div class="left-section flex flex-col gap-2 md:gap-4">
       <!-- Charts Grid -->
-      <div class="charts-grid">
+      <div class="charts-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-4">
         <!-- Line Chart - Student Engagement -->
         <div class="chart-card">
           <app-chart-configuration
@@ -65,11 +65,11 @@
           </app-chart-configuration>
         </div>
         <!-- Quick Stats Card -->
-        <div class="chart-card quick-stats-card">
-          <div class="card-header">
-            <h3 class="card-title">Quick Statistics</h3>
+        <div class="chart-card quick-stats-card md:col-span-2 lg:col-span-1">
+          <div class="card-header mb-2 md:mb-4">
+            <h3 class="card-title text-base md:text-lg">Quick Statistics</h3>
           </div>
-          <div class="quick-stats-grid">
+          <div class="quick-stats-grid grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
             <div class="quick-stat-item">
               <div class="quick-stat-icon">
                 <i class="pi pi-users"></i>
@@ -112,7 +112,7 @@
     </div>
 
     <!-- Right Section -->
-    <div class="right-section">
+    <div class="right-section flex flex-col gap-2 md:gap-4">
       <!-- Performance Summary Chart -->
       <div class="performance-summary-card">
         <app-chart-configuration
@@ -127,19 +127,19 @@
 
       <!-- Students Needing Attention -->
       <div class="attention-card">
-        <div class="card-header">
-          <h3 class="card-title">Students Needing Attention</h3>
+        <div class="card-header mb-2 md:mb-4">
+          <h3 class="card-title text-base md:text-lg">Students Needing Attention</h3>
         </div>
-        <div class="attention-list">
-          <div class="attention-item" *ngFor="let student of studentsNeedingAttention">
-            <div class="student-info">
-              <div class="student-name">{{ student.name }}</div>
-              <div class="student-details">
+        <div class="attention-list flex flex-col gap-2 md:gap-3">
+          <div class="attention-item flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2" *ngFor="let student of studentsNeedingAttention">
+            <div class="student-info flex-1">
+              <div class="student-name text-sm md:text-base font-semibold mb-1">{{ student.name }}</div>
+              <div class="student-details flex flex-col sm:flex-row gap-2 text-xs md:text-sm">
                 <span class="detail-item">Score: {{ student.score }}%</span>
                 <span class="detail-item">Quizzes: {{ student.quizzesCompleted }}</span>
               </div>
             </div>
-            <div class="attention-badge">
+            <div class="attention-badge text-lg md:text-xl flex-shrink-0">
               <i class="pi pi-exclamation-triangle"></i>
             </div>
           </div>
@@ -148,53 +148,55 @@
     </div>
   </div>
   <!-- Top Students Card -->
-  <div class="chart-card top-students-card">
-    <div class="card-header">
-      <h3 class="card-title">Top Performing Students</h3>
-      <a href="#" class="view-all-link">View all</a>
+  <div class="chart-card top-students-card mt-2 md:mt-4">
+    <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+      <h3 class="card-title text-base md:text-lg">Top Performing Students</h3>
+      <a href="#" class="view-all-link text-sm">View all</a>
     </div>
-    <table class="students-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Student Name</th>
-          <th>Average Score</th>
-          <th>Quizzes Completed</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (student of topStudents; track $index) {
-        <tr>
-          <td class="rank-cell">
-            <span
-              class="rank-badge"
-              [class.top-1]="$index === 0"
-              [class.top-2]="$index === 1"
-              [class.top-3]="$index === 2"
-            >
-              {{ $index + 1 }}
-            </span>
-          </td>
-          <td>{{ student.name }}</td>
-          <td>
-            <span class="score-value">{{ student.averageScore }}%</span>
-          </td>
-          <td>{{ student.quizzesCompleted }}</td>
-          <td>
-            <span
-              class="status-badge"
-              [class.excellent]="student.averageScore >= 90"
-              [class.good]="student.averageScore >= 75 && student.averageScore < 90"
-              [class.average]="student.averageScore < 75"
-            >
-              {{ student.status }}
-            </span>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
+    <div class="overflow-x-auto">
+      <table class="students-table w-full min-w-[600px]">
+        <thead>
+          <tr>
+            <th class="text-xs md:text-sm">Rank</th>
+            <th class="text-xs md:text-sm">Student Name</th>
+            <th class="text-xs md:text-sm">Average Score</th>
+            <th class="text-xs md:text-sm">Quizzes Completed</th>
+            <th class="text-xs md:text-sm">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (student of topStudents; track $index) {
+          <tr>
+            <td class="rank-cell text-center">
+              <span
+                class="rank-badge inline-flex items-center justify-center w-6 h-6 md:w-8 md:h-8 text-xs md:text-sm"
+                [class.top-1]="$index === 0"
+                [class.top-2]="$index === 1"
+                [class.top-3]="$index === 2"
+              >
+                {{ $index + 1 }}
+              </span>
+            </td>
+            <td class="text-xs md:text-sm">{{ student.name }}</td>
+            <td class="text-xs md:text-sm">
+              <span class="score-value font-semibold">{{ student.averageScore }}%</span>
+            </td>
+            <td class="text-xs md:text-sm">{{ student.quizzesCompleted }}</td>
+            <td>
+              <span
+                class="status-badge text-xs inline-block px-2 md:px-3 py-1"
+                [class.excellent]="student.averageScore >= 90"
+                [class.good]="student.averageScore >= 75 && student.averageScore < 90"
+                [class.average]="student.averageScore < 75"
+              >
+                {{ student.status }}
+              </span>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -202,37 +204,36 @@
   header="Update Profile"
   styleClass="p-4 bg-bg border text-text border-border"
   [(visible)]="visible"
-  [style]="{ width: '50rem' }"
+  [style]="{ width: '90vw', maxWidth: '50rem' }"
   [modal]="true"
   [closable]="false"
 >
   <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-    <span class="p-text-secondary block mb-8 text-text">Update your information.</span>
-    <div class="flex items-center gap-4 h-[36px] mb-8">
-      <label for="username" class="font-semibold w-24 required">Full Name</label>
+    <span class="p-text-secondary block mb-4 md:mb-8 text-text text-sm md:text-base">Update your information.</span>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-4 md:mb-8">
+      <label for="username" class="font-semibold w-full sm:w-24 text-sm md:text-base required">Full Name</label>
       <input
         pInputText
         formControlName="displayName"
         id="username"
-        class="flex-auto border-border border h-full px-2"
+        class="flex-auto border-border border h-9 md:h-[36px] px-2 text-sm md:text-base"
         placeholder="Enter the full name"
         autocomplete="off"
       />
     </div>
-    <div class="flex items-center gap-4 mb-8">
-      <label for="email" class="font-semibold w-24">Bio</label>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-4 md:mb-8">
+      <label for="email" class="font-semibold w-full sm:w-24 text-sm md:text-base">Bio</label>
       <textarea
         pInputText
         formControlName="bio"
         id="email"
         placeholder="Enter the bio (max 1000 characters)"
-        class="flex-auto border border-border px-1 py-1"
+        class="flex-auto border border-border px-2 py-2 text-sm md:text-base min-h-[80px]"
         autocomplete="off"
       ></textarea>
     </div>
-    <div class="flex items-center gap-4 mb-8 h-[36px]">
-      <label for="email" class="font-semibold w-28 required">Subjects</label>
-      <!-- <textarea pInputText  id="email" class="flex-auto border border-border px-1 py-1" autocomplete="off"></textarea> -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-4 md:mb-8">
+      <label for="subjects" class="font-semibold w-full sm:w-28 text-sm md:text-base required">Subjects</label>
       <p-multiselect
         formControlName="subjects"
         [options]="subjectOptions"
@@ -242,15 +243,14 @@
         optionValue="value"
         placeholder="Select Subjects"
         [maxSelectedLabels]="3"
-        class="w-full h-full border border-border px-2"
+        class="w-full h-9 md:h-[36px] border border-border px-2"
         fluid
       />
     </div>
-    <div class="flex justify-end gap-2">
-      <!-- <p-button label="Cancel" severity="secondary" (click)="visible = false" /> -->
+    <div class="flex flex-col sm:flex-row justify-end gap-2">
       <p-button
         type="submit"
-        class="bg-primary p-2 rounded-md text-white hover:bg-blue-500 hover:shadow-lg"
+        class="bg-primary p-2 rounded-md text-white hover:bg-blue-500 hover:shadow-lg text-sm md:text-base w-full sm:w-auto"
         label="Save"
       />
     </div>

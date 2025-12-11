@@ -2,15 +2,16 @@ import {  ApplicationConfig, importProvidersFrom, inject, provideAppInitializer,
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
+import {ConfirmationService,MessageService} from 'primeng/api'
 import Aura from '@primeuix/themes/aura';
 import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { CredInterceptor } from './core/interceptor/credInterceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
+    { provide: ConfirmationService, useClass: ConfirmationService },
     { provide: MessageService, useClass: MessageService },
     provideHttpClient(withInterceptors([CredInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),

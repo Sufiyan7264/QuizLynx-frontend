@@ -1,25 +1,29 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BatchService } from '../../core/service/batch';
 import { Batch, CreateBatchRequest } from '../../core/interface/interfaces';
 import { Dialog } from 'primeng/dialog';
-import { Button } from 'primeng/button';
+// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-import { DatePicker } from 'primeng/datepicker';
+// import { DatePicker } from 'primeng/datepicker';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Toast } from 'primeng/toast';
-
+import { ConfirmationService } from 'primeng/api';
+import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-batches',
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     Dialog,
-    Button,
+    // Button,
     InputText,
-    DatePicker,
+    // DatePicker,
     Toast
   ],
   templateUrl: './batches.html',
@@ -29,45 +33,43 @@ import { Toast } from 'primeng/toast';
 export class Batches implements OnInit {
   private readonly batchService = inject(BatchService);
   private readonly fb = inject(FormBuilder);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  private readonly router = inject(Router);
+  private readonly common = inject(Common);
 
   batches: Batch[] = [];
+  filteredBatches: Batch[] = [];
+  searchTerm: string = '';
   showCreateDialog = false;
   isEditMode = false;
   selectedBatch: Batch | null = null;
 
   batchForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    batchName: ['', [Validators.required, Validators.minLength(3)]],
     description: [''],
-    startDate: [null],
-    endDate: [null]
+    // startDate: [null],
+    // endDate: [null]
   });
 
-  get minEndDate(): Date | null {
-    const startDate = this.batchForm.get('startDate')?.value;
-    return startDate ? new Date(startDate) : null;
-  }
+  // get minEndDate(): Date | null {
+  //   const startDate = this.batchForm.get('startDate')?.value;
+  //   return startDate ? new Date(startDate) : null;
+  // }
 
   ngOnInit(): void {
     this.loadBatches();
   }
 
   loadBatches(): void {
-    this.spinner.show();
+    this.common.showSpinner();
     this.batchService.getBatches().subscribe({
       next: (batches) => {
         this.batches = batches;
-        this.spinner.hide();
+        this.applyFilters();
+        this.common.hideSpinner();
       },
       error: (error) => {
-        console.error('Error loading batches:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load batches'
-        });
-        this.spinner.hide();
+        this.common.showMessage( 'error', 'Error', error?.error?.message || 'Failed to load batches' );
+        this.common.hideSpinner();
       }
     });
   }
@@ -83,10 +85,10 @@ export class Batches implements OnInit {
     this.isEditMode = true;
     this.selectedBatch = batch;
     this.batchForm.patchValue({
-      name: batch.name,
+      batchName: batch.batchName,
       description: batch.description || '',
-      startDate: batch.startDate ? new Date(batch.startDate) : null,
-      endDate: batch.endDate ? new Date(batch.endDate) : null
+      // startDate: batch.startDate ? new Date(batch.startDate) : null,
+      // endDate: batch.endDate ? new Date(batch.endDate) : null
     });
     this.showCreateDialog = true;
   }
@@ -106,54 +108,38 @@ export class Batches implements OnInit {
 
     const formValue = this.batchForm.value;
     const batchData: CreateBatchRequest = {
-      name: formValue.name,
+      batchName: formValue.batchName,
       description: formValue.description || undefined,
-      startDate: formValue.startDate ? this.formatDateForAPI(formValue.startDate) : undefined,
-      endDate: formValue.endDate ? this.formatDateForAPI(formValue.endDate) : undefined
+      // startDate: formValue.startDate ? this.formatDateForAPI(formValue.startDate) : undefined,
+      // endDate: formValue.endDate ? this.formatDateForAPI(formValue.endDate) : undefined
     };
 
-    this.spinner.show();
+    this.common.showSpinner();
 
     if (this.isEditMode && this.selectedBatch?.id) {
       this.batchService.updateBatch(this.selectedBatch.id, batchData).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Batch updated successfully'
-          });
+        next: (response:any) => {
+          this.common.showMessage( 'success', 'Success',response.message ?? 'Batch updated successfully' );
           this.loadBatches();
           this.closeDialog();
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to update batch'
-          });
-          this.spinner.hide();
+          this.common.showMessage( 'error', 'Error',error?.error?.message || 'Failed to update batch' );
+          this.common.hideSpinner();
         }
       });
     } else {
       this.batchService.createBatch(batchData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Batch created successfully'
-          });
+          this.common.showMessage( 'success', 'Success', 'Batch created successfully' );
           this.loadBatches();
           this.closeDialog();
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to create batch'
-          });
-          this.spinner.hide();
+          this.common.showMessage( 'error', 'Error',error?.error?.message || 'Failed to create batch' );
+          this.common.hideSpinner();
         }
       });
     }
@@ -161,29 +147,25 @@ export class Batches implements OnInit {
 
   deleteBatch(batch: Batch): void {
     if (!batch.id) return;
-    
-    if (confirm(`Are you sure you want to delete "${batch.name}"?`)) {
-      this.spinner.show();
-      this.batchService.deleteBatch(batch.id).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Batch deleted successfully'
-          });
-          this.loadBatches();
-          this.spinner.hide();
-        },
-        error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to delete batch'
-          });
-          this.spinner.hide();
-        }
-      });
-    }
+    this.common.confirm( 'Delete Batch', `Are you sure you want to delete "${batch.batchName}"?`, 'Delete', 'Cancel', () => {
+      this.deleteBatchConfirm(batch);
+    }, () => {
+      return;
+    });
+  }
+  deleteBatchConfirm(batch: Batch): void {
+    this.common.showSpinner();
+    this.batchService.deleteBatch(batch.id!).subscribe({
+      next: () => {
+        this.common.showMessage( 'success', 'Success', 'Batch deleted successfully' );
+        this.loadBatches();
+        this.common.hideSpinner();
+      },
+      error: (error) => {
+        this.common.showMessage( 'error', 'Error', error?.error?.message || 'Failed to delete batch' );
+        this.common.hideSpinner();
+      }
+    });
   }
 
 
@@ -205,5 +187,35 @@ export class Batches implements OnInit {
     const day = String(d.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-}
 
+  onSearchChange(): void {
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    let filtered = [...this.batches];
+
+    // Filter by search term
+    if (this.searchTerm?.trim()) {
+      const search = this.searchTerm.toLowerCase().trim();
+      filtered = filtered.filter(batch =>
+        batch.batchName?.toLowerCase().includes(search) ||
+        batch.description?.toLowerCase().includes(search) ||
+        batch.batchCode?.toLowerCase().includes(search)
+      );
+    }
+
+    this.filteredBatches = filtered;
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.applyFilters();
+  }
+
+  viewBatchDetail(batch: Batch): void {
+    if (batch.id) {
+      this.router.navigate(['/batch', batch.id, 'detail']);
+    }
+  }
+}

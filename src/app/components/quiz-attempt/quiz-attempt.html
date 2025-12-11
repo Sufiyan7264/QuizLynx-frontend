@@ -1,62 +1,62 @@
-<div class="quiz-attempt-container !pt-24">
+<div class="quiz-attempt-container !pt-24 px-2 sm:px-4 md:px-6 lg:px-8">
   <p-toast></p-toast>
 
   @if (viewState === 'start') {
     <!-- Start Screen -->
-    <div class="start-screen">
-      <div class="start-content">
-        <div class="quiz-header">
-          <h1 class="quiz-title">{{ quiz?.title }}</h1>
+    <div class="start-screen min-h-[80vh] flex items-center justify-center py-8">
+      <div class="start-content w-full max-w-[700px] p-4 sm:p-6 md:p-8 lg:p-12">
+        <div class="quiz-header text-center mb-6 md:mb-8">
+          <h1 class="quiz-title text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4">{{ quiz?.title }}</h1>
           @if (quiz?.description) {
-            <p class="quiz-description">{{ quiz?.description }}</p>
+            <p class="quiz-description text-sm sm:text-base md:text-lg">{{ quiz?.description }}</p>
           }
         </div>
 
-        <div class="quiz-info">
-          <div class="info-card">
-            <i class="pi pi-clock"></i>
-            <div class="info-content">
-              <span class="info-label">Duration</span>
-              <span class="info-value">{{ quiz?.duration || 0 }} minutes</span>
+        <div class="quiz-info grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-8">
+          <div class="info-card flex items-center gap-3 md:gap-4 p-3 md:p-4">
+            <i class="pi pi-clock text-xl md:text-2xl flex-shrink-0"></i>
+            <div class="info-content flex flex-col">
+              <span class="info-label text-xs uppercase tracking-wide mb-1">Duration</span>
+              <span class="info-value text-sm md:text-base font-semibold">{{ quiz?.duration || 0 }} minutes</span>
             </div>
           </div>
-          <div class="info-card">
-            <i class="pi pi-file-edit"></i>
-            <div class="info-content">
-              <span class="info-label">Questions</span>
-              <span class="info-value">{{ quiz?.questionCount || 0 }} questions</span>
+          <div class="info-card flex items-center gap-3 md:gap-4 p-3 md:p-4">
+            <i class="pi pi-file-edit text-xl md:text-2xl flex-shrink-0"></i>
+            <div class="info-content flex flex-col">
+              <span class="info-label text-xs uppercase tracking-wide mb-1">Questions</span>
+              <span class="info-value text-sm md:text-base font-semibold">{{ quiz?.questionCount || 0 }} questions</span>
             </div>
           </div>
-          <div class="info-card">
-            <i class="pi pi-star"></i>
-            <div class="info-content">
-              <span class="info-label">Total Marks</span>
-              <span class="info-value">{{ quiz?.totalMarks || 0 }} marks</span>
+          <div class="info-card flex items-center gap-3 md:gap-4 p-3 md:p-4">
+            <i class="pi pi-star text-xl md:text-2xl flex-shrink-0"></i>
+            <div class="info-content flex flex-col">
+              <span class="info-label text-xs uppercase tracking-wide mb-1">Total Marks</span>
+              <span class="info-value text-sm md:text-base font-semibold">{{ quiz?.totalMarks || 0 }} marks</span>
             </div>
           </div>
           @if (quiz?.passingMarks) {
-            <div class="info-card">
-              <i class="pi pi-check-circle"></i>
-              <div class="info-content">
-                <span class="info-label">Passing Marks</span>
-                <span class="info-value">{{ quiz?.passingMarks }} marks</span>
+            <div class="info-card flex items-center gap-3 md:gap-4 p-3 md:p-4">
+              <i class="pi pi-check-circle text-xl md:text-2xl flex-shrink-0"></i>
+              <div class="info-content flex flex-col">
+                <span class="info-label text-xs uppercase tracking-wide mb-1">Passing Marks</span>
+                <span class="info-value text-sm md:text-base font-semibold">{{ quiz?.passingMarks }} marks</span>
               </div>
             </div>
           }
         </div>
 
-        <div class="instructions">
-          <h3>Instructions</h3>
-          <ul>
-            <li>Read each question carefully before answering</li>
-            <li>You can navigate between questions using the question navigation</li>
-            <li>The timer will start once you click "Start Quiz"</li>
-            <li>Once submitted, you cannot change your answers</li>
-            <li>Make sure to answer all questions before submitting</li>
+        <div class="instructions p-4 md:p-6 mb-6 md:mb-8">
+          <h3 class="text-base md:text-lg font-semibold mb-3 md:mb-4">Instructions</h3>
+          <ul class="list-disc pl-5 md:pl-6 space-y-2">
+            <li class="text-xs md:text-sm">Read each question carefully before answering</li>
+            <li class="text-xs md:text-sm">You can navigate between questions using the question navigation</li>
+            <li class="text-xs md:text-sm">The timer will start once you click "Start Quiz"</li>
+            <li class="text-xs md:text-sm">Once submitted, you cannot change your answers</li>
+            <li class="text-xs md:text-sm">Make sure to answer all questions before submitting</li>
           </ul>
         </div>
 
-        <button pButton (click)="startQuiz()" class="start-btn">
+        <button pButton (click)="startQuiz()" class="start-btn w-full py-3 md:py-4 text-base md:text-lg">
           <i class="pi pi-play"></i>
           <span>Start Quiz</span>
         </button>
@@ -68,19 +68,19 @@
     <!-- Exam UI -->
     <div class="exam-screen">
       <!-- Header with Timer and Progress -->
-      <div class="exam-header">
+      <div class="exam-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 md:p-6 mb-4 md:mb-6">
         <div class="header-left">
-          <h2 class="exam-title">{{ quiz?.title }}</h2>
-          <div class="progress-info">
+          <h2 class="exam-title text-lg sm:text-xl md:text-2xl mb-2">{{ quiz?.title }}</h2>
+          <div class="progress-info text-xs sm:text-sm md:text-base">
             Question {{ currentQuestionIndex + 1 }} of {{ totalQuestions }}
           </div>
         </div>
-        <div class="header-right">
-          <div class="timer" [class.warning]="timeRemaining < 300" [class.danger]="timeRemaining < 60">
+        <div class="header-right flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <div class="timer flex items-center gap-2 px-3 md:px-5 py-2 md:py-3 text-sm md:text-lg font-semibold" [class.warning]="timeRemaining < 300" [class.danger]="timeRemaining < 60">
             <i class="pi pi-clock"></i>
             <span>{{ formatTime(timeRemaining) }}</span>
           </div>
-          <div class="answered-count">
+          <div class="answered-count flex items-center gap-2 text-xs sm:text-sm md:text-base">
             <i class="pi pi-check-circle"></i>
             <span>{{ answeredCount }}/{{ totalQuestions }} answered</span>
           </div>
@@ -88,10 +88,10 @@
       </div>
 
       <!-- Question Navigation -->
-      <div class="question-nav">
+      <div class="question-nav flex flex-wrap gap-2 p-3 md:p-4 mb-4 md:mb-6">
         @for (question of questions; track question.id; let i = $index) {
           <button
-            class="nav-btn"
+            class="nav-btn w-8 h-8 sm:w-10 sm:h-10 text-xs sm:text-sm"
             [class.active]="i === currentQuestionIndex"
             [class.answered]="isQuestionAnswered(i)"
             (click)="goToQuestion(i)"
@@ -102,31 +102,31 @@
       </div>
 
       <!-- Question Content -->
-      <div class="question-content">
-        <div class="question-header">
-          <span class="question-number">Question {{ currentQuestionIndex + 1 }}</span>
-          <span class="question-marks">{{ currentQuestion?.marks }} marks</span>
+      <div class="question-content p-4 md:p-6 lg:p-8 mb-4 md:mb-6">
+        <div class="question-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-6 pb-4 border-b">
+          <span class="question-number text-xs sm:text-sm uppercase tracking-wide font-semibold">Question {{ currentQuestionIndex + 1 }}</span>
+          <span class="question-marks text-xs sm:text-sm">{{ currentQuestion?.marks }} marks</span>
         </div>
-        <h3 class="question-text">{{ currentQuestion?.questionText }}</h3>
+        <h3 class="question-text text-lg sm:text-xl md:text-2xl mb-6 md:mb-8">{{ currentQuestion?.questionText }}</h3>
 
         <!-- Options -->
         @if (currentQuestion?.questionType === 'MULTIPLE_CHOICE' || currentQuestion?.questionType === 'TRUE_FALSE') {
-          <div class="options-list">
+          <div class="options-list flex flex-col gap-3 md:gap-4">
             @for (option of currentQuestion?.options; track $index) {
               <button
-                class="option-btn"
+                class="option-btn w-full p-3 md:p-5 text-left"
                 [class.selected]="isAnswerSelected(option)"
                 (click)="selectAnswer(option)"
               >
-                <div class="option-content">
-                  <div class="option-radio">
+                <div class="option-content flex items-center gap-3 md:gap-4">
+                  <div class="option-radio flex-shrink-0">
                     @if (isAnswerSelected(option)) {
-                      <i class="pi pi-check-circle"></i>
+                      <i class="pi pi-check-circle text-xl md:text-2xl"></i>
                     } @else {
-                      <i class="pi pi-circle"></i>
+                      <i class="pi pi-circle text-xl md:text-2xl"></i>
                     }
                   </div>
-                  <span class="option-text">{{ option }}</span>
+                  <span class="option-text text-sm md:text-base flex-1">{{ option }}</span>
                 </div>
               </button>
             }
@@ -139,30 +139,30 @@
               (input)="selectAnswer($any($event.target).value)"
               placeholder="Type your answer here..."
               rows="6"
-              class="answer-textarea"
+              class="answer-textarea w-full p-3 md:p-4 text-sm md:text-base min-h-[120px] md:min-h-[150px]"
             ></textarea>
           </div>
         }
       </div>
 
       <!-- Navigation Buttons -->
-      <div class="exam-footer">
+      <div class="exam-footer flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-4 md:p-6">
         <button
           pButton
           (click)="previousQuestion()"
           [disabled]="currentQuestionIndex === 0"
-          class="nav-button prev-btn"
+          class="nav-button prev-btn px-4 md:px-6 py-2 md:py-3 text-sm md:text-base order-2 sm:order-1"
         >
           <i class="pi pi-arrow-left"></i>
-          <span>Previous</span>
+          <span class="hidden sm:inline">Previous</span>
         </button>
 
-        <div class="footer-center">
+        <div class="footer-center flex-1 flex justify-center order-1 sm:order-2">
           <button
             pButton
             (click)="submitQuiz()"
             [disabled]="!canSubmit()"
-            class="submit-btn"
+            class="submit-btn px-4 md:px-8 py-2 md:py-3 text-sm md:text-base w-full sm:w-auto"
           >
             <i class="pi pi-check"></i>
             <span>Submit Quiz</span>
@@ -173,9 +173,9 @@
           pButton
           (click)="nextQuestion()"
           [disabled]="currentQuestionIndex === totalQuestions - 1"
-          class="nav-button next-btn"
+          class="nav-button next-btn px-4 md:px-6 py-2 md:py-3 text-sm md:text-base order-3"
         >
-          <span>Next</span>
+          <span class="hidden sm:inline">Next</span>
           <i class="pi pi-arrow-right"></i>
         </button>
       </div>
@@ -184,11 +184,11 @@
 
   @if (viewState === 'submitting') {
     <!-- Submitting Screen -->
-    <div class="submitting-screen">
-      <div class="submitting-content">
-        <i class="pi pi-spin pi-spinner"></i>
-        <h2>Submitting your quiz...</h2>
-        <p>Please wait while we process your answers</p>
+    <div class="submitting-screen min-h-[80vh] flex items-center justify-center py-8">
+      <div class="submitting-content text-center">
+        <i class="pi pi-spin pi-spinner text-4xl md:text-5xl mb-4 md:mb-6"></i>
+        <h2 class="text-xl sm:text-2xl md:text-3xl mb-2 md:mb-4">Submitting your quiz...</h2>
+        <p class="text-sm sm:text-base md:text-lg">Please wait while we process your answers</p>
       </div>
     </div>
   }

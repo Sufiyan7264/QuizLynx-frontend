@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Batch, CreateBatchRequest } from '../interface/interfaces';
@@ -55,6 +55,11 @@ export class BatchService {
   // Get batch by code (for preview before joining)
   getBatchByCode(code: string): Observable<Batch> {
     return this.http.get<Batch>(`${this.BASE_URL}/code/${code}`);
+  }
+
+  // Get enrolled batches for the current student
+  getStudentBatches(): Observable<Batch[]> {
+    return this.http.get<Batch[]>(`${this.BASE_URL}/student/enrolled`);
   }
 }
 

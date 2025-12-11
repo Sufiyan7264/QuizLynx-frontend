@@ -1,17 +1,44 @@
-<div class="batches-container !pt-24">
+<div class="batches-container !pt-24 px-2 sm:px-4 md:px-6 lg:px-8">
   <p-toast></p-toast>
   
   <!-- Header Section -->
-  <div class="batches-header">
+  <div class="batches-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
     <div class="header-content">
-      <h1 class="page-title">Batches</h1>
-      <p class="page-subtitle">Manage your student batches</p>
+      <h1 class="page-title text-2xl sm:text-3xl md:text-4xl mb-2">Batches</h1>
+      <p class="page-subtitle text-sm sm:text-base md:text-lg">Manage your student batches</p>
     </div>
-    <button class="create-btn" (click)="openCreateDialog()">
+    <button class="create-btn flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base w-full sm:w-auto justify-center" (click)="openCreateDialog()">
       <i class="pi pi-plus"></i>
       <span>Create Batch</span>
     </button>
   </div>
+
+  <!-- Search Section -->
+  @if (batches.length > 0) {
+    <div class="search-section flex flex-col sm:flex-row gap-3 md:gap-4 p-4 md:p-6 mb-6 md:mb-8">
+      <div class="search-group flex-1 min-w-0">
+        <label for="search" class="search-label flex items-center gap-2 mb-2 text-sm md:text-base">
+          <i class="pi pi-search"></i>
+          Search Batches
+        </label>
+        <input
+          id="search"
+          type="text"
+          pInputText
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Search by name, description, or batch code..."
+          class="search-input w-full p-3 md:p-4 text-sm md:text-base"
+        />
+      </div>
+      @if (searchTerm) {
+        <button class="clear-search-btn flex items-center gap-2 px-4 md:px-6 py-3 md:py-4 text-sm md:text-base self-end sm:self-auto" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+          <span>Clear</span>
+        </button>
+      }
+    </div>
+  }
 
   <!-- Batches List -->
   <div class="batches-list">
@@ -20,42 +47,65 @@
         <i class="pi pi-users empty-icon"></i>
         <h3>No batches yet</h3>
         <p>Create your first batch to organize your students</p>
-        <button class="create-btn" (click)="openCreateDialog()">
-          <i class="pi pi-plus"></i>
+        <button class="create-btn text-primary" (click)="openCreateDialog()">
+          <i class="pi pi-plus mr-2"></i>
           <span>Create Batch</span>
         </button>
       </div>
     } @else {
-      <div class="batches-grid">
-        @for (batch of batches; track batch.id) {
-          <div class="batch-card">
-            <div class="batch-header">
-              <div class="batch-icon">
-                <i class="pi pi-users"></i>
+      @if (filteredBatches.length === 0 && searchTerm) {
+        <div class="empty-state">
+          <i class="pi pi-search empty-icon"></i>
+          <h3>No batches found</h3>
+          <p>Try adjusting your search criteria</p>
+          <button class="create-btn text-primary" (click)="clearSearch()">
+            <i class="pi pi-times mr-2"></i>
+            <span>Clear Search</span>
+          </button>
+        </div>
+      } @else {
+        <div class="batches-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          @for (batch of filteredBatches; track batch.id) {
+          <div class="batch-card p-4 md:p-6">
+            <div class="batch-header flex justify-between items-center mb-4">
+              <div class="batch-icon w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
+                <i class="pi pi-users text-xl md:text-2xl"></i>
               </div>
-              <div class="batch-actions">
-                <button class="action-btn edit-btn" (click)="openEditDialog(batch)" title="Edit">
-                  <i class="pi pi-pencil"></i>
+              <div class="batch-actions flex gap-2">
+                <button class="action-btn view-btn w-8 h-8 md:w-10 md:h-10" (click)="viewBatchDetail(batch); $event.stopPropagation()" title="View Details">
+                  <i class="pi pi-eye text-xs md:text-sm"></i>
                 </button>
-                <button class="action-btn delete-btn" (click)="deleteBatch(batch)" title="Delete">
-                  <i class="pi pi-trash"></i>
+                <button class="action-btn edit-btn w-8 h-8 md:w-10 md:h-10" (click)="openEditDialog(batch); $event.stopPropagation()" title="Edit">
+                  <i class="pi pi-pencil text-xs md:text-sm"></i>
+                </button>
+                <button class="action-btn delete-btn w-8 h-8 md:w-10 md:h-10" (click)="deleteBatch(batch); $event.stopPropagation()" title="Delete">
+                  <i class="pi pi-trash text-xs md:text-sm"></i>
                 </button>
               </div>
             </div>
             
-            <div class="batch-content">
-              <h3 class="batch-name">{{ batch.name }}</h3>
+            <div class="batch-content" (click)="viewBatchDetail(batch)">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+              <h3 class="batch-name text-lg sm:text-xl md:text-2xl">{{ batch.batchName }}</h3>
+              <span class="batch-code text-muted-text text-xs md:text-sm">{{ batch.batchCode }}</span>
+              </div>
               @if (batch.description) {
-                <p class="batch-description">{{ batch.description }}</p>
+                <p class="batch-description text-sm md:text-base mb-4">{{ batch.description }}</p>
               }
               
-              <div class="batch-info">
-                <div class="info-item">
-                  <i class="pi pi-users"></i>
-                  <span>{{ batch.studentCount || 0 }} Students</span>
+              <div class="batch-info flex flex-col gap-2 md:gap-3">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                  <div class="info-item flex items-center gap-2 text-xs md:text-sm">
+                    <i class="pi pi-users"></i>
+                    <span>{{ batch.studentCount || 0 }} Students</span>
+                  </div>
+                  <div class="info-item flex items-center gap-2 text-xs md:text-sm">
+                    <i class="pi pi-book"></i>
+                    <span>{{ batch.quizCount || 0 }} Quizzes</span>
+                  </div>
                 </div>
                 @if (batch.startDate || batch.endDate) {
-                  <div class="info-item">
+                  <div class="info-item flex items-center gap-2 text-xs md:text-sm">
                     <i class="pi pi-calendar"></i>
                     <span>
                       @if (batch.startDate && batch.endDate) {
@@ -72,7 +122,8 @@
             </div>
           </div>
         }
-      </div>
+        </div>
+      }
     }
   </div>
 
@@ -81,29 +132,30 @@
     [(visible)]="showCreateDialog"
     [header]="isEditMode ? 'Edit Batch' : 'Create New Batch'"
     [modal]="true"
-    [style]="{ width: '500px' }"
+    [style]="{ width: '90vw', maxWidth: '500px' }"
     [closable]="true"
     (onHide)="closeDialog()"
+    styleClass="bg-bg text-text border border-border"
   >
     <form [formGroup]="batchForm" (ngSubmit)="onSubmit()" class="batch-form">
       <div class="form-group">
-        <label for="name" class="form-label required">
+        <label for="batchName" class="form-label required">
           Batch Name
         </label>
         <input
-          id="name"
+          id="batchName"
           type="text"
           pInputText
-          formControlName="name"
+          formControlName="batchName"
           placeholder="e.g. Class 10 Physics"
           class="form-input"
-          [class.error]="batchForm.get('name')?.invalid && batchForm.get('name')?.touched"
+          [class.error]="batchForm.get('batchName')?.invalid && batchForm.get('batchName')?.touched"
         />
-        @if (batchForm.get('name')?.invalid && batchForm.get('name')?.touched) {
+        @if (batchForm.get('batchName')?.invalid && batchForm.get('batchName')?.touched) {
           <span class="error-message">
-            @if (batchForm.get('name')?.errors?.['required']) {
+            @if (batchForm.get('batchName')?.errors?.['required']) {
               Batch name is required
-            } @else if (batchForm.get('name')?.errors?.['minlength']) {
+            } @else if (batchForm.get('batchName')?.errors?.['minlength']) {
               Batch name must be at least 3 characters
             }
           </span>
@@ -122,7 +174,7 @@
         ></textarea>
       </div>
 
-      <div class="form-row">
+      <!-- <div class="form-row">
         <div class="form-group">
           <label for="startDate" class="form-label">Start Date</label>
           <p-datepicker
@@ -146,7 +198,7 @@
             inputStyleClass="w-full"
           ></p-datepicker>
         </div>
-      </div>
+      </div> -->
 
       <div class="form-actions">
         <button type="button" pButton (click)="closeDialog()" class="cancel-btn">

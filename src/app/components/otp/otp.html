@@ -8,23 +8,23 @@
         <img src="assets/single-logo.png" alt="QuizLynx" width="28" height="28" loading="lazy" />
       </div>
 
-      <h1 class="mt-6 text-center text-4xl font-semibold text-white">Verify code</h1>
-      <p class="mt-3 text-center text-white/80">Enter the 6-digit code we sent to your email.</p>
+      <h1 class="mt-4 md:mt-6 text-center text-2xl sm:text-3xl md:text-4xl font-semibold text-white">Verify code</h1>
+      <p class="mt-2 md:mt-3 text-center text-sm md:text-base text-white/80 px-4">Enter the 6-digit code we sent to your email.</p>
 
-      <div class="card flex justify-center mt-5">
-        <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+      <div class="card flex justify-center mt-4 md:mt-5">
+        <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3 md:gap-4 w-full">
             <div class="flex flex-col gap-1">
-                <p-inputotp formControlName="value" styleClass="me-4 h-12 !w-12 !bg-white/10 focus:border-1 focus:ring-white/20 !text-white" [invalid]="isInvalid('value')" [length]="6" />
+                <p-inputotp formControlName="value" styleClass="me-2 md:me-4 h-10 md:h-12 !w-10 md:!w-12 !bg-white/10 focus:border-1 focus:ring-white/20 !text-white" [invalid]="isInvalid('value')" [length]="6" />
                 @if (isInvalid('value')) {
-                  <div  class="text-red-500 ps-3 font-semibold text-[14px]">
+                  <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
                     OTP is required.
                 </div>                }
             </div>
-          <button type="submit" class="mt-2 w-full rounded-full bg-white px-6 py-3 font-medium text-[#1345d5] shadow-lg shadow-black/20 hover:bg-slate-50">Verify</button>
+          <button type="submit" class="mt-2 w-full rounded-full bg-white px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium text-[#1345d5] shadow-lg shadow-black/20 hover:bg-slate-50">Verify</button>
         </form>
     </div>
 
-      <p class="mt-4 text-center text-white/80">
+      <p class="mt-4 text-center text-xs sm:text-sm text-white/80 px-4">
         Didn't get a code? <span (click)="resendOtp()" class="text-white hover:underline cursor-pointer">Resend</span>
       </p>
     </div>

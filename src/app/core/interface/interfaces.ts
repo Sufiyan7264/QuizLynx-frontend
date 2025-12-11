@@ -36,19 +36,20 @@ export interface UserInfo {
 
 export interface Batch {
   id?: string;
-  name: string;
+  batchName: string;
   description?: string;
-  code?: string; // Join code for students
+  batchCode?: string; // Join code for students
   startDate?: string;
   endDate?: string;
   instructorId?: string;
   studentCount?: number;
+  quizCount?: number;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface CreateBatchRequest {
-  name: string;
+  batchName: string;
   description?: string;
   startDate?: string;
   endDate?: string;

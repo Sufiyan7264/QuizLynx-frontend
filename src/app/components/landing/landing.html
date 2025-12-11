@@ -10,7 +10,7 @@
     <p class="text-lg text-muted-text italic font-serif mb-4 animate-in" data-animate="hero-subtitle">unlock knowledge</p>
 
     <!-- Main Heading -->
-    <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-in" data-animate="hero-title">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-in" data-animate="hero-title">
       Embrace the Quest
     </h1>
 
@@ -18,16 +18,16 @@
     <div class="w-24 h-0.5 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8 animate-in" data-animate="hero-divider"></div>
 
     <!-- Description -->
-    <p class="text-xl text-muted-text max-w-3xl mx-auto mb-12 leading-relaxed animate-in" data-animate="hero-description">
+    <p class="text-base sm:text-lg md:text-xl text-muted-text max-w-3xl mx-auto mb-12 leading-relaxed px-4 animate-in" data-animate="hero-description">
       Where Every Question Unveils a World of Wisdom, Sparking the Flames of Learning and Illuminating the Path to Intellectual Brilliance!
     </p>
 
     <!-- CTA Buttons -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in" data-animate="hero-buttons">
-      <button (click)="tryQuizlynx()" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in w-full px-4" data-animate="hero-buttons">
+      <button (click)="tryQuizlynx()" class="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
         Try Quizlynx out!
       </button>
-      <button (click)="register()" class="border-2 border-gray-300 text-muted-text px-8 py-4 rounded-full text-lg font-semibold hover:border-border-hover hover:bg-option-hover transition-all duration-300">
+      <button (click)="register()" class="w-full sm:w-auto border-2 border-gray-300 text-muted-text px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:border-border-hover hover:bg-option-hover transition-all duration-300">
         Sign up
       </button>
     </div>
@@ -43,27 +43,27 @@
 
   <div class="max-w-6xl mx-auto px-4 relative z-10">
     <!-- Section Title -->
-    <div class="text-center mb-16" data-animate="features-title">
-      <h2 class="text-4xl font-bold text-text mb-4 animate-in">What Quizlynx offers</h2>
-      <div class="flex items-center justify-center gap-2 animate-in">
-        <span class="text-muted-text italic font-serif text-lg">Discover our quiz categories</span>
-        <span class="text-yellow-500 text-2xl">✨</span>
+    <div class="text-center mb-8 md:mb-16" data-animate="features-title">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in px-4">What Quizlynx offers</h2>
+      <div class="flex items-center justify-center gap-2 animate-in px-4">
+        <span class="text-muted-text italic font-serif text-sm sm:text-base md:text-lg">Discover our quiz categories</span>
+        <span class="text-yellow-500 text-xl md:text-2xl">✨</span>
       </div>
     </div>
 
     <!-- Feature Cards -->
-    <div class="grid md:grid-cols-3 gap-8" data-animate="features-cards">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8" data-animate="features-cards">
       @for(feature of features; track $index){
-        <div class="feature-card bg-primary-foreground rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-border-hover">
+        <div class="feature-card bg-primary-foreground rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-border-hover">
           <div class="text-center">
-            <div class="w-16 h-16 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span class="text-2xl">{{ feature.icon }}</span>
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+              <span class="text-xl md:text-2xl">{{ feature.icon }}</span>
             </div>
-            <h3 class="text-2xl font-bold text-text mb-4">{{ feature.title }}</h3>
-            <p class="text-muted-text mb-6 leading-relaxed">
+            <h3 class="text-xl md:text-2xl font-bold text-text mb-3 md:mb-4">{{ feature.title }}</h3>
+            <p class="text-sm md:text-base text-muted-text mb-4 md:mb-6 leading-relaxed">
               {{ feature.description }}
             </p>
-            <button (click)="exploreCategory(feature.title)" class="bg-gray-800 text-white px-6 py-3 rounded-full  transition-all duration-300 flex items-center gap-2 mx-auto">
+            <button (click)="exploreCategory(feature.title)" class="bg-gray-800 text-white px-4 md:px-6 py-2 md:py-3 rounded-full transition-all duration-300 flex items-center gap-2 mx-auto text-sm md:text-base">
               Explore now <span>→</span>
             </button>
           </div>
@@ -81,16 +81,16 @@
   </div>
 
   <div class="max-w-6xl mx-auto px-4 relative z-10">
-    <div class="text-center mb-16" data-animate="stats-title">
-      <h2 class="text-4xl font-bold text-text mb-4 animate-in">Join Our Community</h2>
-      <p class="text-xl text-muted-text animate-in">Millions of learners trust Quizlynx for their knowledge journey</p>
+    <div class="text-center mb-8 md:mb-16" data-animate="stats-title">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in">Join Our Community</h2>
+      <p class="text-base sm:text-lg md:text-xl text-muted-text animate-in px-4">Millions of learners trust Quizlynx for their knowledge journey</p>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8" data-animate="stats-cards">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8" data-animate="stats-cards">
       @for (stat of stats; track stat) {
         <div class="text-center stat-card">
-          <div class="text-4xl font-bold mb-2 stat-counter" [class]="stat.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ stat.value }}</div>
-          <div class="text-muted-text">{{ stat.label }}</div>
+          <div class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 stat-counter" [class]="stat.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ stat.value }}</div>
+          <div class="text-xs sm:text-sm md:text-base text-muted-text">{{ stat.label }}</div>
         </div>
       }
     </div>
@@ -105,28 +105,28 @@
   </div>
 
   <div class="max-w-6xl mx-auto px-4 relative z-10">
-    <div class="text-center mb-16" data-animate="testimonials-title">
-      <h2 class="text-4xl font-bold text-text mb-4 animate-in">What Our Users Say</h2>
-      <p class="text-xl text-muted-text animate-in">Real feedback from our amazing community</p>
+    <div class="text-center mb-8 md:mb-16" data-animate="testimonials-title">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in">What Our Users Say</h2>
+      <p class="text-base sm:text-lg md:text-xl text-muted-text animate-in px-4">Real feedback from our amazing community</p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-8" data-animate="testimonials-cards">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8" data-animate="testimonials-cards">
       @for (testimonial of testimonials; track $index) {
-        <div class="testimonial-card bg-primary-foreground border border-border rounded-2xl p-8 shadow-lg">
+        <div class="testimonial-card bg-primary-foreground border border-border rounded-2xl p-6 md:p-8 shadow-lg">
           <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mr-4">
-              <span class="text-lg font-bold" [class]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
+            <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+              <span class="text-base md:text-lg font-bold" [class]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
             </div>
-            <div>
-              <h4 class="font-semibold text-text">{{ testimonial.name }}</h4>
-              <div class="flex text-yellow-500">
+            <div class="min-w-0 flex-1">
+              <h4 class="font-semibold text-sm md:text-base text-text truncate">{{ testimonial.name }}</h4>
+              <div class="flex text-yellow-500 text-xs md:text-sm">
                 @for(star of getStarRating(testimonial.rating); track $index){
                   <span>{{ star }}</span>
                 }
               </div>
             </div>
           </div>
-          <p class="text-muted-text italic">"{{ testimonial.comment }}"</p>
+          <p class="text-sm md:text-base text-muted-text italic">"{{ testimonial.comment }}"</p>
         </div>
       }
     </div>
@@ -141,16 +141,16 @@
   </div>
 
   <div class="max-w-4xl mx-auto px-4 relative z-10">
-    <div class="text-center mb-16" data-animate="faq-title">
-      <h2 class="text-4xl font-bold text-text mb-4 animate-in">Frequently Asked Questions</h2>
-      <p class="text-xl text-muted-text animate-in">Everything you need to know about Quizlynx</p>
+    <div class="text-center mb-8 md:mb-16" data-animate="faq-title">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in">Frequently Asked Questions</h2>
+      <p class="text-base sm:text-lg md:text-xl text-muted-text animate-in px-4">Everything you need to know about Quizlynx</p>
     </div>
 
-    <div class="space-y-6" data-animate="faq-cards">
+    <div class="space-y-4 md:space-y-6" data-animate="faq-cards">
       @for (faq of faqs; track $index) {
-        <div class="faq-item bg-primary-foreground hover:bg-option-hover border border-border rounded-2xl p-6">
-          <h3 class="text-xl font-semibold text-text mb-3">{{ faq.question }}</h3>
-          <p class="text-muted-text">{{ faq.answer }}</p>
+        <div class="faq-item bg-primary-foreground hover:bg-option-hover border border-border rounded-2xl p-4 md:p-6">
+          <h3 class="text-lg md:text-xl font-semibold text-text mb-2 md:mb-3">{{ faq.question }}</h3>
+          <p class="text-sm md:text-base text-muted-text">{{ faq.answer }}</p>
         </div>
       }
     </div>
@@ -159,8 +159,8 @@
 
 <!-- Footer (minimalist light theme) -->
 <footer class="bg-bg border-t border-border">
-  <div class="max-w-7xl mx-auto px-6 py-12">
-    <div class="grid md:grid-cols-3 gap-8 items-start">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 items-start">
       <!-- Brand -->
       <div>
         <h3 class="text-2xl font-semibold text-text">Quizlynx</h3>
@@ -179,7 +179,7 @@
       </div>
 
       <!-- Links -->
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-2 gap-4 sm:gap-8">
         <div>
           <h4 class="text-sm font-semibold text-text">Product</h4>
           <ul class="mt-3 space-y-2 text-sm">
@@ -201,11 +201,11 @@
       </div>
 
       <!-- Newsletter -->
-      <div>
+      <div class="sm:col-span-2 md:col-span-1">
         <h4 class="text-sm font-semibold text-text">Stay in the loop</h4>
-        <form class="mt-3 flex gap-2">
+        <form class="mt-3 flex flex-col sm:flex-row gap-2">
           <input type="email" placeholder="Email address" class="flex-1 rounded-md border border-border bg-primary-foreground px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
-          <button type="submit" class="rounded-md bg-primary text-white px-3 py-2 text-sm transition-colors">Subscribe</button>
+          <button type="submit" class="rounded-md bg-primary text-white px-4 py-2 text-sm transition-colors whitespace-nowrap">Subscribe</button>
         </form>
       </div>
     </div>

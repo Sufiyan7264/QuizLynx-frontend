@@ -8,91 +8,91 @@
         <img src="assets/single-logo.png" class="filter-icon" alt="QuizLynx" width="28" height="28" loading="lazy"/>
       </div>
 
-      <h1 class="mt-6 text-center text-4xl font-semibold text-text">Create Account</h1>
-      <p class="mt-3 text-center text-muted-text">Sign up to get started with QuizLynx.</p>
+      <h1 class="mt-4 md:mt-6 text-center text-2xl sm:text-3xl md:text-4xl font-semibold text-text">Create Account</h1>
+      <p class="mt-2 md:mt-3 text-center text-sm md:text-base text-muted-text px-4">Sign up to get started with QuizLynx.</p>
 
       <!-- Role Toggle -->
-      <div class="mt-6">
-        <label class="mb-2 block text-sm text-label font-semibold">Select your role</label>
-        <div class="inline-flex gap-2 rounded-xl bg-black/10 dark:bg-white/10 ring-1 ring-gray-500 p-1">
+      <div class="mt-4 md:mt-6">
+        <label class="mb-2 block text-xs sm:text-sm text-label font-semibold">Select your role</label>
+        <div class="flex flex-wrap gap-2 rounded-xl bg-black/10 dark:bg-white/10 ring-1 ring-gray-500 p-1">
           <button type="button" (click)="setRole('STUDENT')"
-                  class="px-4 py-2 rounded-xl text-sm transition-all duration-200"
+                  class="px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 flex-1 sm:flex-none"
                   [ngClass]="selectedRole === 'STUDENT' ? 'bg-white text-black font-bold' : 'text-black/80 hover:bg-black/10 font-medium dark:text-white/80 dark:hover:bg-white/10'">
             Student
           </button>
           <button type="button" (click)="setRole('INSTRUCTOR')"
-                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+                  class="px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex-1 sm:flex-none"
                   [ngClass]="selectedRole === 'INSTRUCTOR' ? 'bg-white text-black font-bold' : 'font-medium dark:text-white/80 dark:hover:bg-white/10 text-black/80 hover:bg-black/10'">
             Instructor
           </button>
           <button type="button" (click)="setRole('USER')"
-                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+                  class="px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex-1 sm:flex-none"
                   [ngClass]="selectedRole === 'USER' ? 'bg-white text-black font-bold' : 'font-medium text-black/80 hover:bg-black/10 dark:text-white/80 dark:hover:bg-white/10'">
             User
           </button>
         </div>
       </div>
 
-      <form class="mt-6 space-y-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <form class="mt-4 md:mt-6 space-y-4 md:space-y-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div>
-          <label class="mb-2 block text-sm text-label font-semibold">Username</label>
-          <input formControlName="username" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="JaneDoe" />
+          <label class="mb-2 block text-xs sm:text-sm text-label font-semibold">Username</label>
+          <input formControlName="username" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-4 md:px-5 py-2 md:py-3 text-sm md:text-base text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="JaneDoe" />
           @if(registerForm.get('username')?.invalid && registerForm.get('username')?.touched){
-            <div  class="text-red-500 ps-3 font-semibold text-[14px]">
+            <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
               Username is required.
           </div>
           }
           @if(registerForm.get('username')?.errors?.['pattern'] && registerForm.get('username')?.touched){
-            <div  class="text-red-500 ps-3 font-semibold text-[14px]">
+            <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
               Username cannot contain spaces.
             </div>
           }
         </div>
         <div>
-          <label class="mb-2 block text-sm text-label">Email Address</label>
-          <input formControlName="email" type="email" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="you@example.com" />
+          <label class="mb-2 block text-xs sm:text-sm text-label">Email Address</label>
+          <input formControlName="email" type="email" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-4 md:px-5 py-2 md:py-3 text-sm md:text-base text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="you@example.com" />
           @if(registerForm.get('email')?.invalid && registerForm.get('email')?.touched){
-            <div  class="text-red-500 ps-3 font-semibold text-[14px]">
+            <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
               Please enter a valid email address.
             </div>
           }
         </div>
         <div>
-          <label class="mb-2 block text-sm text-label">Password</label>
-          <input formControlName="password" type="password" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="••••••••" />
+          <label class="mb-2 block text-xs sm:text-sm text-label">Password</label>
+          <input formControlName="password" type="password" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-4 md:px-5 py-2 md:py-3 text-sm md:text-base text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="••••••••" />
           @if(registerForm.get('password')?.invalid && registerForm.get('password')?.touched){
-            <div  class="text-red-500 ps-3 font-semibold text-[14px]">
+            <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
               Password must be at least 6 characters long.
             </div>
           }
         </div>
         <div>
-          <label class="mb-2 block text-sm text-label">Confirm Password</label>
-          <input formControlName="confirmPassword" type="password" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-5 py-3 text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="••••••••" />
+          <label class="mb-2 block text-xs sm:text-sm text-label">Confirm Password</label>
+          <input formControlName="confirmPassword" type="password" class="w-full rounded-xl bg-black/10 dark:bg-white/10 px-4 md:px-5 py-2 md:py-3 text-sm md:text-base text-text placeholder-gray-500 outline-none border border-black/20 focus:border-black/40" placeholder="••••••••" />
           @if(registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched){
-            <div  class="text-red-500 ps-3 font-semibold text-[14px]">
+            <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
               Please confirm your password.
             </div>
           }
           @if(passwordError){
-            <div class="text-red-500 ps-3 font-semibold text-[14px]">
+            <div class="text-red-500 ps-3 font-semibold text-xs md:text-sm">
               Passwords do not match.
             </div>
           }
         </div>
-        <button type="submit" class="mt-2 w-full rounded-xl bg-primary px-6 py-3 font-medium text-[white] shadow-lg shadow-black/20 ">Create account</button>
+        <button type="submit" class="mt-2 w-full rounded-xl bg-primary px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium text-[white] shadow-lg shadow-black/20">Create account</button>
       </form>
 
-      <p class="mt-4 text-center text-muted-text">
+      <p class="mt-4 text-center text-xs sm:text-sm text-muted-text px-4">
         Already have an account? <a href="/signin" class="text-primary hover:underline cursor-pointer">Sign In</a>
       </p>
-      <div class="my-6 flex items-center gap-4">
+      <div class="my-4 md:my-6 flex items-center gap-2 md:gap-4 px-4">
         <div class="h-px flex-1 bg-border-hover"></div>
-        <span class="text-muted-text">OR</span>
+        <span class="text-xs sm:text-sm text-muted-text">OR</span>
         <div class="h-px flex-1 bg-border-hover"></div>
       </div>
-      <div class="mt-8 flex gap-3 justify-center items-center">
-        <button class="flex items-center justify-center gap-2 rounded-xl bg-black/15 dark:bg-white/15 px-4 py-2 text-text ring-1 ring-white/20 hover:bg-black/20 dark:hover:bg-white/20 font-semibold">
+      <div class="mt-6 md:mt-8 flex gap-2 md:gap-3 justify-center items-center px-4">
+        <button class="flex items-center justify-center gap-2 rounded-xl bg-black/15 dark:bg-white/15 px-3 md:px-4 py-2 text-xs sm:text-sm md:text-base text-text ring-1 ring-white/20 hover:bg-black/20 dark:hover:bg-white/20 font-semibold w-full sm:w-auto">
           <i class="pi pi-google text-text"></i>
           <span>Sign in with Google</span>
         </button>
