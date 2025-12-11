@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Toast } from 'primeng/toast';
 import { Select } from 'primeng/select';
+import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 
 type SortOption = 'highest-score' | 'lowest-score' | 'date-asc' | 'date-desc';
@@ -19,6 +20,7 @@ type SortOption = 'highest-score' | 'lowest-score' | 'date-asc' | 'date-desc';
     CommonModule,
     FormsModule,
     Select,
+    InputText,
     Toast
   ],
   templateUrl: './batch-results.html',
@@ -41,6 +43,7 @@ export class BatchResults implements OnInit {
   batchResult?: BatchResult;
   studentResults: StudentResult[] = [];
   sortedResults: StudentResult[] = [];
+  filteredResults: StudentResult[] = [];
   
   batches: Batch[] = [];
   quizzes: Quiz[] = [];
@@ -48,6 +51,7 @@ export class BatchResults implements OnInit {
   selectedQuizId?: string;
   
   sortOption: SortOption = 'highest-score';
+  searchTerm: string = '';
   sortOptions = [
     { label: 'Highest Score', value: 'highest-score' },
     { label: 'Lowest Score', value: 'lowest-score' },
@@ -133,6 +137,7 @@ export class BatchResults implements OnInit {
       next: (result) => {
         this.batchResult = result;
         this.studentResults = result.studentResults || [];
+        this.searchTerm = ''; // Reset search when loading new results
         this.applySort();
         this.loadQuiz();
         this.spinner.hide();
@@ -195,6 +200,33 @@ export class BatchResults implements OnInit {
     this.sortedResults.forEach((result, index) => {
       result.rank = index + 1;
     });
+
+    // Apply search filter after sorting
+    this.applyFilters();
+  }
+
+  onSearchChange(): void {
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    let filtered = [...this.sortedResults];
+
+    // Filter by search term
+    if (this.searchTerm.trim()) {
+      const search = this.searchTerm.toLowerCase().trim();
+      filtered = filtered.filter(result =>
+        result.studentName?.toLowerCase().includes(search) ||
+        result.studentEmail?.toLowerCase().includes(search)
+      );
+    }
+
+    this.filteredResults = filtered;
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.applyFilters();
   }
 
   formatTime(seconds?: number): string {

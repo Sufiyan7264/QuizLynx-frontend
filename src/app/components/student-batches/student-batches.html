@@ -1,0 +1,119 @@
+<div class="student-batches-container !pt-24">
+  <p-toast></p-toast>
+  
+  <!-- Header Section -->
+  <div class="batches-header">
+    <div class="header-content">
+      <h1 class="page-title">My Classrooms</h1>
+      <p class="page-subtitle">View your enrolled batches</p>
+    </div>
+    <button class="join-btn" (click)="navigateToJoin()">
+      <i class="pi pi-plus"></i>
+      <span>Join Batch</span>
+    </button>
+  </div>
+
+  <!-- Search Section -->
+  @if (batches.length > 0) {
+    <div class="search-section">
+      <div class="search-group">
+        <label for="search" class="search-label">
+          <i class="pi pi-search"></i>
+          Search Batches
+        </label>
+        <input
+          id="search"
+          type="text"
+          pInputText
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Search by name, description, or batch code..."
+          class="search-input"
+        />
+      </div>
+      @if (searchTerm) {
+        <button class="clear-search-btn" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+          <span>Clear</span>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Batches List -->
+  <div class="batches-list">
+    @if (batches.length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-users empty-icon"></i>
+        <h3>No batches yet</h3>
+        <p>Join a batch to start learning</p>
+        <button class="join-btn text-primary" (click)="navigateToJoin()">
+          <i class="pi pi-plus mr-2"></i>
+          <span>Join Batch</span>
+        </button>
+      </div>
+    } @else {
+      @if (filteredBatches.length === 0 && searchTerm) {
+        <div class="empty-state">
+          <i class="pi pi-search empty-icon"></i>
+          <h3>No batches found</h3>
+          <p>Try adjusting your search criteria</p>
+          <button class="join-btn text-primary" (click)="clearSearch()">
+            <i class="pi pi-times mr-2"></i>
+            <span>Clear Search</span>
+          </button>
+        </div>
+      } @else {
+        <div class="batches-grid">
+          @for (batch of filteredBatches; track batch.id) {
+            <div class="batch-card" (click)="viewBatchQuizzes(batch)">
+              <div class="batch-header">
+                <div class="batch-icon">
+                  <i class="pi pi-users"></i>
+                </div>
+              </div>
+              
+              <div class="batch-content">
+                <div class="flex justify-between items-center">
+                  <h3 class="batch-name">{{ batch.batchName }}</h3>
+                  <span class="batch-code text-muted-text text-sm">{{ batch.batchCode }}</span>
+                </div>
+                @if (batch.description) {
+                  <p class="batch-description">{{ batch.description }}</p>
+                }
+                
+                <div class="batch-info">
+                  <div class="flex justify-between items-center">
+                    <div class="info-item">
+                      <i class="pi pi-users"></i>
+                      <span>{{ batch.studentCount || 0 }} Students</span>
+                    </div>
+                    <div class="info-item">
+                      <i class="pi pi-book"></i>
+                      <span>{{ batch.quizCount || 0 }} Quizzes</span>
+                    </div>
+                  </div>
+                  @if (batch.startDate || batch.endDate) {
+                    <div class="info-item">
+                      <i class="pi pi-calendar"></i>
+                      <span>
+                        @if (batch.startDate && batch.endDate) {
+                          {{ formatDisplayDate(batch.startDate) }} - {{ formatDisplayDate(batch.endDate) }}
+                        } @else if (batch.startDate) {
+                          Starts: {{ formatDisplayDate(batch.startDate) }}
+                        } @else if (batch.endDate) {
+                          Ends: {{ formatDisplayDate(batch.endDate) }}
+                        }
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>
+

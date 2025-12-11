@@ -27,6 +27,7 @@ export class Header implements OnInit {
   currentUser: any = 'user';
   darkMode = signal<boolean>(false);
   items: MenuItem[] | undefined;
+  mobileMenuOpen = signal<boolean>(false);
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
@@ -118,5 +119,11 @@ toggleDarkMode(){
     document.documentElement.classList.remove('dark');
     localStorage.setItem('theme', 'light');
   }
+}
+toggleMobileMenu(){
+  this.mobileMenuOpen.update(value => !value);
+}
+closeMobileMenu(){
+  this.mobileMenuOpen.set(false);
 }
 }

@@ -87,7 +87,7 @@ export class InstructorStudents implements OnInit {
       filtered = filtered.filter(student => 
         student.enrolledBatches?.includes(this.selectedBatchId!) ||
         student.batchNames?.some(name => 
-          this.batches.find(b => b.id === this.selectedBatchId && b.name === name)
+          this.batches.find(b => b.id === this.selectedBatchId && b.batchName === name)
         )
       );
     }
@@ -145,7 +145,7 @@ export class InstructorStudents implements OnInit {
     }
     if (student.enrolledBatches && student.enrolledBatches.length > 0) {
       const names = student.enrolledBatches
-        .map(batchId => this.batches.find(b => b.id === batchId)?.name)
+        .map(batchId => this.batches.find(b => b.id === batchId)?.batchName)
         .filter(name => name)
         .join(', ');
       return names || 'No batches';

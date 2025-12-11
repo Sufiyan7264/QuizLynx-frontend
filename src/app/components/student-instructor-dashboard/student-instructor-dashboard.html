@@ -1,6 +1,6 @@
-<div class="student-instructor-dashboard !pt-20">
+<div class="student-instructor-dashboard !pt-20 px-2 sm:px-4 md:px-6">
   <!-- Statistics Cards Section -->
-  <div class="stats-section">
+  <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
     @for(stat of stats; track stat.title){
       <div class="stat-card">
         <div class="stat-header">
@@ -19,47 +19,47 @@
   </div>
 
   <!-- Main Content Section -->
-  <div class="main-content">
+  <div class="main-content grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4">
     <!-- Left Section -->
-    <div class="left-section">
+    <div class="left-section flex flex-col gap-2 md:gap-4">
       <!-- My Instructors Card -->
       <div class="instructors-card">
-        <div class="card-header">
-          <h3 class="card-title">My Instructors</h3>
-          <a href="#" class="view-all-link">View all</a>
+        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
+          <h3 class="card-title text-base md:text-lg">My Instructors</h3>
+          <a href="#" class="view-all-link text-sm">View all</a>
         </div>
-        <div class="instructors-list">
+        <div class="instructors-list flex flex-col gap-3 md:gap-4">
           @for(instructor of instructors; track instructor.id){
-            <div class="instructor-item">
-              <div class="instructor-avatar">
-                <i class="pi pi-user"></i>
+            <div class="instructor-item flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 p-3 md:p-4">
+              <div class="instructor-avatar w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+                <i class="pi pi-user text-lg md:text-2xl"></i>
               </div>
-              <div class="instructor-info">
-                <div class="instructor-name">{{ instructor.name }}</div>
-                <div class="instructor-subject">{{ instructor.subject }}</div>
-                <div class="instructor-details">
-                  <span class="detail-item">
+              <div class="instructor-info flex-1 min-w-0">
+                <div class="instructor-name text-sm md:text-base mb-1">{{ instructor.name }}</div>
+                <div class="instructor-subject text-xs md:text-sm mb-2">{{ instructor.subject }}</div>
+                <div class="instructor-details flex flex-col gap-1 mb-2">
+                  <span class="detail-item text-xs">
                     <i class="pi pi-envelope"></i>
-                    {{ instructor.email }}
+                    <span class="truncate">{{ instructor.email }}</span>
                   </span>
-                  <span class="detail-item">
+                  <span class="detail-item text-xs">
                     <i class="pi pi-clock"></i>
                     {{ instructor.lastActive }}
                   </span>
                 </div>
-                <div class="instructor-stats">
-                  <span class="stat-badge">
+                <div class="instructor-stats flex flex-wrap gap-2">
+                  <span class="stat-badge text-xs">
                     <i class="pi pi-file"></i>
                     {{ instructor.totalQuizzes }} Quizzes
                   </span>
-                  <span class="stat-badge">
+                  <span class="stat-badge text-xs">
                     <i class="pi pi-star"></i>
                     Avg: {{ instructor.averageScore }}%
                   </span>
                 </div>
               </div>
-              <button class="contact-btn" title="Contact Instructor">
-                <i class="pi pi-send"></i>
+              <button class="contact-btn p-2 md:p-3 flex-shrink-0" title="Contact Instructor">
+                <i class="pi pi-send text-sm md:text-base"></i>
               </button>
             </div>
           }
@@ -68,55 +68,57 @@
 
       <!-- Instructor Quizzes Card -->
       <div class="quizzes-card">
-        <div class="card-header">
-          <h3 class="card-title">Instructor Quizzes</h3>
-          <a href="#" class="view-all-link">View all</a>
+        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
+          <h3 class="card-title text-base md:text-lg">Instructor Quizzes</h3>
+          <a href="#" class="view-all-link text-sm">View all</a>
         </div>
-        <table class="quizzes-table">
-          <thead>
-            <tr>
-              <th>Quiz Title</th>
-              <th>Instructor</th>
-              <th>Subject</th>
-              <th>Due Date</th>
-              <th>Status</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(quiz of instructorQuizzes; track quiz.id){
+        <div class="overflow-x-auto">
+          <table class="quizzes-table w-full min-w-[700px]">
+            <thead>
               <tr>
-                <td class="quiz-title">{{ quiz.title }}</td>
-                <td>{{ quiz.instructorName }}</td>
-                <td>
-                  <span class="subject-tag">{{ quiz.subject }}</span>
-                </td>
-                <td>{{ formatDate(quiz.dueDate) }}</td>
-                <td>
-                  <span class="status-badge" [class.completed]="quiz.status === 'Completed'" 
-                        [class.pending]="quiz.status === 'Pending'" 
-                        [class.overdue]="quiz.status === 'Overdue'">
-                    {{ quiz.status }}
-                  </span>
-                </td>
-                <td>
-                  @if(quiz.score && quiz.maxScore){
-                    <span class="score-value">{{ quiz.score }}/{{ quiz.maxScore }}</span>
-                  } @else {
-                    <span class="score-placeholder">-</span>
-                  }
-                </td>
+                <th class="text-xs md:text-sm">Quiz Title</th>
+                <th class="text-xs md:text-sm">Instructor</th>
+                <th class="text-xs md:text-sm">Subject</th>
+                <th class="text-xs md:text-sm">Due Date</th>
+                <th class="text-xs md:text-sm">Status</th>
+                <th class="text-xs md:text-sm">Score</th>
               </tr>
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @for(quiz of instructorQuizzes; track quiz.id){
+                <tr>
+                  <td class="quiz-title text-xs md:text-sm font-medium">{{ quiz.title }}</td>
+                  <td class="text-xs md:text-sm">{{ quiz.instructorName }}</td>
+                  <td>
+                    <span class="subject-tag text-xs">{{ quiz.subject }}</span>
+                  </td>
+                  <td class="text-xs md:text-sm">{{ formatDate(quiz.dueDate) }}</td>
+                  <td>
+                    <span class="status-badge text-xs" [class.completed]="quiz.status === 'Completed'" 
+                          [class.pending]="quiz.status === 'Pending'" 
+                          [class.overdue]="quiz.status === 'Overdue'">
+                      {{ quiz.status }}
+                    </span>
+                  </td>
+                  <td class="text-xs md:text-sm">
+                    @if(quiz.score && quiz.maxScore){
+                      <span class="score-value font-semibold">{{ quiz.score }}/{{ quiz.maxScore }}</span>
+                    } @else {
+                      <span class="score-placeholder">-</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Right Section -->
-    <div class="right-section">
+    <div class="right-section flex flex-col gap-2 md:gap-4">
       <!-- Performance Comparison Chart -->
-      <div class="performance-card">
+      <div class="performance-card p-3 md:p-4">
         <app-chart-configuration
           [chartType]="'bar'"
           [data]="performanceComparisonData"
@@ -127,7 +129,7 @@
       </div>
 
       <!-- Quiz Completion by Instructor Chart -->
-      <div class="completion-card">
+      <div class="completion-card p-3 md:p-4">
         <app-chart-configuration
           [chartType]="'pie'"
           [data]="quizCompletionData"
@@ -139,23 +141,23 @@
 
       <!-- Instructor Feedback Card -->
       <div class="feedback-card">
-        <div class="card-header">
-          <h3 class="card-title">Instructor Feedback</h3>
-          <a href="#" class="view-all-link">View all</a>
+        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
+          <h3 class="card-title text-base md:text-lg">Instructor Feedback</h3>
+          <a href="#" class="view-all-link text-sm">View all</a>
         </div>
-        <div class="feedback-list">
+        <div class="feedback-list flex flex-col gap-3 md:gap-4">
           @for(feedback of instructorFeedback; track feedback.id){
-            <div class="feedback-item">
-              <div class="feedback-header">
-                <div class="feedback-instructor">{{ feedback.instructorName }}</div>
-                <div class="feedback-date">{{ formatDate(feedback.date) }}</div>
+            <div class="feedback-item p-3 md:p-4">
+              <div class="feedback-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
+                <div class="feedback-instructor text-sm md:text-base font-semibold">{{ feedback.instructorName }}</div>
+                <div class="feedback-date text-xs text-muted-text">{{ formatDate(feedback.date) }}</div>
               </div>
-              <div class="feedback-quiz">{{ feedback.quizTitle }}</div>
-              <div class="feedback-message">{{ feedback.feedback }}</div>
+              <div class="feedback-quiz text-xs md:text-sm mb-2">{{ feedback.quizTitle }}</div>
+              <div class="feedback-message text-xs md:text-sm mb-2">{{ feedback.feedback }}</div>
               @if(feedback.rating){
-                <div class="feedback-rating">
+                <div class="feedback-rating flex gap-1">
                   @for(star of [1,2,3,4,5]; track star){
-                    <i class="pi" [class.pi-star-fill]="star <= feedback.rating" [class.pi-star]="star > feedback.rating"></i>
+                    <i class="pi text-xs md:text-sm" [class.pi-star-fill]="star <= feedback.rating" [class.pi-star]="star > feedback.rating"></i>
                   }
                 </div>
               }
@@ -166,24 +168,24 @@
 
       <!-- Instructor Announcements Card -->
       <div class="announcements-card">
-        <div class="card-header">
-          <h3 class="card-title">Instructor Announcements</h3>
-          <a href="#" class="view-all-link">View all</a>
+        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
+          <h3 class="card-title text-base md:text-lg">Instructor Announcements</h3>
+          <a href="#" class="view-all-link text-sm">View all</a>
         </div>
-        <div class="announcements-list">
+        <div class="announcements-list flex flex-col gap-2 md:gap-3">
           @for(announcement of instructorAnnouncements; track announcement.id){
-            <div class="announcement-item" [class.high-priority]="announcement.priority === 'high'">
-              <div class="announcement-header">
-                <div class="announcement-title">{{ announcement.title }}</div>
-                <span class="priority-badge" [class.high]="announcement.priority === 'high'" 
+            <div class="announcement-item p-3 md:p-4" [class.high-priority]="announcement.priority === 'high'">
+              <div class="announcement-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
+                <div class="announcement-title text-sm md:text-base font-semibold">{{ announcement.title }}</div>
+                <span class="priority-badge text-xs px-2 py-1" [class.high]="announcement.priority === 'high'" 
                       [class.medium]="announcement.priority === 'medium'" 
                       [class.low]="announcement.priority === 'low'">
                   {{ announcement.priority }}
                 </span>
               </div>
-              <div class="announcement-instructor">{{ announcement.instructorName }}</div>
-              <div class="announcement-message">{{ announcement.message }}</div>
-              <div class="announcement-date">{{ formatDate(announcement.date) }}</div>
+              <div class="announcement-instructor text-xs md:text-sm mb-1">{{ announcement.instructorName }}</div>
+              <div class="announcement-message text-xs md:text-sm mb-2">{{ announcement.message }}</div>
+              <div class="announcement-date text-xs text-muted-text">{{ formatDate(announcement.date) }}</div>
             </div>
           }
         </div>

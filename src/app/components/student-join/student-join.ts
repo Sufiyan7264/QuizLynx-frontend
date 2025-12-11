@@ -86,7 +86,7 @@ export class StudentJoin implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: `Successfully joined "${batch.name}"!`
+          detail: `Successfully joined "${batch.batchName}"!`
         });
         this.joinForm.reset();
         this.previewBatchs = null;

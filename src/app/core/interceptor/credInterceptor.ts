@@ -15,10 +15,10 @@ export const CredInterceptor: HttpInterceptorFn = (req, next) => {
 
       console.log('Unauthorized request - logging out',error?.status);
       // If backend returns unauthorized → auto logout
-      if (error.status === 401 || error.status === 0) {
-        auth.setLoggedOut();  // clear session/user
-        router.navigate(['/']);
-      }
+      // if (error.status === 401 || error.status === 0) {
+      //   auth.setLoggedOut();  // clear session/user
+      //   router.navigate(['/']);
+      // }
 
       return throwError(() => error);
     })

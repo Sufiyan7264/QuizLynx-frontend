@@ -532,7 +532,6 @@ subjectOptions = [
 
   ngOnInit(): void {
       this.authService.user$.subscribe((u:any) => this.currentUser = u);
-      console.log(this.currentUser);
       if(this.currentUser.role == 'INSTRUCTOR'){
         this.getInstructorInfo();
       }
@@ -540,8 +539,7 @@ subjectOptions = [
   getInstructorInfo(){
     this.instructorService.getInstructorInfo().subscribe({
       next:(res:any)=>{
-        if(res){
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile updated successfully' });
+        if(res?.instructorCode){
           this.visible = false;
         }
         else{

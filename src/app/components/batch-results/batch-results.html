@@ -65,6 +65,33 @@
     }
   </div>
 
+  <!-- Search Section for Results -->
+  @if (batchResult && sortedResults.length > 0) {
+    <div class="search-section">
+      <div class="search-group">
+        <label for="searchResults" class="search-label">
+          <i class="pi pi-search"></i>
+          Search Students
+        </label>
+        <input
+          id="searchResults"
+          type="text"
+          pInputText
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Search by student name or email..."
+          class="search-input"
+        />
+      </div>
+      @if (searchTerm) {
+        <button class="clear-search-btn" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+          <span>Clear</span>
+        </button>
+      }
+    </div>
+  }
+
   <!-- Results Section -->
   @if (batchResult) {
     <div class="results-section">
@@ -114,6 +141,16 @@
             <h3>No results yet</h3>
             <p>Students haven't completed this quiz yet</p>
           </div>
+        } @else if (filteredResults.length === 0 && searchTerm) {
+          <div class="empty-state">
+            <i class="pi pi-search empty-icon"></i>
+            <h3>No students found</h3>
+            <p>Try adjusting your search criteria</p>
+            <button class="clear-search-btn" (click)="clearSearch()">
+              <i class="pi pi-times"></i>
+              <span>Clear Search</span>
+            </button>
+          </div>
         } @else {
           <div class="table-container">
             <table class="results-table">
@@ -129,7 +166,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for (result of sortedResults; track result.studentId) {
+                @for (result of filteredResults; track result.studentId) {
                   <tr>
                     <td class="rank-cell">
                       <div class="rank-badge" [class.top-three]="result.rank && result.rank <= 3">

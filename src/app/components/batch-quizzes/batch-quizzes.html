@@ -1,0 +1,158 @@
+<div class="batch-quizzes-container !pt-24">
+  <p-toast></p-toast>
+  
+  <!-- Header Section -->
+  <div class="quizzes-header">
+    <div class="header-content">
+      <button class="back-btn" (click)="goBack()">
+        <i class="pi pi-arrow-left"></i>
+        <span>Back to Batches</span>
+      </button>
+      <h1 class="page-title">{{ batch?.batchName || 'Batch Quizzes' }}</h1>
+      <p class="page-subtitle">{{ batch?.description || 'View and attempt quizzes in this batch' }}</p>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  @if (quizzes.length > 0) {
+    <div class="search-section">
+      <div class="search-group">
+        <label for="search" class="search-label">
+          <i class="pi pi-search"></i>
+          Search Quizzes
+        </label>
+        <input
+          id="search"
+          type="text"
+          pInputText
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Search by title, description, or subject..."
+          class="search-input"
+        />
+      </div>
+      @if (searchTerm) {
+        <button class="clear-search-btn" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+          <span>Clear</span>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Quizzes List -->
+  <div class="quizzes-list">
+    @if (quizzes.length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-file-edit empty-icon"></i>
+        <h3>No quizzes yet</h3>
+        <p>Quizzes will appear here once they are added to this batch</p>
+      </div>
+    } @else {
+      @if (filteredQuizzes.length === 0 && searchTerm) {
+        <div class="empty-state">
+          <i class="pi pi-search empty-icon"></i>
+          <h3>No quizzes found</h3>
+          <p>Try adjusting your search criteria</p>
+          <button class="clear-search-btn" (click)="clearSearch()">
+            <i class="pi pi-times"></i>
+            <span>Clear Search</span>
+          </button>
+        </div>
+      } @else {
+        <div class="quizzes-grid">
+          @for (quiz of filteredQuizzes; track quiz.id) {
+            <div class="quiz-card" [class.unavailable]="!isQuizAvailable(quiz)" [class.overdue]="isQuizOverdue(quiz)">
+              <div class="quiz-header">
+                <div class="quiz-icon">
+                  <i class="pi pi-file-edit"></i>
+                </div>
+                <span class="status-badge" [class]="getStatusClass(quiz.status)">
+                  {{ quiz.status || 'DRAFT' }}
+                </span>
+              </div>
+              
+              <div class="quiz-content">
+                <h3 class="quiz-title">{{ quiz.title }}</h3>
+                @if (quiz.description) {
+                  <p class="quiz-description">{{ quiz.description }}</p>
+                }
+                
+                <div class="quiz-info">
+                  <div class="info-row">
+                    <div class="info-item">
+                      <i class="pi pi-book"></i>
+                      <span>{{ quiz.subject || 'No subject' }}</span>
+                    </div>
+                    <div class="info-item">
+                      <i class="pi pi-clock"></i>
+                      <span>{{ quiz.duration || 0 }} min</span>
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-item">
+                      <i class="pi pi-star"></i>
+                      <span>{{ quiz.totalMarks || 0 }} marks</span>
+                    </div>
+                    <div class="info-item">
+                      <i class="pi pi-check-circle"></i>
+                      <span>Pass: {{ quiz.passingMarks || 0 }}</span>
+                    </div>
+                  </div>
+                  @if (quiz.questionCount !== undefined) {
+                    <div class="info-item">
+                      <i class="pi pi-question-circle"></i>
+                      <span>{{ quiz.questionCount }} questions</span>
+                    </div>
+                  }
+                  @if (quiz.dueDate) {
+                    <div class="info-item" [class.overdue-text]="isQuizOverdue(quiz)">
+                      <i class="pi pi-calendar"></i>
+                      <span>Due: {{ formatDisplayDate(quiz.dueDate) }}</span>
+                    </div>
+                  }
+                  @if (quiz.startDate) {
+                    <div class="info-item">
+                      <i class="pi pi-calendar-plus"></i>
+                      <span>Starts: {{ formatDisplayDate(quiz.startDate) }}</span>
+                    </div>
+                  }
+                  @if (quiz.endDate) {
+                    <div class="info-item">
+                      <i class="pi pi-calendar-minus"></i>
+                      <span>Ends: {{ formatDisplayDate(quiz.endDate) }}</span>
+                    </div>
+                  }
+                </div>
+
+                <div class="quiz-footer">
+                  @if (isQuizAvailable(quiz) && quiz.status === 'PUBLISHED') {
+                    <button class="attempt-btn" (click)="attemptQuiz(quiz)">
+                      <i class="pi pi-play"></i>
+                      <span>Start Quiz</span>
+                    </button>
+                  } @else if (!isQuizAvailable(quiz)) {
+                    <div class="unavailable-message">
+                      <i class="pi pi-info-circle"></i>
+                      <span>Quiz not available</span>
+                    </div>
+                  } @else {
+                    <div class="unavailable-message">
+                      <i class="pi pi-lock"></i>
+                      <span>Quiz not published</span>
+                    </div>
+                  }
+                  <button class="view-results-btn" (click)="viewResults(quiz)">
+                    <i class="pi pi-eye"></i>
+                    <span>View Results</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>
+

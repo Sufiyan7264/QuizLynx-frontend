@@ -1,6 +1,6 @@
-<div class="user-dashboard !pt-20">
+<div class="user-dashboard !pt-20 px-2 sm:px-4 md:px-6">
   <!-- Statistics Cards Section -->
-  <div class="stats-section">
+  <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
     @for(stat of stats; track stat.title){
       <div class="stat-card">
       <div class="stat-header">
@@ -19,18 +19,18 @@
   </div>
 
   <!-- Main Content Section -->
-  <div class="main-content">
+  <div class="main-content grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4">
     <!-- Left Section -->
-    <div class="left-section">
+    <div class="left-section flex flex-col gap-2 md:gap-4">
       <!-- Progress Card -->
       <div class="progress-card">
-        <div class="progress-content">
-          <div class="progress-text">
-            <h2 class="progress-milestone">{{ progressData.milestone }}</h2>
-            <p class="progress-message">{{ progressData.message }}</p>
-            <p class="progress-description">{{ progressData.description }}</p>
+        <div class="progress-content flex flex-col sm:flex-row justify-between items-start gap-4">
+          <div class="progress-text flex-1">
+            <h2 class="progress-milestone text-xl sm:text-2xl md:text-3xl">{{ progressData.milestone }}</h2>
+            <p class="progress-message text-sm sm:text-base">{{ progressData.message }}</p>
+            <p class="progress-description text-xs sm:text-sm">{{ progressData.description }}</p>
           </div>
-          <div class="progress-icon">
+          <div class="progress-icon text-4xl sm:text-5xl md:text-6xl flex-shrink-0">
             <i class="pi pi-trophy"></i>
           </div>
         </div>
@@ -39,47 +39,49 @@
 
       <!-- Quiz History Card -->
       <div class="quiz-history-card">
-        <div class="card-header">
-          <h3 class="card-title">Quiz history</h3>
-          <a href="#" class="view-all-link">View all</a>
+        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
+          <h3 class="card-title text-base md:text-lg">Quiz history</h3>
+          <a href="#" class="view-all-link text-sm">View all</a>
         </div>
-        <table class="quiz-table">
-          <thead>
-            <tr>
-              <th>Subject</th>
-              <th>Score</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let quiz of quizHistory">
-              <td>{{ quiz.subject }}</td>
-              <td>{{ quiz.score }}</td>
-              <td>
-                <span class="status-badge" [class.completed]="quiz.status === 'Completed'" [class.unattempted]="quiz.status === 'Unattempted'">
-                  {{ quiz.status }}
-                </span>
-              </td>
-              <td class="actions-cell">
-                <button class="action-btn" *ngIf="quiz.actions.refresh" title="Refresh">
-                  <i class="pi pi-refresh"></i>
-                </button>
-                <button class="action-btn warning" *ngIf="quiz.actions.warning" title="Warning">
-                  <i class="pi pi-exclamation-triangle"></i>
-                </button>
-                <button class="action-btn" *ngIf="quiz.actions.folder" title="View">
-                  <i class="pi pi-folder"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="quiz-table w-full min-w-[600px]">
+            <thead>
+              <tr>
+                <th class="text-xs md:text-sm">Subject</th>
+                <th class="text-xs md:text-sm">Score</th>
+                <th class="text-xs md:text-sm">Status</th>
+                <th class="text-xs md:text-sm">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let quiz of quizHistory">
+                <td class="text-xs md:text-sm">{{ quiz.subject }}</td>
+                <td class="text-xs md:text-sm">{{ quiz.score }}</td>
+                <td>
+                  <span class="status-badge text-xs" [class.completed]="quiz.status === 'Completed'" [class.unattempted]="quiz.status === 'Unattempted'">
+                    {{ quiz.status }}
+                  </span>
+                </td>
+                <td class="actions-cell flex gap-1 md:gap-2">
+                  <button class="action-btn p-1 md:p-2" *ngIf="quiz.actions.refresh" title="Refresh">
+                    <i class="pi pi-refresh text-sm md:text-base"></i>
+                  </button>
+                  <button class="action-btn warning p-1 md:p-2" *ngIf="quiz.actions.warning" title="Warning">
+                    <i class="pi pi-exclamation-triangle text-sm md:text-base"></i>
+                  </button>
+                  <button class="action-btn p-1 md:p-2" *ngIf="quiz.actions.folder" title="View">
+                    <i class="pi pi-folder text-sm md:text-base"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Right Section -->
-    <div class="right-section">
+    <div class="right-section flex flex-col gap-2 md:gap-4">
       <!-- Overall Performance Chart -->
       <div class="performance-card">
         <app-chart-configuration
@@ -93,12 +95,12 @@
 
       <!-- Practice Suggestion Card -->
       <div class="practice-card">
-        <div class="practice-header">
-          <div class="practice-score">{{ practiceSuggestion.score }}</div>
-          <span class="practice-tag">{{ practiceSuggestion.subject }}</span>
+        <div class="practice-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 md:mb-3">
+          <div class="practice-score text-xl sm:text-2xl md:text-3xl">{{ practiceSuggestion.score }}</div>
+          <span class="practice-tag text-xs md:text-sm">{{ practiceSuggestion.subject }}</span>
         </div>
-        <p class="practice-message">{{ practiceSuggestion.message }}</p>
-        <button class="practice-button">
+        <p class="practice-message text-xs sm:text-sm md:text-base mb-2 md:mb-3">{{ practiceSuggestion.message }}</p>
+        <button class="practice-button w-full sm:w-auto text-xs sm:text-sm md:text-base px-3 md:px-4 py-2 md:py-3">
           New quiz
           <i class="pi pi-arrow-right"></i>
         </button>

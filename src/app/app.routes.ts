@@ -129,6 +129,24 @@ export const routes: Routes = [
         data:{role:'INSTRUCTOR'}
     },
     {
+        path:'student/batches',
+        loadComponent:()=>import('./components/student-batches/student-batches').then(m=>m.StudentBatches),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
+    },
+    // {
+    //     path:'batch/:batchId/quizzes',
+    //     loadComponent:()=>import('./components/batch-quizzes/batch-quizzes').then(m=>m.BatchQuizzes),
+    //     canActivate:[childAuthGuard,authGuard,roleGuard],
+    //     data:{role:'INSTRUCTOR'}
+    // },
+    {
+        path:'batch/:batchId/detail',
+        loadComponent:()=>import('./components/batch-detail/batch-detail').then(m=>m.BatchDetail),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'INSTRUCTOR'}
+    },
+    {
         path:'settings',
         loadComponent:()=>import('./components/common/settings/settings').then(m=>m.Settings),
         canActivate:[childAuthGuard,authGuard]

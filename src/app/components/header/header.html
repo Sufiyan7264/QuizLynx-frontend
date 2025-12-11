@@ -7,30 +7,31 @@
       class="py-3 pl-4 md:pl-7 pr-4 transition-all duration-300"
       [ngClass]="isScrolled ? 'rounded-full bg-white/40 dark:bg-black/40 shadow-lg ring-1 ring-black/5 backdrop-blur' : 'bg-transparent'"
     >
-      <div class="relative mx-auto flex items-center justify-between">
+      <div class="relative mx-auto flex items-center justify-between w-full">
       <div class="flex items-center gap-3">
-        <img src="assets/logo.png" alt="QuizLynx" height="32" width="90" class=" filter-icon cursor-pointer" routerLink="/" />
+        <img src="assets/logo.png" alt="QuizLynx" height="32" width="90" class="filter-icon cursor-pointer" routerLink="/" />
       </div>
 
+      <!-- Mobile Menu Button -->
 
 
+      <!-- Desktop Navigation -->
       @if(authService.user$ | async; as user){
         @if(user.role === 'INSTRUCTOR'){
         <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-sm font-medium text-text md:flex">
-          <li><a routerLink="/dashboard" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/dashboard'"><i class="pi pi-home"></i> Dashboard</a></li>
-          <li><a routerLink="/instructor/batches" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/batches'"><i class="pi pi-book"></i> My Classes</a></li>
-          <li><a routerLink="/instructor/quizzes" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/quizzes'"><i class="pi pi-list"></i> My Quizzes</a></li>
-          <li><a routerLink="/instructor/students" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2"><i class="pi pi-users"></i> Students</a></li>
-          <li><a routerLink="/instructor/me" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/me'"><i class="pi pi-user"></i> Profile</a></li>
+          <li><a routerLink="/dashboard" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/dashboard'"><i class="pi pi-home"></i> <span class="hidden lg:inline">Dashboard</span></a></li>
+          <li><a routerLink="/instructor/batches" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/batches'"><i class="pi pi-book"></i> <span class="hidden lg:inline">My Classes</span></a></li>
+          <li><a routerLink="/instructor/quizzes" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/instructor/quizzes'"><i class="pi pi-list"></i> <span class="hidden lg:inline">My Quizzes</span></a></li>
+          <li><a routerLink="/instructor/students" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2"><i class="pi pi-users"></i> <span class="hidden lg:inline">Students</span></a></li>
         </ul>
       }
         @if(user.role === 'STUDENT'){ 
-        <ul  class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-sm font-medium text-text md:flex">
-          <li><a routerLink="/student-dashboard" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student-dashboard'"><i class="pi pi-home"></i> Dashboard</a></li>
-          <li><a routerLink="/student/join" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/join'"><i class="pi pi-plus"></i> Join Class</a></li>
-          <li><a routerLink="/student/batches" class=" hover:shadow-inner hover:shadow-muted-text rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/batches'"><i class="pi pi-book"></i> My Classrooms</a></li>
-          <li><a routerLink="/student/quizzes" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/quizzes'"><i class="pi pi-list"></i> Active Quizzes</a></li>
-          <li><a routerLink="/student/attempts" class=" hover:shadow-muted-text  hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/attempts'"><i class="pi pi-chart-bar"></i> Results</a></li>
+        <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-sm font-medium text-text md:flex">
+          <li><a routerLink="/student-dashboard" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student-dashboard'"><i class="pi pi-home"></i> <span class="hidden lg:inline">Dashboard</span></a></li>
+          <li><a routerLink="/student/join" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/join'"><i class="pi pi-plus"></i> <span class="hidden lg:inline">Join Class</span></a></li>
+          <li><a routerLink="/student/batches" class="hover:shadow-inner hover:shadow-muted-text rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/batches'"><i class="pi pi-book"></i> <span class="hidden lg:inline">My Classrooms</span></a></li>
+          <li><a routerLink="/student/quizzes" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/quizzes'"><i class="pi pi-list"></i> <span class="hidden lg:inline">Active Quizzes</span></a></li>
+          <li><a routerLink="/student/attempts" class="hover:shadow-muted-text hover:shadow-inner rounded-full w-max px-2 py-1 flex items-center gap-2" [class.active]="router.url === '/student/attempts'"><i class="pi pi-chart-bar"></i> <span class="hidden lg:inline">Results</span></a></li>
         </ul>
         }
       }
@@ -43,37 +44,102 @@
       }
       <div class="flex items-center gap-2">
         @if(!(isLoggedIn$ | async)){
-          <a href="/signin" class="rounded-full bg-bg px-5 py-2 text-sm  font-medium text-text hover:shadow-xl duration-200 ease-in hover:shadow-black/30 hover:bg-option-hover">Login</a>
-          <a href="/register" class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30">Register</a>
+          <a href="/signin" class="hidden sm:inline-block rounded-full bg-bg px-3 md:px-5 py-2 text-xs md:text-sm font-medium text-text hover:shadow-xl duration-200 ease-in hover:shadow-black/30 hover:bg-option-hover">Login</a>
+          <a href="/register" class="hidden sm:inline-block rounded-full bg-[#3b82f6] px-3 md:px-5 py-2 text-xs md:text-sm font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30">Register</a>
         }
         @else if(isLoggedIn$ | async) {
           <div class="flex gap-2">
-              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white" size="normal" (click)="menu.toggle($event)"></p-avatar>
-              <!-- <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
-                [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" /> -->
+              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white hidden sm:block" size="normal" (click)="menu.toggle($event)"></p-avatar>
           </div>
-          <!-- <button class="rounded-full bg-[#3b82f6] px-5 py-2 text-sm  font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30 " (click)="logout()">Logout</button> -->
-          <!-- <p-button 
-          label="Logout" 
-          icon="pi pi-sign-out"
-          class="hover:shadow-xl text-text px-5 py-2 rounded-full duration-200 ease-in hover:shadow-black/10"
-          (onClick)="logout()">
-        </p-button> -->
       }
-      @if(darkMode()){
-        <button class="px-2 py-1 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
-          <i class="pi pi-sun text-text"></i>
-        </button>
-      }
-      @else{
-        <button class="py-1 px-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
-          <i class="pi pi-moon text-gray-800"></i>
-        </button>
-      }
+      <div>
+        <button 
+        class="md:hidden px-3 py-2 rounded-lg hover:bg-option-hover transition-colors"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle menu"
+      >
+        <i [class]="mobileMenuOpen() ? 'pi pi-times' : 'pi pi-bars'" class="text-text text-xl"></i>
+      </button>
+        @if(darkMode()){
+          <button class="px-2 py-1 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+            <i class="pi pi-sun text-text"></i>
+          </button>
+        }
+        @else{
+          <button class="py-1 px-2 rounded-full hover:bg-option-hover hover:shadow-inner duration-200 ease-in" (click)="toggleDarkMode()">
+            <i class="pi pi-moon text-gray-800"></i>
+          </button>
+        }
+      </div>
       </div>
     </div>
     </div>
 </nav>
+
+<!-- Mobile Menu -->
+@if(mobileMenuOpen()){
+  <div class="fixed inset-0 top-16 bg-bg/95 dark:bg-bg/95 backdrop-blur-md z-40 md:hidden">
+    <div class="flex flex-col p-6 space-y-4 bg-bg border-border border">
+      @if(authService.user$ | async; as user){
+        @if(user.role === 'INSTRUCTOR'){
+          <a routerLink="/dashboard" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/dashboard'">
+            <i class="pi pi-home"></i> Dashboard
+          </a>
+          <a routerLink="/instructor/batches" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/instructor/batches'">
+            <i class="pi pi-book"></i> My Classes
+          </a>
+          <a routerLink="/instructor/quizzes" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/instructor/quizzes'">
+            <i class="pi pi-list"></i> My Quizzes
+          </a>
+          <a routerLink="/instructor/students" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium">
+            <i class="pi pi-users"></i> Students
+          </a>
+        }
+        @if(user.role === 'STUDENT'){
+          <a routerLink="/student-dashboard" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student-dashboard'">
+            <i class="pi pi-home"></i> Dashboard
+          </a>
+          <a routerLink="/student/join" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/join'">
+            <i class="pi pi-plus"></i> Join Class
+          </a>
+          <a routerLink="/student/batches" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/batches'">
+            <i class="pi pi-book"></i> My Classrooms
+          </a>
+          <a routerLink="/student/quizzes" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/quizzes'">
+            <i class="pi pi-list"></i> Active Quizzes
+          </a>
+          <a routerLink="/student/attempts" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/attempts'">
+            <i class="pi pi-chart-bar"></i> Results
+          </a>
+        }
+        @if(isLoggedIn$ | async){
+          <div class="border-t border-border pt-4 mt-4">
+            <div class="flex items-center gap-3 px-4 py-3">
+              <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary text-white" size="normal" (click)="menu.toggle($event); closeMobileMenu()"></p-avatar>
+              <div class="flex flex-col">
+                <span class="font-semibold text-text">{{currentUser?.username}}</span>
+                <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2 text-xs" [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
+              </div>
+            </div>
+          </div>
+        }
+      }
+      @else {
+        <a href="/signin" (click)="closeMobileMenu()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-bg border border-border text-text font-medium hover:bg-option-hover">
+          Login
+        </a>
+        <a href="/register" (click)="closeMobileMenu()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#3b82f6] text-white font-medium hover:bg-blue-600">
+          Register
+        </a>
+        <div class="border-t border-border pt-4 mt-4">
+          <a href="#about" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">About</a>
+          <a href="#pricing" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">Pricing</a>
+          <a href="#contact" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">Contact</a>
+        </div>
+      }
+    </div>
+  </div>
+}
 </header>
 <div class="card shadow-lg">
   <p-menu [model]="items" class="flex justify-center" styleClass="w-full md:w-60" #menu [popup]="true">
