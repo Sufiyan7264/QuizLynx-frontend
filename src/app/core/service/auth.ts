@@ -59,7 +59,7 @@ export class Auth {
     );
   }
   updatePassword(data:any){
-    return this.http.post(`${this.BASE_URL}/reset-password`,data);
+    return this.http.patch(`${this.BASE_URL}/change-password`,data);
   }
   forgotPassword(data:any){
     return this.http.post(`${this.BASE_URL}/forgot-password`,data);

@@ -1,22 +1,22 @@
 .batch-results-container {
-  padding: 2rem;
+  padding: 1.2rem;
   max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;
 
   .results-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     .header-content {
       .page-title {
-        font-size: 2rem;
+        font-size:1.5rem;
         font-weight: 700;
         color: var(--color-text);
         margin: 0 0 0.5rem 0;
       }
 
       .page-subtitle {
-        font-size: 1rem;
+        font-size:0.9rem;
         color: var(--color-muted-text);
         margin: 0;
       }
@@ -26,8 +26,8 @@
   .filters-section {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
     background: var(--color-primary-foreground);
     border: 1px solid var(--color-border);
     border-radius: 12px;
@@ -57,8 +57,8 @@
   .search-section {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
     background: var(--color-primary-foreground);
     border: 1px solid var(--color-border);
     border-radius: 12px;
@@ -132,13 +132,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
 
       .summary-card {
         display: flex;
         align-items: center;
         gap: 1rem;
-        padding: 1.5rem;
+        padding: 1rem;
         background: var(--color-primary-foreground);
         border: 1px solid var(--color-border);
         border-radius: 12px;
@@ -183,7 +183,7 @@
       background: var(--color-primary-foreground);
       border: 1px solid var(--color-border);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1.2rem;
 
       .section-header {
         margin-bottom: 1.5rem;
@@ -198,7 +198,7 @@
         }
 
         .section-subtitle {
-          font-size: 1rem;
+          font-size:0.9rem;
           color: var(--color-muted-text);
           margin: 0;
         }
@@ -442,7 +442,7 @@
     }
 
     p {
-      font-size: 1rem;
+      font-size:0.9rem;
       color: var(--color-muted-text);
       margin: 0;
     }

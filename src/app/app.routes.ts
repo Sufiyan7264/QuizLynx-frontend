@@ -132,14 +132,26 @@ export const routes: Routes = [
         path:'student/batches',
         loadComponent:()=>import('./components/student-batches/student-batches').then(m=>m.StudentBatches),
         canActivate:[childAuthGuard,authGuard,roleGuard],
-        data:{role:'INSTRUCTOR'}
+        data:{role:'STUDENT'}
     },
-    // {
-    //     path:'batch/:batchId/quizzes',
-    //     loadComponent:()=>import('./components/batch-quizzes/batch-quizzes').then(m=>m.BatchQuizzes),
-    //     canActivate:[childAuthGuard,authGuard,roleGuard],
-    //     data:{role:'INSTRUCTOR'}
-    // },
+    {
+        path:'student/attempts',
+        loadComponent:()=>import('./components/student-attempts/student-attempts').then(m=>m.StudentAttempts),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'STUDENT'}
+    },
+    {
+        path:'student/quizzes',
+        loadComponent:()=>import('./components/student-quizzes/student-quizzes').then(m=>m.StudentQuizzes),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'STUDENT'}
+    },
+    {
+        path:'batch/:batchId/quizzes',
+        loadComponent:()=>import('./components/batch-quizzes/batch-quizzes').then(m=>m.BatchQuizzes),
+        canActivate:[childAuthGuard,authGuard,roleGuard],
+        data:{role:'STUDENT'}
+    },
     {
         path:'batch/:batchId/detail',
         loadComponent:()=>import('./components/batch-detail/batch-detail').then(m=>m.BatchDetail),

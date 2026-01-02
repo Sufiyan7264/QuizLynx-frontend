@@ -1,22 +1,22 @@
 .settings-container {
-  padding: 2rem;
+  padding: 1.2rem;
   max-width: 900px;
   margin: 0 auto;
   min-height: 100vh;
 
   .settings-content {
     .settings-header {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
 
       .page-title {
-        font-size: 2rem;
+        font-size:1.5rem;
         font-weight: 700;
         color: var(--color-text);
         margin: 0 0 0.5rem 0;
       }
 
       .page-subtitle {
-        font-size: 1rem;
+        font-size:0.9rem;
         color: var(--color-muted-text);
         margin: 0;
       }
@@ -26,8 +26,8 @@
       background: var(--color-primary-foreground);
       border: 1px solid var(--color-border);
       border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 2rem;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
       &.danger-card {
@@ -39,7 +39,7 @@
         display: flex;
         align-items: center;
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         padding-bottom: 1.5rem;
         border-bottom: 1px solid var(--color-border);
 
@@ -82,6 +82,77 @@
             margin: 0;
           }
         }
+
+        .edit-btn {
+          padding: 0.5rem 1rem;
+          background: var(--color-primary);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 0.875rem;
+
+          &:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+          }
+
+          i {
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .profile-view {
+        .info-group {
+          margin-bottom: 1.5rem;
+
+          .info-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-muted-text);
+            margin-bottom: 0.5rem;
+          }
+
+          .info-value {
+            font-size:0.9rem;
+            color: var(--color-text);
+            padding: 0.75rem;
+            background: var(--color-primary-foreground);
+            border-radius: 6px;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+            word-break: break-word;
+
+            .info-link {
+              color: var(--color-primary);
+              text-decoration: none;
+              word-break: break-all;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+
+        .info-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+
+          @media (max-width: 600px) {
+            grid-template-columns: 1fr;
+          }
+        }
       }
 
       .profile-form,
@@ -121,6 +192,13 @@
 
             &.error {
               border-color: var(--color-danger);
+            }
+
+            &:disabled {
+              background: var(--color-primary-foreground);
+              color: var(--color-text);
+              cursor: not-allowed;
+              opacity: 0.8;
             }
           }
 
@@ -163,6 +241,7 @@
         .form-actions {
           display: flex;
           justify-content: flex-end;
+          gap: 1rem;
           margin-top: 2rem;
           padding-top: 1.5rem;
           border-top: 1px solid var(--color-border);
@@ -193,7 +272,29 @@
             }
 
             i {
-              font-size: 1rem;
+              font-size:0.9rem;
+            }
+          }
+
+          .cancel-btn {
+            padding: 0.75rem 2rem;
+            background: transparent;
+            color: var(--color-text);
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background: var(--color-primary-foreground);
+              border-color: var(--color-primary);
+            }
+
+            i {
+              font-size:0.9rem;
             }
           }
         }
@@ -226,7 +327,7 @@
         }
 
         .delete-btn {
-          padding: 0.75rem 1.5rem;
+          padding: 0.5rem 1rem;
           background: var(--color-danger);
           color: white;
           border: none;
@@ -246,7 +347,7 @@
           }
 
           i {
-            font-size: 1rem;
+            font-size:0.9rem;
           }
         }
       }
@@ -257,12 +358,12 @@
 ::ng-deep {
   .p-dialog {
     .p-dialog-header {
-      padding: 1.5rem;
+      padding: 1rem;
       border-bottom: 1px solid var(--color-border);
     }
 
     .p-dialog-content {
-      padding: 1.5rem;
+      padding: 1rem;
     }
 
     .delete-dialog-content {
@@ -279,7 +380,7 @@
         justify-content: center;
 
         i {
-          font-size: 2rem;
+          font-size:1.5rem;
           color: var(--color-danger);
         }
       }
@@ -304,10 +405,9 @@
         gap: 1rem;
 
         .cancel-btn {
-          padding: 0.75rem 1.5rem;
+          padding: 0.5rem 1rem;
           background: transparent;
           color: var(--color-text);
-          border: 1px solid var(--color-border);
           border-radius: 8px;
           font-weight: 500;
           cursor: pointer;
@@ -319,7 +419,7 @@
         }
 
         .confirm-delete-btn {
-          padding: 0.75rem 1.5rem;
+          padding: 0.5rem 1rem;
           background: var(--color-danger);
           color: white;
           border: none;
@@ -336,7 +436,7 @@
           }
 
           i {
-            font-size: 1rem;
+            font-size:0.9rem;
           }
         }
       }

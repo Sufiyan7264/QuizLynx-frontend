@@ -15,101 +15,156 @@
           <i class="pi pi-user-edit"></i>
         </div>
         <div class="header-content">
-          <h2 class="card-title">Edit Profile</h2>
-          <p class="card-subtitle">Update your personal information</p>
+          <h2 class="card-title">Profile Information</h2>
+          <p class="card-subtitle">View and update your personal information</p>
         </div>
+        @if (!isEditMode) {
+          <button type="button" pButton (click)="enableEditMode()" class="edit-btn">
+            <i class="pi pi-pencil"></i>
+            <span>Edit Info</span>
+          </button>
+        }
       </div>
 
-      <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
-        <div class="form-group">
-          <label for="displayName" class="form-label required">Display Name / Full Name</label>
-          <input
-            id="displayName"
-            type="text"
-            pInputText
-            formControlName="displayName"
-            placeholder="Enter your full name"
-            class="form-input"
-            [class.error]="profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched"
-          />
-          @if (profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched) {
-            <span class="error-message">
-              @if (profileForm.get('displayName')?.errors?.['required']) {
-                Display name is required
-              } @else if (profileForm.get('displayName')?.errors?.['minlength']) {
-                Display name must be at least 3 characters
-              }
-            </span>
+      <!-- View Mode (Read-only) -->
+      @if (!isEditMode) {
+        <div class="profile-view">
+          <div class="info-group">
+            <label class="info-label">Display Name / Full Name</label>
+            <div class="info-value">{{ profileForm.get('displayName')?.value || 'Not set' }}</div>
+          </div>
+
+          <!-- <div class="info-row">
+            <div class="info-group">
+              <label class="info-label">First Name</label>
+              <div class="info-value">{{ profileForm.get('firstName')?.value || 'Not set' }}</div>
+            </div>
+
+            <div class="info-group">
+              <label class="info-label">Last Name</label>
+              <div class="info-value">{{ profileForm.get('lastName')?.value || 'Not set' }}</div>
+            </div>
+          </div> -->
+
+          @if (isInstructor) {
+            <div class="info-group">
+              <label class="info-label">Avatar URL</label>
+              <div class="info-value">
+                @if (profileForm.get('avatarUrl')?.value) {
+                  <a [href]="profileForm.get('avatarUrl')?.value" target="_blank" class="info-link">
+                    {{ profileForm.get('avatarUrl')?.value }}
+                  </a>
+                } @else {
+                  <span>Not set</span>
+                }
+              </div>
+            </div>
+
+            <div class="info-group">
+              <label class="info-label">Bio</label>
+              <div class="info-value">{{ profileForm.get('bio')?.value || 'Not set' }}</div>
+            </div>
           }
         </div>
+      }
 
-        <div class="form-row">
+      <!-- Edit Mode (Form) -->
+      @if (isEditMode) {
+        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
           <div class="form-group">
-            <label for="firstName" class="form-label">First Name</label>
+            <label for="displayName" class="form-label required">Display Name / Full Name</label>
             <input
-              id="firstName"
+              id="displayName"
               type="text"
               pInputText
-              formControlName="firstName"
-              placeholder="First name"
+              formControlName="displayName"
+              placeholder="Enter your full name"
               class="form-input"
+              [class.error]="profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched"
             />
+            @if (profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched) {
+              <span class="error-message">
+                @if (profileForm.get('displayName')?.errors?.['required']) {
+                  Display name is required
+                } @else if (profileForm.get('displayName')?.errors?.['minlength']) {
+                  Display name must be at least 3 characters
+                }
+              </span>
+            }
           </div>
 
-          <div class="form-group">
-            <label for="lastName" class="form-label">Last Name</label>
-            <input
-              id="lastName"
-              type="text"
-              pInputText
-              formControlName="lastName"
-              placeholder="Last name"
-              class="form-input"
-            />
-          </div>
-        </div>
-
-        @if (isInstructor) {
-          <div class="form-group">
-            <label for="avatarUrl" class="form-label">Avatar URL</label>
-            <input
-              id="avatarUrl"
-              type="url"
-              pInputText
-              formControlName="avatarUrl"
-              placeholder="https://example.com/avatar.jpg"
-              class="form-input"
-            />
-            <div class="input-hint">
-              <i class="pi pi-info-circle"></i>
-              <span>Enter a URL to your profile picture</span>
+          <!-- <div class="form-row">
+            <div class="form-group">
+              <label for="firstName" class="form-label">First Name</label>
+              <input
+                id="firstName"
+                type="text"
+                pInputText
+                formControlName="firstName"
+                placeholder="First name"
+                class="form-input"
+              />
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="bio" class="form-label">Bio</label>
-            <textarea
-              id="bio"
-              pInputText
-              formControlName="bio"
-              placeholder="Tell us about yourself..."
-              rows="4"
-              class="form-textarea"
-              [maxlength]="1000"
-            ></textarea>
-            <div class="input-hint">
-              <span>{{ profileForm.get('bio')?.value?.length || 0 }} / 1000 characters</span>
+            <div class="form-group">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input
+                id="lastName"
+                type="text"
+                pInputText
+                formControlName="lastName"
+                placeholder="Last name"
+                class="form-input"
+              />
             </div>
-          </div>
-        }
+          </div> -->
 
-        <div class="form-actions">
-          <button type="submit" pButton [disabled]="profileForm.invalid" class="save-btn">
-            <i class="pi pi-save"></i>
-            <span>Save Changes</span>
-          </button>
-        </div>
-      </form>
+          @if (isInstructor) {
+            <!-- <div class="form-group">
+              <label for="avatarUrl" class="form-label">Avatar URL</label>
+              <input
+                id="avatarUrl"
+                type="url"
+                pInputText
+                formControlName="avatarUrl"
+                placeholder="https://example.com/avatar.jpg"
+                class="form-input"
+              />
+              <div class="input-hint">
+                <i class="pi pi-info-circle"></i>
+                <span>Enter a URL to your profile picture</span>
+              </div>
+            </div> -->
+
+            <div class="form-group">
+              <label for="bio" class="form-label">Bio</label>
+              <textarea
+                id="bio"
+                pInputText
+                formControlName="bio"
+                placeholder="Tell us about yourself..."
+                rows="4"
+                class="form-textarea"
+                [maxlength]="1000"
+              ></textarea>
+              <div class="input-hint">
+                <span>{{ profileForm.get('bio')?.value?.length || 0 }} / 1000 characters</span>
+              </div>
+            </div>
+          }
+
+          <div class="form-actions">
+            <button type="button" pButton (click)="cancelEdit()" class="cancel-btn">
+              <i class="pi pi-times"></i>
+              <span>Cancel</span>
+            </button>
+            <button type="submit" pButton [disabled]="profileForm.invalid" class="save-btn">
+              <i class="pi pi-save"></i>
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </form>
+      }
     </div>
 
     <!-- Security Card -->

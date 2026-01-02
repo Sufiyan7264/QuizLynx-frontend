@@ -19,6 +19,9 @@ export class BatchService {
   getBatchById(id: string): Observable<Batch> {
     return this.http.get<Batch>(`${this.BASE_URL}/${id}`);
   }
+  getBatchByIdForStudent(id: string): Observable<Batch> {
+    return this.http.get<Batch>(`${this.BASE_URL}/student/${id}`);
+  }
 
   // Create a new batch
   createBatch(batch: CreateBatchRequest): Observable<Batch> {
@@ -49,7 +52,7 @@ export class BatchService {
 
   // Join a batch using a code (for students)
   joinBatchByCode(code: string): Observable<Batch> {
-    return this.http.post<Batch>(`${this.BASE_URL}/join`, { code });
+    return this.http.post<Batch>(`https://localhost:8080/api/instructor/bind-by-code`, { code });
   }
 
   // Get batch by code (for preview before joining)
@@ -59,7 +62,7 @@ export class BatchService {
 
   // Get enrolled batches for the current student
   getStudentBatches(): Observable<Batch[]> {
-    return this.http.get<Batch[]>(`${this.BASE_URL}/student/enrolled`);
+    return this.http.get<Batch[]>(`${this.BASE_URL}/student/my-batches`);
   }
 }
 

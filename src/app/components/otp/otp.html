@@ -13,7 +13,7 @@
 
       <div class="card flex justify-center mt-4 md:mt-5">
         <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3 md:gap-4 w-full">
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col items-center gap-1 ">
                 <p-inputotp formControlName="value" styleClass="me-2 md:me-4 h-10 md:h-12 !w-10 md:!w-12 !bg-white/10 focus:border-1 focus:ring-white/20 !text-white" [invalid]="isInvalid('value')" [length]="6" />
                 @if (isInvalid('value')) {
                   <div  class="text-red-500 ps-3 font-semibold text-xs md:text-sm">

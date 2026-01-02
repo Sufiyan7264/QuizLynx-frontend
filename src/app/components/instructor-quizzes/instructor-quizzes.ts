@@ -14,6 +14,7 @@ import { Toast } from 'primeng/toast';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
+import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-instructor-quizzes',
@@ -36,8 +37,9 @@ export class InstructorQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);
   private readonly batchService = inject(BatchService);
   private readonly fb = inject(FormBuilder);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  // private readonly messageService = inject(MessageService);
+  // private readonly spinner = inject(NgxSpinnerService);
+  private readonly common = inject(Common);
   private readonly router = inject(Router);
 
   quizzes: Quiz[] = [];
@@ -45,18 +47,20 @@ export class InstructorQuizzes implements OnInit {
   showCreateDialog = false;
   isEditMode = false;
   selectedQuiz: Quiz | null = null;
+  minEndDate: Date | null = null;
+  minDueDate: Date | null = null;
 
   quizForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
     description: [''],
     subject: [''],
-    duration: [60, [Validators.required, Validators.min(1)]],
+    timerInMin: [60, [Validators.required, Validators.min(1)]],
     totalMarks: [100, [Validators.required, Validators.min(1)]],
     passingMarks: [50, [Validators.required, Validators.min(0)]],
     startDate: [null],
     endDate: [null],
     dueDate: [null],
-    batchId: [null],
+    batchId: ['',[ Validators.required]],
     status: ['DRAFT', Validators.required]
   });
 
@@ -66,36 +70,38 @@ export class InstructorQuizzes implements OnInit {
     { label: 'Closed', value: 'CLOSED' }
   ];
 
-  get minEndDate(): Date | null {
-    const startDate = this.quizForm.get('startDate')?.value;
-    return startDate ? new Date(startDate) : null;
-  }
+  // get minEndDate(): Date | null {
+  //   console.log(this.quizForm.get('startDate')?.value);
+  //   const startDate = this.quizForm.get('startDate')?.value;
+  //   return startDate ? new Date(startDate) : null;
+  // }
 
-  get minDueDate(): Date | null {
-    const endDate = this.quizForm.get('endDate')?.value;
-    return endDate ? new Date(endDate) : null;
-  }
+  // get minDueDate(): Date | null {
+  //   const endDate = this.quizForm.get('endDate')?.value;
+  //   return endDate ? new Date(endDate) : null;
+  // }
 
   ngOnInit(): void {
     this.loadQuizzes();
     this.loadBatches();
+    this.setupDateValidators();
   }
 
   loadQuizzes(): void {
-    this.spinner.show();
-    this.quizService.getQuizzes().subscribe({
+    this.common.showSpinner();
+    this.quizService.getAllQuizzes().subscribe({
       next: (quizzes) => {
         this.quizzes = quizzes;
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading quizzes:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load quizzes'
-        });
-        this.spinner.hide();
+        this.common.showMessage(
+          'error',
+          'Error',
+          error?.error?.message || 'Failed to load quizzes'
+        );
+        this.common.hideSpinner();
       }
     });
   }
@@ -103,7 +109,15 @@ export class InstructorQuizzes implements OnInit {
   loadBatches(): void {
     this.batchService.getBatches().subscribe({
       next: (batches) => {
+        console.log(batches);
         this.batches = batches;
+        // batches.forEach(batch => {
+        //   this.batches.push({
+        //     label: batch.batchName,
+        //     value: batch.id || ''
+        //   })
+        // });
+        // console.log(this.batches)
       },
       error: (error) => {
         console.error('Error loading batches:', error);
@@ -115,7 +129,7 @@ export class InstructorQuizzes implements OnInit {
     this.isEditMode = false;
     this.selectedQuiz = null;
     this.quizForm.reset({
-      duration: 60,
+      timerInMin: 60,
       totalMarks: 100,
       passingMarks: 50,
       status: 'DRAFT'
@@ -130,7 +144,7 @@ export class InstructorQuizzes implements OnInit {
       title: quiz.title,
       description: quiz.description || '',
       subject: quiz.subject || '',
-      duration: quiz.duration || 60,
+      timerInMin: quiz.timerInMin || 60,
       totalMarks: quiz.totalMarks || 100,
       passingMarks: quiz.passingMarks || 50,
       startDate: quiz.startDate ? new Date(quiz.startDate) : null,
@@ -160,62 +174,62 @@ export class InstructorQuizzes implements OnInit {
       title: formValue.title,
       description: formValue.description || undefined,
       subject: formValue.subject || undefined,
-      duration: formValue.duration,
+      timerInMin: formValue.timerInMin,
       totalMarks: formValue.totalMarks,
       passingMarks: formValue.passingMarks,
-      startDate: formValue.startDate ? this.formatDateForAPI(formValue.startDate) : undefined,
-      endDate: formValue.endDate ? this.formatDateForAPI(formValue.endDate) : undefined,
-      dueDate: formValue.dueDate ? this.formatDateForAPI(formValue.dueDate) : undefined,
+      startDate: formValue.startDate ? formValue.startDate : undefined,
+      endDate: formValue.endDate ? formValue.endDate : undefined,
+      dueDate: formValue.dueDate ? formValue.dueDate : undefined,
       batchId: formValue.batchId || undefined,
       status: formValue.status
     };
 
-    this.spinner.show();
+    this.common.showSpinner();
 
     if (this.isEditMode && this.selectedQuiz?.id) {
       this.quizService.updateQuiz(this.selectedQuiz.id, quizData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Quiz updated successfully'
-          });
+          this.common.showMessage(
+            'success',
+            'Success',
+            'Quiz updated successfully'
+          );
           this.loadQuizzes();
           this.closeDialog();
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to update quiz'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+            'error',
+            'Error',
+            error?.error?.message || 'Failed to update quiz'
+          );
+          this.common.hideSpinner();
         }
       });
     } else {
       this.quizService.createQuiz(quizData).subscribe({
         next: (createdQuiz) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Quiz created successfully'
-          });
+          this.common.showMessage(
+          'success',
+          'Success',
+          'Quiz created successfully'
+          );
           this.loadQuizzes();
           this.closeDialog();
-          this.spinner.hide();
+          this.common.hideSpinner();
           // Navigate to add questions
           if (createdQuiz.id) {
             this.router.navigate(['/question/create'], { queryParams: { quizId: createdQuiz.id } });
           }
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to create quiz'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+            'error',
+            'Error',
+            error?.error?.message || 'Failed to create quiz'
+          );
+          this.common.hideSpinner();
         }
       });
     }
@@ -223,29 +237,30 @@ export class InstructorQuizzes implements OnInit {
 
   deleteQuiz(quiz: Quiz): void {
     if (!quiz.id) return;
-    
-    if (confirm(`Are you sure you want to delete "${quiz.title}"? This will also delete all associated questions.`)) {
-      this.spinner.show();
-      this.quizService.deleteQuiz(quiz.id).subscribe({
+    this.common.confirm('Confirm Deletion', `Are you sure you want to delete "${quiz.title}"? This will also delete all associated questions.`, 'Yes', 'No', () => {
+      this.common.showSpinner();
+      this.quizService.deleteQuiz(quiz.id || '').subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Quiz deleted successfully'
-          });
+          this.common.showMessage(
+            'success',
+                'Success',
+            'Quiz deleted successfully'
+          );
           this.loadQuizzes();
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to delete quiz'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+            'error',
+            'Error',
+            error?.error?.message || 'Failed to delete quiz'
+          );
+          this.common.hideSpinner();
         }
       });
-    }
+    }, () => {
+      return;
+    });
   }
 
   addQuestions(quiz: Quiz): void {
@@ -269,15 +284,31 @@ export class InstructorQuizzes implements OnInit {
       day: 'numeric' 
     });
   }
+  setupDateValidators(): void {
+    // Watch for Start Date changes to update Min End Date
+  this.quizForm.get('startDate')?.valueChanges.subscribe((startDate) => {
+    console.log('Start Date Changed:', startDate); // This will now only log when you actually pick a date
+    this.minEndDate = startDate ? new Date(startDate) : null;
+    
+    // Optional: If start date is after current end date, clear end date
+    const currentEndDate = this.quizForm.get('endDate')?.value;
+    if (currentEndDate && this.minEndDate && new Date(currentEndDate) < this.minEndDate) {
+      this.quizForm.get('endDate')?.setValue(null);
+    }
+  });
+  this.quizForm.get('endDate')?.valueChanges.subscribe((endDate) => {
+    this.minDueDate = endDate ? new Date(endDate) : null;
+  });
+}
 
-  formatDateForAPI(date: Date | string): string {
-    if (!date) return '';
-    const d = date instanceof Date ? date : new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
+  // formatDateForAPI(date: Date | string): string {
+  //   if (!date) return '';
+  //   const d = date instanceof Date ? date : new Date(date);
+  //   const year = d.getFullYear();
+  //   const month = String(d.getMonth() + 1).padStart(2, '0');
+  //   const day = String(d.getDate()).padStart(2, '0');
+  //   return `${year}-${month}-${day}`;
+  // }
 
   getStatusClass(status?: string): string {
     switch (status) {

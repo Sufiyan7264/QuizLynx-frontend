@@ -72,17 +72,17 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="duration" class="form-label required">Duration (minutes)</label>
+          <label for="timerInMin" class="form-label required">Duration (minutes)</label>
           <p-inputNumber
-            id="duration"
-            formControlName="duration"
+            id="timerInMin"
+            formControlName="timerInMin"
             [min]="1"
             [max]="300"
             placeholder="60"
             styleClass="w-full"
             inputStyleClass="w-full"
           ></p-inputNumber>
-          @if (quizForm.get('duration')?.invalid && quizForm.get('duration')?.touched) {
+          @if (quizForm.get('timerInMin')?.invalid && quizForm.get('timerInMin')?.touched) {
             <span class="error-message">Duration is required</span>
           }
         </div>

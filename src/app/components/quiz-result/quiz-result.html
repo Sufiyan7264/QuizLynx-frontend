@@ -71,14 +71,14 @@
 
           <div class="questions-review">
             @for (review of questionReviews; track review.questionId; let i = $index) {
-              <div class="question-review-card" [class.correct]="review.isCorrect" [class.incorrect]="!review.isCorrect">
+              <div class="question-review-card" [class.correct]="review.correct" [class.incorrect]="!review.correct">
                 <div class="question-header">
                   <div class="question-number">
                     <span>Question {{ i + 1 }}</span>
                     <span class="question-marks">({{ review.earnedMarks }}/{{ review.marks }} marks)</span>
                   </div>
                   <div class="answer-status">
-                    @if (review.isCorrect) {
+                    @if (review.correct) {
                       <i class="pi pi-check-circle correct-icon"></i>
                       <span class="status-text correct-text">Correct</span>
                     } @else {
@@ -92,17 +92,19 @@
                   {{ review.questionText }}
                 </div>
 
-                @if (review.questionType === 'MULTIPLE_CHOICE' || review.questionType === 'TRUE_FALSE') {
+                <!-- Commented out MULTIPLE_CHOICE condition - all questions have 4 options with one right answer -->
+                <!-- Using option1, option2, option3, option4 instead of options array -->
+                <!-- @if (review.questionType === 'MULTIPLE_CHOICE' || review.questionType === 'TRUE_FALSE') { -->
                   <div class="options-review">
-                    @for (option of review.options; track $index) {
+                    @for (option of getReviewOptions(review); track $index) {
                       <div class="option-item" 
                            [class.selected]="isOptionSelected(option, review.selectedAnswer)"
                            [class.correct-answer]="isCorrectAnswer(option, review.correctAnswer)"
-                           [class.wrong-selected]="!review.isCorrect && isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)">
+                           [class.wrong-selected]="!review.correct && isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)">
                         <div class="option-indicator">
                           @if (isCorrectAnswer(option, review.correctAnswer)) {
                             <i class="pi pi-check correct-mark"></i>
-                          } @else if (isOptionSelected(option, review.selectedAnswer) && !review.isCorrect) {
+                          } @else if (isOptionSelected(option, review.selectedAnswer) && !review.correct) {
                             <i class="pi pi-times wrong-mark"></i>
                           } @else {
                             <div class="option-circle"></div>
@@ -118,7 +120,7 @@
                       </div>
                     }
                   </div>
-                } @else {
+                <!-- } @else {
                   <div class="text-answer-review">
                     <div class="answer-box">
                       <label class="answer-label">Your Answer:</label>
@@ -131,7 +133,7 @@
                       </div>
                     }
                   </div>
-                }
+                } -->
               </div>
             }
           </div>

@@ -115,6 +115,8 @@ html {
   margin: 0;
   padding: 0;
   font-family: 'Mona Sans', sans-serif;
+  scrollbar-width: thin;
+
   // font-family: 'josefin Sans', sans-serif;
 }
 body{
@@ -247,4 +249,25 @@ p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
     padding: 0.5rem;
     color: var(--color-text);
   }
+}
+.p-select{
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--input-bg-col);
+  color: var(--color-muted-text);
+  &:focus{
+    outline: none;
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  .p-select-label{
+    color: var(--placeholder-color);
+    padding: 0.65rem 0.5rem;
+  }
+}
+.p-select.p-invalid{
+  border: 1px solid var(--color-danger);
+}
+p-select.p-select-open.p-inputwrapper-focus{
+  border: 1px solid var(--color-primary);
 }

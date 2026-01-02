@@ -8,7 +8,7 @@ import { Question, CreateQuestionRequest } from '../interface/interfaces';
 })
 export class QuestionService {
   private readonly http = inject(HttpClient);
-  private readonly BASE_URL = 'https://localhost:8080/api/questions';
+  private readonly BASE_URL = 'https://localhost:8080/api/question';
 
   // Get all questions for a quiz
   getQuestionsByQuiz(quizId: string): Observable<Question[]> {
@@ -22,17 +22,17 @@ export class QuestionService {
 
   // Create a new question
   createQuestion(question: CreateQuestionRequest): Observable<Question> {
-    return this.http.post<Question>(`${this.BASE_URL}`, question);
+    return this.http.post<Question>(`${this.BASE_URL}/add/${question.quizId}`, question);
   }
 
   // Update a question
   updateQuestion(id: string, question: Partial<CreateQuestionRequest>): Observable<Question> {
-    return this.http.put<Question>(`${this.BASE_URL}/${id}`, question);
+    return this.http.put<Question>(`${this.BASE_URL}/update/${id}`, question);
   }
 
   // Delete a question
   deleteQuestion(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.BASE_URL}/${id}`);
+    return this.http.delete<void>(`${this.BASE_URL}/delete/${id}`);
   }
 }
 

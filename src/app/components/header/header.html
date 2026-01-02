@@ -48,6 +48,16 @@
           <a href="/register" class="hidden sm:inline-block rounded-full bg-[#3b82f6] px-3 md:px-5 py-2 text-xs md:text-sm font-medium text-white hover:shadow-xl duration-200 ease-in hover:shadow-black/30">Register</a>
         }
         @else if(isLoggedIn$ | async) {
+          @if (currentUser?.role === 'INSTRUCTOR') {
+            <button 
+                pButton 
+                class="p-button-rounded p-button-text p-button-plain"
+                pTooltip="AI Generator"
+                tooltipPosition="bottom"
+                (click)="openAiTool()">
+                <i class="pi pi-sparkles text-purple-500 font-bold text-xl"></i>
+            </button>
+        } 
           <div class="flex gap-2">
               <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white hidden sm:flex " size="normal" (click)="menu.toggle($event)"></p-avatar>
           </div>
@@ -105,9 +115,13 @@
           <a routerLink="/student/batches" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/batches'">
             <i class="pi pi-book"></i> My Classrooms
           </a>
-          <a routerLink="/student/quizzes" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/quizzes'">
-            <i class="pi pi-list"></i> Active Quizzes
-          </a>
+          <app-mobile-nav-link
+            routerLink="/student/quizzes"
+            icon="pi pi-list"
+            label="Active Quizzes"
+            [isActive]="router.url === '/student/quizzes'"
+            (linkClick)="closeMobileMenu()">
+          </app-mobile-nav-link>
           <a routerLink="/student/attempts" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" [class.active]="router.url === '/student/attempts'">
             <i class="pi pi-chart-bar"></i> Results
           </a>
@@ -144,35 +158,44 @@
 <div class="card shadow-lg">
   <p-menu [model]="items" class="flex justify-center" styleClass="w-full md:w-60" #menu [popup]="true">
 
-      <ng-template #submenuheader let-item>
-          <span class="text-primary font-bold">{{ item.label }}</span>
-      </ng-template>
-      <ng-template #item let-item>
-          <a pRipple 
-             class="flex items-center px-3 py-2 cursor-pointer" 
-             [class]="item.linkClass"
-             [routerLink]="item.routerLink"
-             (click)="item.command && item.command()">
-              <span [class]="item.icon"></span>
-              <span class="ms-2">{{ item.label }}</span>
-              @if(item.badge){
-                <p-badge class="ms-auto" [value]="item.badge" />
-              }
-              @if(item.shortcut){
-                <span class="ms-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
-              }
-          </a>
-      </ng-template>
-      <ng-template #end>
-          <button pRipple class=" gap-3 items-center relative overflow-hidden w-full border-t border-border border-0 bg-transparent flex p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
-            <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white rounded-full" size="normal" (click)="menu.toggle($event)"></p-avatar>
-            <span class="inline-flex flex-col">
-                  <span class="font-bold">{{currentUser?.username}}</span>
-                  <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
-                [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
-              </span>
-          </button>
-      </ng-template>
-  </p-menu>
+    <ng-template #submenuheader let-item>
+        <span class="text-primary font-bold">{{ item.label }}</span>
+    </ng-template>
+
+    <ng-template #item let-item>
+        <a pRipple 
+           class="flex items-center px-3 py-2 cursor-pointer" 
+           [class]="item.linkClass"
+           [routerLink]="item.routerLink">
+           
+           <span [class]="item.icon"></span>
+           <span class="ms-2">{{ item.label }}</span>
+           
+           @if(item.badge){
+             <p-badge class="ms-auto" [value]="item.badge" />
+           }
+           @if(item.shortcut){
+             <span class="ms-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+           }
+        </a>
+    </ng-template>
+
+    <ng-template #end>
+        <button pRipple class="gap-3 items-center relative overflow-hidden w-full border-t border-border border-0 bg-transparent flex p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
+          <p-avatar [label]="(currentUser?.username || 'U').charAt(0).toUpperCase()" class="bg-primary cursor-pointer text-white rounded-full" size="normal" (click)="menu.toggle($event)"></p-avatar>
+          <span class="inline-flex flex-col">
+              <span class="font-bold">{{currentUser?.username}}</span>
+              <p-tag [class]="currentUser?.role && getRoleColor(currentUser?.role)" [value]="currentUser?.role" class="px-2"
+              [icon]="currentUser?.role && getRoleIcon(currentUser?.role)" />
+          </span>
+        </button>
+    </ng-template>
+</p-menu>
 </div>
+@if (currentUser?.role === 'INSTRUCTOR') {
+  <app-ai-generator 
+      [(visible)]="showAiModal" 
+      (onSaved)="onAiSuccess()">
+  </app-ai-generator>
+}
 

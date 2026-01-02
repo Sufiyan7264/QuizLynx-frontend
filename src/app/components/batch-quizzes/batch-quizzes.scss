@@ -1,11 +1,11 @@
 .batch-quizzes-container {
-  padding: 2rem;
+  padding: 1.2rem;
   max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;
 
   .quizzes-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     .header-content {
       .back-btn {
@@ -15,7 +15,6 @@
         padding: 0.5rem 1rem;
         background: transparent;
         color: var(--color-text);
-        border: 1px solid var(--color-border);
         border-radius: 6px;
         font-size: 0.875rem;
         font-weight: 500;
@@ -35,14 +34,14 @@
       }
 
       .page-title {
-        font-size: 2rem;
+        font-size:1.5rem;
         font-weight: 700;
         color: var(--color-text);
         margin: 0 0 0.5rem 0;
       }
 
       .page-subtitle {
-        font-size: 1rem;
+        font-size:0.9rem;
         color: var(--color-muted-text);
         margin: 0;
       }
@@ -52,8 +51,8 @@
   .search-section {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
     background: var(--color-primary-foreground);
     border: 1px solid var(--color-border);
     border-radius: 12px;
@@ -148,7 +147,7 @@
       }
 
       p {
-        font-size: 1rem;
+        font-size:0.9rem;
         color: var(--color-muted-text);
         margin: 0 0 1.5rem 0;
       }
@@ -167,7 +166,7 @@
         background: var(--color-primary-foreground);
         border: 1px solid var(--color-border);
         border-radius: 12px;
-        padding: 1.5rem;
+        padding: 1rem;
         transition: all 0.2s ease;
 
         &:hover:not(.unavailable) {

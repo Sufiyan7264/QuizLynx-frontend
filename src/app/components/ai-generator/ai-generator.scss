@@ -1,0 +1,292 @@
+// --- Variables for the Minimal Look ---
+$bg-color: var(--color-bg);
+$text-primary: var(--color-text);
+$text-secondary: var(--color-muted-text);
+$border-color: var(--color-border);
+$primary-color: var(--color-primary); // Tailwind Blue-500
+$primary-hover: #2563eb; // Tailwind Blue-600
+$bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
+
+// IMPORTANT: We use ::ng-deep because p-dialog creates elements outside this component
+::ng-deep .minimal-ai-dialog {
+    .p-slider{
+        height: 15px;
+        .p-slider-handle{
+            top: -2px;
+        }
+    }
+  
+  // 1. The Main Modal Container
+  .p-dialog {
+    background: $bg-color !important;
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important; // Deep shadow
+    border: 1px solid $border-color !important;
+    font-family: inherit; // Inherit your app's font
+    overflow: hidden; // Keeps corners rounded
+
+    // Reset PrimeNG's default padding to 0 so we can control it
+    .p-dialog-content {
+      padding: 0 !important;
+      border-radius: 0 !important;
+    }
+    
+    // Hide default header if you used [showHeader]="false" in HTML
+    .p-dialog-header {
+      display: none;
+    }
+  }
+}
+::ng-deep .p-dialog-content{
+    border-radius: 0.5rem;
+}
+
+
+// 2. Custom Header Styling
+.dialog-header {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background: $bg-color;
+  border-bottom: 1px solid $border-color;
+
+  .header-content {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    .icon-wrapper {
+      width: 44px;
+      height: 44px;
+      background: $bg-subtle; // Light blue bg
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      
+      i {
+        color: $primary-color;
+        font-size: 1.25rem;
+      }
+    }
+
+    .title-wrapper {
+      h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: $text-primary;
+        line-height: 1.2;
+      }
+      p {
+        margin: 4px 0 0 0;
+        font-size: 0.875rem;
+        color: $text-secondary;
+      }
+    }
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: $bg-subtle;
+      color: $text-primary;
+    }
+    
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+
+// 3. Main Content Area
+.dialog-content {
+  padding: 1.5rem;
+  background: $bg-color;
+}
+
+// Input Group Labels
+.input-section, .mt-6 {
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// 4. Textarea (Fixing Tailwind Conflict)
+.minimal-textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid $border-color !important; // Force border back
+  border-radius: 8px !important;
+  padding: 0.75rem !important;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: $text-primary;
+  background: $bg-subtle !important;
+  resize: vertical;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // Subtle shadow
+  
+  &:focus {
+    outline: none !important;
+    border-color: $primary-color !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important; // Blue ring
+  }
+  
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+// 5. Preset Chips (The buttons below textarea)
+.flex.gap-2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.preset-chip {
+  background: $bg-subtle;
+  border: 1px solid $border-color;
+  color: $text-secondary;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-hover); // Light blue hover
+    border-color: var(--color-border);
+    color: $primary-color;
+    transform: translateY(-1px);
+  }
+}
+
+// 6. Slider Section
+.flex.justify-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.count-badge {
+  background: #eff6ff;
+  color: $primary-color;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+// Force PrimeNG Slider Styles
+::ng-deep .minimal-slider {
+  .p-slider {
+    background: $border-color !important;
+    height: 6px !important;
+    border-radius: 3px;
+    
+    .p-slider-range {
+      background: $primary-color !important;
+    }
+
+    .p-slider-handle {
+      background: #ffffff !important;
+      border: 2px solid $primary-color !important;
+      width: 20px !important;
+      height: 20px !important;
+      margin-top: -8px !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      
+      &:hover {
+        transform: scale(1.1);
+        cursor: grab;
+      }
+      
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      }
+    }
+  }
+}
+
+// 7. Footer Actions
+.dialog-footer {
+  padding: 1.25rem 1.5rem;
+  background: $bg-subtle; // Slightly gray footer
+  border-top: 1px solid $border-color;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+
+  // Cancel Button
+  button.p-button-text {
+    color: $text-secondary !important;
+    font-weight: 500;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.05) !important;
+      color: $text-primary !important;
+    }
+  }
+
+  // Generate Button (Primary)
+  button:not(.p-button-text) {
+    background: $primary-color !important;
+    border: 1px solid $primary-color !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    
+    &:hover {
+      background: $primary-hover !important;
+      border-color: $primary-hover !important;
+    }
+
+    &:disabled {
+      background: #9ca3af !important; // Gray when disabled
+      border-color: #9ca3af !important;
+    }
+  }
+}
+
+// 8. Preview Section (Scrollbar)
+.preview-section {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+    &:hover { background: #9ca3af; }
+  }
+}

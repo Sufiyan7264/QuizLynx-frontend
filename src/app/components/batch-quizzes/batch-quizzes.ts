@@ -50,7 +50,7 @@ export class BatchQuizzes implements OnInit {
 
   loadBatch(): void {
     if (!this.batchId) return;
-    this.batchService.getBatchById(this.batchId).subscribe({
+    this.batchService.getBatchByIdForStudent(this.batchId).subscribe({
       next: (batch) => {
         this.batch = batch;
       },

@@ -1,0 +1,8 @@
+<a 
+  [routerLink]="routerLink" 
+  (click)="onClick()" 
+  class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-option-hover text-text font-medium" 
+  [class.active]="isActive">
+  <i [class]="icon"></i> {{ label }}
+</a>
+

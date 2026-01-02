@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { StudentService } from '../../core/service/student';
 import { BatchService } from '../../core/service/batch';
 import { Student, Batch } from '../../core/interface/interfaces';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
 import { Toast } from 'primeng/toast';
 import { Select } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-instructor-students',
@@ -21,13 +22,11 @@ import { FormsModule } from '@angular/forms';
   ],
   templateUrl: './instructor-students.html',
   styleUrl: './instructor-students.scss',
-  providers: [MessageService]
 })
 export class InstructorStudents implements OnInit {
   private readonly studentService = inject(StudentService);
   private readonly batchService = inject(BatchService);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  private readonly common = inject(Common);
 
   students: Student[] = [];
   filteredStudents: Student[] = [];
@@ -41,21 +40,17 @@ export class InstructorStudents implements OnInit {
   }
 
   loadStudents(): void {
-    this.spinner.show();
+    this.common.showSpinner();
     this.studentService.getStudents().subscribe({
       next: (students) => {
         this.students = students;
         this.applyFilters();
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading students:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load students'
-        });
-        this.spinner.hide();
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load students');
+        this.common.hideSpinner();
       }
     });
   }
@@ -66,7 +61,8 @@ export class InstructorStudents implements OnInit {
         this.batches = batches;
       },
       error: (error) => {
-        console.error('Error loading batches:', error);
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load batches');
+        this.common.hideSpinner();
       }
     });
   }
@@ -140,12 +136,12 @@ export class InstructorStudents implements OnInit {
   }
 
   getBatchNames(student: Student): string {
-    if (student.batchNames && student.batchNames.length > 0) {
+    if (student.batchNames && student.batchNames.length > 0) { 
       return student.batchNames.join(', ');
     }
     if (student.enrolledBatches && student.enrolledBatches.length > 0) {
       const names = student.enrolledBatches
-        .map(batchId => this.batches.find(b => b.id === batchId)?.batchName)
+        .map(batchId => this.batches.find(b => b.batchName === batchId)?.batchName)
         .filter(name => name)
         .join(', ');
       return names || 'No batches';

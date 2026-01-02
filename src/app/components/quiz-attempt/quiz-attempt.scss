@@ -1,5 +1,5 @@
 .quiz-attempt-container {
-  padding: 2rem;
+  padding: 1.2rem;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
@@ -22,17 +22,17 @@
 
       .quiz-header {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
 
         .quiz-title {
-          font-size: 2rem;
+          font-size:1.5rem;
           font-weight: 700;
           color: var(--color-text);
           margin: 0 0 1rem 0;
         }
 
         .quiz-description {
-          font-size: 1rem;
+          font-size:0.9rem;
           color: var(--color-muted-text);
           margin: 0;
           line-height: 1.6;
@@ -43,7 +43,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
 
         .info-card {
           display: flex;
@@ -71,7 +71,7 @@
             }
 
             .info-value {
-              font-size: 1rem;
+              font-size:0.9rem;
               font-weight: 600;
               color: var(--color-text);
             }
@@ -83,11 +83,11 @@
         background: var(--color-bg);
         border: 1px solid var(--color-border);
         border-radius: 8px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
 
         h3 {
-          font-size: 1rem;
+          font-size:0.9rem;
           font-weight: 600;
           color: var(--color-text);
           margin: 0 0 1rem 0;
@@ -142,7 +142,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem;
+      padding: 1rem;
       background: var(--color-primary-foreground);
       border: 1px solid var(--color-border);
       border-radius: 12px;
@@ -193,7 +193,7 @@
           }
 
           i {
-            font-size: 1rem;
+            font-size:0.9rem;
           }
         }
 
@@ -255,7 +255,7 @@
       background: var(--color-primary-foreground);
       border: 1px solid var(--color-border);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1.2rem;
       margin-bottom: 1.5rem;
 
       .question-header {
@@ -326,7 +326,7 @@
             }
 
             .option-text {
-              font-size: 1rem;
+              font-size:0.9rem;
               color: var(--color-text);
               flex: 1;
             }
@@ -340,7 +340,7 @@
           padding: 1rem;
           border: 2px solid var(--color-border);
           border-radius: 8px;
-          font-size: 1rem;
+          font-size:0.9rem;
           resize: vertical;
           min-height: 150px;
           background: var(--input-bg-col);
@@ -359,13 +359,13 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      padding: 1.5rem;
+      padding: 1rem;
       background: var(--color-primary-foreground);
       border: 1px solid var(--color-border);
       border-radius: 12px;
 
       .nav-button {
-        padding: 0.75rem 1.5rem;
+        padding: 0.5rem 1rem;
         border: 1px solid var(--color-border);
         border-radius: 8px;
         background: var(--color-primary-foreground);
@@ -445,7 +445,7 @@
       }
 
       p {
-        font-size: 1rem;
+        font-size:0.9rem;
         color: var(--color-muted-text);
         margin: 0;
       }

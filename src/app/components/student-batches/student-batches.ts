@@ -6,8 +6,8 @@ import { BatchService } from '../../core/service/batch';
 import { Batch } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -20,7 +20,6 @@ import { Common } from '../../core/common/common';
   ],
   templateUrl: './student-batches.html',
   styleUrl: './student-batches.scss',
-  providers: [MessageService]
 })
 export class StudentBatches implements OnInit {
   private readonly batchService = inject(BatchService);

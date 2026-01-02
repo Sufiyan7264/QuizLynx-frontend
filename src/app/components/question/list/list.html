@@ -1,1 +1,93 @@
-<p>list works!</p>
+<div class="questions-container !pt-24">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  
+  <div class="questions-content">
+    <!-- Header Section -->
+    <div class="questions-header">
+      <div class="header-info">
+        <h1 class="page-title">Questions</h1>
+        @if (quiz) {
+          <p class="page-subtitle">Quiz: {{ quiz.title }}</p>
+        }
+      </div>
+      <div class="header-actions">
+        <button pButton (click)="goBack()" class="back-btn">
+          <i class="pi pi-arrow-left"></i>
+          <span>Back to Quizzes</span>
+        </button>
+        <button pButton (click)="addQuestion()" class="add-btn">
+          <i class="pi pi-plus"></i>
+          <span>Add Question</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Questions List -->
+    <div class="questions-list">
+      @if (questions.length === 0) {
+        <div class="empty-state">
+          <i class="pi pi-question-circle empty-icon"></i>
+          <h3>No questions yet</h3>
+          <p>Add your first question to get started</p>
+          <button pButton (click)="addQuestion()" class="add-btn">
+            <i class="pi pi-plus"></i>
+            <span>Add Question</span>
+          </button>
+        </div>
+      } @else {
+        <div class="questions-grid">
+          @for (question of questions; track question.id; let i = $index) {
+            <div class="question-card">
+              <div class="question-header">
+                <div class="question-number">
+                  <span class="number-badge">{{ i + 1 }}</span>
+                  <span class="type-badge">{{ getQuestionTypeLabel(question.questionType) }}</span>
+                </div>
+                <div class="question-actions">
+                  <button class="action-btn edit-btn" (click)="editQuestion(question)" title="Edit">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="deleteQuestion(question)" title="Delete">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="question-content">
+                <p class="question-text">{{ question.questionTitle }}</p>
+                
+                @if (question.option1 && question.option2 && question.option3 && question.option4) {
+                  <div class="options-section">
+                    <label class="options-label">Options:</label>
+                    <ul class="options-list">
+                      @for (option of [question.option1, question.option2, question.option3, question.option4]; track $index) {
+                        <li class="option-item">
+                          <i class="pi pi-circle-fill option-icon"></i>
+                          <span>{{ option }}</span>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                }
+                
+                <div class="question-details">
+                  <div class="detail-item">
+                    <i class="pi pi-check-circle"></i>
+                    <span class="detail-label">Correct Answer:</span>
+                    <span class="detail-value">{{ formatCorrectAnswer(question.rightAnswer) }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="pi pi-star"></i>
+                    <span class="detail-label">Marks:</span>
+                    <span class="detail-value">{{ question.marks }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

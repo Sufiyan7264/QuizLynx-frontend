@@ -16,7 +16,7 @@
     </div>
 
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()" class="question-form">
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="questionType" class="form-label required">Question Type</label>
         <p-select
           id="questionType"
@@ -26,87 +26,134 @@
           optionValue="value"
           styleClass="w-full"
         ></p-select>
-      </div>
+      </div> -->
 
       <div class="form-group">
-        <label for="questionText" class="form-label required">Question Text</label>
+        <label for="questionTitle" class="form-label required">Question </label>
         <textarea
-          id="questionText"
+          id="question"
           pInputText
-          formControlName="questionText"
+          formControlName="questionTitle"
           placeholder="Enter your question here..."
           rows="4"
           class="form-textarea"
-          [class.error]="questionForm.get('questionText')?.invalid && questionForm.get('questionText')?.touched"
+          [class.error]="questionForm.get('questionTitle')?.invalid && questionForm.get('questionTitle')?.touched"
         ></textarea>
-        @if (questionForm.get('questionText')?.invalid && questionForm.get('questionText')?.touched) {
+        @if (questionForm.get('questionTitle')?.invalid && questionForm.get('questionTitle')?.touched) {
           <span class="error-message">
-            @if (questionForm.get('questionText')?.errors?.['required']) {
-              Question text is required
-            } @else if (questionForm.get('questionText')?.errors?.['minlength']) {
-              Question text must be at least 5 characters
+            @if (questionForm.get('questionTitle')?.errors?.['required']) {
+              Question is required
+            } @else if (questionForm.get('questionTitle')?.errors?.['minlength']) {
+              Question must be at least 5 characters
             }
           </span>
         }
       </div>
 
-      @if (questionType === 'MULTIPLE_CHOICE' || questionType === 'TRUE_FALSE') {
-        <div class="form-group">
-          <div class="options-header">
-            <label class="form-label required">Options</label>
-            @if (questionType === 'MULTIPLE_CHOICE') {
-              <button type="button" class="add-option-btn" (click)="addOption()">
-                <i class="pi pi-plus"></i>
-                <span>Add Option</span>
-              </button>
-            }
-          </div>
-          <div class="options-list">
-            @for (option of optionControls; track $index) {
-              <div class="option-item">
-                <input
-                  type="text"
-                  pInputText
-                  [formControl]="option"
-                  [placeholder]="'Option ' + ($index + 1)"
-                  class="form-input option-input"
-                />
-                @if (questionType === 'MULTIPLE_CHOICE' && options.length > 2) {
-                  <button type="button" class="remove-option-btn" (click)="removeOption($index)">
-                    <i class="pi pi-times"></i>
-                  </button>
-                }
-              </div>
-            }
-          </div>
+      <!-- Multiple Choice with 4 options (hardcoded) -->
+      <div class="form-group">
+        <div class="options-header">
+          <label class="form-label required">Options (4 required)</label>
+          <!-- Commented out - fixed to 4 options only -->
+          <!-- <button type="button" class="add-option-btn" (click)="addOption()">
+            <i class="pi pi-plus"></i>
+            <span>Add Option</span>
+          </button> -->
         </div>
+        <div class="options-list">
+          <!-- @for (option of optionControls; track $index) { -->
+            <div class="option-item">
+              <input
+                type="text"
+                pInputText
+                formControlName="option1"
+                [placeholder]="'Option 1'"
+                [invalid]="questionForm.get('options1')?.invalid && questionForm.get('options1')?.touched"
+                class="form-input option-input"
+              />
+              <!-- Commented out - keeping exactly 4 options -->
+              <!-- @if (options.length > 2) {
+                <button type="button" class="remove-option-btn" (click)="removeOption($index)">
+                  <i class="pi pi-times"></i>
+                </button>
+              } -->
+            </div>
+            <div class="option-item">
+              <input
+                type="text"
+                pInputText
+                formControlName="option2"
+                [placeholder]="'Option 2'"
+                [invalid]="questionForm.get('option2')?.invalid && questionForm.get('option2')?.touched"
+                class="form-input option-input"
+              />
+              <!-- Commented out - keeping exactly 4 options -->
+              <!-- @if (options.length > 2) {
+                <button type="button" class="remove-option-btn" (click)="removeOption($index)">
+                  <i class="pi pi-times"></i>
+                </button>
+              } -->
+            </div>
+            <div class="option-item">
+              <input
+                type="text"
+                pInputText
+                formControlName="option3"
+                [placeholder]="'Option 3'"
+                [invalid]="questionForm.get('option3')?.invalid && questionForm.get('option3')?.touched"
+                class="form-input option-input"
+              />
+              <!-- Commented out - keeping exactly 4 options -->
+              <!-- @if (options.length > 2) {
+                <button type="button" class="remove-option-btn" (click)="removeOption($index)">
+                  <i class="pi pi-times"></i>
+                </button>
+              } -->
+            </div>
+            <div class="option-item">
+              <input
+                type="text"
+                pInputText
+                formControlName="option4"
+                [placeholder]="'Option 4'"
+                [invalid]="questionForm.get('option4')?.invalid && questionForm.get('option4')?.touched"
+                class="form-input option-input"
+              />
+              <!-- Commented out - keeping exactly 4 options -->
+              <!-- @if (options.length > 2) {
+                <button type="button" class="remove-option-btn" (click)="removeOption($index)">
+                  <i class="pi pi-times"></i>
+                </button>
+              } -->
+            </div>
+          <!-- } -->
+        </div>
+      </div>
 
-        <div class="form-group">
-          <label for="correctAnswer" class="form-label required">Correct Answer</label>
-          @if (questionType === 'TRUE_FALSE') {
-            <p-select
-              id="correctAnswer"
-              formControlName="correctAnswer"
-              [options]="trueFalseOptions"
-              placeholder="Select correct answer"
-              styleClass="w-full"
-            ></p-select>
-          } @else {
-            <input
-              id="correctAnswer"
-              type="text"
-              pInputText
-              formControlName="correctAnswer"
-              placeholder="Enter the correct answer (must match one of the options)"
-              class="form-input"
-              [class.error]="questionForm.get('correctAnswer')?.invalid && questionForm.get('correctAnswer')?.touched"
-            />
-          }
-          @if (questionForm.get('correctAnswer')?.invalid && questionForm.get('correctAnswer')?.touched) {
-            <span class="error-message">Correct answer is required</span>
-          }
-        </div>
-      } @else {
+      <div class="form-group">
+        <label for="correctAnswer" class="form-label required">Correct Answer</label>
+        <input
+          id="correctAnswer"
+          type="text"
+          pInputText
+          formControlName="correctAnswer"
+          placeholder="Enter the correct answer (must match one of the options)"
+          class="form-input"
+          [class.error]="questionForm.get('correctAnswer')?.invalid && questionForm.get('correctAnswer')?.touched"
+        />
+        @if (questionForm.get('correctAnswer')?.invalid && questionForm.get('correctAnswer')?.touched) {
+          <span class="error-message">
+            @if (questionForm.get('correctAnswer')?.errors?.['required']) {
+              Correct answer is required
+            } @else if (questionForm.get('correctAnswer')?.errors?.['answerNotInOptions']) {
+              Correct answer must match one of the options above
+            }
+          </span>
+        }
+      </div>
+
+      <!-- Commented out - other question types (TRUE_FALSE, SHORT_ANSWER, ESSAY) -->
+      <!-- @else {
         <div class="form-group">
           <label for="correctAnswer" class="form-label">Expected Answer (for reference)</label>
           <textarea
@@ -118,7 +165,7 @@
             class="form-textarea"
           ></textarea>
         </div>
-      }
+      } -->
 
       <div class="form-group">
         <label for="marks" class="form-label required">Marks</label>

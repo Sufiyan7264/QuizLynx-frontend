@@ -6,9 +6,8 @@ import { BatchService } from '../../core/service/batch';
 import { Batch } from '../../core/interface/interfaces';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Toast } from 'primeng/toast';
+import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-student-join',
@@ -21,13 +20,11 @@ import { Toast } from 'primeng/toast';
   ],
   templateUrl: './student-join.html',
   styleUrl: './student-join.scss',
-  providers: [MessageService]
 })
 export class StudentJoin implements OnInit {
   private readonly batchService = inject(BatchService);
   private readonly fb = inject(FormBuilder);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  private readonly common = inject(Common);
   private readonly router = inject(Router);
 
   joinForm: FormGroup = this.fb.group({
@@ -80,30 +77,22 @@ export class StudentJoin implements OnInit {
       return;
     }
 
-    this.spinner.show();
+    this.common.showSpinner();
     this.batchService.joinBatchByCode(code).subscribe({
       next: (batch) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: `Successfully joined "${batch.batchName}"!`
-        });
+        this.common.showMessage('success', 'Success', `Successfully joined "${batch.batchName}"!`);
         this.joinForm.reset();
         this.previewBatchs = null;
         this.showPreview = false;
-        this.spinner.hide();
+        this.common.hideSpinner();
         // Navigate to student batches page after a short delay
         setTimeout(() => {
           this.router.navigate(['/student/batches']);
         }, 1500);
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to join class. Please check the code and try again.'
-        });
-        this.spinner.hide();
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to join class. Please check the code and try again.');
+        this.common.hideSpinner();
       }
     });
   }

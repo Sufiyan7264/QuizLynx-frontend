@@ -11,7 +11,7 @@ export interface UpdateProfileRequest {
 }
 
 export interface UpdatePasswordRequest {
-  currentPassword: string;
+  oldPassword: string;
   newPassword: string;
 }
 
@@ -30,6 +30,9 @@ export class UserService {
   // Update user profile
   updateProfile(data: UpdateProfileRequest): Observable<any> {
     return this.http.put(`${this.BASE_URL}/me`, data);
+  }
+  getDashboard(): Observable<any> {
+    return this.http.get(`https://localhost:8080/api/student/dashboard`);
   }
 
   // Delete account

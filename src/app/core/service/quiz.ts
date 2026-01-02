@@ -1,24 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Quiz, CreateQuizRequest } from '../interface/interfaces';
+import { Quiz, CreateQuizRequest, QuestionWrapper } from '../interface/interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService {
   private readonly http = inject(HttpClient);
-  private readonly BASE_URL = 'https://localhost:8080/api/quizzes';
+  private readonly BASE_URL = 'https://localhost:8080/api/quiz';
 
   // Get all quizzes for the current instructor
   getQuizzes(): Observable<Quiz[]> {
-    return this.http.get<Quiz[]>(`${this.BASE_URL}`);
+    return this.http.get<Quiz[]>(`${this.BASE_URL}/student/active-quizzes`);
+  }
+  // Get all quizzes for the current instructor
+  getAllQuizzes(): Observable<Quiz[]> {
+    return this.http.get<Quiz[]>(`${this.BASE_URL}/all`);
   }
 
   // Get a single quiz by ID
   getQuizById(id: string): Observable<Quiz> {
-    return this.http.get<Quiz>(`${this.BASE_URL}/${id}`);
+    return this.http.get<Quiz>(`${this.BASE_URL}/start/${id}`);
   }
+  // Inside your QuizService (Angular)
+
+// Matches Backend: @GetMapping("/{id}")
+getQuizQuestions(quizId: any): Observable<QuestionWrapper[]> {
+  return this.http.get<QuestionWrapper[]>(`${this.BASE_URL}/${quizId}`);
+}
 
   // Create a new quiz
   createQuiz(quiz: CreateQuizRequest): Observable<Quiz> {
