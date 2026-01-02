@@ -62,6 +62,13 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 4300,
+            "ssl": true,
+            "sslKey": "localhost+2-key.pem",
+            "sslCert": "localhost+2.pem",
+            "host": "localhost"
+          },
           "configurations": {
             "production": {
               "buildTarget": "quiz-frontend:build:production"

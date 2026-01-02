@@ -154,11 +154,11 @@ export class QuizResult implements OnInit {
   }
 
   getCorrectAnswersCount(): number {
-    return this.questionReviews.filter(q => q.isCorrect).length;
+    return this.questionReviews.filter(q => q.correct).length;
   }
 
   getWrongAnswersCount(): number {
-    return this.questionReviews.filter(q => !q.isCorrect).length;
+    return this.questionReviews.filter(q => !q.correct).length;
   }
 
   isOptionSelected(option: string, selectedAnswer: string | string[]): boolean {
@@ -180,6 +180,16 @@ export class QuizResult implements OnInit {
       return answer.join(', ');
     }
     return answer || 'No answer provided';
+  }
+
+  // Get options as an array from option1, option2, option3, option4
+  getReviewOptions(review: QuestionReview): string[] {
+    const options: string[] = [];
+    if (review.option1) options.push(review.option1);
+    if (review.option2) options.push(review.option2);
+    if (review.option3) options.push(review.option3);
+    if (review.option4) options.push(review.option4);
+    return options;
   }
 
   goToDashboard(): void {

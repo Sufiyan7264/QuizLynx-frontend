@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  
+  a {
+    transition: all 0.2s ease;
+    
+    &.active {
+      background: var(--color-primary-bg);
+      color: var(--color-primary);
+    }
+  }
+}
+

@@ -114,7 +114,7 @@
                     </div>
                     <div class="student-info">
                       <h3 class="student-name">{{ getStudentDisplayName(student) }}</h3>
-                      <p class="student-username">@{{ student.username || 'N/A' }}</p>
+                      <p class="student-username">@{{ student.name || 'N/A' }}</p>
                     </div>
                   </div>
                   
@@ -227,7 +227,7 @@
                         </div>
                         <div class="info-item">
                           <i class="pi pi-clock"></i>
-                          <span>{{ quiz.duration || 0 }} min</span>
+                          <span>{{ quiz.timerInMin || 0 }} min</span>
                         </div>
                       </div>
                       <div class="info-row">

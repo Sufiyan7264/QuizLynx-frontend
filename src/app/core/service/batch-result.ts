@@ -12,7 +12,7 @@ export class BatchResultService {
 
   // Get results for a specific batch and quiz
   getBatchResults(batchId: string, quizId: string): Observable<BatchResult> {
-    return this.http.get<BatchResult>(`${this.BASE_URL}/batch/${batchId}/quiz/${quizId}`);
+    return this.http.get<BatchResult>(`https://localhost:8080/api/analytics/batch/${batchId}/quiz/${quizId}`);
   }
 
   // Get results for all quizzes in a batch

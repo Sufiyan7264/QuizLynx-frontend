@@ -63,7 +63,7 @@
                   </div>
                   <div class="info-item">
                     <i class="pi pi-clock"></i>
-                    <span>{{ quiz.duration || 0 }} min</span>
+                    <span>{{ quiz.timerInMin || 0 }} min</span>
                   </div>
                 </div>
                 <div class="info-row">
@@ -166,17 +166,19 @@
         </div>
 
         <div class="form-group">
-          <label for="batchId" class="form-label">Batch</label>
+          <label for="batchId" class="form-label required">Batch</label>
           <p-select
             id="batchId"
             formControlName="batchId"
             [options]="batches"
-            optionLabel="name"
+            optionLabel="batchName"
             optionValue="id"
-            placeholder="Select batch (optional)"
-            styleClass="w-full"
-            [showClear]="true"
+            placeholder="Select batch"
+            [invalid]="quizForm.get('batchId')?.invalid && quizForm.get('batchId')?.touched"
           ></p-select>
+          @if (quizForm.get('batchId')?.invalid && quizForm.get('batchId')?.touched) {
+            <span class="error-message">Batch is required</span>
+          }
         </div>
       </div>
 
@@ -185,7 +187,7 @@
           <label for="duration" class="form-label required">Duration (minutes)</label>
           <p-inputNumber
             id="duration"
-            formControlName="duration"
+            formControlName="timerInMin"
             [min]="1"
             [max]="300"
             placeholder="60"
@@ -206,7 +208,11 @@
             optionLabel="label"
             optionValue="value"
             styleClass="w-full"
+            [invalid]="quizForm.get('status')?.invalid && quizForm.get('status')?.touched"
           ></p-select>
+          @if (quizForm.get('status')?.invalid && quizForm.get('status')?.touched) {
+            <span class="error-message">Status is required</span>
+          }
         </div>
       </div>
 
@@ -257,7 +263,6 @@
             dateFormat="yy-mm-dd"
             placeholder="Select end date"
             [minDate]="minEndDate"
-            styleClass="w-full"
             inputStyleClass="w-full"
           ></p-datepicker>
         </div>

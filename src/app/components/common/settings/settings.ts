@@ -39,14 +39,16 @@ export class Settings implements OnInit {
   currentUser?: UserInfo | null;
   isInstructor = false;
   instructorProfile: any = null;
+  isEditMode = false;
+  originalProfileData: any = null;
 
   // Profile Form
   profileForm: FormGroup = this.fb.group({
     displayName: ['', [Validators.required, Validators.minLength(3)]],
-    firstName: [''],
-    lastName: [''],
-    avatarUrl: [''],
     bio: ['']
+    // firstName: [''],
+    // lastName: [''],
+    // avatarUrl: [''],
   });
 
   // Password Form
@@ -62,7 +64,7 @@ export class Settings implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCachedUser();
     this.isInstructor = this.currentUser?.role === 'INSTRUCTOR';
-    
+    this.isEditMode = false; // Start in view mode
     this.loadProfile();
   }
 
@@ -84,13 +86,16 @@ export class Settings implements OnInit {
       this.instructorService.getInstructorInfo().subscribe({
         next: (profile: any) => {
           this.instructorProfile = profile;
-          this.profileForm.patchValue({
-            displayName: profile.displayName || profile.firstName + ' ' + profile.lastName || '',
-            firstName: profile.firstName || '',
-            lastName: profile.lastName || '',
-            avatarUrl: profile.avatarUrl || '',
+          const profileData = {
+            displayName: profile.displayName || (profile.firstName && profile.lastName ? `${profile.firstName} ${profile.lastName}` : '') || profile.username || '',
+            // firstName: profile.firstName || '',
+            // lastName: profile.lastName || '',
+            // avatarUrl: profile.avatarUrl || '',
             bio: profile.bio || ''
-          });
+          };
+          this.originalProfileData = { ...profileData };
+          this.profileForm.patchValue(profileData);
+          this.setFormReadOnly();
           this.spinner.hide();
         },
         error: (error) => {
@@ -106,12 +111,16 @@ export class Settings implements OnInit {
     } else {
       this.userService.getCurrentUserProfile().subscribe({
         next: (profile: any) => {
-          this.profileForm.patchValue({
+          const profileData = {
             displayName: profile.displayName || profile.username || '',
-            firstName: profile.firstName || '',
-            lastName: profile.lastName || '',
-            avatarUrl: profile.avatarUrl || ''
-          });
+            // firstName: profile.firstName || '',
+            // lastName: profile.lastName || '',
+            // avatarUrl: profile.avatarUrl || ''
+            bio: profile.bio || ''
+          };
+          this.originalProfileData = { ...profileData };
+          this.profileForm.patchValue(profileData);
+          this.setFormReadOnly();
           this.spinner.hide();
         },
         error: (error) => {
@@ -127,6 +136,25 @@ export class Settings implements OnInit {
     }
   }
 
+  setFormReadOnly(): void {
+    // Form is always disabled - we'll use it just to store values
+    // When in edit mode, we'll show inputs, when not, we'll show read-only display
+    this.profileForm.disable();
+  }
+
+  enableEditMode(): void {
+    this.isEditMode = true;
+    this.profileForm.enable(); // Enable form when in edit mode
+  }
+
+  cancelEdit(): void {
+    this.isEditMode = false;
+    if (this.originalProfileData) {
+      this.profileForm.patchValue(this.originalProfileData);
+    }
+    this.profileForm.disable(); // Disable form when canceling
+  }
+
   updateProfile(): void {
     if (this.profileForm.invalid) {
       this.profileForm.markAllAsTouched();
@@ -136,9 +164,9 @@ export class Settings implements OnInit {
     const formValue = this.profileForm.value;
     const profileData: UpdateProfileRequest = {
       displayName: formValue.displayName,
-      firstName: formValue.firstName || undefined,
-      lastName: formValue.lastName || undefined,
-      avatarUrl: formValue.avatarUrl || undefined,
+      // firstName: formValue.firstName || undefined,
+      // lastName: formValue.lastName || undefined,
+      // avatarUrl: formValue.avatarUrl || undefined,
       bio: this.isInstructor ? (formValue.bio || undefined) : undefined
     };
 
@@ -152,6 +180,8 @@ export class Settings implements OnInit {
             summary: 'Success',
             detail: 'Profile updated successfully'
           });
+          this.isEditMode = false;
+          this.profileForm.disable();
           this.loadProfile();
           this.spinner.hide();
         },
@@ -172,6 +202,8 @@ export class Settings implements OnInit {
             summary: 'Success',
             detail: 'Profile updated successfully'
           });
+          this.isEditMode = false;
+          this.profileForm.disable();
           this.loadProfile();
           this.spinner.hide();
         },
@@ -195,7 +227,7 @@ export class Settings implements OnInit {
 
     const formValue = this.passwordForm.value;
     const passwordData: UpdatePasswordRequest = {
-      currentPassword: formValue.currentPassword,
+      oldPassword: formValue.currentPassword,
       newPassword: formValue.newPassword
     };
 

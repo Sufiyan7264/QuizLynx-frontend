@@ -14,6 +14,7 @@ import { Select } from 'primeng/select';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Toast } from 'primeng/toast';
+import { Common } from '../../../core/common/common';
 
 @Component({
   selector: 'app-create',
@@ -36,8 +37,9 @@ export class Create implements OnInit {
   private readonly quizService = inject(QuizService);
   private readonly batchService = inject(BatchService);
   private readonly fb = inject(FormBuilder);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  // private readonly messageService = inject(MessageService);
+  // private readonly spinner = inject(NgxSpinnerService);
+  private readonly common = inject(Common);
   public readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -49,7 +51,7 @@ export class Create implements OnInit {
     title: ['', [Validators.required, Validators.minLength(3)]],
     description: [''],
     subject: [''],
-    duration: [60, [Validators.required, Validators.min(1)]],
+    timerInMin: [60, [Validators.required, Validators.min(1)]],
     totalMarks: [100, [Validators.required, Validators.min(1)]],
     passingMarks: [50, [Validators.required, Validators.min(0)]],
     startDate: [null],
@@ -86,14 +88,14 @@ export class Create implements OnInit {
 
   loadQuiz(): void {
     if (!this.quizId) return;
-    this.spinner.show();
+    this.common.showSpinner();
     this.quizService.getQuizById(this.quizId).subscribe({
       next: (quiz) => {
         this.quizForm.patchValue({
           title: quiz.title,
           description: quiz.description || '',
           subject: quiz.subject || '',
-          duration: quiz.duration || 60,
+          timerInMin: quiz.timerInMin || 60,
           totalMarks: quiz.totalMarks || 100,
           passingMarks: quiz.passingMarks || 50,
           startDate: quiz.startDate ? new Date(quiz.startDate) : null,
@@ -102,16 +104,16 @@ export class Create implements OnInit {
           batchId: quiz.batchId || null,
           status: quiz.status || 'DRAFT'
         });
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading quiz:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load quiz'
-        });
-        this.spinner.hide();
+        this.common.showMessage(
+          'error',
+          'Error',
+          error?.error?.message || 'Failed to load quiz'
+        );
+        this.common.hideSpinner();
       }
     });
   }
@@ -138,7 +140,7 @@ export class Create implements OnInit {
       title: formValue.title,
       description: formValue.description || undefined,
       subject: formValue.subject || undefined,
-      duration: formValue.duration,
+      timerInMin: formValue.timerInMin,
       totalMarks: formValue.totalMarks,
       passingMarks: formValue.passingMarks,
       startDate: formValue.startDate ? this.formatDateForAPI(formValue.startDate) : undefined,
@@ -148,50 +150,50 @@ export class Create implements OnInit {
       status: formValue.status
     };
 
-    this.spinner.show();
+    this.common.showSpinner();
 
     if (this.isEditMode && this.quizId) {
       this.quizService.updateQuiz(this.quizId, quizData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Quiz updated successfully'
-          });
+          this.common.showMessage(
+            'success',
+            'Success',
+            'Quiz updated successfully'
+          );
           this.router.navigate(['/instructor/quizzes']);
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to update quiz'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+            'error',
+            'Error',
+            error?.error?.message || 'Failed to update quiz'
+          );
+          this.common.hideSpinner();
         }
       });
     } else {
       this.quizService.createQuiz(quizData).subscribe({
         next: (createdQuiz) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Quiz created successfully'
-          });
+          this.common.showMessage(
+            'success',
+            'Success',
+            'Quiz created successfully'
+          );
           if (createdQuiz.id) {
             this.router.navigate(['/question/create'], { queryParams: { quizId: createdQuiz.id } });
           } else {
             this.router.navigate(['/instructor/quizzes']);
           }
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to create quiz'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+            'error',
+            'Error',
+            error?.error?.message || 'Failed to create quiz'
+          );
+          this.common.hideSpinner();
         }
       });
     }

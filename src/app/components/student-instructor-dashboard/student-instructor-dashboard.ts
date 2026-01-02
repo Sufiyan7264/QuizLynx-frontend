@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { ButtonModule } from 'primeng/button';
+import { UserService } from '../../core/service/user';
 
 interface StatCard {
   title: string;
@@ -345,6 +346,20 @@ export class StudentInstructorDashboard {
       }
     }
   };
+  private studentService = inject(UserService);
+  ngOnInit() {
+    this.studentService.getDashboard().subscribe(data => {
+        this.stats = data.stats;
+        this.instructors = data.instructors;
+        this.instructorQuizzes = data.instructorQuizzes;
+        this.instructorFeedback = data.instructorFeedback;
+        this.instructorAnnouncements = data.instructorAnnouncements;
+ 
+        // Map charts
+        this.performanceComparisonData = data.performanceComparison;
+        this.quizCompletionData = data.quizCompletion;
+    });
+ }
 
   getStatusClass(status: string): string {
     switch (status) {

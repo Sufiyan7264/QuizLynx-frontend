@@ -30,7 +30,8 @@ interface TopStudent {
 
 interface StudentNeedingAttention {
   name: string;
-  score: number;
+  score?: number;
+  averageScore?: number;
   quizzesCompleted: number;
 }
 
@@ -535,6 +536,18 @@ subjectOptions = [
       if(this.currentUser.role == 'INSTRUCTOR'){
         this.getInstructorInfo();
       }
+      this.instructorService.getDashboardStats().subscribe(data => {
+        this.stats = data.stats;
+        this.quickStats = data.quickStats;
+        this.topStudents = data.topStudents;
+        this.studentsNeedingAttention = data.studentsNeedingAttention;
+
+        // Map Charts
+        this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
+        this.studentPerformanceData = data.studentPerformance;
+        this.quizCompletionData = data.quizCompletion;
+        this.performanceSummaryData = data.performanceDistribution;
+    });
   }
   getInstructorInfo(){
     this.instructorService.getInstructorInfo().subscribe({

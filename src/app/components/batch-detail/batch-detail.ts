@@ -168,7 +168,7 @@ export class BatchDetail implements OnInit {
     if (student.firstName || student.lastName) {
       return `${student.firstName || ''} ${student.lastName || ''}`.trim();
     }
-    return student.username || student.email || 'Unknown Student';
+    return student.name || student.email || 'Unknown Student';
   }
 
   getStudentInitials(student: Student): string {

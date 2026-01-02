@@ -60,7 +60,7 @@ export interface Quiz {
   title: string;
   description?: string;
   subject?: string;
-  duration?: number; // in minutes
+  timerInMin: number; // in minutes
   totalMarks?: number;
   passingMarks?: number;
   startDate?: string;
@@ -78,7 +78,7 @@ export interface CreateQuizRequest {
   title: string;
   description?: string;
   subject?: string;
-  duration?: number;
+  timerInMin?: number;
   totalMarks?: number;
   passingMarks?: number;
   startDate?: string;
@@ -91,10 +91,13 @@ export interface CreateQuizRequest {
 export interface Question {
   id?: string;
   quizId?: string;
-  questionText: string;
+  questionTitle?: string;
   questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
-  options?: string[]; // For multiple choice
-  correctAnswer: string | string[]; // Can be single or multiple answers
+  option1?: string;
+  option2?: string;
+  option3?: string;
+  option4?: string;
+  rightAnswer: string | string[]; // Can be single or multiple answers
   marks: number;
   order?: number;
   createdAt?: string;
@@ -102,11 +105,14 @@ export interface Question {
 }
 
 export interface CreateQuestionRequest {
-  quizId: string;
-  questionText: string;
-  questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
-  options?: string[];
-  correctAnswer: string | string[];
+  quizId: string | number;
+  questionTitle: string;
+  // questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
+  option1: string;
+  option2: string;
+  option3: string;
+  option4: string;
+  rightAnswer: string;
   marks: number;
   order?: number;
 }
@@ -114,7 +120,8 @@ export interface CreateQuestionRequest {
 export interface Student {
   id?: string;
   userId?: string;
-  username?: string;
+  username?:string;
+  name?: string;
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -142,12 +149,11 @@ export interface QuizAttempt {
 }
 
 export interface QuizResponse {
-  questionId: string;
-  selectedAnswer: string | string[];
+  id: string;
+  response: string | string[];
 }
 
 export interface SubmitQuizRequest {
-  quizId: string;
   responses: QuizResponse[];
 }
 
@@ -171,10 +177,14 @@ export interface QuestionReview {
   questionId: string;
   questionText: string;
   questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
-  options?: string[];
+  // options?: string[]; // Commented out - using option1, option2, option3, option4 instead
+  option1?: string;
+  option2?: string;
+  option3?: string;
+  option4?: string;
   correctAnswer: string | string[];
   selectedAnswer: string | string[];
-  isCorrect: boolean;
+  correct: boolean;
   marks: number;
   earnedMarks: number;
   order?: number;
@@ -208,9 +218,13 @@ export interface BatchResult {
 
 export interface QuestionWrapper {
   id: string;
-  questionText: string;
-  questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
-  options?: string[];
+  questionTitle: string;
+  // questionType?: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
+  option1?: string;
+  option2?: string;
+  option3?: string;
+  option4?: string;
+  rightAnswer: string;
   marks: number;
   order?: number;
   // Note: correctAnswer is NOT included in QuestionWrapper for students

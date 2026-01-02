@@ -3,25 +3,41 @@ import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from "@angular/router";
 import { Auth } from '../../core/service/auth';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Avatar } from "primeng/avatar";
 import { Tag } from "primeng/tag";
 import { UserInfo } from '../../core/interface/interfaces';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
+import { TooltipModule } from 'primeng/tooltip';import { Common } from '../../core/common/common';
+import { MobileNavLink } from '../common/mobile-nav-link/mobile-nav-link';
+import { AiGenerator } from "../ai-generator/ai-generator";
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, ButtonModule, RouterModule, Avatar, MenuModule, BadgeModule, Tag],
+  imports: [CommonModule, ButtonModule,TooltipModule, RouterModule, Avatar, MenuModule, BadgeModule, Tag, MobileNavLink, AiGenerator],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
+  showAiModal = false;
+
+  // 2. Helper to open it
+  openAiTool() {
+    this.showAiModal = true;
+  }
+  onAiSuccess() {
+    // If you are on a quiz page, you might want to refresh it.
+    // Since the header is global, we usually just show a success message 
+    // (which the component handles internally) and close the modal.
+    this.showAiModal = false;
+  }
   isScrolled = false;
   public readonly authService = inject(Auth)
   public readonly router = inject(Router)
-  private readonly msg = inject(MessageService)
+  // private readonly msg = inject(MessageService)
+  private readonly common = inject(Common);
   isLoggedIn$!: Observable<boolean>;
   user$!: Observable<UserInfo | null>;
   currentUser: any = 'user';
@@ -83,9 +99,9 @@ onWindowScroll(): void {
 logout(){
   this.authService.logout().subscribe({
     next: (res: any) => {
-      this.authService.setLoggedOut();
+      // this.authService.setLoggedOut();
       this.router.navigate(['']);
-      this.msg.add({ severity: 'success', summary: 'Success', detail: 'User Logout successfully' });
+      this.common.showMessage('success', 'Success', 'User Logout successfully');
     },
     error: (error: any) => {
       this.router.navigate(['']);

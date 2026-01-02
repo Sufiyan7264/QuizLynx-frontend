@@ -17,7 +17,7 @@
             <i class="pi pi-clock text-xl md:text-2xl flex-shrink-0"></i>
             <div class="info-content flex flex-col">
               <span class="info-label text-xs uppercase tracking-wide mb-1">Duration</span>
-              <span class="info-value text-sm md:text-base font-semibold">{{ quiz?.duration || 0 }} minutes</span>
+              <span class="info-value text-sm md:text-base font-semibold">{{ quiz?.timerInMin || 0 }} minutes</span>
             </div>
           </div>
           <div class="info-card flex items-center gap-3 md:gap-4 p-3 md:p-4">
@@ -107,12 +107,14 @@
           <span class="question-number text-xs sm:text-sm uppercase tracking-wide font-semibold">Question {{ currentQuestionIndex + 1 }}</span>
           <span class="question-marks text-xs sm:text-sm">{{ currentQuestion?.marks }} marks</span>
         </div>
-        <h3 class="question-text text-lg sm:text-xl md:text-2xl mb-6 md:mb-8">{{ currentQuestion?.questionText }}</h3>
+        <h3 class="question-text text-lg sm:text-xl md:text-2xl mb-6 md:mb-8">{{ currentQuestion?.questionTitle }}</h3>
 
         <!-- Options -->
-        @if (currentQuestion?.questionType === 'MULTIPLE_CHOICE' || currentQuestion?.questionType === 'TRUE_FALSE') {
+        <!-- Commented out MULTIPLE_CHOICE condition - all questions have 4 options with one right answer -->
+        <!-- Using option1, option2, option3, option4 instead of options array -->
+        <!-- @if (currentQuestion?.questionType === 'MULTIPLE_CHOICE' || currentQuestion?.questionType === 'TRUE_FALSE') { -->
           <div class="options-list flex flex-col gap-3 md:gap-4">
-            @for (option of currentQuestion?.options; track $index) {
+            @for (option of getQuestionOptions(currentQuestion); track $index) {
               <button
                 class="option-btn w-full p-3 md:p-5 text-left"
                 [class.selected]="isAnswerSelected(option)"
@@ -131,7 +133,7 @@
               </button>
             }
           </div>
-        } @else {
+        <!-- } @else {
           <div class="text-answer">
             <textarea
               pInputText
@@ -142,7 +144,7 @@
               class="answer-textarea w-full p-3 md:p-4 text-sm md:text-base min-h-[120px] md:min-h-[150px]"
             ></textarea>
           </div>
-        }
+        } -->
       </div>
 
       <!-- Navigation Buttons -->

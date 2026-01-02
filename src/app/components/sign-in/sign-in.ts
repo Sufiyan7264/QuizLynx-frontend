@@ -37,6 +37,8 @@ export class SignIn {
         this.authService.setLoggedIn(user);
         if(user.role == 'ADMIN' || user.role == 'INSTRUCTOR')
           this.router.navigate(['/dashboard']);
+        else if(user.role == 'STUDENT')
+          this.router.navigate(['/student-dashboard']);
         else
           this.router.navigate(['/user-dashboard']);
         this.spinner.hide();

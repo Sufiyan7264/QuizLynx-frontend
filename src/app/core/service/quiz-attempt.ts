@@ -8,7 +8,7 @@ import { QuizAttempt, SubmitQuizRequest, QuizResults, QuestionWrapper } from '..
 })
 export class QuizAttemptService {
   private readonly http = inject(HttpClient);
-  private readonly BASE_URL = 'https://localhost:8080/api/quiz-attempts';
+  private readonly BASE_URL = 'https://localhost:8080/api/quiz';
 
   // Start a quiz attempt (records startedAt time)
   startQuizAttempt(quizId: string): Observable<QuizAttempt> {
@@ -21,18 +21,29 @@ export class QuizAttemptService {
   }
 
   // Submit quiz attempt (sends responses, backend grades and saves result)
-  submitQuizAttempt(request: SubmitQuizRequest): Observable<QuizResults> {
-    return this.http.post<QuizResults>(`${this.BASE_URL}/submit`, request);
+  submitQuizAttempt(request: any,quizId:any): Observable<QuizResults> {
+    return this.http.post<QuizResults>(`${this.BASE_URL}/submit/${quizId}`, request);
   }
 
   // Get quiz result by attempt ID
   getQuizResult(attemptId: string): Observable<QuizResults> {
-    return this.http.get<QuizResults>(`${this.BASE_URL}/${attemptId}/result`);
+    return this.http.get<QuizResults>(`${this.BASE_URL}/result/${attemptId}`);
+  }
+  startQuiz(quizId: string): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL}/${quizId}/start`,null);
+  }
+  getAttemptStatus(quizId: string) {
+    return this.http.get<{ startTime: string }>(`${this.BASE_URL}/quiz/${quizId}/attempt-status`);
   }
 
   // Get quiz result by quiz ID (for current student)
   getQuizResultByQuizId(quizId: string): Observable<QuizResults> {
     return this.http.get<QuizResults>(`${this.BASE_URL}/quiz/${quizId}/result`);
+  }
+
+  // Get all quiz attempts/results for the current student
+  getStudentAttempts(): Observable<QuizResults[]> {
+    return this.http.get<QuizResults[]>(`${this.BASE_URL}/my-attempts`);
   }
 }
 

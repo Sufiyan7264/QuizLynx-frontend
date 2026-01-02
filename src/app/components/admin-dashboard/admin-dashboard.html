@@ -131,18 +131,20 @@
           <h3 class="card-title text-base md:text-lg">Students Needing Attention</h3>
         </div>
         <div class="attention-list flex flex-col gap-2 md:gap-3">
-          <div class="attention-item flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2" *ngFor="let student of studentsNeedingAttention">
-            <div class="student-info flex-1">
-              <div class="student-name text-sm md:text-base font-semibold mb-1">{{ student.name }}</div>
-              <div class="student-details flex flex-col sm:flex-row gap-2 text-xs md:text-sm">
-                <span class="detail-item">Score: {{ student.score }}%</span>
-                <span class="detail-item">Quizzes: {{ student.quizzesCompleted }}</span>
+          @for (student of studentsNeedingAttention; track $index) {
+            <div class="attention-item flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div class="student-info flex-1">
+                <div class="student-name text-sm md:text-base font-semibold mb-1">{{ student.name }}</div>
+                <div class="student-details flex flex-col sm:flex-row gap-2 text-xs md:text-sm">
+                  <span class="detail-item">Score: {{ student.score ?? student.averageScore }}%</span>
+                  <span class="detail-item">Quizzes: {{ student.quizzesCompleted }}</span>
+                </div>
+              </div>
+              <div class="attention-badge text-lg md:text-xl flex-shrink-0">
+                <i class="pi pi-exclamation-triangle"></i>
               </div>
             </div>
-            <div class="attention-badge text-lg md:text-xl flex-shrink-0">
-              <i class="pi pi-exclamation-triangle"></i>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -151,7 +153,7 @@
   <div class="chart-card top-students-card mt-2 md:mt-4">
     <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
       <h3 class="card-title text-base md:text-lg">Top Performing Students</h3>
-      <a href="#" class="view-all-link text-sm">View all</a>
+      <a href="/instructor/students" class="view-all-link text-sm">View all</a>
     </div>
     <div class="overflow-x-auto">
       <table class="students-table w-full min-w-[600px]">

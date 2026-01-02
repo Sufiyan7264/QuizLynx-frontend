@@ -1,0 +1,139 @@
+<div class="student-quizzes-container !pt-24">
+  <p-toast></p-toast>
+  
+  <!-- Header Section -->
+  <div class="quizzes-header">
+    <div class="header-content">
+      <h1 class="page-title">Active Quizzes</h1>
+      <p class="page-subtitle">View and attempt available quizzes</p>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-group">
+      <label for="searchQuizzes" class="search-label">
+        <i class="pi pi-search"></i>
+        Search Quizzes
+      </label>
+      <input
+        id="searchQuizzes"
+        type="text"
+        pInputText
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search by title, description, or subject..."
+        class="search-input"
+      />
+    </div>
+    @if (searchTerm) {
+      <button class="clear-search-btn" (click)="clearSearch()">
+        <i class="pi pi-times"></i>
+        <span>Clear</span>
+      </button>
+    }
+  </div>
+
+  <!-- Quizzes List -->
+  <div class="quizzes-list">
+    @if (filteredQuizzes.length === 0 && !searchTerm) {
+      <div class="empty-state">
+        <i class="pi pi-file-edit empty-icon"></i>
+        <h3>No quizzes available</h3>
+        <p>There are no active quizzes at the moment</p>
+      </div>
+    } @else if (filteredQuizzes.length === 0 && searchTerm) {
+      <div class="empty-state">
+        <i class="pi pi-search empty-icon"></i>
+        <h3>No quizzes found</h3>
+        <p>Try adjusting your search criteria</p>
+        <button class="clear-search-btn" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+          <span>Clear Search</span>
+        </button>
+      </div>
+    } @else {
+      <div class="quizzes-grid">
+        @for (quiz of filteredQuizzes; track quiz.id) {
+          <div class="quiz-card">
+            <div class="card-header">
+              <div class="quiz-title-section">
+                <h3 class="quiz-title">{{ quiz.title }}</h3>
+                @if (quiz.subject) {
+                  <span class="quiz-subject">{{ quiz.subject }}</span>
+                }
+              </div>
+              @if (isQuizOverdue(quiz)) {
+                <span class="status-badge overdue">Overdue</span>
+              } @else if (!isQuizAvailable(quiz)) {
+                <span class="status-badge upcoming">Upcoming</span>
+              } @else {
+                <span class="status-badge active">Active</span>
+              }
+            </div>
+
+            @if (quiz.description) {
+              <p class="quiz-description">{{ quiz.description }}</p>
+            }
+
+            <div class="quiz-details">
+              @if (quiz.timerInMin) {
+                <div class="detail-item">
+                  <i class="pi pi-clock"></i>
+                  <span>{{ quiz.timerInMin }} minutes</span>
+                </div>
+              }
+              @if (quiz.totalMarks) {
+                <div class="detail-item">
+                  <i class="pi pi-star"></i>
+                  <span>{{ quiz.totalMarks }} marks</span>
+                </div>
+              }
+              @if (quiz.questionCount) {
+                <div class="detail-item">
+                  <i class="pi pi-list"></i>
+                  <span>{{ quiz.questionCount }} questions</span>
+                </div>
+              }
+            </div>
+
+            <div class="quiz-dates">
+              @if (quiz.startDate) {
+                <div class="date-item">
+                  <i class="pi pi-calendar"></i>
+                  <span>Starts: {{ formatDate(quiz.startDate) }}</span>
+                </div>
+              }
+              @if (quiz.endDate) {
+                <div class="date-item">
+                  <i class="pi pi-calendar-times"></i>
+                  <span>Ends: {{ formatDate(quiz.endDate) }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="card-actions">
+              @if (isQuizAvailable(quiz) && !isQuizOverdue(quiz)) {
+                <button class="action-btn primary" (click)="startQuiz(quiz.id)">
+                  <i class="pi pi-play"></i>
+                  <span>Start Quiz</span>
+                </button>
+              } @else if (isQuizOverdue(quiz)) {
+                <button class="action-btn disabled" disabled>
+                  <i class="pi pi-ban"></i>
+                  <span>Overdue</span>
+                </button>
+              } @else {
+                <button class="action-btn disabled" disabled>
+                  <i class="pi pi-clock"></i>
+                  <span>Not Available</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
