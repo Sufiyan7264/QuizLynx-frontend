@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../core/service/quiz';
 import { Quiz } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-import { Toast } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
 import { Auth } from '../../core/service/auth';
+import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-student-quizzes',
@@ -17,16 +18,16 @@ import { Auth } from '../../core/service/auth';
     FormsModule,
     RouterModule,
     InputText,
-    Toast
+    // Toast
   ],
   templateUrl: './student-quizzes.html',
   styleUrl: './student-quizzes.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class StudentQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  // private readonly messageService = inject(MessageService);
+  private common = inject(Common);
   private readonly router = inject(Router);
   private readonly authService = inject(Auth);
 
@@ -39,7 +40,7 @@ export class StudentQuizzes implements OnInit {
   }
 
   loadQuizzes(): void {
-    this.spinner.show();
+    this.common.showSpinner();
     // Get quizzes for all batches the student is enrolled in
     // For now, we'll get all published quizzes
     // You may need to adjust this based on your API
@@ -48,16 +49,16 @@ export class StudentQuizzes implements OnInit {
         // Filter only published quizzes
         this.quizzes = quizzes.filter(q => q.status === 'PUBLISHED');
         this.filteredQuizzes = [...this.quizzes];
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading quizzes:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load quizzes'
-        });
-        this.spinner.hide();
+        this.common.showMessage(
+          'error',
+           'Error',
+           error?.error?.message || 'Failed to load quizzes'
+        );
+        this.common.hideSpinner();
       }
     });
   }

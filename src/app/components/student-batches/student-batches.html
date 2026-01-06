@@ -1,114 +1,140 @@
-<div class="student-batches-container !pt-24">
-  <p-toast></p-toast>
-  
-  <!-- Header Section -->
-  <div class="batches-header">
-    <div class="header-content">
-      <h1 class="page-title">My Classrooms</h1>
-      <p class="page-subtitle">View your enrolled batches</p>
+<div class="student-batches-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Student Dashboard</p>
+      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">My Classrooms</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">View your enrolled batches and access quizzes.</p>
     </div>
-    <button class="join-btn" (click)="navigateToJoin()">
-      <i class="pi pi-plus"></i>
-      <span>Join Batch</span>
-    </button>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+        {{ filteredBatches.length }} classrooms
+      </div>
+      <button
+        class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors"
+        (click)="navigateToJoin()"
+      >
+        <i class="pi pi-plus mr-2"></i>
+        Join Batch
+      </button>
+    </div>
   </div>
 
   <!-- Search Section -->
   @if (batches.length > 0) {
-    <div class="search-section">
-      <div class="search-group">
-        <label for="search" class="search-label">
-          <i class="pi pi-search"></i>
-          Search Batches
-        </label>
-        <input
-          id="search"
-          type="text"
-          pInputText
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="onSearchChange()"
-          placeholder="Search by name, description, or batch code..."
-          class="search-input"
-        />
+    <section class="surface-card mb-6">
+      <div class="flex flex-col sm:flex-row gap-4 items-end">
+        <div class="flex-1">
+          <label for="search" class="block text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2">
+            <i class="pi pi-search mr-2"></i>
+            Search Batches
+          </label>
+          <input
+            id="search"
+            type="text"
+            pInputText
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchChange()"
+            placeholder="Search by name, description, or batch code..."
+            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+          />
+        </div>
+        @if (searchTerm) {
+          <button
+            class="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors text-sm font-semibold"
+            (click)="clearSearch()"
+          >
+            <i class="pi pi-times mr-2"></i>
+            Clear Search
+          </button>
+        }
       </div>
-      @if (searchTerm) {
-        <button class="clear-search-btn" (click)="clearSearch()">
-          <i class="pi pi-times"></i>
-          <span>Clear</span>
-        </button>
-      }
-    </div>
+    </section>
   }
 
   <!-- Batches List -->
-  <div class="batches-list">
+  <div class="batches-content">
     @if (batches.length === 0) {
-      <div class="empty-state">
-        <i class="pi pi-users empty-icon"></i>
-        <h3>No batches yet</h3>
-        <p>Join a batch to start learning</p>
-        <button class="join-btn text-primary" (click)="navigateToJoin()">
+      <div class="empty-state surface-card">
+        <i class="pi pi-users text-6xl text-slate-400 dark:text-slate-500 mb-4"></i>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">No batches yet</h3>
+        <p class="text-slate-600 dark:text-slate-300 mb-4">Join a batch to start learning</p>
+        <button
+          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors"
+          (click)="navigateToJoin()"
+        >
           <i class="pi pi-plus mr-2"></i>
-          <span>Join Batch</span>
+          Join Batch
         </button>
       </div>
     } @else {
       @if (filteredBatches.length === 0 && searchTerm) {
-        <div class="empty-state">
-          <i class="pi pi-search empty-icon"></i>
-          <h3>No batches found</h3>
-          <p>Try adjusting your search criteria</p>
-          <button class="join-btn text-primary" (click)="clearSearch()">
+        <div class="empty-state surface-card">
+          <i class="pi pi-search text-6xl text-slate-400 dark:text-slate-500 mb-4"></i>
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">No batches found</h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-4">Try adjusting your search criteria</p>
+          <button
+            class="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors text-sm font-semibold"
+            (click)="clearSearch()"
+          >
             <i class="pi pi-times mr-2"></i>
-            <span>Clear Search</span>
+            Clear Search
           </button>
         </div>
       } @else {
-        <div class="batches-grid">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           @for (batch of filteredBatches; track batch.id) {
-            <div class="batch-card" (click)="viewBatchQuizzes(batch)">
-              <div class="batch-header">
-                <div class="batch-icon">
-                  <i class="pi pi-users"></i>
-                </div>
-              </div>
-              
-              <div class="batch-content">
-                <div class="flex justify-between items-center">
-                  <h3 class="batch-name">{{ batch.batchName }}</h3>
-                  <span class="batch-code text-muted-text text-sm">{{ batch.batchCode }}</span>
-                </div>
-                @if (batch.description) {
-                  <p class="batch-description">{{ batch.description }}</p>
-                }
-                
-                <div class="batch-info">
-                  <div class="flex justify-between items-center">
-                    <div class="info-item">
-                      <i class="pi pi-users"></i>
-                      <span>{{ batch.studentCount || 0 }} Students</span>
-                    </div>
-                    <div class="info-item">
-                      <i class="pi pi-book"></i>
-                      <span>{{ batch.quizCount || 0 }} Quizzes</span>
-                    </div>
+            <div class="surface-card hoverable-card cursor-pointer" (click)="viewBatchQuizzes(batch)">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="p-2 rounded-lg bg-indigo-100 dark:bg-indigo-900/30">
+                    <i class="pi pi-users text-indigo-600 dark:text-indigo-400"></i>
                   </div>
-                  @if (batch.startDate || batch.endDate) {
-                    <div class="info-item">
-                      <i class="pi pi-calendar"></i>
-                      <span>
-                        @if (batch.startDate && batch.endDate) {
-                          {{ formatDisplayDate(batch.startDate) }} - {{ formatDisplayDate(batch.endDate) }}
-                        } @else if (batch.startDate) {
-                          Starts: {{ formatDisplayDate(batch.startDate) }}
-                        } @else if (batch.endDate) {
-                          Ends: {{ formatDisplayDate(batch.endDate) }}
-                        }
-                      </span>
-                    </div>
-                  }
+                  <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-1">{{ batch.batchName }}</h3>
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                      {{ batch.batchCode }}
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              @if (batch.description) {
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">{{ batch.description }}</p>
+              }
+
+              <div class="space-y-2 mb-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <i class="pi pi-users text-blue-500"></i>
+                    <span>{{ batch.studentCount || 0 }} Students</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <i class="pi pi-book text-purple-500"></i>
+                    <span>{{ batch.quizCount || 0 }} Quizzes</span>
+                  </div>
+                </div>
+
+                @if (batch.startDate || batch.endDate) {
+                  <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <i class="pi pi-calendar text-green-500"></i>
+                    <span>
+                      @if (batch.startDate && batch.endDate) {
+                        {{ formatDisplayDate(batch.startDate) }} - {{ formatDisplayDate(batch.endDate) }}
+                      } @else if (batch.startDate) {
+                        Starts: {{ formatDisplayDate(batch.startDate) }}
+                      } @else if (batch.endDate) {
+                        Ends: {{ formatDisplayDate(batch.endDate) }}
+                      }
+                    </span>
+                  </div>
+                }
+              </div>
+
+              <button class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors">
+                <i class="pi pi-eye mr-2"></i>
+                View Quizzes
+              </button>
             </div>
           }
         </div>

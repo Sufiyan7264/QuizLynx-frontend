@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizResults } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-import { Toast } from 'primeng/toast';
+// import { Toast } from 'primeng/toast';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -14,7 +14,7 @@ import { Common } from '../../core/common/common';
     CommonModule,
     FormsModule,
     InputText,
-    Toast
+    // Toast
   ],
   templateUrl: './student-attempts.html',
   styleUrl: './student-attempts.scss',
@@ -116,6 +116,12 @@ export class StudentAttempts implements OnInit {
     if (percentage >= 80) return 'success';
     if (percentage >= 60) return 'warning';
     return 'danger';
+  }
+
+  getScoreBadgeClass(percentage: number): string {
+    if (percentage >= 80) return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300';
+    if (percentage >= 60) return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300';
+    return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300';
   }
 
   goToDashboard(): void {

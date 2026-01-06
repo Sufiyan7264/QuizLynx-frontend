@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { otpConfig, registerConfig, signConfig, UserInfo } from '../interface/interfaces';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,20 @@ export class Auth {
     } catch {
       return null;
     }
+  }
+  fetchProfile(): Observable<boolean> {
+    return this.http.get<UserInfo>(`${this.BASE_URL}/me`).pipe(
+      tap((user: UserInfo) => {
+        // Success: Save to storage
+        this.setLoggedIn(user); 
+      }),
+      map(() => true), // Transform response to "true" (Allowed)
+      catchError(() => {
+        // Error: Token invalid or missing
+        this.setLoggedOut();
+        return of(false); // Transform error to "false" (Blocked)
+      })
+    );
   }
   public setLoggedIn(user: UserInfo) {
     this.isLoggedIn$.next(true);

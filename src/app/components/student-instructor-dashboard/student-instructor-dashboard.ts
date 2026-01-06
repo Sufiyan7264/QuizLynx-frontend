@@ -374,6 +374,19 @@ export class StudentInstructorDashboard {
     }
   }
 
+  getStatusBadgeClass(status: string): string {
+    switch (status) {
+      case 'Completed':
+        return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300';
+      case 'Pending':
+        return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300';
+      case 'Overdue':
+        return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300';
+      default:
+        return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+    }
+  }
+
   getPriorityClass(priority: string): string {
     return priority;
   }

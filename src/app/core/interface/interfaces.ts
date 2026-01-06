@@ -73,6 +73,11 @@ export interface Quiz {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface NavItem {
+  label: string;
+  routerLink: string;
+  icon: string;
+}
 
 export interface CreateQuizRequest {
   title: string;

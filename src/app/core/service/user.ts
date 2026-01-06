@@ -36,8 +36,8 @@ export class UserService {
   }
 
   // Delete account
-  deleteAccount(): Observable<void> {
-    return this.http.delete<void>(`${this.BASE_URL}/me`);
+  deleteAccount(): Observable<any> {
+    return this.http.delete<any>(`https://localhost:8080/auth/delete-account`);
   }
 }
 

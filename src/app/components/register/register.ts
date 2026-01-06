@@ -4,9 +4,10 @@ import { HalfCircle } from "../common/half-circle/half-circle";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from "@angular/forms";
 import { Auth } from '../../core/service/auth';
 import { Router } from '@angular/router';
-import { FormDataService } from '../../core/service/form-data-service';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from "ngx-spinner";
+import { Common } from '../../core/common/common';
+// import { FormDataService } from '../../core/service/form-data-service';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from "ngx-spinner";
 
 
 @Component({
@@ -16,11 +17,11 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrl: './register.scss'
 })
 export class Register{
-  private readonly spinner = inject(NgxSpinnerService)
+  // private readonly spinner = inject(NgxSpinnerService)
   private readonly fb = inject(FormBuilder);
   private readonly authS = inject(Auth);
   private readonly router = inject(Router);
-  private readonly messageService = inject(MessageService);
+  private  common = inject(Common);
   roles: Array<{ key: 'student' | 'instructor' | 'user'; label: string }> = [
     { key: 'student', label: 'Student' },
     { key: 'instructor', label: 'Instructor' },
@@ -49,16 +50,16 @@ export class Register{
       return;
     }
     // delete this.registerForm.value.confirmPassword;
-    this.spinner.show();
+    this.common.showSpinner();
     this.authS.register(this.registerForm.value).subscribe({
       next: (res:any) => {
         localStorage.setItem('register',JSON.stringify({email:this.registerForm.value.email,username:this.registerForm.value.username,type:'register'}));
         this.router.navigate(['/otp']);
-        this.spinner.hide();
+        this.common.hideSpinner();
       } ,
       error: (err:any) => {
-        this.messageService.add({severity:'error', summary:'Error', detail:err?.error?.message ?? 'Registration failed'});
-        this.spinner.hide();
+        this.common.showMessage('error', 'Error',err?.error?.message ?? 'Registration failed');
+        this.common.hideSpinner();
         localStorage.setItem('register',JSON.stringify({email:this.registerForm.value.email,username:this.registerForm.value.username,type:'register'}));
         if(err?.error?.message == "User exists but not verified. Please verify your account using the OTP sent to your email."){
           this.router.navigate(['/otp']);
@@ -70,6 +71,9 @@ export class Register{
   setRole(role: 'STUDENT' | 'INSTRUCTOR' | 'USER') {
     this.selectedRole = role;
     this.registerForm.get('role')?.setValue(role);
+  }
+  onGoogleClick(){
+    window.location.assign('https://localhost:8080/oauth2/authorization/google'); 
   }
 
 }

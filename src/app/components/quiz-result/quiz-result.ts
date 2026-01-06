@@ -4,25 +4,26 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizResults, QuestionReview } from '../../core/interface/interfaces';
 import { Button } from 'primeng/button';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+import { Common } from '../../core/common/common';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-quiz-result',
   imports: [
     CommonModule,
     Button,
-    Toast
+    // Toast
   ],
   templateUrl: './quiz-result.html',
   styleUrl: './quiz-result.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class QuizResult implements OnInit {
   private readonly quizAttemptService = inject(QuizAttemptService);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  private readonly common = inject(Common);
+  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -45,20 +46,18 @@ export class QuizResult implements OnInit {
 
   loadResult(): void {
     if (!this.resultId) return;
-    this.spinner.show();
+    this.common.showSpinner();
     this.quizAttemptService.getQuizResult(this.resultId).subscribe({
       next: (result) => {
         this.result = result;
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading result:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load result'
-        });
-        this.spinner.hide();
+        this.common.showMessage(
+'error','Error',error?.error?.message || 'Failed to load result'
+        );
+        this.common.hideSpinner();
         this.router.navigate(['/student-dashboard']);
       }
     });
@@ -66,20 +65,18 @@ export class QuizResult implements OnInit {
 
   loadResultByQuizId(): void {
     if (!this.quizId) return;
-    this.spinner.show();
+    this.common.showSpinner();
     this.quizAttemptService.getQuizResultByQuizId(this.quizId).subscribe({
       next: (result) => {
         this.result = result;
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading result:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load result'
-        });
-        this.spinner.hide();
+        this.common.showMessage(
+'error','Error',error?.error?.message || 'Failed to load result'
+        );
+        this.common.hideSpinner();
         this.router.navigate(['/student-dashboard']);
       }
     });

@@ -6,9 +6,10 @@ import { QuizService } from '../../core/service/quiz';
 import { Quiz, QuestionWrapper, QuizResponse, SubmitQuizRequest } from '../../core/interface/interfaces';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+import { ProgressBar } from 'primeng/progressbar';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
 import { Common } from '../../core/common/common';
 
 type ViewState = 'start' | 'exam' | 'submitting';
@@ -18,12 +19,12 @@ type ViewState = 'start' | 'exam' | 'submitting';
   imports: [
     CommonModule,
     Button,
-    InputText,
-    Toast
+    InputText,ProgressBar
+    // Toast
   ],
   templateUrl: './quiz-attempt.html',
   styleUrl: './quiz-attempt.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class QuizAttempt implements OnInit, OnDestroy {
   private readonly quizAttemptService = inject(QuizAttemptService);
@@ -93,11 +94,12 @@ export class QuizAttempt implements OnInit, OnDestroy {
              if (this.timeRemaining <= 0) {
                  this.autoSubmit(); // Time already expired!
              } else {
-                 this.startTimer(); // Continue from where they left off
+                //  this.startTimer(); // Continue from where they left off
+                 this.startNewQuiz();
              }
          } else {
              // First time starting
-             this.startQuiz(); 
+             this.startNewQuiz(); 
          }
       }
     });
@@ -118,7 +120,7 @@ export class QuizAttempt implements OnInit, OnDestroy {
         this.questions = questions; 
         
         // 2. Set Start Time (Client-side for now)
-        this.startedAt = new Date(); 
+        // this.startedAt = new Date(); 
         
         // 3. Switch View
         this.viewState = 'exam';
@@ -133,10 +135,13 @@ export class QuizAttempt implements OnInit, OnDestroy {
     });
   }
 
-  startTimer(): void {
+startTimer(): void {
     if (!this.quiz?.timerInMin) return;
     
-    this.timeRemaining = this.quiz.timerInMin * 60; // Convert minutes to seconds
+    // Safety check: If time is 0 (and not calculated yet), default to full time
+    if (this.timeRemaining <= 0 && !this.startedAt) { 
+        this.timeRemaining = this.quiz.timerInMin * 60;
+    }
     
     this.timerInterval = setInterval(() => {
       this.timeRemaining--;

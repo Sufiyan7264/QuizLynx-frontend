@@ -1,110 +1,124 @@
-<div class="user-dashboard !pt-20 px-2 sm:px-4 md:px-6">
-  <!-- Statistics Cards Section -->
-  <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
-    @for(stat of stats; track stat.title){
-      <div class="stat-card">
-      <div class="stat-header">
-        <span class="stat-title">{{ stat.title }}</span>
-        <span class="stat-period">{{ stat.period }}</span>
-      </div>
-      <div class="stat-content">
-        <span class="stat-value">{{ stat.value }}</span>
-        <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
-          <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
-          {{ stat.change }}%
-        </span>
-      </div>
+<div class="user-dashboard-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Welcome back</p>
+      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">Your Dashboard</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Track your streak, resume where you left, and see what’s recommended next.</p>
     </div>
+    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+      <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+      Data synced
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+    @for(stat of stats; track stat.title){
+      <article class="surface-card hoverable-card flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold text-slate-900 dark:text-slate-50">{{ stat.title }}</p>
+          <span class="text-[11px] text-slate-500 dark:text-slate-300">{{ stat.period }}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ stat.value }}</span>
+          <span
+            class="inline-flex items-center gap-1 text-text rounded-lg px-2 py-1 text-[11px] font-semibold"
+            [class.increase]="stat.changeType === 'increase'"
+            [class.decrease]="stat.changeType === 'decrease'">
+            <i class="filter-icon" [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+            {{ stat.change }}%
+          </span>
+        </div>
+      </article>
     }
   </div>
 
-  <!-- Main Content Section -->
-  <div class="main-content grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4">
-    <!-- Left Section -->
-    <div class="left-section flex flex-col gap-2 md:gap-4">
-      <!-- Progress Card -->
-      <div class="progress-card">
-        <div class="progress-content flex flex-col sm:flex-row justify-between items-start gap-4">
-          <div class="progress-text flex-1">
-            <h2 class="progress-milestone text-xl sm:text-2xl md:text-3xl">{{ progressData.milestone }}</h2>
-            <p class="progress-message text-sm sm:text-base">{{ progressData.message }}</p>
-            <p class="progress-description text-xs sm:text-sm">{{ progressData.description }}</p>
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+    <!-- Left column -->
+    <div class="flex flex-col gap-4 xl:col-span-2">
+      <section class="progress-card gradient-card surface-card">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div class="flex-1">
+            <p class="text-xs font-semibold uppercase tracking-wide text-indigo-100/80">Daily streak</p>
+            <h2 class="mt-1 text-2xl md:text-3xl font-semibold text-white">{{ progressData.milestone }}</h2>
+            <p class="mt-1 text-sm text-indigo-50/90">{{ progressData.message }}</p>
+            <p class="mt-1 text-xs text-indigo-50/80">{{ progressData.description }}</p>
           </div>
-          <div class="progress-icon text-4xl sm:text-5xl md:text-6xl flex-shrink-0">
-            <i class="pi pi-trophy"></i>
-          </div>
+          <button
+            pButton
+            type="button"
+            label="Resume last quiz"
+            class="!h-10 !rounded-xl !bg-white !text-slate-900 !text-xs !font-semibold hover:!bg-slate-100"
+          ></button>
         </div>
-        <div class="progress-waves"></div>
-      </div>
+      </section>
 
-      <!-- Quiz History Card -->
-      <div class="quiz-history-card">
-        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
-          <h3 class="card-title text-base md:text-lg">Quiz history</h3>
-          <a href="#" class="view-all-link text-sm">View all</a>
+      <section class="surface-card">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-50">Quiz history</h3>
+          <a href="#" class="text-xs font-semibold text-slate-700 hover:text-slate-900 dark:text-slate-200">View all</a>
         </div>
-        <div class="overflow-x-auto">
-          <table class="quiz-table w-full min-w-[600px]">
+        <div class="overflow-auto">
+          <table class="quiz-table min-w-full">
             <thead>
               <tr>
-                <th class="text-xs md:text-sm">Subject</th>
-                <th class="text-xs md:text-sm">Score</th>
-                <th class="text-xs md:text-sm">Status</th>
-                <th class="text-xs md:text-sm">Actions</th>
+                <th>Subject</th>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let quiz of quizHistory">
-                <td class="text-xs md:text-sm">{{ quiz.subject }}</td>
-                <td class="text-xs md:text-sm">{{ quiz.score }}</td>
+                <td>{{ quiz.subject }}</td>
+                <td>{{ quiz.score }}</td>
                 <td>
-                  <span class="status-badge text-xs" [class.completed]="quiz.status === 'Completed'" [class.unattempted]="quiz.status === 'Unattempted'">
+                  <span class="status-chip" [class.completed]="quiz.status === 'Completed'" [class.unattempted]="quiz.status === 'Unattempted'">
                     {{ quiz.status }}
                   </span>
                 </td>
-                <td class="actions-cell flex gap-1 md:gap-2">
-                  <button class="action-btn p-1 md:p-2" *ngIf="quiz.actions.refresh" title="Refresh">
-                    <i class="pi pi-refresh text-sm md:text-base"></i>
-                  </button>
-                  <button class="action-btn warning p-1 md:p-2" *ngIf="quiz.actions.warning" title="Warning">
-                    <i class="pi pi-exclamation-triangle text-sm md:text-base"></i>
-                  </button>
-                  <button class="action-btn p-1 md:p-2" *ngIf="quiz.actions.folder" title="View">
-                    <i class="pi pi-folder text-sm md:text-base"></i>
-                  </button>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <button pButton type="button" icon="pi pi-refresh" class="ghost-icon-btn" *ngIf="quiz.actions.refresh"></button>
+                    <button pButton type="button" icon="pi pi-exclamation-triangle" class="ghost-icon-btn warning" *ngIf="quiz.actions.warning"></button>
+                    <button pButton type="button" icon="pi pi-folder" class="ghost-icon-btn" *ngIf="quiz.actions.folder"></button>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
 
-    <!-- Right Section -->
-    <div class="right-section flex flex-col gap-2 md:gap-4">
-      <!-- Overall Performance Chart -->
-      <div class="performance-card">
+    <!-- Right column -->
+    <div class="flex flex-col gap-4">
+      <section class="surface-card">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-50">Performance breakdown</h3>
+        </div>
         <app-chart-configuration
           [chartType]="'pie'"
           [data]="performanceChartData"
           [width]="'100%'"
-          [height]="'210px'"
+          [height]="'240px'"
           [options]="performanceChartOptions">
         </app-chart-configuration>
-      </div>
+      </section>
 
-      <!-- Practice Suggestion Card -->
-      <div class="practice-card">
-        <div class="practice-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 md:mb-3">
-          <div class="practice-score text-xl sm:text-2xl md:text-3xl">{{ practiceSuggestion.score }}</div>
-          <span class="practice-tag text-xs md:text-sm">{{ practiceSuggestion.subject }}</span>
+      <section class="surface-card">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-50">Recommended next</h3>
+          <span class="text-[11px] text-slate-500 dark:text-slate-300">{{ practiceSuggestion.subject }}</span>
         </div>
-        <p class="practice-message text-xs sm:text-sm md:text-base mb-2 md:mb-3">{{ practiceSuggestion.message }}</p>
-        <button class="practice-button w-full sm:w-auto text-xs sm:text-sm md:text-base px-3 md:px-4 py-2 md:py-3">
-          New quiz
-          <i class="pi pi-arrow-right"></i>
-        </button>
-      </div>
+        <p class="text-sm text-slate-700 dark:text-slate-200 mb-3">{{ practiceSuggestion.message }}</p>
+        <button
+          pButton
+          type="button"
+          label="Create custom quiz"
+          class="!h-9 !rounded-xl !bg-slate-900 !text-white !text-xs !font-semibold hover:!bg-slate-800 dark:!bg-slate-100 dark:!text-slate-900 dark:hover:!bg-slate-200 w-full"
+        ></button>
+      </section>
     </div>
   </div>
 </div>

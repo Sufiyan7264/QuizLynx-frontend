@@ -96,8 +96,8 @@ export class UserDashboard {
     series: [{
       name: 'My Performance',
       type: 'pie',
-      radius: ['50%', '75%'],
-      center: ['50%', '55%'],
+      radius: ['45%', '62%'],
+      center: ['28%', '55%'], // shift pie further left to clear legend/text
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 0,
@@ -125,35 +125,38 @@ export class UserDashboard {
   };
 
   performanceChartOptions: ChartOptions = {
-    title: {
-      text: 'My Performance Breakdown',
-      left: 'center',
-      top: '0%',
-      textStyle: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#0b1220'
-      }
-    },
+    // title: {
+    //   // text: 'My Performance Breakdown',
+    //   left: 'left',
+    //   top: '0%',
+    //   textStyle: {
+    //     fontSize: 16,
+    //     fontWeight: '600',
+    //     color: '#0b1220'
+    //   }
+    // },
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} quizzes ({d}%)'
     },
     legend: {
       orient: 'vertical',
-      left: 'left',
-      bottom: '5%',
+      right: '0%',
+      top: 'middle',
+      itemWidth: 12,
+      itemHeight: 12,
+      padding: [0, 0, 0, 0],
       itemGap: 15,
       textStyle: {
-        fontSize: 13,
+        fontSize: 10,
         color: '#0b1220'
       },
       formatter: this.formatLegend.bind(this)
     },
     graphic: [{
       type: 'text',
-      left: 'center',
-      top: 'center',
+      left: '18%',
+      top: '52%',
       z: 10,
       style: {
         text: 'Total quizzes\n24',

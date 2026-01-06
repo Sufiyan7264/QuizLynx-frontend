@@ -6,7 +6,7 @@ import { BatchService } from '../../core/service/batch';
 import { Batch } from '../../core/interface/interfaces';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-import { Toast } from 'primeng/toast';
+// import { Toast } from 'primeng/toast';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -16,7 +16,7 @@ import { Common } from '../../core/common/common';
     ReactiveFormsModule,
     Button,
     InputText,
-    Toast
+    // Toast
   ],
   templateUrl: './student-join.html',
   styleUrl: './student-join.scss',

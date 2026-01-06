@@ -8,9 +8,9 @@ import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
@@ -27,11 +27,11 @@ import { Common } from '../../core/common/common';
     DatePicker,
     InputNumber,
     Select,
-    Toast
+    // Toast
   ],
   templateUrl: './instructor-quizzes.html',
   styleUrl: './instructor-quizzes.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class InstructorQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);

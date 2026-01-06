@@ -33,7 +33,7 @@ export class QuizAttemptService {
     return this.http.post<any>(`${this.BASE_URL}/${quizId}/start`,null);
   }
   getAttemptStatus(quizId: string) {
-    return this.http.get<{ startTime: string }>(`${this.BASE_URL}/quiz/${quizId}/attempt-status`);
+    return this.http.get<{ startTime: string }>(`${this.BASE_URL}/${quizId}/attempt-status`);
   }
 
   // Get quiz result by quiz ID (for current student)

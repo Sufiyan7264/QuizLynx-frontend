@@ -1,4 +1,4 @@
-<section class="min-h-[100vh] w-full bg-gradient-to-t from-[#1e40af] to-[#3b82f6] relative overflow-hidden flex items-center pt-24 pb-8">
+<section class="min-h-[100vh] w-full bg-gradient-to-t from-[#fafafa] to-[#a4a4a4] dark:from-[#323232] dark:to-[#000000] relative overflow-hidden flex items-center pt-24 pb-8">
   <div class="absolute inset-0 bg-[radial-gradient(80%_50%_at_50%_120%,rgba(255,255,255,0.12),transparent_60%)]"></div>
 
   <div class="relative mx-auto w-full px-4">
@@ -8,8 +8,8 @@
         <img src="assets/single-logo.png" alt="QuizLynx" width="28" height="28" loading="lazy" />
       </div>
 
-      <h1 class="mt-4 md:mt-6 text-center text-2xl sm:text-3xl md:text-4xl font-semibold text-white">Verify code</h1>
-      <p class="mt-2 md:mt-3 text-center text-sm md:text-base text-white/80 px-4">Enter the 6-digit code we sent to your email.</p>
+      <h1 class="mt-4 md:mt-6 text-center text-2xl sm:text-3xl md:text-4xl font-semibold text-text">Verify code</h1>
+      <p class="mt-2 md:mt-3 text-center text-sm md:text-base text-muted-text px-4">Enter the 6-digit code we sent to your email.</p>
 
       <div class="card flex justify-center mt-4 md:mt-5">
         <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3 md:gap-4 w-full">
@@ -20,12 +20,12 @@
                     OTP is required.
                 </div>                }
             </div>
-          <button type="submit" class="mt-2 w-full rounded-full bg-white px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium text-[#1345d5] shadow-lg shadow-black/20 hover:bg-slate-50">Verify</button>
+          <button type="submit" class="mt-2 w-full rounded-full bg-primary px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium text-white shadow-lg shadow-black/20 hover:bg-slate-50">Verify</button>
         </form>
     </div>
 
-      <p class="mt-4 text-center text-xs sm:text-sm text-white/80 px-4">
-        Didn't get a code? <span (click)="resendOtp()" class="text-white hover:underline cursor-pointer">Resend</span>
+      <p class="mt-4 text-center text-xs sm:text-sm text-muted-text px-4">
+        Didn't get a code? <span (click)="resendOtp()" class="text-primary hover:underline cursor-pointer">Resend</span>
       </p>
     </div>
   </div>

@@ -9,8 +9,9 @@ import { Instructor } from '../../core/service/instructor';
 import { InputText } from 'primeng/inputtext';
 import { MultiSelect } from 'primeng/multiselect';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+import { Common } from '../../core/common/common';
+// import { MessageService } from 'primeng/api';
 // import { inject } from '@angular/core/types/primitives-di';
 
 interface StatCard {
@@ -46,8 +47,8 @@ export class AdminDashboard implements OnInit {
   // Statistics Cards
   visible: boolean = false;
   private fb = inject(FormBuilder);
-  private spinner = inject(NgxSpinnerService);
-  private messageService = inject(MessageService);
+  // private spinner = inject(NgxSpinnerService);
+  private common = inject(Common);
   updateForm = this.fb.group({
     displayName:['',[Validators.required,Validators.minLength(3)]],
     bio:['',[Validators.maxLength(1000)]],
@@ -569,18 +570,18 @@ subjectOptions = [
       this.updateForm.markAllAsTouched();
       return;
     }
-    this.spinner.show();
+    this.common.showSpinner();
     this.instructorService.updateInstructorProfile(this.updateForm.value).subscribe({
       next:(res:any)=>{
         console.log(res);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile updated successfully' });
+        this.common.showMessage( 'success', 'Success',  'Profile updated successfully' );
         this.visible = false;
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error:(err:any)=>{
         console.log(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message || 'Something went wrong' });
-        this.spinner.hide();
+        this.common.showMessage( 'error',  'Error',  err.message || 'Something went wrong' );
+        this.common.hideSpinner();
       }
     })
   }

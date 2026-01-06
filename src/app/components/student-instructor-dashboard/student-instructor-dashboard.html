@@ -1,110 +1,131 @@
-<div class="student-instructor-dashboard !pt-20 px-2 sm:px-4 md:px-6">
+<div class="student-instructor-dashboard-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Student Dashboard</p>
+      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">Instructor Overview</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Track your performance across different instructors and subjects.</p>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+      <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+      {{ instructors.length }} instructors
+    </div>
+  </div>
+
   <!-- Statistics Cards Section -->
-  <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
     @for(stat of stats; track stat.title){
-      <div class="stat-card">
-        <div class="stat-header">
-          <span class="stat-title">{{ stat.title }}</span>
-          <span class="stat-period">{{ stat.period }}</span>
+      <article class="surface-card hoverable-card flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold text-slate-900 dark:text-slate-50">{{ stat.title }}</p>
+          <span class="text-[11px] text-slate-500 dark:text-slate-300">{{ stat.period }}</span>
         </div>
-        <div class="stat-content">
-          <span class="stat-value">{{ stat.value }}</span>
-          <span class="stat-change" [class.increase]="stat.changeType === 'increase'" [class.decrease]="stat.changeType === 'decrease'">
-            <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ stat.value }}</span>
+          <span
+            class="inline-flex items-center gap-1 text-text rounded-lg px-2 py-1 text-[11px] font-semibold"
+            [class.increase]="stat.changeType === 'increase'"
+            [class.decrease]="stat.changeType === 'decrease'">
+            <i class="filter-icon" [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
             {{ stat.change }}%
           </span>
         </div>
-      </div>
+      </article>
     }
   </div>
 
   <!-- Main Content Section -->
-  <div class="main-content grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4">
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
     <!-- Left Section -->
-    <div class="left-section flex flex-col gap-2 md:gap-4">
+    <div class="flex flex-col gap-4 xl:col-span-2">
       <!-- My Instructors Card -->
-      <div class="instructors-card">
-        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
-          <h3 class="card-title text-base md:text-lg">My Instructors</h3>
-          <a href="#" class="view-all-link text-sm">View all</a>
+      <section class="surface-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">My Instructors</h3>
         </div>
-        <div class="instructors-list flex flex-col gap-3 md:gap-4">
+        <div class="space-y-4">
           @for(instructor of instructors; track instructor.id){
-            <div class="instructor-item flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 p-3 md:p-4">
-              <div class="instructor-avatar w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
-                <i class="pi pi-user text-lg md:text-2xl"></i>
+            <div class="flex items-start gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+              <div class="p-3 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex-shrink-0">
+                <i class="pi pi-user text-indigo-600 dark:text-indigo-400 text-xl"></i>
               </div>
-              <div class="instructor-info flex-1 min-w-0">
-                <div class="instructor-name text-sm md:text-base mb-1">{{ instructor.name }}</div>
-                <div class="instructor-subject text-xs md:text-sm mb-2">{{ instructor.subject }}</div>
-                <div class="instructor-details flex flex-col gap-1 mb-2">
-                  <span class="detail-item text-xs">
-                    <i class="pi pi-envelope"></i>
-                    <span class="truncate">{{ instructor.email }}</span>
-                  </span>
-                  <span class="detail-item text-xs">
-                    <i class="pi pi-clock"></i>
-                    {{ instructor.lastActive }}
-                  </span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between mb-2">
+                  <div>
+                    <h4 class="text-base font-semibold text-slate-900 dark:text-slate-50">{{ instructor.name }}</h4>
+                    <p class="text-sm text-slate-600 dark:text-slate-300">{{ instructor.subject }}</p>
+                  </div>
+                  <button class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Contact Instructor">
+                    <a [href]=`mailto:${instructor.email}` class="text-indigo-600 dark:text-indigo-400">
+                      <i class="pi pi-send"></i>
+                    </a>
+                  </button>
                 </div>
-                <div class="instructor-stats flex flex-wrap gap-2">
-                  <span class="stat-badge text-xs">
+                <div class="space-y-1 mb-3">
+                  <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <i class="pi pi-envelope text-slate-400"></i>
+                    <span class="truncate">{{ instructor.email }}</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <i class="pi pi-clock text-slate-400"></i>
+                    <span>{{ instructor.lastActive }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
                     <i class="pi pi-file"></i>
                     {{ instructor.totalQuizzes }} Quizzes
                   </span>
-                  <span class="stat-badge text-xs">
+                  <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
                     <i class="pi pi-star"></i>
                     Avg: {{ instructor.averageScore }}%
                   </span>
                 </div>
               </div>
-              <button class="contact-btn p-2 md:p-3 flex-shrink-0" title="Contact Instructor">
-                <i class="pi pi-send text-sm md:text-base"></i>
-              </button>
             </div>
           }
         </div>
-      </div>
+      </section>
 
       <!-- Instructor Quizzes Card -->
-      <div class="quizzes-card">
-        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
-          <h3 class="card-title text-base md:text-lg">Instructor Quizzes</h3>
-          <a href="#" class="view-all-link text-sm">View all</a>
+      <section class="surface-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">Recent Quizzes</h3>
+          <a href="/student/quizzes" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">View all</a>
         </div>
         <div class="overflow-x-auto">
-          <table class="quizzes-table w-full min-w-[700px]">
+          <table class="w-full">
             <thead>
-              <tr>
-                <th class="text-xs md:text-sm">Quiz Title</th>
-                <th class="text-xs md:text-sm">Instructor</th>
-                <th class="text-xs md:text-sm">Subject</th>
-                <th class="text-xs md:text-sm">Due Date</th>
-                <th class="text-xs md:text-sm">Status</th>
-                <th class="text-xs md:text-sm">Score</th>
+              <tr class="border-b border-slate-200 dark:border-slate-700">
+                <th class="text-left py-2 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Quiz Title</th>
+                <th class="text-left py-2 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Instructor</th>
+                <th class="text-left py-2 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Subject</th>
+                <th class="text-left py-2 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Due Date</th>
+                <th class="text-left py-2 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Status</th>
+                <th class="text-left py-2 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Score</th>
               </tr>
             </thead>
             <tbody>
               @for(quiz of instructorQuizzes; track quiz.id){
-                <tr>
-                  <td class="quiz-title text-xs md:text-sm font-medium">{{ quiz.title }}</td>
-                  <td class="text-xs md:text-sm">{{ quiz.instructorName }}</td>
-                  <td>
-                    <span class="subject-tag text-xs">{{ quiz.subject }}</span>
+                <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                  <td class="py-3 px-3 text-sm font-medium text-slate-900 dark:text-slate-50">{{ quiz.title }}</td>
+                  <td class="py-3 px-3 text-sm text-slate-600 dark:text-slate-300">{{ quiz.instructorName }}</td>
+                  <td class="py-3 px-3">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      {{ quiz.subject }}
+                    </span>
                   </td>
-                  <td class="text-xs md:text-sm">{{ formatDate(quiz.dueDate) }}</td>
-                  <td>
-                    <span class="status-badge text-xs" [class.completed]="quiz.status === 'Completed'" 
-                          [class.pending]="quiz.status === 'Pending'" 
-                          [class.overdue]="quiz.status === 'Overdue'">
+                  <td class="py-3 px-3 text-sm text-slate-600 dark:text-slate-300">{{ formatDate(quiz.dueDate) }}</td>
+                  <td class="py-3 px-3">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold"
+                          [class]="getStatusBadgeClass(quiz.status)">
                       {{ quiz.status }}
                     </span>
                   </td>
-                  <td class="text-xs md:text-sm">
+                  <td class="py-3 px-3 text-sm font-semibold text-slate-900 dark:text-slate-50">
                     @if(quiz.score && quiz.maxScore){
-                      <span class="score-value font-semibold">{{ quiz.score }}/{{ quiz.maxScore }}</span>
+                      {{ quiz.score }}/{{ quiz.maxScore }}
                     } @else {
-                      <span class="score-placeholder">-</span>
+                      <span class="text-slate-400">-</span>
                     }
                   </td>
                 </tr>
@@ -112,13 +133,16 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
 
     <!-- Right Section -->
-    <div class="right-section flex flex-col gap-2 md:gap-4">
+    <div class="flex flex-col gap-4">
       <!-- Performance Comparison Chart -->
-      <div class="performance-card p-3 md:p-4">
+      <section class="surface-card">
+        <div class="mb-4">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">Performance by Instructor</h3>
+        </div>
         <app-chart-configuration
           [chartType]="'bar'"
           [data]="performanceComparisonData"
@@ -126,10 +150,13 @@
           [height]="'250px'"
           [options]="performanceComparisonOptions">
         </app-chart-configuration>
-      </div>
+      </section>
 
       <!-- Quiz Completion by Instructor Chart -->
-      <div class="completion-card p-3 md:p-4">
+      <section class="surface-card">
+        <div class="mb-4">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">Quiz Completion</h3>
+        </div>
         <app-chart-configuration
           [chartType]="'pie'"
           [data]="quizCompletionData"
@@ -137,59 +164,7 @@
           [height]="'250px'"
           [options]="quizCompletionOptions">
         </app-chart-configuration>
-      </div>
-
-      <!-- Instructor Feedback Card -->
-      <div class="feedback-card">
-        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
-          <h3 class="card-title text-base md:text-lg">Instructor Feedback</h3>
-          <a href="#" class="view-all-link text-sm">View all</a>
-        </div>
-        <div class="feedback-list flex flex-col gap-3 md:gap-4">
-          @for(feedback of instructorFeedback; track feedback.id){
-            <div class="feedback-item p-3 md:p-4">
-              <div class="feedback-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
-                <div class="feedback-instructor text-sm md:text-base font-semibold">{{ feedback.instructorName }}</div>
-                <div class="feedback-date text-xs text-muted-text">{{ formatDate(feedback.date) }}</div>
-              </div>
-              <div class="feedback-quiz text-xs md:text-sm mb-2">{{ feedback.quizTitle }}</div>
-              <div class="feedback-message text-xs md:text-sm mb-2">{{ feedback.feedback }}</div>
-              @if(feedback.rating){
-                <div class="feedback-rating flex gap-1">
-                  @for(star of [1,2,3,4,5]; track star){
-                    <i class="pi text-xs md:text-sm" [class.pi-star-fill]="star <= feedback.rating" [class.pi-star]="star > feedback.rating"></i>
-                  }
-                </div>
-              }
-            </div>
-          }
-        </div>
-      </div>
-
-      <!-- Instructor Announcements Card -->
-      <div class="announcements-card">
-        <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-5">
-          <h3 class="card-title text-base md:text-lg">Instructor Announcements</h3>
-          <a href="#" class="view-all-link text-sm">View all</a>
-        </div>
-        <div class="announcements-list flex flex-col gap-2 md:gap-3">
-          @for(announcement of instructorAnnouncements; track announcement.id){
-            <div class="announcement-item p-3 md:p-4" [class.high-priority]="announcement.priority === 'high'">
-              <div class="announcement-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
-                <div class="announcement-title text-sm md:text-base font-semibold">{{ announcement.title }}</div>
-                <span class="priority-badge text-xs px-2 py-1" [class.high]="announcement.priority === 'high'" 
-                      [class.medium]="announcement.priority === 'medium'" 
-                      [class.low]="announcement.priority === 'low'">
-                  {{ announcement.priority }}
-                </span>
-              </div>
-              <div class="announcement-instructor text-xs md:text-sm mb-1">{{ announcement.instructorName }}</div>
-              <div class="announcement-message text-xs md:text-sm mb-2">{{ announcement.message }}</div>
-              <div class="announcement-date text-xs text-muted-text">{{ formatDate(announcement.date) }}</div>
-            </div>
-          }
-        </div>
-      </div>
+      </section>
     </div>
   </div>
 </div>

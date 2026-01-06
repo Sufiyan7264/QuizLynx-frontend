@@ -1,0 +1,134 @@
+<div class="student-attempts-container !pt-24">
+  
+  <!-- Header Section -->
+  <div class="attempts-header">
+    <div class="header-content">
+      <h1 class="page-title">My Quiz Attempts</h1>
+      <p class="page-subtitle">View all your quiz attempts and results</p>
+    </div>
+    <button class="back-btn" (click)="goToDashboard()">
+      <i class="pi pi-arrow-left"></i>
+      <span>Back to Dashboard</span>
+    </button>
+  </div>
+
+  <!-- Search Section -->
+  @if (attempts.length > 0) {
+    <div class="search-section">
+      <div class="search-group">
+        <label for="search" class="search-label">
+          <i class="pi pi-search"></i>
+          Search Attempts
+        </label>
+        <input
+          id="search"
+          type="text"
+          pInputText
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Search by quiz title..."
+          class="search-input"
+        />
+      </div>
+      @if (searchTerm) {
+        <button class="clear-search-btn" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+          <span>Clear</span>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Attempts List -->
+  <div class="attempts-list">
+    @if (attempts.length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-file-edit empty-icon"></i>
+        <h3>No attempts yet</h3>
+        <p>You haven't completed any quizzes yet</p>
+        <button class="back-btn" (click)="goToDashboard()">
+          <i class="pi pi-arrow-left"></i>
+          <span>Go to Dashboard</span>
+        </button>
+      </div>
+    } @else {
+      @if (filteredAttempts.length === 0 && searchTerm) {
+        <div class="empty-state">
+          <i class="pi pi-search empty-icon"></i>
+          <h3>No attempts found</h3>
+          <p>Try adjusting your search criteria</p>
+          <button class="clear-search-btn" (click)="clearSearch()">
+            <i class="pi pi-times"></i>
+            <span>Clear Search</span>
+          </button>
+        </div>
+      } @else {
+        <div class="attempts-grid">
+          @for (attempt of filteredAttempts; track attempt.id || attempt.quizId) {
+            <div class="attempt-card" (click)="viewResult(attempt)">
+              <div class="attempt-header">
+                <div class="attempt-icon">
+                  <i class="pi pi-file-edit"></i>
+                </div>
+                <div class="status-badge" [class]="'status-' + (attempt.passed ? 'passed' : 'failed')">
+                  @if (attempt.passed) {
+                    <i class="pi pi-check-circle"></i>
+                    <span>Passed</span>
+                  } @else {
+                    <i class="pi pi-times-circle"></i>
+                    <span>Failed</span>
+                  }
+                </div>
+              </div>
+              
+              <div class="attempt-content">
+                <h3 class="quiz-title">{{ attempt.quizTitle || 'Quiz' }}</h3>
+                
+                <div class="attempt-info">
+                  <div class="info-row">
+                    <div class="info-item">
+                      <i class="pi pi-star"></i>
+                      <span class="info-label">Score:</span>
+                      <span class="info-value">{{ attempt.score }} / {{ attempt.totalMarks }}</span>
+                    </div>
+                    <div class="info-item">
+                      <i class="pi pi-percentage"></i>
+                      <span class="info-label">Percentage:</span>
+                      <span class="info-value percentage-badge" [class]="'badge-' + getScoreColor(attempt.percentage)">
+                        {{ attempt.percentage.toFixed(1) }}%
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="info-row">
+                    <div class="info-item">
+                      <i class="pi pi-clock"></i>
+                      <span class="info-label">Time Taken:</span>
+                      <span class="info-value">{{ formatTime(attempt.submittedAt, attempt.startedAt ) }}</span>
+                    </div>
+                    @if (attempt.submittedAt) {
+                      <div class="info-item">
+                        <i class="pi pi-calendar"></i>
+                        <span class="info-label">Submitted:</span>
+                        <span class="info-value">{{ formatDate(attempt.submittedAt) }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+                <div class="attempt-footer">
+                  <button class="view-result-btn">
+                    <i class="pi pi-eye"></i>
+                    <span>View Details</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>
+
+

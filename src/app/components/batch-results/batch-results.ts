@@ -5,12 +5,13 @@ import { BatchResultService } from '../../core/service/batch-result';
 import { BatchService } from '../../core/service/batch';
 import { QuizService } from '../../core/service/quiz';
 import { BatchResult, StudentResult, Batch, Quiz } from '../../core/interface/interfaces';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
 import { Select } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { Common } from '../../core/common/common';
 
 type SortOption = 'highest-score' | 'lowest-score' | 'date-asc' | 'date-desc';
 
@@ -21,18 +22,18 @@ type SortOption = 'highest-score' | 'lowest-score' | 'date-asc' | 'date-desc';
     FormsModule,
     Select,
     InputText,
-    Toast
+    // Toast
   ],
   templateUrl: './batch-results.html',
   styleUrl: './batch-results.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class BatchResults implements OnInit {
   private readonly batchResultService = inject(BatchResultService);
   private readonly batchService = inject(BatchService);
   private readonly quizService = inject(QuizService);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  private  common = inject(Common);
+  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -132,7 +133,7 @@ export class BatchResults implements OnInit {
   loadResults(): void {
     if (!this.batchId || !this.quizId) return;
     
-    this.spinner.show();
+    this.common.showSpinner();
     this.batchResultService.getBatchResults(this.batchId, this.quizId).subscribe({
       next: (result) => {
         this.batchResult = result;
@@ -140,16 +141,12 @@ export class BatchResults implements OnInit {
         this.searchTerm = ''; // Reset search when loading new results
         this.applySort();
         this.loadQuiz();
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
         console.error('Error loading results:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to load results'
-        });
-        this.spinner.hide();
+        this.common.showMessage('error','Error',error?.error?.message || 'Failed to load results');
+        this.common.hideSpinner();
       }
     });
   }

@@ -38,6 +38,24 @@ export const routes: Routes = [
     canActivate:[authGuard]
     },
     {
+        path:'user/attempts',
+        loadComponent:()=>import('./components/user-attempts/user-attempts').then(m=>m.UserAttempts),
+        canActivate:[authGuard, roleGuard],
+        data:{role:'USER'}
+    },
+    {
+        path:'user/explore',
+        loadComponent:()=>import('./components/user-explore/user-explore').then(m=>m.UserExplore),
+        canActivate:[authGuard, roleGuard],
+        data:{role:'USER'}
+    },
+    {
+        path:'user/practice',
+        loadComponent:()=>import('./components/user-practice/user-practice').then(m=>m.UserPractice),
+        canActivate:[authGuard, roleGuard],
+        data:{role:'USER'}
+    },
+    {
     path:'student-dashboard',
     loadComponent:()=>import('./components/student-instructor-dashboard/student-instructor-dashboard').then(m=>m.StudentInstructorDashboard),
     canActivate:[authGuard,roleGuard],
@@ -139,6 +157,10 @@ export const routes: Routes = [
         loadComponent:()=>import('./components/student-attempts/student-attempts').then(m=>m.StudentAttempts),
         canActivate:[childAuthGuard,authGuard,roleGuard],
         data:{role:'STUDENT'}
+    },
+    {   
+        path: 'select-role',
+        loadComponent:()=>import('./components/select-role/select-role').then(m=>m.SelectRole),
     },
     {
         path:'student/quizzes',

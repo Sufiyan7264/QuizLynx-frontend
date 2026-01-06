@@ -1,132 +1,164 @@
-<div class="student-quizzes-container !pt-24">
-  <p-toast></p-toast>
-  
-  <!-- Header Section -->
-  <div class="quizzes-header">
-    <div class="header-content">
-      <h1 class="page-title">Active Quizzes</h1>
-      <p class="page-subtitle">View and attempt available quizzes</p>
+<div class="student-quizzes-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Student Dashboard</p>
+      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">Active Quizzes</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">View and attempt available quizzes assigned to you.</p>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+      <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+      {{ filteredQuizzes.length }} quizzes available
     </div>
   </div>
 
   <!-- Search Section -->
-  <div class="search-section">
-    <div class="search-group">
-      <label for="searchQuizzes" class="search-label">
-        <i class="pi pi-search"></i>
-        Search Quizzes
-      </label>
-      <input
-        id="searchQuizzes"
-        type="text"
-        pInputText
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="onSearchChange()"
-        placeholder="Search by title, description, or subject..."
-        class="search-input"
-      />
-    </div>
-    @if (searchTerm) {
-      <button class="clear-search-btn" (click)="clearSearch()">
-        <i class="pi pi-times"></i>
-        <span>Clear</span>
-      </button>
-    }
-  </div>
+  @if (quizzes.length > 0) {
+    <section class="surface-card mb-6">
+      <div class="flex flex-col sm:flex-row gap-4 items-end">
+        <div class="flex-1">
+          <label for="searchQuizzes" class="block text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2">
+            <i class="pi pi-search mr-2"></i>
+            Search Quizzes
+          </label>
+          <input
+            id="searchQuizzes"
+            type="text"
+            pInputText
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchChange()"
+            placeholder="Search by title, description, or subject..."
+            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+          />
+        </div>
+        @if (searchTerm) {
+          <button
+            class="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors text-sm font-semibold"
+            (click)="clearSearch()"
+          >
+            <i class="pi pi-times mr-2"></i>
+            Clear Search
+          </button>
+        }
+      </div>
+    </section>
+  }
 
   <!-- Quizzes List -->
-  <div class="quizzes-list">
+  <div class="quizzes-content">
     @if (filteredQuizzes.length === 0 && !searchTerm) {
-      <div class="empty-state">
-        <i class="pi pi-file-edit empty-icon"></i>
-        <h3>No quizzes available</h3>
-        <p>There are no active quizzes at the moment</p>
+      <div class="empty-state surface-card">
+        <i class="pi pi-file-edit text-6xl text-slate-400 dark:text-slate-500 mb-4"></i>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">No quizzes available</h3>
+        <p class="text-slate-600 dark:text-slate-300">There are no active quizzes assigned to you at the moment</p>
       </div>
     } @else if (filteredQuizzes.length === 0 && searchTerm) {
-      <div class="empty-state">
-        <i class="pi pi-search empty-icon"></i>
-        <h3>No quizzes found</h3>
-        <p>Try adjusting your search criteria</p>
-        <button class="clear-search-btn" (click)="clearSearch()">
-          <i class="pi pi-times"></i>
-          <span>Clear Search</span>
+      <div class="empty-state surface-card">
+        <i class="pi pi-search text-6xl text-slate-400 dark:text-slate-500 mb-4"></i>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">No quizzes found</h3>
+        <p class="text-slate-600 dark:text-slate-300 mb-4">Try adjusting your search criteria</p>
+        <button
+          class="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors text-sm font-semibold"
+          (click)="clearSearch()"
+        >
+          <i class="pi pi-times mr-2"></i>
+          Clear Search
         </button>
       </div>
     } @else {
-      <div class="quizzes-grid">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         @for (quiz of filteredQuizzes; track quiz.id) {
-          <div class="quiz-card">
-            <div class="card-header">
-              <div class="quiz-title-section">
-                <h3 class="quiz-title">{{ quiz.title }}</h3>
+          <div class="surface-card hoverable-card">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-1">{{ quiz.title }}</h3>
                 @if (quiz.subject) {
-                  <span class="quiz-subject">{{ quiz.subject }}</span>
+                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">
+                    {{ quiz.subject }}
+                  </span>
                 }
               </div>
               @if (isQuizOverdue(quiz)) {
-                <span class="status-badge overdue">Overdue</span>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300">
+                  <i class="pi pi-exclamation-triangle mr-1"></i>
+                  Overdue
+                </span>
               } @else if (!isQuizAvailable(quiz)) {
-                <span class="status-badge upcoming">Upcoming</span>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300">
+                  <i class="pi pi-clock mr-1"></i>
+                  Upcoming
+                </span>
               } @else {
-                <span class="status-badge active">Active</span>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                  <i class="pi pi-check-circle mr-1"></i>
+                  Active
+                </span>
               }
             </div>
 
             @if (quiz.description) {
-              <p class="quiz-description">{{ quiz.description }}</p>
+              <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">{{ quiz.description }}</p>
             }
 
-            <div class="quiz-details">
+            <div class="space-y-2 mb-4">
               @if (quiz.timerInMin) {
-                <div class="detail-item">
-                  <i class="pi pi-clock"></i>
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-clock text-indigo-500"></i>
                   <span>{{ quiz.timerInMin }} minutes</span>
                 </div>
               }
               @if (quiz.totalMarks) {
-                <div class="detail-item">
-                  <i class="pi pi-star"></i>
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-star text-yellow-500"></i>
                   <span>{{ quiz.totalMarks }} marks</span>
                 </div>
               }
               @if (quiz.questionCount) {
-                <div class="detail-item">
-                  <i class="pi pi-list"></i>
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-list text-purple-500"></i>
                   <span>{{ quiz.questionCount }} questions</span>
                 </div>
               }
             </div>
 
-            <div class="quiz-dates">
+            <div class="space-y-1 mb-4">
               @if (quiz.startDate) {
-                <div class="date-item">
+                <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <i class="pi pi-calendar"></i>
                   <span>Starts: {{ formatDate(quiz.startDate) }}</span>
                 </div>
               }
               @if (quiz.endDate) {
-                <div class="date-item">
+                <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <i class="pi pi-calendar-times"></i>
                   <span>Ends: {{ formatDate(quiz.endDate) }}</span>
                 </div>
               }
             </div>
 
-            <div class="card-actions">
+            <div class="flex gap-2">
               @if (isQuizAvailable(quiz) && !isQuizOverdue(quiz)) {
-                <button class="action-btn primary" (click)="startQuiz(quiz.id)">
-                  <i class="pi pi-play"></i>
-                  <span>Start Quiz</span>
+                <button
+                  class="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                  (click)="startQuiz(quiz.id)"
+                >
+                  <i class="pi pi-play mr-2"></i>
+                  Start Quiz
                 </button>
               } @else if (isQuizOverdue(quiz)) {
-                <button class="action-btn disabled" disabled>
-                  <i class="pi pi-ban"></i>
-                  <span>Overdue</span>
+                <button
+                  class="flex-1 px-4 py-2 bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 rounded-lg text-sm font-semibold cursor-not-allowed"
+                  disabled
+                >
+                  <i class="pi pi-ban mr-2"></i>
+                  Overdue
                 </button>
               } @else {
-                <button class="action-btn disabled" disabled>
-                  <i class="pi pi-clock"></i>
-                  <span>Not Available</span>
+                <button
+                  class="flex-1 px-4 py-2 bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 rounded-lg text-sm font-semibold cursor-not-allowed"
+                  disabled
+                >
+                  <i class="pi pi-clock mr-2"></i>
+                  Not Available
                 </button>
               }
             </div>

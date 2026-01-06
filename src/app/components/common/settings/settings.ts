@@ -8,10 +8,11 @@ import { Auth } from '../../../core/service/auth';
 import { UserInfo } from '../../../core/interface/interfaces';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
 import { Dialog } from 'primeng/dialog';
+import { Common } from '../../../core/common/common';
 
 @Component({
   selector: 'app-settings',
@@ -21,19 +22,19 @@ import { Dialog } from 'primeng/dialog';
     Button,
     InputText,
     Dialog,
-    Toast
+    // Toast
   ],
   templateUrl: './settings.html',
   styleUrl: './settings.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class Settings implements OnInit {
   private readonly userService = inject(UserService);
   private readonly instructorService = inject(Instructor);
   private readonly authService = inject(Auth);
   private readonly fb = inject(FormBuilder);
-  private readonly messageService = inject(MessageService);
-  private readonly spinner = inject(NgxSpinnerService);
+  private readonly common = inject(Common);
+  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
 
   currentUser?: UserInfo | null;
@@ -54,8 +55,8 @@ export class Settings implements OnInit {
   // Password Form
   passwordForm: FormGroup = this.fb.group({
     currentPassword: ['', [Validators.required]],
-    newPassword: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]]
+    newPassword: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required,Validators.minLength(8)]]
   }, { validators: this.passwordMatchValidator });
 
   // Delete Account Dialog
@@ -64,8 +65,8 @@ export class Settings implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCachedUser();
     this.isInstructor = this.currentUser?.role === 'INSTRUCTOR';
-    this.isEditMode = false; // Start in view mode
-    this.loadProfile();
+    // this.isEditMode = false; // Start in view mode
+    // this.loadProfile();
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -79,62 +80,57 @@ export class Settings implements OnInit {
     return null;
   }
 
-  loadProfile(): void {
-    this.spinner.show();
+//   loadProfile(): void {
+//     this.common.showSpinner();
     
-    if (this.isInstructor) {
-      this.instructorService.getInstructorInfo().subscribe({
-        next: (profile: any) => {
-          this.instructorProfile = profile;
-          const profileData = {
-            displayName: profile.displayName || (profile.firstName && profile.lastName ? `${profile.firstName} ${profile.lastName}` : '') || profile.username || '',
-            // firstName: profile.firstName || '',
-            // lastName: profile.lastName || '',
-            // avatarUrl: profile.avatarUrl || '',
-            bio: profile.bio || ''
-          };
-          this.originalProfileData = { ...profileData };
-          this.profileForm.patchValue(profileData);
-          this.setFormReadOnly();
-          this.spinner.hide();
-        },
-        error: (error) => {
-          console.error('Error loading instructor profile:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to load profile'
-          });
-          this.spinner.hide();
-        }
-      });
-    } else {
-      this.userService.getCurrentUserProfile().subscribe({
-        next: (profile: any) => {
-          const profileData = {
-            displayName: profile.displayName || profile.username || '',
-            // firstName: profile.firstName || '',
-            // lastName: profile.lastName || '',
-            // avatarUrl: profile.avatarUrl || ''
-            bio: profile.bio || ''
-          };
-          this.originalProfileData = { ...profileData };
-          this.profileForm.patchValue(profileData);
-          this.setFormReadOnly();
-          this.spinner.hide();
-        },
-        error: (error) => {
-          console.error('Error loading profile:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to load profile'
-          });
-          this.spinner.hide();
-        }
-      });
-    }
-  }
+//     if (this.isInstructor) {
+//       this.instructorService.getInstructorInfo().subscribe({
+//         next: (profile: any) => {
+//           this.instructorProfile = profile;
+//           const profileData = {
+//             displayName: profile.displayName || (profile.firstName && profile.lastName ? `${profile.firstName} ${profile.lastName}` : '') || profile.username || '',
+//             // firstName: profile.firstName || '',
+//             // lastName: profile.lastName || '',
+//             // avatarUrl: profile.avatarUrl || '',
+//             bio: profile.bio || ''
+//           };
+//           this.originalProfileData = { ...profileData };
+//           this.profileForm.patchValue(profileData);
+//           this.setFormReadOnly();
+//           this.common.hideSpinner();
+//         },
+//         error: (error) => {
+//           console.error('Error loading instructor profile:', error);
+//           this.common.showMessage('error', 'Error',error?.error?.message || 'Failed to load profile'
+//           );
+//           this.common.hideSpinner();
+//         }
+//       });
+//     } else {
+//       this.userService.getCurrentUserProfile().subscribe({
+//         next: (profile: any) => {
+//           const profileData = {
+//             displayName: profile.displayName || profile.username || '',
+//             // firstName: profile.firstName || '',
+//             // lastName: profile.lastName || '',
+//             // avatarUrl: profile.avatarUrl || ''
+//             bio: profile.bio || ''
+//           };
+//           this.originalProfileData = { ...profileData };
+//           this.profileForm.patchValue(profileData);
+//           this.setFormReadOnly();
+//           this.common.hideSpinner();
+//         },
+//         error: (error) => {
+//           console.error('Error loading profile:', error);
+//           this.common.showMessage(
+// 'error','Error', error?.error?.message || 'Failed to load profile'
+//           );
+//           this.common.hideSpinner();
+//         }
+//       });
+//     }
+//   }
 
   setFormReadOnly(): void {
     // Form is always disabled - we'll use it just to store values
@@ -170,50 +166,42 @@ export class Settings implements OnInit {
       bio: this.isInstructor ? (formValue.bio || undefined) : undefined
     };
 
-    this.spinner.show();
+    this.common.showSpinner();
 
     if (this.isInstructor) {
       this.instructorService.updateInstructorProfile(profileData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Profile updated successfully'
-          });
+          this.common.showMessage(
+'success','Success', 'Profile updated successfully'
+          );
           this.isEditMode = false;
           this.profileForm.disable();
-          this.loadProfile();
-          this.spinner.hide();
+          // this.loadProfile();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to update profile'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+'error','Error', error?.error?.message || 'Failed to update profile'
+          );
+          this.common.hideSpinner();
         }
       });
     } else {
       this.userService.updateProfile(profileData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Profile updated successfully'
-          });
+          this.common.showMessage(
+'success','Success', 'Profile updated successfully'
+          );
           this.isEditMode = false;
           this.profileForm.disable();
-          this.loadProfile();
-          this.spinner.hide();
+          // this.loadProfile();
+          this.common.hideSpinner();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error?.error?.message || 'Failed to update profile'
-          });
-          this.spinner.hide();
+          this.common.showMessage(
+'error','Error', error?.error?.message || 'Failed to update profile'
+          );
+          this.common.hideSpinner();
         }
       });
     }
@@ -231,24 +219,24 @@ export class Settings implements OnInit {
       newPassword: formValue.newPassword
     };
 
-    this.spinner.show();
+    this.common.showSpinner();
     this.authService.updatePassword(passwordData).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Password updated successfully'
-        });
+        this.common.showMessage(
+          'success',
+          'Success',
+          'Password updated successfully'
+        );
         this.passwordForm.reset();
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to update password. Please check your current password.'
-        });
-        this.spinner.hide();
+        this.common.showMessage(
+          'error',
+          'Error',
+          error?.error?.message || 'Failed to update password. Please check your current password.'
+        );
+        this.common.hideSpinner();
       }
     });
   }
@@ -262,33 +250,34 @@ export class Settings implements OnInit {
   }
 
   deleteAccount(): void {
-    this.spinner.show();
+    this.common.showSpinner();
     this.userService.deleteAccount().subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Account deleted successfully'
-        });
+      next: (res:any) => {
+        this.authService.setLoggedOut();
+        this.common.showMessage(
+          'success',
+          'Success',
+          res.message
+        );
         this.authService.logout().subscribe({
           next: () => {
             this.router.navigate(['/signin']);
-            this.spinner.hide();
+            this.common.hideSpinner();
           },
           error: () => {
             this.router.navigate(['/signin']);
-            this.spinner.hide();
+            this.common.hideSpinner();
           }
         });
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Failed to delete account'
-        });
+        this.common.showMessage(
+          'error',
+          'Error',
+          error?.error?.message || 'Failed to delete account'
+        );
         this.closeDeleteDialog();
-        this.spinner.hide();
+        this.common.hideSpinner();
       }
     });
   }

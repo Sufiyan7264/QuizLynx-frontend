@@ -5,9 +5,9 @@ import { QuestionService } from '../../../core/service/question';
 import { QuizService } from '../../../core/service/quiz';
 import { Question, Quiz } from '../../../core/interface/interfaces';
 import { Button } from 'primeng/button';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { Common } from '../../../core/common/common';
@@ -17,12 +17,12 @@ import { Common } from '../../../core/common/common';
   imports: [
     CommonModule,
     Button,
-    Toast,
+    // Toast,
     ConfirmDialog
   ],
   templateUrl: './list.html',
   styleUrl: './list.scss',
-  providers: [MessageService, ConfirmationService]
+  // providers: [MessageService, ConfirmationService]
 })
 export class List implements OnInit {
   private readonly questionService = inject(QuestionService);
