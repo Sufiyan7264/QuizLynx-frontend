@@ -1,0 +1,101 @@
+<div class="user-analytics-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+  <!-- Header -->
+  <div class="mb-8 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">
+        Performance Overview
+      </h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
+        Track your strengths, weaknesses, accuracy, and speed over time.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <!-- Strong vs Weak Topics -->
+    <section
+      class="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+    >
+      <h2 class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+        Strong vs Weak Topics
+      </h2>
+      <p class="mb-3 text-[11px] text-slate-600 dark:text-slate-300">
+        Higher accuracy means stronger mastery. Use this to decide what to practice next.
+      </p>
+      <app-chart-configuration
+        [data]="topicStrengthData"
+        [options]="topicStrengthOptions"
+        class="h-60"
+      ></app-chart-configuration>
+    </section>
+
+    <!-- Snapshot -->
+    <section
+      class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 text-xs shadow-sm dark:border-slate-700 dark:bg-slate-900/70"
+    >
+      <h2 class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+        Snapshot
+      </h2>
+      <ul class="space-y-2 text-slate-700 dark:text-slate-200">
+        <li class="flex items-center justify-between">
+          <span>Average accuracy (last 30 days)</span>
+          <span class="font-semibold text-emerald-600 dark:text-emerald-400">84%</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>Quizzes attempted</span>
+          <span class="font-semibold text-slate-900 dark:text-slate-50">24</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>Current daily streak</span>
+          <span class="font-semibold text-indigo-600 dark:text-indigo-400">7 days</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>Strongest topic</span>
+          <span class="font-semibold text-emerald-600 dark:text-emerald-400">Computer Science</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>Weakest topic</span>
+          <span class="font-semibold text-rose-500">Math</span>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="mt-6 grid gap-6 lg:grid-cols-2">
+    <!-- Accuracy Over Time -->
+    <section
+      class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+    >
+      <h2 class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+        Accuracy Over Time
+      </h2>
+      <p class="mb-3 text-[11px] text-slate-600 dark:text-slate-300">
+        Is your accuracy trending upwards? Consistency beats intensity.
+      </p>
+      <app-chart-configuration
+        [data]="accuracyOverTimeData"
+        [options]="accuracyOverTimeOptions"
+        class="h-60"
+      ></app-chart-configuration>
+    </section>
+
+    <!-- Speed Analysis -->
+    <section
+      class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+    >
+      <h2 class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+        Speed Analysis
+      </h2>
+      <p class="mb-3 text-[11px] text-slate-600 dark:text-slate-300">
+        Track how quickly you answer questions. Aim to be both accurate and fast.
+      </p>
+      <app-chart-configuration
+        [data]="speedData"
+        [options]="speedOptions"
+        class="h-60"
+      ></app-chart-configuration>
+    </section>
+  </div>
+</div>
+
+

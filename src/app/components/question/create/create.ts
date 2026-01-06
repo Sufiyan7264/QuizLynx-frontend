@@ -9,7 +9,7 @@ import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
-import { Toast } from 'primeng/toast';
+// import { Toast } from 'primeng/toast';
 import { Common } from '../../../core/common/common';
 
 @Component({
@@ -21,7 +21,7 @@ import { Common } from '../../../core/common/common';
     InputText,
     InputNumber,
     Select,
-    Toast
+    // Toast
   ],
   templateUrl: './create.html',
   styleUrl: './create.scss',  

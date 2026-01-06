@@ -1,0 +1,65 @@
+.leaderboard-page {
+  background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.05), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.07), transparent 55%);
+}
+
+.surface-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-primary-foreground);
+  border-radius: 18px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--elev-2);
+}
+
+.hoverable-card {
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.hoverable-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--elev-2);
+}
+
+.podium-rank {
+  height: 40px;
+  width: 40px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
+}
+
+.leaderboard-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  text-align: left;
+  padding: 10px 12px;
+}
+
+.leaderboard-table thead th {
+  color: var(--color-muted-text);
+  font-weight: 700;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.leaderboard-table tbody tr + tr {
+  border-top: 1px solid var(--color-border);
+}
+
+.leaderboard-table tbody tr:hover {
+  background: var(--hover-color);
+}
+

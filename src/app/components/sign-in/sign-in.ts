@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { HalfCircle } from '../common/half-circle/half-circle';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../core/service/auth';
-import { MessageService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Common } from '../../core/common/common';
+// import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,9 +15,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class SignIn {
   private readonly fb = inject(FormBuilder);
-  private readonly spinner = inject(NgxSpinnerService);
+  private common = inject(Common);
   private readonly router = inject(Router);
-  private readonly messageService=inject(MessageService)
+  // private readonly messageService=inject(MessageService)
   private readonly authService = inject(Auth);
 
   signInForm:FormGroup=this.fb.group({
@@ -30,7 +31,7 @@ export class SignIn {
       this.signInForm.markAllAsTouched();
       return;
     }
-    this.spinner.show();
+    this.common.showSpinner();
     this.authService.signin(this.signInForm.value).subscribe({
       next:(res:any)=>{
         const user = { username: res.username, role: res?.role[0] ? res?.role[0]?.authority : res?.role  };
@@ -41,15 +42,20 @@ export class SignIn {
           this.router.navigate(['/student-dashboard']);
         else
           this.router.navigate(['/user-dashboard']);
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error:(error:any)=>{
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error?.status ==401 ? "Username or password is incorrect" :   error?.error?.message ?? 'Something went wrong' });
+        this.common.showMessage( 'error', 'Error', error?.status ==401 ? "Username or password is incorrect" :   error?.error?.message ?? 'Something went wrong');
         if(error?.error?.message =='User is not verified. Please verify your account using the OTP sent to your email.'){
           this.router.navigate(['/otp']);
         }
-        this.spinner.hide();
+        this.common.hideSpinner();
       }
-    })
+    });
+  }
+  onGoogleClick(){
+    window.location.assign('https://localhost:8080/oauth2/authorization/google'); 
+    // this.router.navigate(['/https://localhost:8080/oauth2/authorization/google']);
+    // this.common.showMessage('warn','Warning', "This feature is under development");
   }
 }

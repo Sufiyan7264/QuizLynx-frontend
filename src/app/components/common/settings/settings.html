@@ -1,5 +1,5 @@
 <div class="settings-container !pt-24">
-  <p-toast></p-toast>
+  
   
   <div class="settings-content">
     <!-- Header -->
@@ -9,7 +9,7 @@
     </div>
 
     <!-- Edit Profile Card -->
-    <div class="settings-card">
+    <!-- <div class="settings-card">
       <div class="card-header">
         <div class="header-icon">
           <i class="pi pi-user-edit"></i>
@@ -26,13 +26,12 @@
         }
       </div>
 
-      <!-- View Mode (Read-only) -->
       @if (!isEditMode) {
         <div class="profile-view">
           <div class="info-group">
             <label class="info-label">Display Name / Full Name</label>
             <div class="info-value">{{ profileForm.get('displayName')?.value || 'Not set' }}</div>
-          </div>
+          </div> -->
 
           <!-- <div class="info-row">
             <div class="info-group">
@@ -46,7 +45,7 @@
             </div>
           </div> -->
 
-          @if (isInstructor) {
+          <!-- @if (isInstructor) {
             <div class="info-group">
               <label class="info-label">Avatar URL</label>
               <div class="info-value">
@@ -65,11 +64,10 @@
               <div class="info-value">{{ profileForm.get('bio')?.value || 'Not set' }}</div>
             </div>
           }
-        </div>
-      }
+        </div> -->
+      <!-- } -->
 
-      <!-- Edit Mode (Form) -->
-      @if (isEditMode) {
+      <!-- @if (isEditMode) {
         <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
           <div class="form-group">
             <label for="displayName" class="form-label required">Display Name / Full Name</label>
@@ -91,7 +89,7 @@
                 }
               </span>
             }
-          </div>
+          </div> -->
 
           <!-- <div class="form-row">
             <div class="form-group">
@@ -119,7 +117,7 @@
             </div>
           </div> -->
 
-          @if (isInstructor) {
+          <!-- @if (isInstructor) { -->
             <!-- <div class="form-group">
               <label for="avatarUrl" class="form-label">Avatar URL</label>
               <input
@@ -136,7 +134,7 @@
               </div>
             </div> -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="bio" class="form-label">Bio</label>
               <textarea
                 id="bio"
@@ -165,7 +163,7 @@
           </div>
         </form>
       }
-    </div>
+    </div> -->
 
     <!-- Security Card -->
     <div class="settings-card">
@@ -212,7 +210,7 @@
               @if (passwordForm.get('newPassword')?.errors?.['required']) {
                 New password is required
               } @else if (passwordForm.get('newPassword')?.errors?.['minlength']) {
-                Password must be at least 6 characters
+                Password must be at least 8 characters
               }
             </span>
           }

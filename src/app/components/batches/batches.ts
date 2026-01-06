@@ -9,10 +9,10 @@ import { Dialog } from 'primeng/dialog';
 // import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 // import { DatePicker } from 'primeng/datepicker';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
-import { ConfirmationService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
+// import { ConfirmationService } from 'primeng/api';
 import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-batches',
@@ -24,11 +24,11 @@ import { Common } from '../../core/common/common';
     // Button,
     InputText,
     // DatePicker,
-    Toast
+    // Toast
   ],
   templateUrl: './batches.html',
   styleUrl: './batches.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class Batches implements OnInit {
   private readonly batchService = inject(BatchService);

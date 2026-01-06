@@ -6,9 +6,9 @@ import { QuizService } from '../../core/service/quiz';
 import { BatchService } from '../../core/service/batch';
 import { Quiz, Batch } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-import { Toast } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+// import { Toast } from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+// import { NgxSpinnerService } from 'ngx-spinner';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -17,11 +17,10 @@ import { Common } from '../../core/common/common';
     CommonModule,
     FormsModule,
     InputText,
-    Toast
+    // Toast
   ],
   templateUrl: './batch-quizzes.html',
   styleUrl: './batch-quizzes.scss',
-  providers: [MessageService]
 })
 export class BatchQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);

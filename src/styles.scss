@@ -13,7 +13,8 @@
 
   /* Main brand */
   --color-primary: #4f95ff; /* Indigo-600 */
-  --color-primary-foreground: #ebebeb;
+  /* Card / surface background (match user-practice light cards) */
+  --color-primary-foreground: #ffffff;
 
   --color-secondary: #06b6d4; /* Cyan-500 */
   --color-accent: #f97316; /* Orange-500 */
@@ -23,7 +24,7 @@
   --color-warning: #f59e0b; /* Amber-500 */
   --color-danger: #ef4444; /* Red-500 */
   --color-danger-bg: #f00b0b5c; /* Red-500 */
-  --hover-color: #c4c4c4;
+  --hover-color:#e0eaff;
 
   /* Text */
   --color-text: #0b1220; /* primary text */
@@ -66,7 +67,8 @@
   --color-muted-text: #9fb0ca;
   --placeholder-color: #64748b;
   --color-primary: #3b82f6; /* slightly lighter indigo in dark */
-  --color-primary-foreground: #171717;
+  /* Card / surface background (match user-practice dark cards - similar to slate-900) */
+  --color-primary-foreground: #0f172a;
   --color-secondary: #22d3ee;
   --color-accent: #fb923c;
 
@@ -79,7 +81,7 @@
   --color-border-hover: rgba(255, 255, 255, 0.12);
 
   // --color-option-hover: rgba(99, 102, 241, 0.15);
-  --hover-color: #333;
+  --hover-color: #000c2c;
 }
 
 /* Utilities that map CSS variables to Tailwind-friendly classes (optional) */
@@ -202,6 +204,12 @@ p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
+.p-toast-message-warn{
+  background: linear-gradient(180deg, rgba(246, 242, 169, 0.17), rgba(224, 233, 90, 0.2));
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 .p-toast-message-error{
   background: linear-gradient(180deg, rgba(246, 169, 169, 0.17), rgba(233, 90, 90, 0.2));
 
@@ -270,4 +278,7 @@ p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
 }
 p-select.p-select-open.p-inputwrapper-focus{
   border: 1px solid var(--color-primary);
+}
+td{
+  color: var(--color-text);
 }

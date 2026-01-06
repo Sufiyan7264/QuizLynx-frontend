@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { HalfCircle } from '../common/half-circle/half-circle';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../core/service/auth';
-import { MessageService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+// import { NgxSpinnerService } from 'ngx-spinner';
 import { InputOtp } from "primeng/inputotp";
+import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-new-password',
@@ -15,9 +16,9 @@ import { InputOtp } from "primeng/inputotp";
 })
 export class NewPassword {
   private readonly fb = inject(FormBuilder);
-  private readonly spinner = inject(NgxSpinnerService);
+  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
-  private readonly messageService = inject(MessageService);
+  private common = inject(Common);
   private readonly authService = inject(Auth);
 
   newPasswordForm: FormGroup = this.fb.group({
@@ -49,7 +50,7 @@ export class NewPassword {
       return;
     }
     
-    this.spinner.show();
+    this.common.showSpinner();
     const passwordData = {
       password: this.newPasswordForm.value.password,
       email: this.getEmailFromStorage(),
@@ -58,22 +59,14 @@ export class NewPassword {
     
     this.authService.updatePassword(passwordData).subscribe({
       next: (res: any) => {
-        this.messageService.add({ 
-          severity: 'success', 
-          summary: 'Success', 
-          detail: 'Password updated successfully' 
-        });
+        this.common.showMessage('success',  'Success', 'Password updated successfully' );
         localStorage.removeItem('register');
         this.router.navigate(['/signin']);
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error: (error: any) => {
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: error?.error?.message || 'Something went wrong' 
-        });
-        this.spinner.hide();
+        this.common.showMessage('error', 'Error',  error?.error?.message || 'Something went wrong' );
+        this.common.hideSpinner();
       }
     });
   }

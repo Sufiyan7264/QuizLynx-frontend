@@ -1,0 +1,40 @@
+.user-explore-page {
+  background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.05), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.07), transparent 55%);
+}
+
+.input-shell {
+  border: 1px solid var(--color-border);
+  background: var(--color-primary-foreground);
+  border-radius: 16px;
+  padding: 10px 12px;
+  box-shadow: var(--elev-2);
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.input-shell:focus-within {
+  border-color: rgba(79, 70, 229, 0.45);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.surface-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-primary-foreground);
+  border-radius: 18px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--elev-2);
+}
+
+/* Unified card hover similar to user-practice sections */
+.hoverable-card {
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.hoverable-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--elev-2);
+}

@@ -3,11 +3,12 @@ import { HalfCircle } from "../common/half-circle/half-circle";
 import { FormDataService } from '../../core/service/form-data-service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../core/service/auth';
-import { MessageService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { otpConfig } from '../../core/interface/interfaces';
 import { InputOtpModule } from 'primeng/inputotp';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Common } from '../../core/common/common';
+// import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-otp',
@@ -16,9 +17,9 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './otp.scss'
 })
 export class Otp {
-  private readonly spinner = inject(NgxSpinnerService);
+  // private readonly spinner = inject(NgxSpinnerService);
   private readonly authService = inject(Auth);
-  private readonly msgService = inject(MessageService);
+  private  common = inject(Common);
   private readonly router = inject(Router);
   email: string = JSON.parse(localStorage.getItem('register') || '{}').email || '';
   username: string = JSON.parse(localStorage.getItem('register') || '{}').username || '';
@@ -35,12 +36,12 @@ export class Otp {
       otp: otpValue.trim(),
       email:this.email
     }
-    this.spinner.show();
+    this.common.showSpinner();
     if(this.type === 'register'){
           
     this.authService.verifyOtp(payload).subscribe({
       next:(res:any)=>{
-        this.msgService.add({severity:'success', summary:'Success', detail: res?.message ?? 'OTP Verification Successfull'});
+        this.common.showMessage('success', 'Success', res?.message ?? 'OTP Verification Successfull');
         const user = { username: res.username, role: res?.role ?? res?.role[0]?.authority };
         this.authService.setLoggedIn(user);
         if(user.role == 'ADMIN' || user.role == 'INSTRUCTOR')
@@ -50,29 +51,29 @@ export class Otp {
         else
           this.router.navigate(['/user-dashboard']);
         localStorage.removeItem('register');
-        this.spinner.hide();
+        this.common.hideSpinner();
       },
       error:(error:any)=>{
-        this.msgService.add({severity:'error', summary:'Error', detail: error?.message ?? error?.error?.message ?? 'OTP is incorrect'});
-        this.spinner.hide();
+        this.common.showMessage('error', 'Error', error?.message ?? error?.error?.message ?? 'OTP is incorrect');
+        this.common.hideSpinner();
       }
     })
     }else if(this.type === 'forgot-password'){
       this.authService.verifyOtp(payload).subscribe({
         next:(res:any)=>{ 
           localStorage.setItem('register',JSON.stringify({email:this.email,otp:otpValue,type:'forgot-password'}));
-          this.msgService.add({severity:'success', summary:'Success', detail: res?.message ?? 'OTP Verification Successfull'});
+          this.common.showMessage('success', 'Success', res?.message ?? 'OTP Verification Successfull');
           this.router.navigate(['/new-password']);
-          this.spinner.hide();
+          this.common.hideSpinner();
         },
         error:(error:any)=>{ 
-          this.msgService.add({severity:'error', summary:'Error', detail: error?.error ?? error?.error?.message ?? 'OTP is incorrect'});
-          this.spinner.hide();
+          this.common.showMessage('error', 'Error', error?.error ?? error?.error?.message ?? 'OTP is incorrect');
+          this.common.hideSpinner();
         }
       })
     }else{
-      this.msgService.add({severity:'error', summary:'Error', detail: 'Invalid type'});
-      this.spinner.hide();
+      this.common.showMessage('error', 'Error', 'Invalid type');
+      this.common.hideSpinner();
     }
   }
 
@@ -81,14 +82,14 @@ export class Otp {
       email: this.email,
       username:this.username
     }
-    this.spinner.show();
+    this.common.showSpinner();
     this.authService.resendOtp(payload).subscribe({
       next:(res:any)=>{
-        this.msgService.add({severity:'success', summary:'Success', detail:  res?.message ?? "OTP Resent Successfully"});
-        this.spinner.hide();
+        this.common.showMessage('success', 'Success',  res?.message ?? "OTP Resent Successfully");
+        this.common.hideSpinner();
       },
       error:(error:any)=>{
-        this.msgService.add({severity:'error', summary:'Error', detail: error?.error ?? error?.error?.message ?? 'OTP is incorrect'});
+        this.common.showMessage('error', 'Error', error?.error ?? error?.error?.message ?? 'OTP is incorrect');
       }
     })
   }

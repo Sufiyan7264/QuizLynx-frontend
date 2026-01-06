@@ -256,9 +256,9 @@ section:first-of-type .fade-in-up {
 }
 
 // Enhanced staggered animations for better visual flow
-.feature-card:nth-child(1) { transition-delay: 0s; }
-.feature-card:nth-child(2) { transition-delay: 0.15s; }
-.feature-card:nth-child(3) { transition-delay: 0.3s; }
+.feature-card:nth-child(1) { transition-delay: 0ms; }
+.feature-card:nth-child(2) { transition-delay: 100ms; }
+.feature-card:nth-child(3) { transition-delay: 200ms; }
 
 .stat-card:nth-child(1) { transition-delay: 0s; }
 .stat-card:nth-child(2) { transition-delay: 0.1s; }

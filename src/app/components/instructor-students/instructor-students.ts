@@ -5,7 +5,7 @@ import { BatchService } from '../../core/service/batch';
 import { Student, Batch } from '../../core/interface/interfaces';
 // import { MessageService } from 'primeng/api';
 // import { NgxSpinnerService } from 'ngx-spinner';
-import { Toast } from 'primeng/toast';
+// import { Toast } from 'primeng/toast';
 import { Select } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +18,7 @@ import { Common } from '../../core/common/common';
     FormsModule,
     Select,
     InputText,
-    Toast
+    // Toast
   ],
   templateUrl: './instructor-students.html',
   styleUrl: './instructor-students.scss',
