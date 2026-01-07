@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { ButtonModule } from 'primeng/button';
@@ -58,7 +58,7 @@ interface InstructorAnnouncement {
   templateUrl: './student-instructor-dashboard.html',
   styleUrl: './student-instructor-dashboard.scss'
 })
-export class StudentInstructorDashboard {
+export class StudentInstructorDashboard implements OnInit {
   // Statistics Cards
   stats: StatCard[] = [
     {
@@ -346,7 +346,7 @@ export class StudentInstructorDashboard {
       }
     }
   };
-  private studentService = inject(UserService);
+  private readonly studentService = inject(UserService);
   ngOnInit() {
     this.studentService.getDashboard().subscribe(data => {
         this.stats = data.stats;

@@ -1,15 +1,9 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizService } from '../../core/service/quiz';
-import { Quiz, QuestionWrapper, QuizResponse, SubmitQuizRequest } from '../../core/interface/interfaces';
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { ProgressBar } from 'primeng/progressbar';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
+import { QuestionWrapper, QuizResponse } from '../../core/interface/interfaces';
 import { Common } from '../../core/common/common';
 
 type ViewState = 'start' | 'exam' | 'submitting';
@@ -17,14 +11,10 @@ type ViewState = 'start' | 'exam' | 'submitting';
 @Component({
   selector: 'app-quiz-attempt',
   imports: [
-    CommonModule,
-    Button,
-    InputText,ProgressBar
-    // Toast
+    CommonModule
   ],
   templateUrl: './quiz-attempt.html',
-  styleUrl: './quiz-attempt.scss',
-  // providers: [MessageService]
+  styleUrl: './quiz-attempt.scss'
 })
 export class QuizAttempt implements OnInit, OnDestroy {
   private readonly quizAttemptService = inject(QuizAttemptService);
@@ -59,6 +49,7 @@ export class QuizAttempt implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.saveProgress();
     this.clearTimer();
   }
 
@@ -74,60 +65,86 @@ export class QuizAttempt implements OnInit, OnDestroy {
         console.error('Error loading quiz:', error);
         this.common.hideSpinner();
         this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load quiz');
-        // this.router.navigate(['/student-dashboard']);
       }
     });
   }
   
+
+// 1. Entry Point: Checks if we are Resuming or Starting Fresh
   startQuiz() {
+    if (!this.quizId) return;
+    
     // 1. Check if attempt exists
-    this.quizAttemptService.getAttemptStatus(this.quizId || '').subscribe({
-      next: (status) => {
-         if (status && status.startTime) {
-             const start = new Date(status.startTime).getTime();
-             const now = new Date().getTime();
-             const elapsedSeconds = Math.floor((now - start) / 1000);
-             const totalSeconds = this.quiz.timerInMin * 60;
-             
-             this.timeRemaining = totalSeconds - elapsedSeconds;
-             
-             if (this.timeRemaining <= 0) {
-                 this.autoSubmit(); // Time already expired!
-             } else {
-                //  this.startTimer(); // Continue from where they left off
-                 this.startNewQuiz();
-             }
-         } else {
-             // First time starting
-             this.startNewQuiz(); 
-         }
+    this.quizAttemptService.getAttemptStatus(this.quizId).subscribe({
+      next: (status: any) => {
+          // CHECK: Do we have a specific saved time? (from the Pause feature)
+          if (status && status.remainingSeconds !== undefined && status.remainingSeconds !== null) {
+              
+              // --- RESUME FLOW ---
+              console.log('Resuming quiz with seconds remaining:', status.remainingSeconds);
+              this.timeRemaining = status.remainingSeconds;
+              
+              if (this.timeRemaining <= 0) {
+                  this.autoSubmit(); // Time expired while paused
+              } else {
+                  // Load questions and show Exam UI
+                  this.loadQuestionsAndStart(); 
+              }
+          } else {
+              // --- NEW ATTEMPT FLOW ---
+              console.log('Starting fresh quiz');
+              this.startNewQuiz(); 
+          }
+      },
+      error: (err) => {
+        console.error('Error checking status', err);
+        // Fallback to new quiz if status check fails (optional)
+        this.startNewQuiz();
       }
     });
   }
 
+  // 2. Fresh Start Logic
   startNewQuiz(): void {
-    if (!this.quizId) return;
+    if (!this.quizId || !this.quiz) return;
     
+    // Set Full Duration
+    this.timeRemaining = this.quiz.timerInMin * 60;
+
     this.common.showSpinner();
 
-    // FIXED: Directly call getQuizQuestions (Matches GET /api/quiz/{id})
-    // We do NOT need startQuizAttempt right now.
+    // Notify backend to create the Attempt Row in DB
+    this.quizAttemptService.startQuiz(this.quizId).subscribe({
+      next: () => {
+        // Once DB row is created, load the questions
+        this.loadQuestionsAndStart();
+      },
+      error: (err) => {
+        this.common.hideSpinner();
+        this.common.showMessage('error', 'Error', 'Failed to start quiz session');
+      }
+    });
+  }
+
+  // 3. Helper: Fetches Questions & Switches View (Used by both Resume & New)
+  loadQuestionsAndStart(): void {
+    if (!this.quizId) return;
+
+    this.common.showSpinner();
+    
     this.quizService.getQuizQuestions(this.quizId).subscribe({
       next: (questions) => {
-        this.quizAttemptService.startQuiz(this.quizId || '').subscribe();
-        // 1. Assign questions
-        // (Optional: Sort them if your backend doesn't send them sorted)
-        this.questions = questions; 
+        this.questions = questions;
         
-        // 2. Set Start Time (Client-side for now)
-        // this.startedAt = new Date(); 
-        
-        // 3. Switch View
+        // Switch UI to Exam Mode
         this.viewState = 'exam';
+        
+        // Start the countdown
         this.startTimer();
+        
         this.common.hideSpinner();
       },
-      error: (error:any) => {
+      error: (error: any) => {
         console.error('Error loading questions:', error);
         this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load questions');
         this.common.hideSpinner();
@@ -135,14 +152,16 @@ export class QuizAttempt implements OnInit, OnDestroy {
     });
   }
 
-startTimer(): void {
-    if (!this.quiz?.timerInMin) return;
-    
-    // Safety check: If time is 0 (and not calculated yet), default to full time
-    if (this.timeRemaining <= 0 && !this.startedAt) { 
+  // 4. Timer Logic
+  startTimer(): void {
+    // Safety check: If time is missing/zero, default to full time (should rarely happen due to logic above)
+    if (this.timeRemaining <= 0 && this.quiz?.timerInMin) { 
         this.timeRemaining = this.quiz.timerInMin * 60;
     }
     
+    // Clear any existing timer to prevent duplicates
+    this.clearTimer();
+
     this.timerInterval = setInterval(() => {
       this.timeRemaining--;
       
@@ -235,6 +254,48 @@ startTimer(): void {
     return this.answeredCount > 0 && !this.isTimeUp;
   }
 
+  getTimerClass(): string {
+    if (this.timeRemaining < 60) {
+      return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300';
+    } else if (this.timeRemaining < 300) {
+      return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300';
+    }
+    return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+  }
+
+  getQuestionNavButtonClass(index: number): string {
+    const isActive = index === this.currentQuestionIndex;
+    const isAnswered = this.isQuestionAnswered(index);
+    
+    if (isActive) {
+      return 'bg-indigo-600 text-white';
+    } else if (isAnswered) {
+      return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-300 dark:border-green-700';
+    }
+    return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600';
+  }
+
+  getPrevButtonClass(): string {
+    if (this.currentQuestionIndex === 0) {
+      return 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed';
+    }
+    return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors';
+  }
+
+  getNextButtonClass(): string {
+    if (this.currentQuestionIndex === this.totalQuestions - 1) {
+      return 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed';
+    }
+    return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors';
+  }
+
+  getSubmitButtonClass(): string {
+    if (!this.canSubmit()) {
+      return 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed';
+    }
+    return 'bg-indigo-600 hover:bg-indigo-700 text-white transition-colors shadow-lg';
+  }
+
   submitQuiz(): void {
     if (!this.quizId || !this.canSubmit()) return;
 
@@ -261,25 +322,35 @@ startTimer(): void {
       responses.push({ id, response: answer });
     });
 
-    // const request: SubmitQuizRequest = {
-    //   responses
-    // };
     const request = responses;
 
     this.common.showSpinner();
-    this.quizAttemptService.submitQuizAttempt(request,this.quizId).subscribe({
+    this.quizAttemptService.submitQuizAttempt(request, this.quizId).subscribe({
       next: (result) => {
         this.common.hideSpinner();
         // Navigate to result page
         this.router.navigate(['/quiz/result', result.id || this.quizId]);
       },
-      error: (error:any) => {
+      error: (error: any) => {
         console.error('Error submitting quiz:', error);
-        this.common.showMessage('error','Error',error?.error?.message || 'Failed to submit quiz');
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to submit quiz');
         this.viewState = 'exam';
         this.common.hideSpinner();
       }
     });
+  }
+  saveProgress() {
+    if (!this.quizId || this.isTimeUp || this.viewState === 'submitting') return;
+    
+    // Call the new Pause Endpoint
+    this.quizAttemptService.pauseQuiz(this.quizId, this.timeRemaining).subscribe();
+  }
+
+
+  // When user closes the browser tab or refreshes
+  @HostListener('window:beforeunload', ['$event'])
+  handleClose(event: any) {
+    this.saveProgress();
   }
 }
 

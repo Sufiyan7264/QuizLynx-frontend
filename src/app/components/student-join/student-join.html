@@ -1,110 +1,106 @@
-<div class="join-container !pt-24">
-  
-  
-  <div class="join-content">
-    <div class="join-header">
-      <div class="header-icon">
-        <i class="pi pi-users"></i>
+<div class="student-join-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+  <div class="flex items-center justify-center min-h-[calc(100vh-200px)] py-8">
+    <div class="w-full max-w-2xl">
+      <!-- Header Section -->
+      <div class="text-center mb-8">
+        <div class="flex justify-center mb-4">
+          <div class="p-4 rounded-lg bg-indigo-100 dark:bg-indigo-900/30">
+            <i class="pi pi-sign-in text-3xl text-indigo-600 dark:text-indigo-400"></i>
+          </div>
+        </div>
+        <h1 class="text-3xl lg:text-4xl font-semibold text-slate-900 dark:text-slate-50 mb-2">Join a Class</h1>
+        <p class="text-slate-600 dark:text-slate-300">Enter the class code provided by your instructor</p>
       </div>
-      <h1 class="page-title">Join a Class</h1>
-      <p class="page-subtitle">Enter the class code provided by your instructor to join</p>
-    </div>
 
-    <form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="join-form">
-      <div class="form-group">
-        <label for="code" class="form-label required">Class Code</label>
-        <div class="code-input-wrapper">
+      <!-- Form Section -->
+      <form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="surface-card mb-6">
+        <div class="mb-6">
+          <label for="code" class="block text-sm font-semibold text-slate-900 dark:text-slate-50 mb-3">Class Code</label>
           <input
             id="code"
             type="text"
             pInputText
             formControlName="code"
             placeholder="Enter class code (e.g., ABC123)"
-            class="code-input"
+            class="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10"
             (input)="onCodeInput()"
             (keyup)="onCodeInput()"
             maxlength="10"
-            [class.error]="joinForm.get('code')?.invalid && joinForm.get('code')?.touched"
             autocomplete="off"
           />
-          <div class="input-hint">
-            <i class="pi pi-info-circle"></i>
-            <span>Ask your instructor for the class code</span>
-          </div>
-        </div>
-        @if (joinForm.get('code')?.invalid && joinForm.get('code')?.touched) {
-          <span class="error-message">
-            @if (joinForm.get('code')?.errors?.['required']) {
-              Class code is required
-            } @else if (joinForm.get('code')?.errors?.['minlength']) {
-              Class code must be at least 4 characters
-            } @else if (joinForm.get('code')?.errors?.['maxlength']) {
-              Class code must be no more than 10 characters
-            }
-          </span>
-        }
-      </div>
-
-      <!-- Preview Section -->
-      @if (showPreview && previewBatchs) {
-        <div class="preview-section">
-          <div class="preview-header">
-            <i class="pi pi-eye"></i>
-            <span>Class Preview</span>
-          </div>
-          <div class="preview-card">
-            <div class="preview-content">
-              <h3 class="preview-name">{{ previewBatchs?.batchName }}</h3>
-              @if (previewBatchs?.description) {
-                <p class="preview-description">{{ previewBatchs?.description }}</p>
+          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+            <i class="pi pi-info-circle text-sm"></i>
+            Ask your instructor for the class code
+          </p>
+          @if (joinForm.get('code')?.invalid && joinForm.get('code')?.touched) {
+            <span class="text-sm text-red-600 dark:text-red-400 mt-2 block font-medium">
+              @if (joinForm.get('code')?.errors?.['required']) {
+                Class code is required
+              } @else if (joinForm.get('code')?.errors?.['minlength']) {
+                Class code must be at least 4 characters
+              } @else if (joinForm.get('code')?.errors?.['maxlength']) {
+                Class code must be no more than 10 characters
               }
-              <div class="preview-info">
-                @if (previewBatchs?.startDate || previewBatchs?.endDate) {
-                  <div class="info-item">
+            </span>
+          }
+        </div>
+
+        <!-- Preview Section -->
+        @if (showPreview && previewBatchs) {
+          <div class="mb-6 pb-6 border-b border-slate-200 dark:border-slate-700">
+            <p class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-4">Class Preview</p>
+            <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-slate-50 mb-2">{{ previewBatchs.batchName }}</h3>
+              @if (previewBatchs.description) {
+                <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">{{ previewBatchs.description }}</p>
+              }
+              <div class="space-y-2">
+                @if (previewBatchs.startDate || previewBatchs.endDate) {
+                  <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 text-sm">
                     <i class="pi pi-calendar"></i>
                     <span>
-                      @if (previewBatchs?.startDate && previewBatchs?.endDate) {
-                        {{ formatDate(previewBatchs?.startDate) }} - {{ formatDate(previewBatchs?.endDate) }}
-                      } @else if (previewBatchs?.startDate) {
-                        Starts: {{ formatDate(previewBatchs?.startDate) }}
-                      } @else if (previewBatchs?.endDate) {
-                        Ends: {{ formatDate(previewBatchs?.endDate) }}
+                      @if (previewBatchs.startDate && previewBatchs.endDate) {
+                        {{ formatDate(previewBatchs.startDate) }} - {{ formatDate(previewBatchs.endDate) }}
+                      } @else if (previewBatchs.startDate) {
+                        Starts: {{ formatDate(previewBatchs.startDate) }}
+                      } @else if (previewBatchs.endDate) {
+                        Ends: {{ formatDate(previewBatchs.endDate) }}
                       }
                     </span>
                   </div>
                 }
-                @if (previewBatchs?.studentCount !== undefined) {
-                  <div class="info-item">
+                @if (previewBatchs.studentCount !== undefined) {
+                  <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 text-sm">
                     <i class="pi pi-users"></i>
-                    <span>{{ previewBatchs?.studentCount }} students enrolled</span>
+                    <span>{{ previewBatchs.studentCount }} students enrolled</span>
                   </div>
                 }
               </div>
             </div>
           </div>
-        </div>
-      } @else if (isLoadingPreview) {
-        <div class="preview-loading">
-          <i class="pi pi-spin pi-spinner"></i>
-          <span>Checking code...</span>
-        </div>
-      }
+        } @else if (isLoadingPreview) {
+          <div class="mb-6 pb-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400">
+            <i class="pi pi-spin pi-spinner animate-spin"></i>
+            <span>Checking code...</span>
+          </div>
+        }
 
-      <div class="form-actions">
-        <button type="submit" pButton [disabled]="joinForm.invalid || isLoadingPreview" class="join-btn">
-          <i class="pi pi-sign-in"></i>
+        <button type="submit" pButton [disabled]="joinForm.invalid || isLoadingPreview" class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-100 disabled:text-slate-400 disabled:dark:bg-slate-800 disabled:dark:text-slate-600 text-white rounded-lg text-lg font-semibold transition-colors">
+          <i class="pi pi-sign-in mr-2"></i>
           <span>Join Class</span>
         </button>
-      </div>
-    </form>
+      </form>
 
-    <!-- Help Section -->
-    <div class="help-section">
-      <div class="help-card">
-        <i class="pi pi-question-circle"></i>
-        <div class="help-content">
-          <h4>Need help?</h4>
-          <p>Contact your instructor to get the class code. The code is usually 4-10 characters long.</p>
+      <!-- Help Section -->
+      <div class="surface-card">
+        <div class="flex items-start gap-4">
+          <div class="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex-shrink-0">
+            <i class="pi pi-question-circle text-2xl text-blue-600 dark:text-blue-400"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold text-slate-900 dark:text-slate-50 mb-1">Need help?</h4>
+            <p class="text-slate-600 dark:text-slate-300 text-sm">Contact your instructor to get the class code. The code is usually 4-10 characters long.</p>
+          </div>
         </div>
       </div>
     </div>

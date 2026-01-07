@@ -5,22 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../core/service/quiz';
 import { BatchService } from '../../core/service/batch';
 import { Quiz, Batch } from '../../core/interface/interfaces';
-import { InputText } from 'primeng/inputtext';
-// import { Toast } from 'primeng/toast';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
 import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-batch-quizzes',
   imports: [
     CommonModule,
-    FormsModule,
-    InputText,
-    // Toast
+    FormsModule
   ],
   templateUrl: './batch-quizzes.html',
-  styleUrl: './batch-quizzes.scss',
+  styleUrl: './batch-quizzes.scss'
 })
 export class BatchQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);
@@ -127,11 +121,11 @@ export class BatchQuizzes implements OnInit {
   getStatusClass(status?: string): string {
     switch (status) {
       case 'PUBLISHED':
-        return 'status-published';
+        return 'px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300';
       case 'CLOSED':
-        return 'status-closed';
+        return 'px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300';
       default:
-        return 'status-draft';
+        return 'px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
     }
   }
 
