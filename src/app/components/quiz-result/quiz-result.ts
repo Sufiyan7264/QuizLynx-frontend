@@ -3,22 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizResults, QuestionReview } from '../../core/interface/interfaces';
-import { Button } from 'primeng/button';
 import { Common } from '../../core/common/common';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-quiz-result',
   imports: [
-    CommonModule,
-    Button,
-    // Toast
+    CommonModule
   ],
   templateUrl: './quiz-result.html',
-  styleUrl: './quiz-result.scss',
-  // providers: [MessageService]
+  styleUrl: './quiz-result.scss'
 })
 export class QuizResult implements OnInit {
   private readonly quizAttemptService = inject(QuizAttemptService);

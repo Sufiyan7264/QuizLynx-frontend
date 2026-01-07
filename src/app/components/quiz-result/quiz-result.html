@@ -1,161 +1,184 @@
-<div class="quiz-result-container !pt-24">
-  
-
+<div class="min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
   @if (result) {
-    <div class="result-content">
-      <!-- Score Card Section -->
-      <div class="score-card-section">
-        <div class="score-display">
-          <div class="score-main">
-            <span class="score-value">{{ result.score }}</span>
-            <span class="score-separator">/</span>
-            <span class="score-total">{{ result.totalMarks }}</span>
-          </div>
-          <div class="score-percentage">{{ percentage }}%</div>
+    <div class="max-w-4xl mx-auto space-y-6">
+      <!-- Back Button -->
+      <button (click)="goToDashboard()" class="inline-flex items-center gap-2 px-3 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors">
+        <i class="pi pi-arrow-left"></i>
+        <span class="font-medium">Back to Dashboard</span>
+      </button>
+
+      <!-- Score Card -->
+      <div class="surface-card">
+        <div class="text-center mb-6 pb-6 border-b border-slate-200 dark:border-slate-700">
+          <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-2">Quiz Result</h1>
+          <p class="text-slate-600 dark:text-slate-400">{{ result.quizTitle || 'Quiz' }}</p>
         </div>
 
-        <div class="score-status" [class.passed]="passed" [class.failed]="!passed">
-          <i [class]="passed ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
-          <span>{{ passed ? 'Passed' : 'Failed' }}</span>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Score Display -->
+          <div class="text-center">
+            <div class="mb-3">
+              <span class="text-5xl font-bold text-slate-900 dark:text-slate-50">{{ result.score }}</span>
+              <span class="text-2xl text-slate-500 dark:text-slate-400 mx-2">/</span>
+              <span class="text-3xl text-slate-600 dark:text-slate-400">{{ result.totalMarks }}</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Marks Obtained</p>
+          </div>
 
-        <div class="time-taken">
-          <i class="pi pi-clock"></i>
-          <span>Completed in {{ timeTaken }}</span>
-        </div>
-      </div>
-
-      <!-- Quiz Info -->
-      <div class="quiz-info-section">
-        <h2 class="section-title">{{ result.quizTitle || 'Quiz Result' }}</h2>
-        
-        <div class="info-grid">
-          <div class="info-item">
-            <i class="pi pi-star"></i>
-            <div class="info-content">
-              <span class="info-label">Your Score</span>
-              <span class="info-value">{{ result.score }} / {{ result.totalMarks }}</span>
-            </div>
-          </div>
-          <div class="info-item">
-            <i class="pi pi-percentage"></i>
-            <div class="info-content">
-              <span class="info-label">Percentage</span>
-              <span class="info-value">{{ percentage }}%</span>
-            </div>
-          </div>
-          <div class="info-item">
-            <i class="pi pi-check-circle"></i>
-            <div class="info-content">
-              <span class="info-label">Correct</span>
-              <span class="info-value">{{ getCorrectAnswersCount() }} / {{ questionReviews.length }}</span>
-            </div>
-          </div>
-          @if (result.startedAt) {
-            <div class="info-item">
-              <i class="pi pi-calendar"></i>
-              <div class="info-content">
-                <span class="info-label">Submitted At</span>
-                <span class="info-value">{{ formatDate(result.submittedAt) }}</span>
+          <!-- Percentage -->
+          <div class="text-center">
+            <div class="mb-3">
+              <div class="text-5xl font-bold" [class]="passed ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                {{ percentage }}%
               </div>
             </div>
-          }
+            <p class="text-sm text-slate-600 dark:text-slate-400">Percentage</p>
+          </div>
+
+          <!-- Status -->
+          <div class="text-center">
+            <div class="mb-3">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg" [class]="passed ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'">
+                <i [class]="passed ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+                <span class="font-semibold">{{ passed ? 'Passed' : 'Failed' }}</span>
+              </div>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Result Status</p>
+          </div>
         </div>
       </div>
 
-      <!-- Answer Review Section -->
+      <!-- Statistics -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="surface-card">
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <i class="pi pi-check-circle"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs text-slate-600 dark:text-slate-400 font-medium">Correct Answers</p>
+              <p class="text-xl font-bold text-slate-900 dark:text-slate-50">{{ getCorrectAnswersCount() }} / {{ questionReviews.length }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface-card">
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+              <i class="pi pi-clock"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs text-slate-600 dark:text-slate-400 font-medium">Time Taken</p>
+              <p class="text-xl font-bold text-slate-900 dark:text-slate-50">{{ timeTaken }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface-card">
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
+              <i class="pi pi-question-circle"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs text-slate-600 dark:text-slate-400 font-medium">Total Questions</p>
+              <p class="text-xl font-bold text-slate-900 dark:text-slate-50">{{ questionReviews.length }}</p>
+            </div>
+          </div>
+        </div>
+
+        @if (result.submittedAt) {
+          <div class="surface-card">
+            <div class="flex items-start gap-3">
+              <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+                <i class="pi pi-calendar"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs text-slate-600 dark:text-slate-400 font-medium">Submitted</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ formatDate(result.submittedAt) }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Answer Review -->
       @if (questionReviews.length > 0) {
-        <div class="review-section">
-          <h2 class="section-title">Answer Review</h2>
-          <p class="section-subtitle">Review your answers and learn from mistakes</p>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-1">Answer Review</h2>
+          <p class="text-slate-600 dark:text-slate-400 mb-4">Review your answers and learn from mistakes</p>
 
-          <div class="questions-review">
+          <div class="space-y-4">
             @for (review of questionReviews; track review.questionId; let i = $index) {
-              <div class="question-review-card" [class.correct]="review.correct" [class.incorrect]="!review.correct">
-                <div class="question-header">
-                  <div class="question-number">
-                    <span>Question {{ i + 1 }}</span>
-                    <span class="question-marks">({{ review.earnedMarks }}/{{ review.marks }} marks)</span>
+              <div class="surface-card" [class.border-l-4]="true" [class]="review.correct ? 'border-l-green-500 dark:border-l-green-400' : 'border-l-red-500 dark:border-l-red-400'">
+                <!-- Question Header -->
+                <div class="flex items-start justify-between mb-4 pb-4 border-b border-slate-200 dark:border-slate-700">
+                  <div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-50">Question {{ i + 1 }}</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{{ review.questionText }}</p>
                   </div>
-                  <div class="answer-status">
-                    @if (review.correct) {
-                      <i class="pi pi-check-circle correct-icon"></i>
-                      <span class="status-text correct-text">Correct</span>
-                    } @else {
-                      <i class="pi pi-times-circle incorrect-icon"></i>
-                      <span class="status-text incorrect-text">Incorrect</span>
-                    }
+                  <div class="flex items-center gap-2 px-3 py-1 rounded-lg flex-shrink-0 text-sm font-semibold" [class]="review.correct ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'">
+                    <i [class]="review.correct ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+                    <span>{{ review.correct ? 'Correct' : 'Incorrect' }}</span>
                   </div>
                 </div>
 
-                <div class="question-text">
-                  {{ review.questionText }}
-                </div>
-
-                <!-- Commented out MULTIPLE_CHOICE condition - all questions have 4 options with one right answer -->
-                <!-- Using option1, option2, option3, option4 instead of options array -->
-                <!-- @if (review.questionType === 'MULTIPLE_CHOICE' || review.questionType === 'TRUE_FALSE') { -->
-                  <div class="options-review">
-                    @for (option of getReviewOptions(review); track $index) {
-                      <div class="option-item" 
-                           [class.selected]="isOptionSelected(option, review.selectedAnswer)"
-                           [class.correct-answer]="isCorrectAnswer(option, review.correctAnswer)"
-                           [class.wrong-selected]="!review.correct && isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)">
-                        <div class="option-indicator">
+                <!-- Options -->
+                <div class="space-y-2 mb-4">
+                  @for (option of getReviewOptions(review); track $index) {
+                    <div class="p-3 rounded-lg border transition-colors" 
+                         [class]="isCorrectAnswer(option, review.correctAnswer) ? 'border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-900/20' : (isOptionSelected(option, review.selectedAnswer) && !review.correct ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30')">
+                      <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5 font-semibold text-sm" [class]="isCorrectAnswer(option, review.correctAnswer) ? 'bg-green-500 text-white' : (isOptionSelected(option, review.selectedAnswer) && !review.correct ? 'bg-red-500 text-white' : 'bg-slate-300 dark:bg-slate-600 text-slate-700 dark:text-slate-300')">
                           @if (isCorrectAnswer(option, review.correctAnswer)) {
-                            <i class="pi pi-check correct-mark"></i>
+                            <i class="pi pi-check text-xs"></i>
                           } @else if (isOptionSelected(option, review.selectedAnswer) && !review.correct) {
-                            <i class="pi pi-times wrong-mark"></i>
+                            <i class="pi pi-times text-xs"></i>
                           } @else {
-                            <div class="option-circle"></div>
+                            {{ $index + 1 }}
                           }
                         </div>
-                        <span class="option-text">{{ option }}</span>
-                        @if (isCorrectAnswer(option, review.correctAnswer)) {
-                          <span class="correct-label">Correct Answer</span>
-                        }
-                        @if (isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)) {
-                          <span class="wrong-label">Your Answer</span>
-                        }
+                        <div class="flex-1 min-w-0">
+                          <p class="text-slate-900 dark:text-slate-50">{{ option }}</p>
+                          @if (isCorrectAnswer(option, review.correctAnswer)) {
+                            <p class="text-xs text-green-600 dark:text-green-400 font-semibold mt-1">✓ Correct Answer</p>
+                          }
+                          @if (isOptionSelected(option, review.selectedAnswer) && !isCorrectAnswer(option, review.correctAnswer)) {
+                            <p class="text-xs text-red-600 dark:text-red-400 font-semibold mt-1">✗ Your Answer</p>
+                          }
+                        </div>
                       </div>
-                    }
-                  </div>
-                <!-- } @else {
-                  <div class="text-answer-review">
-                    <div class="answer-box">
-                      <label class="answer-label">Your Answer:</label>
-                      <div class="answer-text">{{ getAnswerText(review.selectedAnswer) }}</div>
                     </div>
-                    @if (!review.isCorrect) {
-                      <div class="answer-box correct-box">
-                        <label class="answer-label">Correct Answer:</label>
-                        <div class="answer-text">{{ getAnswerText(review.correctAnswer) }}</div>
-                      </div>
-                    }
-                  </div>
-                } -->
+                  }
+                </div>
+
+                <!-- Marks -->
+                <div class="text-sm text-slate-600 dark:text-slate-400">
+                  Marks: <span class="font-bold text-slate-900 dark:text-slate-50">{{ review.earnedMarks }} / {{ review.marks }}</span>
+                </div>
               </div>
             }
           </div>
         </div>
       }
 
-      <!-- Actions -->
-      <div class="actions-section">
-        <button pButton (click)="goToDashboard()" class="action-btn primary-btn">
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap gap-4">
+        <button (click)="goToDashboard()" class="flex-1 min-w-[200px] px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
           <i class="pi pi-home"></i>
           <span>Back to Dashboard</span>
         </button>
-        <button pButton (click)="viewAttempts()" class="action-btn secondary-btn">
+        <button (click)="viewAttempts()" class="flex-1 min-w-[200px] px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
           <i class="pi pi-list"></i>
           <span>View All Attempts</span>
         </button>
       </div>
     </div>
   } @else {
-    <div class="loading-section">
-      <i class="pi pi-spin pi-spinner"></i>
-      <p>Loading result...</p>
+    <div class="flex items-center justify-center min-h-[400px]">
+      <div class="text-center">
+        <i class="pi pi-spin pi-spinner text-4xl text-indigo-600 dark:text-indigo-400 mb-4 block"></i>
+        <p class="text-slate-600 dark:text-slate-400 font-medium">Loading result...</p>
+      </div>
     </div>
   }
 </div>

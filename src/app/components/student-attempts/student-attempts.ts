@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizResults } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-// import { Toast } from 'primeng/toast';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -35,13 +34,14 @@ export class StudentAttempts implements OnInit {
   loadAttempts(): void {
     this.common.showSpinner();
     this.quizAttemptService.getStudentAttempts().subscribe({
-      next: (attempts) => {
+      next: (attempts: any[]) => {
         // Sort by submitted date (most recent first)
-        this.attempts = attempts.sort((a, b) => {
+        const sorted = [...attempts].sort((a, b) => {
           const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
           const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
           return dateB - dateA;
         });
+        this.attempts = sorted;
         this.applyFilters();
         this.common.hideSpinner();
       },
