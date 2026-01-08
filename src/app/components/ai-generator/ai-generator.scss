@@ -3,8 +3,8 @@ $bg-color: var(--color-bg);
 $text-primary: var(--color-text);
 $text-secondary: var(--color-muted-text);
 $border-color: var(--color-border);
-$primary-color: var(--color-primary); // Tailwind Blue-500
-$primary-hover: #2563eb; // Tailwind Blue-600
+$primary-color: #4f46e5; // Tailwind Blue-500
+$primary-hover: #3c25eb; // Tailwind Blue-600
 $bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
 
 // IMPORTANT: We use ::ng-deep because p-dialog creates elements outside this component
@@ -16,6 +16,10 @@ $bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
         }
     }
   
+    .p-dialog-header{
+      background: $bg-color;
+      border-bottom: 1px solid $border-color;
+    }
   // 1. The Main Modal Container
   .p-dialog {
     background: $bg-color !important;
@@ -24,7 +28,6 @@ $bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
     border: 1px solid $border-color !important;
     font-family: inherit; // Inherit your app's font
     overflow: hidden; // Keeps corners rounded
-
     // Reset PrimeNG's default padding to 0 so we can control it
     .p-dialog-content {
       padding: 0 !important;
@@ -37,9 +40,9 @@ $bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
     }
   }
 }
-::ng-deep .p-dialog-content{
-    border-radius: 0.5rem;
-}
+// ::ng-deep .p-dialog-content{
+//     border-radius: 0.5rem;
+// }
 
 
 // 2. Custom Header Styling
@@ -50,7 +53,6 @@ $bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
   align-items: flex-start;
   padding: 1rem;
   background: $bg-color;
-  border-bottom: 1px solid $border-color;
 
   .header-content {
     display: flex;
@@ -114,7 +116,7 @@ $bg-subtle: var(--input-bg-col);     // Tailwind Gray-50
 
 // 3. Main Content Area
 .dialog-content {
-  padding: 1.5rem;
+  padding: 0.5rem 1.5rem;
   background: $bg-color;
 }
 
