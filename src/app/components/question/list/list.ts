@@ -8,8 +8,8 @@ import { Button } from 'primeng/button';
 // import { MessageService } from 'primeng/api';
 // import { NgxSpinnerService } from 'ngx-spinner';
 // import { Toast } from 'primeng/toast';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+// import { ConfirmDialog } from 'primeng/confirmdialog';
+// import { ConfirmationService } from 'primeng/api';
 import { Common } from '../../../core/common/common';
 
 @Component({
@@ -18,7 +18,7 @@ import { Common } from '../../../core/common/common';
     CommonModule,
     Button,
     // Toast,
-    ConfirmDialog
+    // ConfirmDialog
   ],
   templateUrl: './list.html',
   styleUrl: './list.scss',

@@ -1,102 +1,113 @@
-<div class="quizzes-container !pt-24">
-  
-  
-  <!-- Header Section -->
-  <div class="quizzes-header">
-    <div class="header-content">
-      <h1 class="page-title">My Quizzes</h1>
-      <p class="page-subtitle">Create and manage your quizzes</p>
+<div class="instructor-quizzes-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-4 py-20 lg:py-20">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
+    <div>
+      <!-- <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Instructor Dashboard</p> -->
+      <h1 class="text-2xl lg:text-2xl font-semibold text-slate-900 dark:text-slate-50">My Quizzes</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Create and manage your quizzes</p>
     </div>
-    <button class="create-btn" (click)="openCreateDialog()">
+    <button 
+      class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
+      (click)="openCreateDialog()">
       <i class="pi pi-plus"></i>
       <span>Create Quiz</span>
     </button>
   </div>
 
   <!-- Quizzes List -->
-  <div class="quizzes-list">
+  <div class="quizzes-content">
     @if (quizzes.length === 0) {
-      <div class="empty-state">
-        <i class="pi pi-file-edit empty-icon"></i>
-        <h3>No quizzes yet</h3>
-        <p>Create your first quiz to get started</p>
-        <button class="create-btn" (click)="openCreateDialog()">
+      <div class="empty-state surface-card">
+        <i class="pi pi-file-edit text-6xl text-slate-400 dark:text-slate-500 mb-4"></i>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-2">No quizzes yet</h3>
+        <p class="text-slate-600 dark:text-slate-300 mb-4">Create your first quiz to get started</p>
+        <button 
+          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors flex items-center gap-2"
+          (click)="openCreateDialog()">
           <i class="pi pi-plus"></i>
           <span>Create Quiz</span>
         </button>
       </div>
     } @else {
-      <div class="quizzes-grid">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6">
         @for (quiz of quizzes; track quiz.id) {
-          <div class="quiz-card">
-            <div class="quiz-header">
-              <div class="quiz-icon">
-                <i class="pi pi-file-edit"></i>
+          <div class="surface-card hoverable-card flex flex-col">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-1">{{ quiz.title }}</h3>
+                @if (quiz.subject) {
+                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">
+                    {{ quiz.subject }}
+                  </span>
+                }
               </div>
-              <div class="quiz-actions">
-                <button class="action-btn questions-btn" (click)="addQuestions(quiz)" title="Add Questions">
-                  <i class="pi pi-plus-circle"></i>
+              <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold" 
+                [ngClass]="getStatusClass(quiz.status)">
+                {{ quiz.status || 'DRAFT' }}
+              </span>
+            </div>
+
+            @if (quiz.description) {
+              <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">{{ quiz.description }}</p>
+            }
+
+            <div class="space-y-2 mb-4 flex-1">
+              @if (quiz.timerInMin) {
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-clock text-indigo-500"></i>
+                  <span>{{ quiz.timerInMin }} minutes</span>
+                </div>
+              }
+              @if (quiz.totalMarks) {
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-star text-yellow-500"></i>
+                  <span>{{ quiz.totalMarks }} marks</span>
+                </div>
+              }
+              @if (quiz.passingMarks) {
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-check-circle text-green-500"></i>
+                  <span>Pass: {{ quiz.passingMarks }} marks</span>
+                </div>
+              }
+              @if (quiz.questionCount !== undefined) {
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-list text-purple-500"></i>
+                  <span>{{ quiz.questionCount }} questions</span>
+                </div>
+              }
+              @if (quiz.dueDate) {
+                <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <i class="pi pi-calendar text-rose-500"></i>
+                  <span>Due: {{ formatDisplayDate(quiz.dueDate) }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button
+                class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                (click)="addQuestions(quiz)">
+                <i class="pi pi-plus"></i>
+                <span>Add Questions</span>
+              </button>
+              <div class="flex gap-2">
+                <button
+                  class="flex-1 px-3 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 rounded-lg text-xs font-semibold transition-colors"
+                  (click)="viewQuestions(quiz)"
+                  title="View Questions">
+                  <i class="pi pi-eye"></i>
                 </button>
-                <button class="action-btn view-btn" (click)="viewQuestions(quiz)" title="View Questions">
-                  <i class="pi pi-list"></i>
-                </button>
-                <button class="action-btn edit-btn" (click)="openEditDialog(quiz)" title="Edit">
+                <button
+                  class="flex-1 px-3 py-2 bg-yellow-100 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:hover:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300 rounded-lg text-xs font-semibold transition-colors"
+                  (click)="openEditDialog(quiz)"
+                  title="Edit">
                   <i class="pi pi-pencil"></i>
                 </button>
-                <button class="action-btn delete-btn" (click)="deleteQuiz(quiz)" title="Delete">
+                <button
+                  class="flex-1 px-3 py-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded-lg text-xs font-semibold transition-colors"
+                  (click)="deleteQuiz(quiz)"
+                  title="Delete">
                   <i class="pi pi-trash"></i>
-                </button>
-              </div>
-            </div>
-            
-            <div class="quiz-content">
-              <h3 class="quiz-title">{{ quiz.title }}</h3>
-              @if (quiz.description) {
-                <p class="quiz-description">{{ quiz.description }}</p>
-              }
-              
-              <div class="quiz-info">
-                <div class="info-row">
-                  <div class="info-item">
-                    <i class="pi pi-book"></i>
-                    <span>{{ quiz.subject || 'No subject' }}</span>
-                  </div>
-                  <div class="info-item">
-                    <i class="pi pi-clock"></i>
-                    <span>{{ quiz.timerInMin || 0 }} min</span>
-                  </div>
-                </div>
-                <div class="info-row">
-                  <div class="info-item">
-                    <i class="pi pi-star"></i>
-                    <span>{{ quiz.totalMarks || 0 }} marks</span>
-                  </div>
-                  <div class="info-item">
-                    <i class="pi pi-check-circle"></i>
-                    <span>Pass: {{ quiz.passingMarks || 0 }}</span>
-                  </div>
-                </div>
-                @if (quiz.questionCount !== undefined) {
-                  <div class="info-item">
-                    <i class="pi pi-question-circle"></i>
-                    <span>{{ quiz.questionCount }} questions</span>
-                  </div>
-                }
-                @if (quiz.dueDate) {
-                  <div class="info-item">
-                    <i class="pi pi-calendar"></i>
-                    <span>Due: {{ formatDisplayDate(quiz.dueDate) }}</span>
-                  </div>
-                }
-              </div>
-
-              <div class="quiz-footer">
-                <span class="status-badge" [class]="getStatusClass(quiz.status)">
-                  {{ quiz.status || 'DRAFT' }}
-                </span>
-                <button class="add-questions-btn" (click)="addQuestions(quiz)">
-                  <i class="pi pi-plus"></i>
-                  <span>Add Questions</span>
                 </button>
               </div>
             </div>

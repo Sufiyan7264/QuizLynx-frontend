@@ -1,14 +1,14 @@
-<div class="student-quizzes-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+<div class="student-quizzes-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-6 py-6 lg:py-20">
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
     <div>
-      <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Student Dashboard</p>
-      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">Active Quizzes</h1>
+      <!-- <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Student Dashboard</p> -->
+      <h1 class="text-2xl lg:text-2xl font-semibold text-slate-900 dark:text-slate-50">Active Quizzes</h1>
       <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">View and attempt available quizzes assigned to you.</p>
     </div>
-    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+    <!-- <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
       <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
       {{ filteredQuizzes.length }} quizzes available
-    </div>
+    </div> -->
   </div>
 
   <!-- Search Section -->
@@ -65,7 +65,7 @@
         </button>
       </div>
     } @else {
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         @for (quiz of filteredQuizzes; track quiz.id) {
           <div class="surface-card hoverable-card">
             <div class="flex items-start justify-between mb-4">

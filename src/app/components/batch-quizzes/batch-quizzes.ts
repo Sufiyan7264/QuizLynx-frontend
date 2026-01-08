@@ -19,7 +19,7 @@ import { Common } from '../../core/common/common';
 export class BatchQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);
   private readonly batchService = inject(BatchService);
-  private readonly router = inject(Router);
+  public readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly common = inject(Common);
 

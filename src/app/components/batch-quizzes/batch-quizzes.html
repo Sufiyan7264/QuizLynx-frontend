@@ -1,14 +1,14 @@
-<div class="min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
-  <div class="max-w-6xl mx-auto">
+<div class="min-h-[calc(100vh-80px)] px-4 sm:px-4 lg:px-4 py-6 lg:py-8 lg:pt-20 pt-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+  <div class="mx-auto">
     <!-- Header Section -->
-    <div class="mb-8">
+    <div class="mb-4">
       <button (click)="goBack()" class="inline-flex items-center gap-2 px-3 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors mb-4">
         <i class="pi pi-arrow-left"></i>
         <span class="font-medium">Back to Batches</span>
       </button>
 
       <div class="surface-card">
-        <h1 class="text-3xl lg:text-4xl font-semibold text-slate-900 dark:text-slate-50 mb-2">{{ batch?.batchName || 'Batch Quizzes' }}</h1>
+        <h1 class="text-3xl lg:text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-2">{{ batch?.batchName || 'Batch Quizzes' }}</h1>
         <p class="text-slate-600 dark:text-slate-300">{{ batch?.description || 'View and attempt quizzes in this batch' }}</p>
       </div>
     </div>
@@ -137,7 +137,7 @@
                     <span>Not published</span>
                   </div>
                 }
-                <button (click)="viewResults(quiz)" class="flex-1 px-3 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
+                <button (click)="router.navigate(['/student/attempts'])" class="flex-1 px-3 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
                   <i class="pi pi-eye text-xs"></i>
                   <span>Results</span>
                 </button>

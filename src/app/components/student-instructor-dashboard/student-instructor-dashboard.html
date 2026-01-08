@@ -1,6 +1,6 @@
-<div class="student-instructor-dashboard-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+<div class="student-instructor-dashboard-page min-h-[calc(100vh-80px)] px-4 sm:px-4 lg:px-4 py-6 lg:py-8 lg:pt-14 pt-24">
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
-    <div>
+    <!-- <div>
       <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Student Dashboard</p>
       <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">Instructor Overview</h1>
       <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Track your performance across different instructors and subjects.</p>
@@ -8,11 +8,11 @@
     <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
       <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
       {{ instructors.length }} instructors
-    </div>
+    </div> -->
   </div>
 
   <!-- Statistics Cards Section -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
     @for(stat of stats; track stat.title){
       <article class="surface-card hoverable-card flex flex-col gap-2">
         <div class="flex items-center justify-between">
@@ -34,9 +34,9 @@
   </div>
 
   <!-- Main Content Section -->
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+  <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
     <!-- Left Section -->
-    <div class="flex flex-col gap-4 xl:col-span-2">
+    <div class="flex flex-col gap-3 xl:col-span-2 lg:col-span-2">
       <!-- My Instructors Card -->
       <section class="surface-card">
         <div class="flex items-center justify-between mb-4">
@@ -137,11 +137,11 @@
     </div>
 
     <!-- Right Section -->
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-3">
       <!-- Performance Comparison Chart -->
       <section class="surface-card">
         <div class="mb-4">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">Performance by Instructor</h3>
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">My Performance vs Class Average</h3>
         </div>
         <app-chart-configuration
           [chartType]="'bar'"
