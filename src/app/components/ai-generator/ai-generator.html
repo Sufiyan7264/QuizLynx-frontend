@@ -6,9 +6,9 @@
   [resizable]="false"
   styleClass="minimal-ai-dialog"
   [style]="{width: '90vw', maxWidth: step === 'preview' ? '800px' : '550px'}" 
-  [showHeader]="false">
-
-  <div class="dialog-header">
+  >
+    <ng-template #header>
+  <div class="dialog-header w-full">
     <div class="header-content">
       <div class="icon-wrapper">
         <i class="pi" [class]="step === 'input' ? 'pi-sparkles' : 'pi-list'"></i>
@@ -18,8 +18,9 @@
         <p>{{ step === 'input' ? 'Generate from text' : 'Review and select destination' }}</p>
       </div>
     </div>
-    <button class="close-btn" (click)="closeDialog()"><i class="pi pi-times"></i></button>
+    <!-- <button class="close-btn" (click)="closeDialog()"><i class="pi pi-times"></i></button> -->
   </div>
+  </ng-template>
 
   <div class="dialog-content">
     
@@ -81,10 +82,10 @@
       </div>
     }
   </div>
-
-  <div class="dialog-footer">
+<ng-template #footer>
+  <div class="dialog-footer w-full">
     @if (step === 'input') {
-      <button pButton label="Cancel" class="p-button-text text-gray-500" (click)="closeDialog()"></button>
+      <button pButton label="Cancel" class="p-button-text px-2 text-gray-500" (click)="closeDialog()"></button>
       <button 
         pButton 
         label="Generate Preview" 
@@ -100,10 +101,12 @@
         label="Confirm & Save" 
         icon="pi pi-check" 
         class="p-button-success" 
+        styleClass="border-0"
         (click)="saveQuestions()" 
         [loading]="isProcessing"
         [disabled]="!selectedQuiz">
       </button>
     }
   </div>
+  </ng-template>
 </p-dialog>
