@@ -63,9 +63,7 @@ export class StudentAttempts implements OnInit {
     if (this.searchTerm?.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(attempt =>
-        attempt.quizTitle?.toLowerCase().includes(search) ||
-        attempt.quizId?.toLowerCase().includes(search)
-      );
+        attempt.quizTitle?.toLowerCase().includes(search));
     }
 
     this.filteredAttempts = filtered;

@@ -30,13 +30,13 @@
   --color-text: #0b1220; /* primary text */
   --color-muted-text: #55607a; /* subdued text */
   --placeholder-color: #334155;
-  --selected-bg: #706f6f93;
+  --selected-bg: #383be721;
   /* Background variants */
   --color-bg-page: #ffffff; /* page background (light) */
   --color-bg: var(--color-bg-page);
   --color-primary-bg: #3b82f65c;
   --color-warning-bg: #f59e0b5c;
-  --input-bg-col: #f3f4f6;
+  --input-bg-col: #f8fafc;
   --color-danger-bg: #f00b0b5c;
   --color-success-bg: #16a34a5c;
   --icon-filter: brightness(0) saturate(100%) invert(0); /* black icons */
@@ -57,9 +57,10 @@
   --icon-filter: brightness(0) saturate(100%) invert(1); /* white icons */
   --color-bg-page: #000000;
   --color-bg: var(--color-bg-page);
-  --input-bg-col: #1e1e1e;
+  --selected-bg: #3d3fe845;
+  --input-bg-col: #1e293b;
   --color-surface: #071128; /* deep surface */
-  --selected-bg: #5555555c;
+  // --selected-bg: #5555555c;
   --color-border: rgba(226, 226, 226, 0.18);
   --color-glass: rgba(255, 255, 255, 0.03);
   --label-color:#e0e0e0;  /* Light text for dark background */
@@ -234,11 +235,11 @@ p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
   }
   .p-confirmdialog-accept-button{
     padding: 0.2rem 0.8rem;
-    background: var(--color-primary);
+    background: #4f46e5;
     color: #ffffff;
     border:none;
     &:hover{
-      background: #2563eb;
+      background: #4d25eb;
     }
   }
   .p-confirmdialog-reject-button{
@@ -256,6 +257,21 @@ p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
   .p-dialog-content{
     padding: 0.5rem;
     color: var(--color-text);
+  }
+}
+.p-select-list-container{
+  padding: 0.5rem;
+  background: var(--color-bg);
+  li{
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    &:hover{
+      background-color: var(--hover-color);
+    } 
+  }
+  .p-select-option-selected{
+    background-color: var(--selected-bg);
   }
 }
 .p-select{
@@ -281,4 +297,10 @@ p-select.p-select-open.p-inputwrapper-focus{
 }
 td{
   color: var(--color-text);
+}
+.p-tooltip-text{
+  background: var(--color-primary-foreground);
+  padding: 0.2rem;
+  color: var(--color-text);
+  font-size: 12px;
 }

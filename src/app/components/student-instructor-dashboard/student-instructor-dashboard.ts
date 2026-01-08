@@ -252,16 +252,16 @@ export class StudentInstructorDashboard implements OnInit {
   };
 
   performanceComparisonOptions: ChartOptions = {
-    title: {
-      text: 'My Performance vs Class Average',
-      left: 'center',
-      top: '0%',
-      textStyle: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#0b1220'
-      }
-    },
+    // title: {
+    //   text: 'My Performance vs Class Average',
+    //   left: 'center',
+    //   top: '0%',
+    //   textStyle: {
+    //     fontSize: 16,
+    //     fontWeight: '600',
+    //     color: '#0b1220'
+    //   }
+    // },
     tooltip: {
       trigger: 'axis',
       formatter: '{b}: {c}%'
@@ -321,16 +321,16 @@ export class StudentInstructorDashboard implements OnInit {
   };
 
   quizCompletionOptions: ChartOptions = {
-    title: {
-      text: 'Quizzes by Instructor',
-      left: 'center',
-      top: '0%',
-      textStyle: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#0b1220'
-      }
-    },
+    // title: {
+    //   text: 'Quizzes by Instructor',
+    //   left: 'center',
+    //   top: '0%',
+    //   textStyle: {
+    //     fontSize: 16,
+    //     fontWeight: '600',
+    //     color: '#0b1220'
+    //   }
+    // },
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} quizzes ({d}%)'
