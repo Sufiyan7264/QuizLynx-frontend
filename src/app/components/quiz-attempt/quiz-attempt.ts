@@ -83,7 +83,7 @@ export class QuizAttempt implements OnInit, OnDestroy {
               // --- RESUME FLOW ---
               console.log('Resuming quiz with seconds remaining:', status.remainingSeconds);
               this.timeRemaining = status.remainingSeconds;
-              
+              console.log('Time remaining set to:', this.timeRemaining);
               if (this.timeRemaining <= 0) {
                   this.autoSubmit(); // Time expired while paused
               } else {

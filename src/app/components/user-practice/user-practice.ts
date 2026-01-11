@@ -1,7 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { Select } from 'primeng/select';
+import { Common } from '../../core/common/common';
+import { Router } from '@angular/router';
+import { UserService } from '../../core/service/user';
 
 interface CustomQuizConfig {
   topic: string;
@@ -20,11 +23,17 @@ interface MistakeReviewItem {
 @Component({
   selector: 'app-user-practice',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule],
+  imports: [FormsModule, ButtonModule,Select],
   templateUrl: './user-practice.html',
   styleUrl: './user-practice.scss',
 })
 export class UserPractice {
+  difficultyOptions = [
+    { label: 'Easy', value: 'Easy' },
+    { label: 'Medium', value: 'Medium' },
+    { label: 'Hard', value: 'Hard' },
+  ];
+isGenerating = false;
   customQuiz: CustomQuizConfig = {
     topic: '',
     difficulty: 'Medium',
@@ -55,10 +64,48 @@ export class UserPractice {
     },
   ];
 
+  private router = inject(Router);
+  private common = inject(Common); // Use your Common service for spinner/toasts if available
+  private user = inject(UserService);
+
+  // ... options and arrays remain the same ...
+
+
+
+  // Updated Function
   startCustomQuiz(): void {
-    // Placeholder: integrate with quiz creation / AI generator later
-    // For now we just log the selected configuration.
-    console.log('Starting custom quiz with config', this.customQuiz);
+    if (!this.customQuiz.topic.trim()) {
+      this.common.showMessage('error','Error', 'Please enter a topic for the quiz.');
+      return;
+    }
+
+    // 1. Prepare Payload
+    const payload = {
+      topic: this.customQuiz.topic,
+      difficulty: this.customQuiz.difficulty,
+      questions: this.customQuiz.questions
+    };
+this.isGenerating = true;
+    console.log('Generating quiz...', payload);
+    // this.common.showSpinner(); 
+
+    // 2. Call Backend
+    this.user.createAiTopics(payload)
+      .subscribe({
+        next: (res:any) => {
+          // this.common.hideSpinner();
+          console.log('Quiz Created!', res.quizId);
+          this.isGenerating = false;
+          // 3. Navigate to Attempt Page
+          this.router.navigate(['/quiz/attempt', res.quizId]);
+        },
+        error: (err:any) => {
+          // this.common.hideSpinner();
+          this.isGenerating = false;
+          console.error('Generation failed', err);
+          this.common.showMessage('error','Error', err?.error?.message || 'Failed to generate quiz. Please try again.');
+        }
+      });
   }
 
   retakeMistakes(item: MistakeReviewItem): void {

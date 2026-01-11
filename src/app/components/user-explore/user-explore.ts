@@ -1,90 +1,63 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
+import { UserService } from '../../core/service/user';
+import { ExploreCategory, TrendingQuiz } from '../../core/interface/interfaces';
+import { Common } from '../../core/common/common';
+import { DecimalPipe } from '@angular/common';
+import { Dialog } from 'primeng/dialog';
 
-interface ExploreCategory {
-  name: string;
-  description: string;
-  icon: string;
-  tag: string;
-}
+// Interfaces match your DTOs
 
-interface TrendingQuiz {
-  title: string;
-  category: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  attempts: number;
-  rating: number;
-}
 
 @Component({
   selector: 'app-user-explore',
   standalone: true,
-  imports: [CommonModule, NgFor, NgIf, ButtonModule, FormsModule],
+  imports: [ButtonModule, FormsModule,DecimalPipe,Dialog],
   templateUrl: './user-explore.html',
   styleUrl: './user-explore.scss',
 })
-export class UserExplore {
+export class UserExplore implements OnInit {
+  // private http = inject(HttpClient);
+  private router = inject(Router);
+  private common = inject(Common);
+  private user = inject(UserService)
+
   searchQuery = '';
+  categories: ExploreCategory[] = [];
+  trendingQuizzes: TrendingQuiz[] = [];
+  showDifficultyModal = false;
+  selectedCategoryForQuiz = '';
 
-  categories: ExploreCategory[] = [
-    {
-      name: 'Java',
-      description: 'Object‑oriented programming, OOP principles, collections, and more.',
-      icon: 'pi pi-code',
-      tag: 'Programming',
-    },
-    {
-      name: 'Python',
-      description: 'Data structures, algorithms, automation, and data science basics.',
-      icon: 'pi pi-bolt',
-      tag: 'Programming',
-    },
-    {
-      name: 'History',
-      description: 'Modern world, ancient civilizations, and key historical events.',
-      icon: 'pi pi-globe',
-      tag: 'Humanities',
-    },
-    {
-      name: 'Math',
-      description: 'Algebra, calculus, probability, and quantitative aptitude.',
-      icon: 'pi pi-calculator',
-      tag: 'STEM',
-    },
-  ];
+  ngOnInit() {
+    this.fetchCategories();
+    this.fetchTrending();
+  }
+  openDifficultySelection(categoryName: string) {
+    this.selectedCategoryForQuiz = categoryName;
+    this.showDifficultyModal = true;
+  }
 
-  trendingQuizzes: TrendingQuiz[] = [
-    {
-      title: 'Java Basics: OOP & Collections',
-      category: 'Java',
-      difficulty: 'Medium',
-      attempts: 1240,
-      rating: 4.8,
-    },
-    {
-      title: 'World War II Quick Check',
-      category: 'History',
-      difficulty: 'Easy',
-      attempts: 980,
-      rating: 4.6,
-    },
-    {
-      title: 'Data Structures in Python',
-      category: 'Python',
-      difficulty: 'Hard',
-      attempts: 720,
-      rating: 4.9,
-    },
-    {
-      title: 'Algebra & Functions Drill',
-      category: 'Math',
-      difficulty: 'Medium',
-      attempts: 860,
-      rating: 4.7,
-    },
-  ];
+  fetchCategories() {
+    this.user.getByCategory<ExploreCategory[]>()
+      .subscribe({
+        next: (data:any) => this.categories = data,
+        error: (err) => this.common.showMessage('error',"Error",err.error.message || 'Error loading categories')
+      });
+  }
+
+  fetchTrending() {
+    this.user.getByTrending<TrendingQuiz[]>()
+      .subscribe({
+        next: (data:any) => this.trendingQuizzes = data,
+        error: (err) => this.common.showMessage('error',"Error",err.error.message || 'Error loading trending quizzes')
+      });
+  }
+
+  // startQuiz(quizId: number) {
+  //   this.router.navigate(['/quiz/attempt', quizId]);
+  // }
 
   get filteredTrendingQuizzes(): TrendingQuiz[] {
     const query = this.searchQuery.toLowerCase().trim();
@@ -95,6 +68,54 @@ export class UserExplore {
       (quiz.title + quiz.category).toLowerCase().includes(query)
     );
   }
+
+  // Inside UserExplore Component
+
+  generateQuiz(difficulty: string, category: string) {
+    this.common.showSpinner();
+    this.showDifficultyModal = false;
+    const payload = {
+      category: category, // Use the stored category
+      difficulty: difficulty.toLowerCase()    // Use the selected difficulty
+    };
+
+    this.user.getByGenerateQuiz<any>(payload).subscribe({
+      next: (res:any) => {
+        this.common.hideSpinner();
+        // Navigate immediately to the newly generated quiz
+        this.router.navigate(['/quiz/attempt', res.quizId]);
+      },
+      error: (err) => {
+        this.common.hideSpinner();
+        this.common.showMessage('error', 'Error', err.message || 'Failed to generate quiz');
+      }
+    });
+  }
+  isSearchEmpty = false;
+
+  performSearch() {
+    if (!this.searchQuery.trim()) {
+      this.fetchTrending(); 
+      this.isSearchEmpty = false; // Reset
+      return;
+    }
+
+    this.user.searchQuery<TrendingQuiz[]>(this.searchQuery)
+      .subscribe({
+        next: (data:any) => {
+          this.trendingQuizzes = data;
+          
+          // Check if results are empty
+          this.isSearchEmpty = data.length === 0;
+        },
+        error: (err:any) => console.error(err)
+      });
+  }
+
+  // Wrapper to generate quiz using the Search Query as the category
+  generateFromSearch() {
+    // This calls your existing generate function
+    // The backend getCategoryId logic will map "Biology" -> ID 17
+    this.generateQuiz('',this.searchQuery); 
+  }
 }
-
-
