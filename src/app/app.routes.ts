@@ -103,13 +103,13 @@ export const routes: Routes = [
         path:'quiz/attempt/:id',
         loadComponent:()=>import('./components/quiz-attempt/quiz-attempt').then(m=>m.QuizAttempt),
         canActivate:[childAuthGuard,authGuard,roleGuard],
-        data:{role:'STUDENT'}
+        data:{role:['STUDENT','USER']}
     },
     {
         path:'quiz/result/:id',
         loadComponent:()=>import('./components/quiz-result/quiz-result').then(m=>m.QuizResult),
         canActivate:[childAuthGuard,authGuard,roleGuard],
-        data:{role:'STUDENT'}
+        data:{role:['STUDENT','USER']}
     },
     {
         path:'question/all',

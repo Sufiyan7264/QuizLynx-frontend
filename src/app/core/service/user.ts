@@ -19,6 +19,9 @@ export interface UpdatePasswordRequest {
   providedIn: 'root'
 })
 export class UserService {
+  searchQuery<T>(searchQuery: string) {
+    return this.http.get(`${this.BASE_URL}/search?query=${encodeURIComponent(searchQuery)}`);
+  }
   private readonly http = inject(HttpClient);
   private readonly BASE_URL = 'https://localhost:8080/api/users';
 
@@ -38,6 +41,21 @@ export class UserService {
   // Delete account
   deleteAccount(): Observable<any> {
     return this.http.delete<any>(`https://localhost:8080/auth/delete-account`);
+  }
+  getDashboardData():Observable<any> {
+    return this.http.get(`${this.BASE_URL}/dashboard`)
+  }
+    getByCategory<T>() {
+    return this.http.get(`${this.BASE_URL}/explore/categories`);
+  }
+  getByTrending<T>() {
+    return this.http.get(`${this.BASE_URL}/explore/trending`);
+  }
+  getByGenerateQuiz<T>(payload: any): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/explore/generate`, payload);
+  }
+  createAiTopics<T>(payload: any): Observable<any> {
+    return this.http.post(`https://localhost:8080/api/ai/generate-from-topic`, payload);
   }
 }
 

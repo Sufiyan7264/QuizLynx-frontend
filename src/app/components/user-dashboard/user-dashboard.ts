@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { ButtonModule } from 'primeng/button';
+import { UserService } from '../../core/service/user';
+import { Router } from '@angular/router';
 
 interface StatCard {
   title: string;
@@ -28,113 +30,30 @@ interface QuizHistoryItem {
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.scss'
 })
-export class UserDashboard {
-  // Statistics Cards
-  stats: StatCard[] = [
-    {
-      title: 'Quizzes Taken',
-      value: 24,
-      change: 5,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Average Score',
-      value: '82%',
-      change: 8,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Quizzes Completed',
-      value: 18,
-      change: 3,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Current Streak',
-      value: '7 days',
-      change: 2,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    }
-  ];
+export class UserDashboard implements OnInit { 
+  
+  private router = inject(Router);
 
-  // Progress Card
+  // --- 3. Initialize Variables (Empty or Default) ---
+  stats: StatCard[] = []; // Start empty, will fill from API
+  quizHistory: QuizHistoryItem[] = [];
+  lastActiveQuizId: number | null = null;
+  totalQuizzes = 0;
+
   progressData = {
-    milestone: '50 Quizzes Completed',
-    message: 'Great progress!',
-    description: 'You have completed 50 quizzes and are improving your knowledge every day'
+    milestone: 'Loading...',
+    message: 'Please wait',
+    description: 'Fetching your progress...'
   };
 
-  // Quiz History
-  quizHistory: QuizHistoryItem[] = [
-    {
-      subject: 'English',
-      score: '10/15',
-      status: 'Completed',
-      actions: { refresh: true, folder: true }
-    },
-    {
-      subject: 'English',
-      score: '10/15',
-      status: 'Completed',
-      actions: { refresh: true, folder: true }
-    },
-    {
-      subject: 'English',
-      score: '-',
-      status: 'Unattempted',
-      actions: { warning: true, folder: true }
-    },
-  ];
-
-  // Overall Performance Chart (Donut Chart)
+  // Keep your default chart structure, data will be overwritten
   performanceChartData: ChartData = {
-    labels: ['Excellent (90-100%)', 'Good (75-89%)', 'Average (60-74%)', 'Needs Improvement (<60%)'],
-    series: [{
-      name: 'My Performance',
-      type: 'pie',
-      radius: ['45%', '62%'],
-      center: ['28%', '55%'], // shift pie further left to clear legend/text
-      avoidLabelOverlap: false,
-      itemStyle: {
-        borderRadius: 0,
-        borderColor: '#fff',
-        borderWidth: 0
-      },
-      label: {
-        show: false
-      },
-      labelLine: {
-        show: false
-      },
-      emphasis: {
-        label: {
-          show: false
-        }
-      },
-      data: [
-        { value: 8, name: 'Excellent (90-100%)', itemStyle: { color: '#10b981' } },
-        { value: 10, name: 'Good (75-89%)', itemStyle: { color: '#3b82f6' } },
-        { value: 4, name: 'Average (60-74%)', itemStyle: { color: '#f59e0b' } },
-        { value: 2, name: 'Needs Improvement (<60%)', itemStyle: { color: '#ef4444' } }
-      ]
-    }]
+    labels: ['Excellent', 'Good', 'Average', 'Poor'],
+    series: []
   };
 
+  // Keep your options as they are
   performanceChartOptions: ChartOptions = {
-    // title: {
-    //   // text: 'My Performance Breakdown',
-    //   left: 'left',
-    //   top: '0%',
-    //   textStyle: {
-    //     fontSize: 16,
-    //     fontWeight: '600',
-    //     color: '#0b1220'
-    //   }
-    // },
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} quizzes ({d}%)'
@@ -147,45 +66,143 @@ export class UserDashboard {
       itemHeight: 12,
       padding: [0, 0, 0, 0],
       itemGap: 15,
-      textStyle: {
-        fontSize: 10,
-        color: '#0b1220'
-      },
+      textStyle: { fontSize: 10, color: '#0b1220' },
       formatter: this.formatLegend.bind(this)
     },
     graphic: [{
       type: 'text',
-      left: '18%',
-      top: '52%',
-      z: 10,
+      left: '18%', top: '52%', z: 10,
       style: {
-        text: 'Total quizzes\n24',
-        fontSize: 12,
-        fontWeight: 'bold',
-        fontFamily: 'Mona Sans, sans-serif',
-        fill: '#0b1220',
-        textAlign: 'center',
-        textVerticalAlign: 'middle'
+        text: 'Total\nLoading', // Will update this dynamically
+        fontSize: 12, fontWeight: 'bold', fontFamily: 'Mona Sans, sans-serif',
+        fill: '#0b1220', textAlign: 'center', textVerticalAlign: 'middle'
       }
     }]
   };
 
-  private formatLegend(name: string): string {
-    const dataMap: { [key: string]: number } = {
-      'Excellent (90-100%)': 8,
-      'Good (75-89%)': 10,
-      'Average (60-74%)': 4,
-      'Needs Improvement (<60%)': 2
-    };
-    return `${name} ${dataMap[name] || 0}/24`;
+  practiceSuggestion = {
+    score: '-',
+    subject: '-',
+    message: 'Analyzing your performance...'
+  };
+  private user = inject(UserService);
+
+  // --- 4. Add ngOnInit ---
+  ngOnInit() {
+    this.fetchDashboardData();
   }
 
-  // Practice Suggestion
-  practiceSuggestion = {
-    score: '5/15',
-    subject: 'Computer Science',
-    message: 'Keep practising! Improve your confidence in Computer Science by practicing another quiz'
-  };
+  // --- 5. Add the API Method ---
+  fetchDashboardData() {
+    this.user.getDashboardData()
+      .subscribe({
+        next: (data) => {
+          this.updateStats(data);
+          this.updateHistory(data);
+          this.updateChart(data);
+          this.updateProgress(data);
+          
+          this.lastActiveQuizId = data.lastActiveQuizId;
+          this.totalQuizzes = data.totalQuizzesTaken;
 
-  totalQuizzes = 24;
+          // Update the "Total" text in the center of the donut chart
+          this.updateChartGraphic(data.totalQuizzesTaken);
+        },
+        error: (err:any) => {
+
+        }
+      });
+  }
+
+  // --- 6. Add Helper Methods (Paste these below fetchDashboardData) ---
+
+  resumeQuiz() {
+    if (this.lastActiveQuizId) {
+      this.router.navigate(['/quiz/attempt', this.lastActiveQuizId]);
+    } else {
+      this.router.navigate(['/student/quizzes']); 
+    }
+  }
+
+  private updateStats(data: any) {
+    this.stats = [
+      {
+        title: 'Quizzes Taken',
+        value: data.totalQuizzesTaken,
+        change: 0, changeType: 'increase', period: 'All Time'
+      },
+      {
+        title: 'Average Score',
+        value: data.averageScore,
+        change: 0, changeType: 'increase', period: 'Overall'
+      },
+      {
+        title: 'Completed',
+        value: data.completedQuizzes,
+        change: 0, changeType: 'increase', period: 'All Time'
+      },
+      {
+        title: 'Current Streak',
+        value: data.currentStreak,
+        change: 0, changeType: 'increase', period: 'Active'
+      }
+    ];
+  }
+
+  private updateHistory(data: any) {
+    this.quizHistory = data.recentHistory.map((h: any) => ({
+      subject: h.subject,
+      score: h.score,
+      status: h.status,
+      actions: { refresh: true, folder: true }
+    }));
+  }
+
+  private updateProgress(data: any) {
+    if (data.completedQuizzes > 0) {
+      this.progressData = {
+        milestone: `${data.completedQuizzes} Quizzes Completed`,
+        message: 'Great progress!',
+        description: `You have an average score of ${data.averageScore}`
+      };
+    } else {
+      this.progressData = {
+        milestone: 'Welcome!',
+        message: 'Start your journey',
+        description: 'Take your first quiz to see stats here.'
+      };
+    }
+  }
+
+  private updateChart(data: any) {
+    this.performanceChartData = {
+      labels: ['Excellent (90-100%)', 'Good (75-89%)', 'Average (60-74%)', 'Needs Improvement (<60%)'],
+      series: [{
+        name: 'My Performance',
+        type: 'pie',
+        radius: ['45%', '62%'],
+        center: ['28%', '55%'],
+        avoidLabelOverlap: false,
+        label: { show: false },
+        itemStyle: { borderRadius: 0, borderColor: '#fff', borderWidth: 0 },
+        data: [
+          { value: data.excellentCount, name: 'Excellent (90-100%)', itemStyle: { color: '#10b981' } },
+          { value: data.goodCount, name: 'Good (75-89%)', itemStyle: { color: '#3b82f6' } },
+          { value: data.averageCount, name: 'Average (60-74%)', itemStyle: { color: '#f59e0b' } },
+          { value: data.poorCount, name: 'Needs Improvement (<60%)', itemStyle: { color: '#ef4444' } }
+        ]
+      }]
+    };
+  }
+
+  private updateChartGraphic(total: number) {
+    if (this.performanceChartOptions['graphic']) {
+      (this.performanceChartOptions['graphic'] as any)[0].style.text = `Total quizzes\n${total}`;
+    }
+  }
+
+  private formatLegend(name: string): string {
+    // You can make this dynamic if needed, but for now simple return is safer
+    return name; 
+  }
 }

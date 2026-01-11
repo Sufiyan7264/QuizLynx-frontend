@@ -20,6 +20,22 @@ export interface UserInfo {
     role: string;
     enabled?: boolean;
   }
+
+  export interface ExploreCategory {
+  name: string;
+  description: string;
+  icon: string;
+  tag: string;
+}
+
+export interface TrendingQuiz {
+  id: number; // Added ID
+  title: string;
+  category: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  attempts: number;
+  rating: number;
+}
   export interface Instructor {
   id: string;
   userId: string;

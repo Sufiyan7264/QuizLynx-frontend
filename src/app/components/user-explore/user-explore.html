@@ -1,4 +1,4 @@
-<div class="user-explore-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+<div class="user-explore-page min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-4 py-20 lg:py-20">
   <!-- Header -->
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
     <div>
@@ -29,16 +29,12 @@
   <!-- Categories -->
   <section class="mb-10">
     <div class="flex items-center justify-between mb-4">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">
-        Browse by Category
-      </h2>
+      <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">Browse by Category</h2>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <article
-        *ngFor="let category of categories"
-        class="surface-card hoverable-card group"
-      >
+      @for (category of categories; track $index) {
+      <article class="surface-card hoverable-card group">
         <div class="flex items-start gap-3">
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -66,28 +62,26 @@
           pButton
           type="button"
           label="View quizzes"
-          class="mt-4 w-full !h-9 !rounded-xl !bg-slate-900 !text-white !text-xs !font-semibold hover:!bg-slate-800 dark:!bg-slate-100 dark:!text-slate-900 dark:hover:!bg-slate-200"
+          (click)="openDifficultySelection(category.name)"
+          class="mt-4 w-full !h-9 !rounded-xl !bg-indigo-700 !text-white !text-xs !font-bold hover:!bg-indigo-800 dark:!bg-indigo-700 dark:hover:!bg-indigo-800"
         ></button>
       </article>
+      }
     </div>
   </section>
 
   <!-- Trending Quizzes -->
   <section>
     <div class="flex items-center justify-between mb-4">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">
-        Trending Quizzes
-      </h2>
+      <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">Trending Quizzes</h2>
       <span class="text-xs text-slate-500 dark:text-slate-400">
         Based on what learners like you are attempting right now
       </span>
     </div>
 
     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      <article
-        *ngFor="let quiz of filteredTrendingQuizzes"
-        class="surface-card hoverable-card"
-      >
+      @for (quiz of filteredTrendingQuizzes; track $index) {
+      <article class="surface-card hoverable-card">
         <div class="flex items-start justify-between gap-3">
           <div>
             <p
@@ -117,30 +111,82 @@
             pButton
             type="button"
             label="Start quiz"
-            class="!h-9 !rounded-xl !bg-slate-900 !text-white !text-xs !font-semibold hover:!bg-slate-800 dark:!bg-slate-100 dark:!text-slate-900 dark:hover:!bg-slate-200 w-full"
+            (click)="generateQuiz(quiz.difficulty, quiz.category)"
+            class="!h-9 !rounded-xl !bg-indigo-700 !text-white !text-xs !font-semibold hover:!bg-indigo-800 dark:!bg-indigo-700 dark:hover:!bg-indigo-800 w-full"
           ></button>
-          <button
-            pButton
-            type="button"
-            label="Save for later"
-            class="!h-9 !rounded-xl !border !border-slate-200 !bg-transparent !text-xs !font-semibold !text-slate-700 hover:!border-slate-300 dark:!border-slate-700 dark:!text-slate-200"
-            [text]="true"
-          ></button>
+          <!-- <button
+              pButton
+              type="button"
+              label="Save for later"
+              class="!h-9 !rounded-xl !border !border-slate-200 !bg-transparent !text-xs !font-semibold !text-slate-700 hover:!border-slate-300 dark:!border-slate-700 dark:!text-slate-200"
+              [text]="true"
+            ></button> -->
         </div>
       </article>
-
-      <div *ngIf="!filteredTrendingQuizzes.length" class="col-span-full">
+      } @if(!filteredTrendingQuizzes.length) {
+      <div class="col-span-full">
         <div
           class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/40 dark:text-slate-300"
         >
-          <p>No quizzes match “{{ searchQuery }}” yet.</p>
-          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-            Try searching a broader topic or different keyword.
+          <div class="mb-3 rounded-full bg-indigo-100 p-3 dark:bg-indigo-900/30">
+            <i class="pi pi-bolt text-xl text-indigo-600 dark:text-indigo-400"></i>
+          </div>
+
+          <p class="font-semibold text-lg text-slate-900 dark:text-slate-50">
+            No quizzes found for "{{ searchQuery }}"
           </p>
+
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+            But our AI can generate a fresh quiz on this topic right now!
+          </p>
+
+          <button
+            pButton
+            type="button"
+            label="Generate {{ searchQuery }} Quiz"
+            icon="pi pi-sparkles"
+            (click)="openDifficultySelection(searchQuery); selectedCategoryForQuiz = searchQuery"
+            class="mt-4 !rounded-xl !bg-indigo-600 text-white !px-6 !py-2.5 !text-sm !font-semibold hover:!bg-indigo-700"
+          ></button>
         </div>
       </div>
+      }
     </div>
   </section>
 </div>
+<p-dialog
+  header="Select Difficulty"
+  [(visible)]="showDifficultyModal"
+  [modal]="true"
+  [style]="{ width: '90vw', maxWidth: '400px', padding: '10px' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-col gap-3 py-4">
+    <p class="text-slate-600 dark:text-slate-300 text-sm mb-2">
+      Choose a difficulty level for <strong>{{ selectedCategoryForQuiz }}</strong
+      >:
+    </p>
 
+    <button
+      pButton
+      label="Easy"
+      class="py-2 w-full bg-success-bg text-success font-semibold"
+      (click)="generateQuiz('easy', selectedCategoryForQuiz)"
+    ></button>
 
+    <button
+      pButton
+      label="Medium"
+      class="py-2 w-full bg-warning-bg text-warning font-semibold"
+      (click)="generateQuiz('medium', selectedCategoryForQuiz)"
+    ></button>
+
+    <button
+      pButton
+      label="Hard"
+      class="py-2 w-full bg-danger-bg text-danger font-semibold"
+      (click)="generateQuiz('hard', selectedCategoryForQuiz)"
+    ></button>
+  </div>
+</p-dialog>
