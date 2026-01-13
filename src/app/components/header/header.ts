@@ -34,13 +34,13 @@ export class Header implements OnInit {
     { label: 'Join Class', routerLink: '/student/join', icon: 'pi pi-plus' },
     { label: 'My Classrooms', routerLink: '/student/batches', icon: 'pi pi-book' },
     { label: 'Active Quizzes', routerLink: '/student/quizzes', icon: 'pi pi-list' },
-    { label: 'Results', routerLink: '/student/attempts', icon: 'pi pi-chart-bar' }
+    { label: 'Results', routerLink: '/attempts', icon: 'pi pi-chart-bar' }
   ];
   individualNav: NavItem[] = [
     { label: 'Dashboard', routerLink: '/user-dashboard', icon: 'pi pi-home' },
     { label: 'Explore', routerLink: '/user/explore', icon: 'pi pi-compass' },
     { label: 'Practice', routerLink: '/user/practice', icon: 'pi pi-bolt' },
-    { label: 'Attempts', routerLink: '/user/attempts', icon: 'pi pi-chart-bar' },
+    { label: 'Attempts', routerLink: '/attempts', icon: 'pi pi-chart-bar' },
     { label: 'Leaderboard', routerLink: '/leaderboard', icon: 'pi pi-trophy' }
   ];
   currentNavItems: NavItem[] = [];

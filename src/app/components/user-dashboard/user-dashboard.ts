@@ -14,6 +14,7 @@ interface StatCard {
 }
 
 interface QuizHistoryItem {
+  quizId:any;
   subject: string;
   score: string;
   status: 'Completed' | 'Unattempted';
@@ -148,13 +149,18 @@ export class UserDashboard implements OnInit {
       }
     ];
   }
+  protected retake(quiz:any){
+    console.log(quiz)
+    this.router.navigate(["quiz/attempt",quiz.quizId])
+  }
 
   private updateHistory(data: any) {
     this.quizHistory = data.recentHistory.map((h: any) => ({
       subject: h.subject,
       score: h.score,
+      quizId: h.quizId,
       status: h.status,
-      actions: { refresh: true, folder: true }
+      actions: { refresh: true, folder: false }
     }));
   }
 

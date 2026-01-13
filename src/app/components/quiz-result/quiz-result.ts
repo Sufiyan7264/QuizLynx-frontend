@@ -187,6 +187,6 @@ export class QuizResult implements OnInit {
   }
 
   viewAttempts(): void {
-    this.router.navigate(['/student/attempts']);
+    this.router.navigate(['/attempts']);
   }
 }
