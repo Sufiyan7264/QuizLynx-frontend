@@ -37,12 +37,12 @@ export const routes: Routes = [
     loadComponent:()=>import('./components/user-dashboard/user-dashboard').then(m=>m.UserDashboard),
     canActivate:[authGuard]
     },
-    {
-        path:'user/attempts',
-        loadComponent:()=>import('./components/user-attempts/user-attempts').then(m=>m.UserAttempts),
-        canActivate:[authGuard, roleGuard],
-        data:{role:'USER'}
-    },
+    // {
+    //     path:'user/attempts',
+    //     loadComponent:()=>import('./components/user-attempts/user-attempts').then(m=>m.UserAttempts),
+    //     canActivate:[authGuard, roleGuard],
+    //     data:{role:'USER'}
+    // },
     {
         path:'user/explore',
         loadComponent:()=>import('./components/user-explore/user-explore').then(m=>m.UserExplore),
@@ -153,10 +153,10 @@ export const routes: Routes = [
         data:{role:'STUDENT'}
     },
     {
-        path:'student/attempts',
+        path:'attempts',
         loadComponent:()=>import('./components/student-attempts/student-attempts').then(m=>m.StudentAttempts),
         canActivate:[childAuthGuard,authGuard,roleGuard],
-        data:{role:'STUDENT'}
+        data:{role:['STUDENT','USER']}
     },
     {   
         path: 'select-role',

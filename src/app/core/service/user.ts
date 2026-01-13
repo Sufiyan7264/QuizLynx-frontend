@@ -57,5 +57,8 @@ export class UserService {
   createAiTopics<T>(payload: any): Observable<any> {
     return this.http.post(`https://localhost:8080/api/ai/generate-from-topic`, payload);
   }
+  getMistakeQuiz():Observable<any> {
+    return this.http.get(`https://localhost:8080/api/quiz/getFailedQuiz`)
+  }
 }
 

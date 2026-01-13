@@ -6,7 +6,7 @@
         Practice Zone
       </h1>
       <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
-        Create your own quizzes and drill only your mistakes to turn weak topics into strengths.
+        Create your own quizzes and drill your mistakes to turn weak topics into strengths.
       </p>
     </div>
   </div>
@@ -107,7 +107,7 @@
       </header>
 
       <div class="space-y-3">
-        @for (item of mistakeReviewItems; track $index) {
+        @for (item of mistakeReviewItems(); track $index) {
           <article
             class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-xs dark:border-slate-700 dark:bg-slate-900/60"
           >
@@ -122,15 +122,15 @@
                 <p class="mt-1 text-[11px] text-slate-600 dark:text-slate-300">
                   Last score:
                   <span class="font-medium text-slate-900 dark:text-slate-50">
-                    {{ item.lastScore }}
+                    {{ item.score }} / {{item.totalMarks}}
                   </span>
-                  · Incorrect:
+                  <!-- · Incorrect:
                   <span class="font-medium text-rose-500">
                     {{ item.incorrectCount }}
-                  </span>
+                  </span> -->
                 </p>
                 <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
-                  Last attempted {{ item.lastAttemptAgo }}
+                  Last attempted : {{ item.submittedAt  | date : 'yyyy-MM-dd hh:mm a'}}
                 </p>
               </div>
             </div>
@@ -147,7 +147,7 @@
           </article>
         }
 
-        @if (!mistakeReviewItems.length) {
+        @if (!mistakeReviewItems().length) {
           <div class="rounded-xl border border-dashed border-slate-300 p-4 text-center text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">
             No mistakes to review yet. Once you attempt quizzes, your “wrong answers” will show up here
             for quick revision.
