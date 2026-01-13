@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BatchService } from '../../core/service/batch';
 import { Batch } from '../../core/interface/interfaces';
-import { Button } from 'primeng/button';
+// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 // import { Toast } from 'primeng/toast';
 import { Common } from '../../core/common/common';
@@ -14,7 +14,7 @@ import { Common } from '../../core/common/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    Button,
+    // Button,
     InputText,
     // Toast
   ],

@@ -5,10 +5,10 @@ import { FormBuilder, FormArray, FormGroup, FormControl, ReactiveFormsModule, Va
 import { QuestionService } from '../../../core/service/question';
 import { QuizService } from '../../../core/service/quiz';
 import { Question, CreateQuestionRequest, Quiz } from '../../../core/interface/interfaces';
-import { Button } from 'primeng/button';
+// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { InputNumber } from 'primeng/inputnumber';
-import { Select } from 'primeng/select';
+// import { Select } from 'primeng/select';
 // import { Toast } from 'primeng/toast';
 import { Common } from '../../../core/common/common';
 
@@ -17,10 +17,8 @@ import { Common } from '../../../core/common/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    Button,
     InputText,
     InputNumber,
-    Select,
     // Toast
   ],
   templateUrl: './create.html',
@@ -139,7 +137,7 @@ export class Create implements OnInit {
       },
       error: (error) => {
         console.error('Error loading quiz:', error);
-        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load quiz');
+        // this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load quiz');
         this.common.hideSpinner();
       }
     });

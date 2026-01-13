@@ -54,7 +54,7 @@ export class SignIn {
     });
   }
   onGoogleClick(){
-    window.location.assign('https://localhost:8080/oauth2/authorization/google'); 
+    globalThis.location.assign('https://localhost:8080/oauth2/authorization/google'); 
     // this.router.navigate(['/https://localhost:8080/oauth2/authorization/google']);
     // this.common.showMessage('warn','Warning', "This feature is under development");
   }

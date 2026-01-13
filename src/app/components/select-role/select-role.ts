@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { Auth } from '../../core/service/auth';
 
 interface RoleOption {
   key: 'STUDENT' | 'INSTRUCTOR' | 'USER';
@@ -16,13 +17,14 @@ interface RoleOption {
 @Component({
   selector: 'app-select-role',
   standalone: true,
-  imports: [CommonModule, ButtonModule, ProgressSpinnerModule],
+  imports: [ButtonModule, ProgressSpinnerModule],
   templateUrl: './select-role.html',
   styleUrl: './select-role.scss',
 })
 export class SelectRole {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly auth = inject(Auth);
 
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
@@ -61,9 +63,10 @@ export class SelectRole {
 
     const payload = { role: role.key };
 
-    this.http.patch(this.apiUrl, payload, { withCredentials: true }).subscribe({
-      next: () => {
+    this.http.patch(this.apiUrl, payload).subscribe({
+      next: (data:any) => {
         this.isSubmitting.set(false);
+        this.auth.setLoggedIn({username:data.username,role:data.role,enabled:data.wasReactivated});
         this.router.navigate([role.primaryRoute]);
       },
       error: (err: any) => {

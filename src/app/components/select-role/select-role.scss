@@ -8,8 +8,8 @@
 }
 
 .role-card {
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(249, 250, 251, 0.9));
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
   border-radius: 18px;
   padding: 16px;
   cursor: pointer;

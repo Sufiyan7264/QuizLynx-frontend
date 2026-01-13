@@ -44,9 +44,9 @@
         <div class="mt-6">
           <div class="flex justify-between mb-2">
             <label class="font-semibold text-gray-700">Question Count</label>
-            <span class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs font-bold">{{questionCount}}</span>
+            <span class="bg-blue-50 dark:bg-blue-500 dark:text-white text-blue-600 px-2 py-1 rounded text-xs font-bold ">{{questionCount}}</span>
           </div>
-          <p-slider [(ngModel)]="questionCount" [min]="1" [max]="10" styleClass="minimal-slider"></p-slider>
+          <p-slider [(ngModel)]="questionCount" [min]="1" [max]="20" styleClass="minimal-slider"></p-slider>
         </div>
       </div>
     }
@@ -54,12 +54,12 @@
     @if (step === 'preview') {
       <div class="preview-section h-[400px] overflow-y-auto pr-2 custom-scrollbar">
         @for (q of generatedQuestions; track $index) {
-          <div class="question-card mb-3 p-4 border rounded-lg bg-gray-50 hover:shadow-sm transition-shadow">
+          <div class="question-card mb-3 p-4 border border-border rounded-lg bg-primary-foreground hover:shadow-sm transition-shadow">
             <div class="flex justify-between items-start mb-2">
-              <span class="font-bold text-gray-800">Q{{$index + 1}}. {{q.questionTitle}}</span>
-              <span class="text-xs bg-gray-200 px-2 py-1 rounded">{{q.difficultyLevel}}</span>
+              <span class="font-bold text-text">Q{{$index + 1}}. {{q.questionTitle}}</span>
+              <span class="text-xs bg-bg px-2 py-1 text-muted-text rounded">{{q.difficultyLevel}}</span>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 ml-2">
+            <div class="grid grid-cols-2 gap-2 text-sm text-muted-text ml-2">
               <div [class.text-green-600]="q.rightAnswer === q.option1" [class.font-bold]="q.rightAnswer === q.option1">A) {{q.option1}}</div>
               <div [class.text-green-600]="q.rightAnswer === q.option2" [class.font-bold]="q.rightAnswer === q.option2">B) {{q.option2}}</div>
               <div [class.text-green-600]="q.rightAnswer === q.option3" [class.font-bold]="q.rightAnswer === q.option3">C) {{q.option3}}</div>
@@ -69,8 +69,8 @@
         }
       </div>
 
-      <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
-        <label class="block mb-2 text-sm font-semibold text-gray-700">Add to Quiz</label>
+      <div class="mt-4 p-4 bg-primary-foreground rounded-lg border border-border">
+        <label class="block mb-2 text-sm font-semibold text-text">Add to Quiz</label>
         <p-select 
           [options]="quizzes" 
           [(ngModel)]="selectedQuiz" 

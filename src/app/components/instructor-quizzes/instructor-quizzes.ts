@@ -5,7 +5,7 @@ import { QuizService } from '../../core/service/quiz';
 import { BatchService } from '../../core/service/batch';
 import { Quiz, CreateQuizRequest, Batch } from '../../core/interface/interfaces';
 import { Dialog } from 'primeng/dialog';
-import { Button } from 'primeng/button';
+// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
 // import { MessageService } from 'primeng/api';
@@ -22,7 +22,6 @@ import { Common } from '../../core/common/common';
     CommonModule,
     ReactiveFormsModule,
     Dialog,
-    Button,
     InputText,
     DatePicker,
     InputNumber,
@@ -52,13 +51,13 @@ export class InstructorQuizzes implements OnInit {
 
   quizForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
-    description: [''],
-    subject: [''],
+    description: ['',[Validators.required]],
+    subject: ['',[Validators.required]],
     timerInMin: [60, [Validators.required, Validators.min(1)]],
     totalMarks: [100, [Validators.required, Validators.min(1)]],
     passingMarks: [50, [Validators.required, Validators.min(0)]],
-    startDate: [null],
-    endDate: [null],
+    startDate: [null,[Validators.required]],
+    endDate: [null,[Validators.required]],
     dueDate: [null],
     batchId: ['',[ Validators.required]],
     status: ['DRAFT', Validators.required]
