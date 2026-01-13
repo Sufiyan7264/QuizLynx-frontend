@@ -13,7 +13,7 @@ import { Common } from '../../core/common/common';
   imports: [CommonModule, FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule],  templateUrl: './ai-generator.html',
   styleUrl: './ai-generator.scss'
 })
-export class AiGenerator {
+export class AiGenerator implements OnInit {
   @Input() visible: boolean = false;
   // quizId is now optional, as user can select it later
   @Input() preSelectedQuizId?: string; 
@@ -21,10 +21,10 @@ export class AiGenerator {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSaved = new EventEmitter<void>();
 
-  private http = inject(HttpClient);
-  private quizService = inject(QuizService); // To fetch quiz list
-  private common = inject(Common);
-  private BASE_URL = 'https://localhost:8080/api'; 
+  private readonly http = inject(HttpClient);
+  private readonly quizService = inject(QuizService); // To fetch quiz list
+  private readonly common = inject(Common);
+  private readonly BASE_URL = 'https://localhost:8080/api'; 
 
   // State Management
   step: 'input' | 'preview' = 'input';
@@ -39,7 +39,7 @@ export class AiGenerator {
   quizzes: any[] = [];
   selectedQuiz: any = null;
 
-  presets = ["Generate 5 Java questions", "History of Space Travel", "Photosynthesis basics"];
+  presets = ["class 9th hindi first chapter", "History of Space Travel", "Photosynthesis basics"];
 
   ngOnInit() {
     this.loadQuizzes();

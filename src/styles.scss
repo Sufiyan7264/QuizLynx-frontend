@@ -281,19 +281,19 @@ p-multiselect-item .p-multiselect-option.p-multiselect-option-selected{
   color: var(--color-muted-text);
   &:focus{
     outline: none;
-    border: 1px solid var(--color-primary);
+    border: 1px solid #4f46e5;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
   .p-select-label{
     color: var(--placeholder-color);
-    padding: 0.65rem 0.5rem;
+    padding: 0.5rem 0.5rem;
   }
 }
 .p-select.p-invalid{
   border: 1px solid var(--color-danger);
 }
 p-select.p-select-open.p-inputwrapper-focus{
-  border: 1px solid var(--color-primary);
+  border: 1px solid #4f46e5;
 }
 td{
   color: var(--color-text);
@@ -303,4 +303,18 @@ td{
   padding: 0.2rem;
   color: var(--color-text);
   font-size: 12px;
+}
+.p-dialog-close-button{
+  color: var(--color-text);
+}
+.p-dialog-header{
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+.p-slider{
+  background:var(--color-success-bg);
+}
+.p-dialog-footer{
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }

@@ -77,7 +77,7 @@ export class InstructorStudents implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.students];
-
+    console.log(filtered)
     // Filter by batch
     if (this.selectedBatchId) {
       filtered = filtered.filter(student => 

@@ -15,39 +15,44 @@
     </div>
 
     <div class="mt-6 grid gap-4 md:grid-cols-3">
-      <article
-        class="role-card"
-        *ngFor="let option of roleOptions"
-        [class.disabled]="isSubmitting()"
-        (click)="selectRole(option)">
-        <div class="flex items-center justify-between gap-2">
-          <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">{{ option.title }}</h2>
-          <span class="badge">{{ option.key }}</span>
-        </div>
-        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{{ option.description }}</p>
-        <ul class="mt-3 space-y-1 text-sm text-slate-700 dark:text-slate-200">
-          <li *ngFor="let item of option.benefits" class="flex items-center gap-2">
-            <span class="check-dot"></span>
-            {{ item }}
-          </li>
-        </ul>
-        <button
-          pButton
-          type="button"
-          label="Continue"
-          class="mt-4 !h-10 w-full !rounded-2xl !bg-slate-900 !text-xs !font-semibold hover:!bg-slate-800 dark:!bg-slate-100 dark:!text-slate-900 dark:hover:!bg-slate-200"
-          [disabled]="isSubmitting()">
-        </button>
-      </article>
+      @for (option of roleOptions; track $index) {
+        <article
+          class="role-card"
+          [class.disabled]="isSubmitting()"
+          (click)="selectRole(option)">
+          <div class="flex items-center justify-between gap-2">
+            <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">{{ option.title }}</h2>
+            <span class="badge">{{ option.key }}</span>
+          </div>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{{ option.description }}</p>
+          <ul class="mt-3 space-y-1 text-sm text-slate-700 dark:text-slate-200">
+            @for (item of option.benefits; track $index) {
+              <li class="flex items-center gap-2">
+                <span class="check-dot"></span>
+                {{ item }}
+              </li>
+            }
+          </ul>
+          <button
+            pButton
+            type="button"
+            label="Continue"
+            class="mt-4 !h-10 w-full !rounded-2xl bg-[#4f46e5] !text-xs text-white !font-semibold hover:!bg-[#3f37c9]"
+            [disabled]="isSubmitting()">
+          </button>
+        </article>
+      }
     </div>
-
-    <div *ngIf="errorMessage()" class="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-100">
-      {{ errorMessage() }}
-    </div>
-
-    <div *ngIf="isSubmitting()" class="mt-6 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-      <p-progressSpinner styleClass="!h-5 !w-5 !stroke-[6px]" strokeWidth="8" animationDuration=".8s"></p-progressSpinner>
-      <span>Saving your choice…</span>
-    </div>
+    @if(errorMessage()){
+      <div class="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-100">
+        {{ errorMessage() }}
+      </div>
+    }
+    @if (isSubmitting()) {
+      <div class="mt-6 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+        <p-progressSpinner styleClass="!h-5 !w-5 !stroke-[6px]" strokeWidth="8" animationDuration=".8s"></p-progressSpinner>
+        <span>Saving your choice…</span>
+      </div>
+    }
   </div>
 </div>

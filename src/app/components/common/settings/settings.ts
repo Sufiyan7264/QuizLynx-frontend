@@ -6,7 +6,7 @@ import { UserService, UpdateProfileRequest, UpdatePasswordRequest } from '../../
 import { Instructor } from '../../../core/service/instructor';
 import { Auth } from '../../../core/service/auth';
 import { UserInfo } from '../../../core/interface/interfaces';
-import { Button } from 'primeng/button';
+// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 // import { MessageService } from 'primeng/api';
 // import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,7 +19,6 @@ import { Common } from '../../../core/common/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    Button,
     InputText,
     Dialog,
     // Toast

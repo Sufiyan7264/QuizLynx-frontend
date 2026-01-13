@@ -163,9 +163,11 @@
 </p-menu>
 </div>
 @if (currentUser?.role === 'INSTRUCTOR') {
-  <app-ai-generator 
-      [(visible)]="showAiModal" 
-      (onSaved)="onAiSuccess()">
+  @if(showAiModal){
+    <app-ai-generator 
+    [(visible)]="showAiModal" 
+    (onSaved)="onAiSuccess()">
   </app-ai-generator>
+}
 }
 

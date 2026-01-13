@@ -137,7 +137,8 @@
           pInputText
           formControlName="title"
           placeholder="e.g. Algebra Fundamentals Quiz"
-          class="form-input"
+          class="form-input ps-2"
+          fluid
           [class.error]="quizForm.get('title')?.invalid && quizForm.get('title')?.touched"
         />
         @if (quizForm.get('title')?.invalid && quizForm.get('title')?.touched) {
@@ -152,15 +153,24 @@
       </div>
 
       <div class="form-group">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label required">Description</label>
         <textarea
           id="description"
           pInputText
+          fluid
           formControlName="description"
           placeholder="Enter quiz description (optional)"
           rows="3"
-          class="form-textarea"
+          class="form-textarea ps-2"
+          [class.error]="quizForm.get('description')?.invalid && quizForm.get('description')?.touched"
         ></textarea>
+        @if (quizForm.get('description')?.invalid && quizForm.get('description')?.touched) {
+          <span class="error-message">
+            @if (quizForm.get('description')?.errors?.['required']) {
+              Description is required
+            }
+          </span>
+        }
       </div>
 
       <div class="form-row">
@@ -168,12 +178,21 @@
           <label for="subject" class="form-label">Subject</label>
           <input
             id="subject"
+            fluid
             type="text"
             pInputText
             formControlName="subject"
             placeholder="e.g. Mathematics"
-            class="form-input"
+            class="form-input ps-2"
+            [class.error]="quizForm.get('subject')?.invalid && quizForm.get('subject')?.touched"
           />
+          @if (quizForm.get('subject')?.invalid && quizForm.get('subject')?.touched) {
+          <span class="error-message">
+            @if (quizForm.get('subject')?.errors?.['required']) {
+              Subject is required
+            }
+          </span>
+          }
         </div>
 
         <div class="form-group">
@@ -255,7 +274,7 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="startDate" class="form-label">Start Date</label>
+          <label for="startDate" class="form-label required">Start Date</label>
           <p-datepicker
             id="startDate"
             formControlName="startDate"
@@ -264,10 +283,13 @@
             styleClass="w-full"
             inputStyleClass="w-full"
           ></p-datepicker>
+          @if (quizForm.get('startDate')?.invalid && quizForm.get('startDate')?.touched) {
+            <span class="error-message">Start date is required</span>
+          }
         </div>
 
         <div class="form-group">
-          <label for="endDate" class="form-label">End Date</label>
+          <label for="endDate" class="form-label required">End Date</label>
           <p-datepicker
             id="endDate"
             formControlName="endDate"
@@ -276,6 +298,9 @@
             [minDate]="minEndDate"
             inputStyleClass="w-full"
           ></p-datepicker>
+          @if (quizForm.get('endDate')?.invalid && quizForm.get('endDate')?.touched) {
+            <span class="error-message">End date is required</span>
+          }
         </div>
       </div>
 

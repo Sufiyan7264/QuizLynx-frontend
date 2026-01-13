@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../../../core/service/question';
 import { QuizService } from '../../../core/service/quiz';
 import { Question, Quiz } from '../../../core/interface/interfaces';
-import { Button } from 'primeng/button';
+// import { Button } from 'primeng/button';
 // import { MessageService } from 'primeng/api';
 // import { NgxSpinnerService } from 'ngx-spinner';
 // import { Toast } from 'primeng/toast';
@@ -16,7 +16,7 @@ import { Common } from '../../../core/common/common';
   selector: 'app-list',
   imports: [
     CommonModule,
-    Button,
+    // Button,
     // Toast,
     // ConfirmDialog
   ],
@@ -61,7 +61,7 @@ export class List implements OnInit {
       },
       error: (error) => {
         console.error('Error loading quiz:', error);
-        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load quiz');
+        // this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load quiz');
         this.common.hideSpinner();
       }
     });

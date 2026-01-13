@@ -146,7 +146,7 @@
   }
 
   .submit-btn {
-    background: var(--color-primary);
+    background: #4f46e5;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -157,9 +157,9 @@
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: #2563eb;
+      background: #4925eb;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 12px rgba(68, 59, 246, 0.3);
     }
 
     &:disabled {

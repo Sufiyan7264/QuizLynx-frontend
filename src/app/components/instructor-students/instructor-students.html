@@ -1,4 +1,4 @@
-<div class="instructor-students-page min-h-[calc(100vh-80px)] h-[100vh] px-4 sm:px-6 lg:px-10 py-6 lg:py-20 pt-24">
+<div class="instructor-students-page min-h-[calc(100vh-80px)] h-[100vh] px-4 sm:px-6 lg:px-4 py-6 lg:py-20 pt-24">
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
     <div>
       <!-- <p class="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-300">Instructor Dashboard</p> -->
@@ -41,7 +41,7 @@
             (ngModelChange)="onBatchFilterChange()"
             [options]="batches"
             optionLabel="batchName"
-            optionValue="id"
+            optionValue="batchName"
             placeholder="All batches"
             appendTo="body"
             styleClass="w-full"
