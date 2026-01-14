@@ -1,5 +1,4 @@
 import { Component,OnInit,inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
@@ -39,7 +38,7 @@ interface StudentNeedingAttention {
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, ChartConfiguration,Dialog,Button,InputText,MultiSelect,ReactiveFormsModule],
+  imports: [ChartConfiguration,Dialog,Button,InputText,MultiSelect,ReactiveFormsModule],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss'
 })

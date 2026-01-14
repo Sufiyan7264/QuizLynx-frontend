@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BatchService } from '../../core/service/batch';
@@ -12,7 +11,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-student-join',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     // Button,
     InputText,

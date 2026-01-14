@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService, UpdateProfileRequest, UpdatePasswordRequest } from '../../../core/service/user';
@@ -17,7 +16,6 @@ import { Common } from '../../../core/common/common';
 @Component({
   selector: 'app-settings',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     InputText,
     Dialog,

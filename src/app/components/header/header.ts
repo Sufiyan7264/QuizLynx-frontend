@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from "@angular/router";
@@ -13,10 +12,11 @@ import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { TooltipModule } from 'primeng/tooltip'; import { Common } from '../../core/common/common';
 import { AiGenerator } from "../ai-generator/ai-generator";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, ButtonModule, TooltipModule, RouterModule, Avatar, MenuModule, BadgeModule, Tag, AiGenerator],
+  imports: [ButtonModule,AsyncPipe, TooltipModule, RouterModule, Avatar, MenuModule, BadgeModule, Tag, AiGenerator],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

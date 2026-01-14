@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, inject, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizService } from '../../core/service/quiz';
@@ -11,7 +10,6 @@ type ViewState = 'start' | 'exam' | 'submitting';
 @Component({
   selector: 'app-quiz-attempt',
   imports: [
-    CommonModule
   ],
   templateUrl: './quiz-attempt.html',
   styleUrl: './quiz-attempt.scss'

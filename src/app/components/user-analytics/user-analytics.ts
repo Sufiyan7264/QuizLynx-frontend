@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   ChartConfiguration,
@@ -14,7 +13,7 @@ interface TopicStrength {
 @Component({
   selector: 'app-user-analytics',
   standalone: true,
-  imports: [CommonModule, ChartConfiguration],
+  imports: [ChartConfiguration],
   templateUrl: './user-analytics.html',
   styleUrl: './user-analytics.scss',
 })

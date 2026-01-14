@@ -1,11 +1,11 @@
 <header class="fixed top-0 left-1/2 z-50 -translate-x-1/2 w-full">
   <nav
     class="fixed top-4 left-1/2 -translate-x-1/2 w-full transition-all duration-300 md:min-w-[360px]"
-    [ngClass]="isScrolled ? 'max-w-[320px] md:max-w-[680px] lg:max-w-[1000px]' : 'w-full md:max-w-[720px] lg:max-w-[100vw]'"
+    [class]="isScrolled ? 'max-w-[320px] md:max-w-[680px] lg:max-w-[1000px]' : 'w-full md:max-w-[720px] lg:max-w-[100vw]'"
   >
     <div
       class="py-3 pl-4 md:pl-7 pr-4 transition-all duration-300"
-      [ngClass]="isScrolled ? 'rounded-full bg-white/40 dark:bg-black/40 shadow-lg ring-1 ring-black/5 backdrop-blur' : 'bg-transparent'"
+      [class]="isScrolled ? 'rounded-full bg-white/40 dark:bg-black/40 shadow-lg ring-1 ring-black/5 backdrop-blur' : 'bg-transparent'"
     >
       <div class="relative mx-auto flex items-center justify-between w-full">
       <div class="flex items-center gap-3">

@@ -1,28 +1,34 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { UserService } from '../../core/service/user';
+import { Common } from '../../core/common/common';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
-  imports: [CommonModule, ButtonModule],
+  imports: [ButtonModule,DecimalPipe],
   templateUrl: './leaderboard.html',
   styleUrl: './leaderboard.scss'
 })
-export class Leaderboard {
-  topThree = [
-    { name: 'Ava Martin', score: 9820, rank: 1, country: 'US' },
-    { name: 'Liam Patel', score: 9410, rank: 2, country: 'IN' },
-    { name: 'Sofia Chen', score: 9105, rank: 3, country: 'SG' },
-  ];
-
-  players = [
-    { name: 'Diego Ramirez', score: 8890, rank: 4, country: 'MX' },
-    { name: 'Emma Brown', score: 8740, rank: 5, country: 'UK' },
-    { name: 'Noah Smith', score: 8620, rank: 6, country: 'CA' },
-    { name: 'Mia Rossi', score: 8515, rank: 7, country: 'IT' },
-    { name: 'Lucas Müller', score: 8440, rank: 8, country: 'DE' },
-    { name: 'Chloe Dubois', score: 8325, rank: 9, country: 'FR' },
-    { name: 'Yuto Tanaka', score: 8210, rank: 10, country: 'JP' },
-  ];
+export class Leaderboard implements OnInit {
+  topThree = signal<any>([]);
+  private readonly user = inject(UserService);
+  private readonly common = inject(Common);
+  players = signal<any>([]);
+  ngOnInit(): void {
+    this.getLeaderboardData();
+  }
+  getLeaderboardData(){
+    this.user.getLeaderboard().subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.topThree.set(res.slice(0,3))
+        this.players.set(res.slice(2));
+      },
+      error:(error:any)=>{
+        this.common.showMessage("error",'Error',error.error.message)
+      }
+    })
+  }
 }

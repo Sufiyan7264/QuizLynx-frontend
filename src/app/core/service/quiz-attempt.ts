@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QuizAttempt, QuizResults, QuestionWrapper } from '../interface/interfaces';
@@ -42,8 +42,11 @@ export class QuizAttemptService {
   }
 
   // Get all quiz attempts/results for the current student
-  getStudentAttempts(): Observable<QuizResults[]> {
-    return this.http.get<QuizResults[]>(`${this.BASE_URL}/my-attempts`);
+  getStudentAttempts(payload:any): Observable<QuizResults[]> {
+    const params = new HttpParams()
+    .set("page",payload.page)
+    .set("size",payload.size)
+    return this.http.get<QuizResults[]>(`${this.BASE_URL}/my-attempts`,{params});
   }
   pauseQuiz(quizId: string, seconds: number) {
     return this.http.post(`${this.BASE_URL}/${quizId}/pause`, { 

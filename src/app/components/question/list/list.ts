@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../../../core/service/question';
 import { QuizService } from '../../../core/service/quiz';
@@ -15,7 +14,6 @@ import { Common } from '../../../core/common/common';
 @Component({
   selector: 'app-list',
   imports: [
-    CommonModule,
     // Button,
     // Toast,
     // ConfirmDialog

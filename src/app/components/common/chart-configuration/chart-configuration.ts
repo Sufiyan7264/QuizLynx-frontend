@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
 
 export type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'radar' | 'gauge' | 'funnel' | 'heatmap' | 'tree' | 'treemap' | 'sunburst' | 'sankey' | 'graph' | 'parallel' | 'candlestick' | 'boxplot' | 'map';
@@ -33,7 +32,7 @@ export interface ChartOptions {
 
 @Component({
   selector: 'app-chart-configuration',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './chart-configuration.html',
   styleUrl: './chart-configuration.scss'
 })

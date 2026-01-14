@@ -1,5 +1,4 @@
-import { Component, inject,OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { HalfCircle } from "../common/half-circle/half-circle";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from "@angular/forms";
 import { Auth } from '../../core/service/auth';
@@ -12,7 +11,7 @@ import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, HalfCircle, ɵInternalFormsSharedModule,ReactiveFormsModule],
+  imports: [HalfCircle, ɵInternalFormsSharedModule,ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })

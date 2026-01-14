@@ -1,10 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-mobile-nav-link',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './mobile-nav-link.html',
   styleUrl: './mobile-nav-link.scss'
 })

@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-8">
     <div>
-      <h1 class="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-slate-50">
+      <h1 class="text-2xl lg:text-2xl font-semibold text-slate-900 dark:text-slate-50">
         Explore Library
       </h1>
       <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -32,9 +32,9 @@
       <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">Browse by Category</h2>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4">
       @for (category of categories; track $index) {
-      <article class="surface-card hoverable-card group">
+      <article class="surface-card flex flex-col justify-between hoverable-card group">
         <div class="flex items-start gap-3">
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -62,7 +62,7 @@
           pButton
           type="button"
           label="View quizzes"
-          (click)="openDifficultySelection(category.name)"
+          (click)="gotoselectionpage(category.name)"
           class="mt-4 w-full !h-9 !rounded-xl !bg-indigo-700 !text-white !text-xs !font-bold hover:!bg-indigo-800 dark:!bg-indigo-700 dark:hover:!bg-indigo-800"
         ></button>
       </article>
@@ -79,7 +79,7 @@
       </span>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3">
       @for (quiz of filteredTrendingQuizzes; track $index) {
       <article class="surface-card hoverable-card">
         <div class="flex items-start justify-between gap-3">
@@ -151,6 +151,10 @@
         </div>
       </div>
       }
+    </div>
+    
+    <div class="card flex justify-end mt-2">
+        <p-paginator class="bg-transparent dark:bg" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords()" [rowsPerPageOptions]="[10, 20, 30,50,100]" />
     </div>
   </section>
 </div>

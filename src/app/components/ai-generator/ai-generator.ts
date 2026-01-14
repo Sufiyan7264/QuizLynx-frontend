@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
@@ -10,7 +9,7 @@ import { QuizService } from '../../core/service/quiz';
 import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-ai-generator',
-  imports: [CommonModule, FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule],  templateUrl: './ai-generator.html',
+  imports: [FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule],  templateUrl: './ai-generator.html',
   styleUrl: './ai-generator.scss'
 })
 export class AiGenerator implements OnInit {

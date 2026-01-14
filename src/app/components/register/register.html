@@ -17,17 +17,17 @@
         <div class="flex flex-wrap gap-2 rounded-xl w-max bg-black/10 dark:bg-white/10 ring-1 ring-gray-500 p-1">
           <button type="button" (click)="setRole('STUDENT')"
                   class="px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 flex-1 sm:flex-none"
-                  [ngClass]="selectedRole === 'STUDENT' ? 'bg-white text-black font-bold' : 'text-black/80 hover:bg-black/10 font-medium dark:text-white/80 dark:hover:bg-white/10'">
+                  [class]="selectedRole === 'STUDENT' ? 'bg-white text-black font-bold' : 'text-black/80 hover:bg-black/10 font-medium dark:text-white/80 dark:hover:bg-white/10'">
             Student
           </button>
           <button type="button" (click)="setRole('INSTRUCTOR')"
                   class="px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex-1 sm:flex-none"
-                  [ngClass]="selectedRole === 'INSTRUCTOR' ? 'bg-white text-black font-bold' : 'font-medium dark:text-white/80 dark:hover:bg-white/10 text-black/80 hover:bg-black/10'">
+                  [class]="selectedRole === 'INSTRUCTOR' ? 'bg-white text-black font-bold' : 'font-medium dark:text-white/80 dark:hover:bg-white/10 text-black/80 hover:bg-black/10'">
             Instructor
           </button>
           <button type="button" (click)="setRole('USER')"
                   class="px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex-1 sm:flex-none"
-                  [ngClass]="selectedRole === 'USER' ? 'bg-white text-black font-bold' : 'font-medium text-black/80 hover:bg-black/10 dark:text-white/80 dark:hover:bg-white/10'">
+                  [class]="selectedRole === 'USER' ? 'bg-white text-black font-bold' : 'font-medium text-black/80 hover:bg-black/10 dark:text-white/80 dark:hover:bg-white/10'">
             User
           </button>
         </div>

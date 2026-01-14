@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { QuizService } from '../../core/service/quiz';
 import { BatchService } from '../../core/service/batch';
@@ -19,7 +18,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-instructor-quizzes',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     Dialog,
     InputText,

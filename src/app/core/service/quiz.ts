@@ -49,5 +49,8 @@ getQuizQuestions(quizId: any): Observable<QuestionWrapper[]> {
   getQuizzesByBatch(batchId: string): Observable<Quiz[]> {
     return this.http.get<Quiz[]>(`${this.BASE_URL}/batch/${batchId}`);
   }
+  getQuizBycategory(name:string):Observable<any>{
+    return this.http.get(`${this.BASE_URL}/category/${name}`);
+  }
 }
 

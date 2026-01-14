@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { StudentService } from '../../core/service/student';
 import { BatchService } from '../../core/service/batch';
 import { Student, Batch } from '../../core/interface/interfaces';
@@ -14,7 +13,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-instructor-students',
   imports: [
-    CommonModule,
     FormsModule,
     Select,
     InputText,

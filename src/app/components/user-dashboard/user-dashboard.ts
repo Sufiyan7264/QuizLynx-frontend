@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { ButtonModule } from 'primeng/button';
 import { UserService } from '../../core/service/user';
@@ -27,7 +26,7 @@ interface QuizHistoryItem {
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [CommonModule, ChartConfiguration, ButtonModule],
+  imports: [ChartConfiguration, ButtonModule],
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.scss'
 })

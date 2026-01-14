@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { QuizService } from '../../../core/service/quiz';
@@ -19,7 +18,6 @@ import { Common } from '../../../core/common/common';
 @Component({
   selector: 'app-create',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     // Dialog,
     // Button,

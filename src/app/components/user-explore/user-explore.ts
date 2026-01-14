@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { ExploreCategory, TrendingQuiz } from '../../core/interface/interfaces';
 import { Common } from '../../core/common/common';
 import { DecimalPipe } from '@angular/common';
 import { Dialog } from 'primeng/dialog';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 // Interfaces match your DTOs
 
@@ -14,7 +15,7 @@ import { Dialog } from 'primeng/dialog';
 @Component({
   selector: 'app-user-explore',
   standalone: true,
-  imports: [ButtonModule, FormsModule,DecimalPipe,Dialog],
+  imports: [ButtonModule, FormsModule, DecimalPipe, Dialog, PaginatorModule],
   templateUrl: './user-explore.html',
   styleUrl: './user-explore.scss',
 })
@@ -22,36 +23,50 @@ export class UserExplore implements OnInit {
   // private http = inject(HttpClient);
   private router = inject(Router);
   private common = inject(Common);
-  private user = inject(UserService)
+  private user = inject(UserService);
+  payload :any= {
+    page:0,
+    size:10
+  }
 
   searchQuery = '';
   categories: ExploreCategory[] = [];
   trendingQuizzes: TrendingQuiz[] = [];
   showDifficultyModal = false;
   selectedCategoryForQuiz = '';
+  first: number = 0;
+  totalRecords=signal<any>(10);
+  rows: number = 10;
+
+
 
   ngOnInit() {
     this.fetchCategories();
-    this.fetchTrending();
+    this.fetchTrending(this.payload);
   }
   openDifficultySelection(categoryName: string) {
     this.selectedCategoryForQuiz = categoryName;
     this.showDifficultyModal = true;
   }
 
+  gotoselectionpage(name: any) {
+    this.router.navigate(['explore/category', name])
+
+  }
   fetchCategories() {
+    this.common.showSpinner();
     this.user.getByCategory<ExploreCategory[]>()
       .subscribe({
-        next: (data:any) => this.categories = data,
-        error: (err) => this.common.showMessage('error',"Error",err.error.message || 'Error loading categories')
+        next: (data: any) => { this.categories = data; this.common.hideSpinner() },
+        error: (err) => { this.common.showMessage('error', "Error", err.error.message || 'Error loading categories'); this.common.hideSpinner() }
       });
   }
 
-  fetchTrending() {
-    this.user.getByTrending<TrendingQuiz[]>()
+  fetchTrending(payload:any) {
+    this.user.getByTrending<TrendingQuiz[]>(payload)
       .subscribe({
-        next: (data:any) => this.trendingQuizzes = data,
-        error: (err) => this.common.showMessage('error',"Error",err.error.message || 'Error loading trending quizzes')
+        next: (res: any) => {this.trendingQuizzes = res.content;this.totalRecords.set(res.totalElements)},
+        error: (err) => this.common.showMessage('error', "Error", err.error.message || 'Error loading trending quizzes')
       });
   }
 
@@ -80,7 +95,7 @@ export class UserExplore implements OnInit {
     };
 
     this.user.getByGenerateQuiz<any>(payload).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         this.common.hideSpinner();
         // Navigate immediately to the newly generated quiz
         this.router.navigate(['/quiz/attempt', res.quizId]);
@@ -95,27 +110,29 @@ export class UserExplore implements OnInit {
 
   performSearch() {
     if (!this.searchQuery.trim()) {
-      this.fetchTrending(); 
+      this.fetchTrending(this.payload);
       this.isSearchEmpty = false; // Reset
       return;
     }
 
     this.user.searchQuery<TrendingQuiz[]>(this.searchQuery)
       .subscribe({
-        next: (data:any) => {
+        next: (data: any) => {
           this.trendingQuizzes = data;
-          
+
           // Check if results are empty
           this.isSearchEmpty = data.length === 0;
         },
-        error: (err:any) => console.error(err)
+        error: (err: any) => console.error(err)
       });
   }
-
-  // Wrapper to generate quiz using the Search Query as the category
-  generateFromSearch() {
-    // This calls your existing generate function
-    // The backend getCategoryId logic will map "Biology" -> ID 17
-    this.generateQuiz('',this.searchQuery); 
+  onPageChange(event: PaginatorState) {
+    this.first = event.first ?? 0;
+    this.rows = event.rows ?? 10;
+    this.payload = {
+      page: event.page,
+      size:this.rows,
+    }
+    this.fetchTrending(this.payload);
   }
 }

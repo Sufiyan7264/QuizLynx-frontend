@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -48,8 +48,11 @@ export class UserService {
     getByCategory<T>() {
     return this.http.get(`${this.BASE_URL}/explore/categories`);
   }
-  getByTrending<T>() {
-    return this.http.get(`${this.BASE_URL}/explore/trending`);
+  getByTrending<T>(payload:any) {
+    const params = new HttpParams()
+  .set('page', payload.page)
+  .set('size', payload.size);
+    return this.http.get(`${this.BASE_URL}/explore/trending`,{params});
   }
   getByGenerateQuiz<T>(payload: any): Observable<any> {
     return this.http.post(`${this.BASE_URL}/explore/generate`, payload);
@@ -59,6 +62,9 @@ export class UserService {
   }
   getMistakeQuiz():Observable<any> {
     return this.http.get(`https://localhost:8080/api/quiz/getFailedQuiz`)
+  }
+  getLeaderboard():Observable<any>{
+    return this.http.get(`${this.BASE_URL}/explore/leaderboard`);
   }
 }
 
