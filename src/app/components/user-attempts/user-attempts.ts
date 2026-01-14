@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
@@ -11,7 +10,6 @@ import { Common } from '../../core/common/common';
   selector: 'app-user-attempts',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     InputText,
   ],
@@ -28,28 +26,28 @@ export class UserAttempts implements OnInit {
   searchTerm: string = '';
 
   ngOnInit(): void {
-    this.loadAttempts();
+    // this.loadAttempts();
   }
 
-  loadAttempts(): void {
-    this.common.showSpinner();
-    this.quizAttemptService.getStudentAttempts().subscribe({
-      next: (attempts) => {
-        // Sort by submitted date (most recent first)
-        this.attempts = attempts.sort((a, b) => {
-          const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
-          const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
-          return dateB - dateA;
-        });
-        this.applyFilters();
-        this.common.hideSpinner();
-      },
-      error: (error) => {
-        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load attempts');
-        this.common.hideSpinner();
-      }
-    });
-  }
+  // loadAttempts(): void {
+  //   this.common.showSpinner();
+  //   this.quizAttemptService.getStudentAttempts().subscribe({
+  //     next: (attempts) => {
+  //       // Sort by submitted date (most recent first)
+  //       this.attempts = attempts.sort((a, b) => {
+  //         const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
+  //         const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
+  //         return dateB - dateA;
+  //       });
+  //       this.applyFilters();
+  //       this.common.hideSpinner();
+  //     },
+  //     error: (error) => {
+  //       this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load attempts');
+  //       this.common.hideSpinner();
+  //     }
+  //   });
+  // }
 
   onSearchChange(): void {
     this.applyFilters();

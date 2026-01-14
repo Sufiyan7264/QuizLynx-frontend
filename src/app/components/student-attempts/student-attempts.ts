@@ -1,18 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizResults } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
 import { Common } from '../../core/common/common';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-student-attempts',
   imports: [
-    CommonModule,
     FormsModule,
     InputText,
+    PaginatorModule
     // Toast
   ],
   templateUrl: './student-attempts.html',
@@ -22,26 +22,34 @@ export class StudentAttempts implements OnInit {
   private readonly quizAttemptService = inject(QuizAttemptService);
   private readonly router = inject(Router);
   private readonly common = inject(Common);
+  first: number = 0;
+  totalElement=signal<any>(10);
+  rows: number = 10;
+  payload: any = {
+    page: 0,
+    size: 10
+  }
 
   attempts: QuizResults[] = [];
   filteredAttempts: QuizResults[] = [];
   searchTerm: string = '';
 
   ngOnInit(): void {
-    this.loadAttempts();
+    this.loadAttempts(this.payload);
   }
 
-  loadAttempts(): void {
+  loadAttempts(payload:any): void {
     this.common.showSpinner();
-    this.quizAttemptService.getStudentAttempts().subscribe({
-      next: (attempts: any[]) => {
+    this.quizAttemptService.getStudentAttempts(payload).subscribe({
+      next: (attempts: any) => {
         // Sort by submitted date (most recent first)
-        const sorted = [...attempts].sort((a, b) => {
+        const sorted = [...attempts.content].sort((a, b) => {
           const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
           const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
           return dateB - dateA;
         });
         this.attempts = sorted;
+        this.totalElement.set(attempts.totalElements)
         this.applyFilters();
         this.common.hideSpinner();
       },
@@ -85,22 +93,22 @@ export class StudentAttempts implements OnInit {
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
   }
 
-  formatTime(submittedAt?: any,startAt?:any): string {
+  formatTime(submittedAt?: any, startAt?: any): string {
     let seconds = Math.floor((new Date(submittedAt).getTime() - new Date(startAt).getTime()) / 1000);
     if (!seconds) return 'N/A';
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     if (hours > 0) {
       return `${hours}h ${minutes}m ${secs}s`;
     } else if (minutes > 0) {
@@ -124,5 +132,14 @@ export class StudentAttempts implements OnInit {
 
   goToDashboard(): void {
     this.router.navigate(['/student-dashboard']);
+  }
+    onPageChange(event: PaginatorState) {
+    this.first = event.first ?? 0;
+    this.rows = event.rows ?? 10;
+    this.payload = {
+      page: event.page,
+      size:this.rows,
+    }
+    this.loadAttempts(this.payload);
   }
 }

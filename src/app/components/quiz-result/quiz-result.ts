@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizAttemptService } from '../../core/service/quiz-attempt';
 import { QuizResults, QuestionReview } from '../../core/interface/interfaces';
@@ -8,7 +7,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-quiz-result',
   imports: [
-    CommonModule
   ],
   templateUrl: './quiz-result.html',
   styleUrl: './quiz-result.scss'

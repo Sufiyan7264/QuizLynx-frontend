@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { ButtonModule } from 'primeng/button';
 import { UserService } from '../../core/service/user';
@@ -54,7 +53,7 @@ interface InstructorAnnouncement {
 
 @Component({
   selector: 'app-student-instructor-dashboard',
-  imports: [CommonModule, ChartConfiguration, ButtonModule],
+  imports: [ChartConfiguration, ButtonModule],
   templateUrl: './student-instructor-dashboard.html',
   styleUrl: './student-instructor-dashboard.scss'
 })

@@ -1,10 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './landing.html',
   styleUrl: './landing.scss'
 })

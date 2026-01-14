@@ -1,0 +1,52 @@
+<div class="min-h-screen px-4 py-20 lg:px-4 lg:py-20">
+
+    <div class="mb-8 flex justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ subject }} Quizzes</h1>
+            <p class="text-slate-600 dark:text-slate-400">Choose a quiz to practice or generate a new one.</p>
+        </div>
+        <button (click)="router.navigate(['/user/explore'])"
+            class="mb-4 text-xs font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+            <i class="pi pi-arrow-left"></i> Back to Explore
+        </button>
+    </div>
+
+    @if (isLoading) {
+    <div class="flex justify-center py-20">
+        <i class="pi pi-spin pi-spinner text-4xl text-indigo-600"></i>
+    </div>
+    }
+    @if (!isLoading && quizzes.length === 0) {
+    <div class="text-center py-16 border-2 border-dashed border-slate-200 rounded-2xl">
+        <div class="mb-4 bg-indigo-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+            <i class="pi pi-bolt text-2xl text-indigo-600"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-900">No quizzes found for {{ subject }}</h3>
+        <p class="text-slate-500 mb-6 text-sm">Be the first to create one using AI!</p>
+        <button class="bg-indigo-700 p-2 text-white hover:bg-indigo-800 hover:shadow-md" pButton
+            label="Generate {{ subject }} Quiz" icon="pi pi-sparkles" (click)="generateNew()"></button>
+    </div>
+    }
+    @if (!isLoading && quizzes.length > 0) {
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @for (quiz of quizzes; track $index) {
+            <article 
+                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl hover:shadow-md transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">{{
+                        quiz.difficulty }}</span>
+                    <div class="flex items-center gap-1 text-xs text-slate-500">
+                        <i class="pi pi-users"></i> {{ quiz.attempts }}
+                    </div>
+                </div>
+    
+                <h3 class="font-semibold text-slate-900 dark:text-slate-50 mb-1 line-clamp-1">{{ quiz.title }}</h3>
+                <p class="text-xs text-slate-500 mb-4">{{ quiz.questionCount || 10 }} Questions</p>
+    
+                <button pButton label="Start Quiz" class="w-full !h-9 !text-xs bg-indigo-700 hover:bg-indigo-800 text-white"
+                    (click)="startQuiz(quiz.id)"></button>
+            </article>
+        }
+    </div>
+    }
+</div>

@@ -84,6 +84,19 @@
   // --color-option-hover: rgba(99, 102, 241, 0.15);
   --hover-color: #000c2c;
 }
+.p-paginator-page.p-paginator-page-selected{
+  background: #4338CA;
+  color: white;
+  &:hover{
+    background: #3a2cd2;
+  }
+}
+.p-paginator-page,.p-paginator-next:not(.p-disable),.p-paginator-prev:not(.p-disable),.p-paginator-last:not(.p-disable),.p-paginator-first:not(.p-disable){
+  color: var(--color-text);
+  &:hover{
+    background: #4438ca4b;
+  }
+}
 
 /* Utilities that map CSS variables to Tailwind-friendly classes (optional) */
 .theme-bg {

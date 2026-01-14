@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StudentService } from '../../core/service/student';
@@ -15,7 +14,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-batch-detail',
   imports: [
-    CommonModule,
     FormsModule,
     InputText,
     // Toast

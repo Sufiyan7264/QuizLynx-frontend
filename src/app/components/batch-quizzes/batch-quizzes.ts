@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../core/service/quiz';
@@ -10,7 +9,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-batch-quizzes',
   imports: [
-    CommonModule,
     FormsModule
   ],
   templateUrl: './batch-quizzes.html',

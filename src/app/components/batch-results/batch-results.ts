@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BatchResultService } from '../../core/service/batch-result';
 import { BatchService } from '../../core/service/batch';
@@ -18,7 +17,6 @@ type SortOption = 'highest-score' | 'lowest-score' | 'date-asc' | 'date-desc';
 @Component({
   selector: 'app-batch-results',
   imports: [
-    CommonModule,
     FormsModule,
     Select,
     InputText,

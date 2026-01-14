@@ -17,6 +17,14 @@
 .surface-card:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
+.increase{
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+.decrease{
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
 
 /* Unified card hover similar to user-practice sections */
 .hoverable-card {

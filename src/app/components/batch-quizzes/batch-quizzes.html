@@ -60,7 +60,7 @@
                 <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-400 to-purple-600 flex items-center justify-center text-white">
                   <i class="pi pi-file-edit"></i>
                 </div>
-                <span class="inline-flex flex-shrink-0" [ngClass]="getStatusClass(quiz.status)">
+                <span class="inline-flex flex-shrink-0" [class]="getStatusClass(quiz.status)">
                   {{ quiz.status || 'DRAFT' }}
                 </span>
               </div>

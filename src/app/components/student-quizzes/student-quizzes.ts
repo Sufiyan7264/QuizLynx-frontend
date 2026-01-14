@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../core/service/quiz';
@@ -14,7 +13,6 @@ import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-student-quizzes',
   imports: [
-    CommonModule,
     FormsModule,
     RouterModule,
     InputText,

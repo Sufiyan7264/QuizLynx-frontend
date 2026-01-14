@@ -35,7 +35,8 @@ export const routes: Routes = [
     {
     path:'user-dashboard',
     loadComponent:()=>import('./components/user-dashboard/user-dashboard').then(m=>m.UserDashboard),
-    canActivate:[authGuard]
+    canActivate:[authGuard],
+    data:{role:"USER"}
     },
     // {
     //     path:'user/attempts',
@@ -43,6 +44,12 @@ export const routes: Routes = [
     //     canActivate:[authGuard, roleGuard],
     //     data:{role:'USER'}
     // },
+    { 
+        path: 'explore/category/:subject', 
+        loadComponent:()=>import('./components/user-category-list/user-category-list').then(m=>m.UserCategoryList),
+        canActivate: [roleGuard],
+        data: { role: 'USER' }
+    },
     {
         path:'user/explore',
         loadComponent:()=>import('./components/user-explore/user-explore').then(m=>m.UserExplore),
