@@ -7,13 +7,10 @@ export const routes: Routes = [
     {
         path:'signin',
         loadComponent:()=>import('./components/sign-in/sign-in').then(m=>m.SignIn),
-        canActivate:[authGuard]
-
     },
     {
         path:'register',
         loadComponent:()=>import('./components/register/register').then(m=>m.Register),
-        canActivate:[authGuard]
     },
     {
         path:'forgot-password',

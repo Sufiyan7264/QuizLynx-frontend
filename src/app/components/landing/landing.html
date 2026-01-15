@@ -1,71 +1,56 @@
-<!-- Hero Section -->
 <section #heroSection class="min-h-screen bg-bg flex flex-col justify-center items-center px-4 py-20 relative overflow-hidden">
-  <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
 
   <div class="max-w-6xl mx-auto text-center relative z-10">
-    <!-- Subtitle -->
-    <p class="text-lg text-muted-text italic font-serif mb-4 animate-in" data-animate="hero-subtitle">unlock knowledge</p>
+    <p class="text-lg text-muted-text italic font-serif mb-4 animate-in" data-animate="hero-subtitle">Code. Compete. Conquer.</p>
 
-    <!-- Main Heading -->
     <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-in" data-animate="hero-title">
-      Embrace the Quest
+      Master Your Stack
     </h1>
 
-    <!-- Divider Line -->
     <div class="w-24 h-0.5 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8 animate-in" data-animate="hero-divider"></div>
 
-    <!-- Description -->
     <p class="text-base sm:text-lg md:text-xl text-muted-text max-w-3xl mx-auto mb-12 leading-relaxed px-4 animate-in" data-animate="hero-description">
-      Where Every Question Unveils a World of Wisdom, Sparking the Flames of Learning and Illuminating the Path to Intellectual Brilliance!
+      Join the ultimate platform for developers and students. Compete on the <strong>Global Leaderboard</strong>, join <strong>Classroom Batches</strong>, and track your growth with advanced analytics.
     </p>
 
-    <!-- CTA Buttons -->
     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in w-full px-4" data-animate="hero-buttons">
       <button (click)="tryQuizlynx()" class="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
-        Try Quizlynx out!
+        Start Quizzing
       </button>
       <button (click)="register()" class="w-full sm:w-auto border-2 border-gray-300 text-muted-text px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:border-border-hover hover:bg-option-hover transition-all duration-300">
-        Sign up
+        Create Account
       </button>
     </div>
   </div>
 </section>
 
-<!-- Features Section -->
 <section #featuresSection class="py-20 bg-bg relative overflow-hidden">
-  <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
 
   <div class="max-w-6xl mx-auto px-4 relative z-10">
-    <!-- Section Title -->
     <div class="text-center mb-8 md:mb-16" data-animate="features-title">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in px-4">What Quizlynx offers</h2>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in px-4">Powerful Features</h2>
       <div class="flex items-center justify-center gap-2 animate-in px-4">
-        <span class="text-muted-text italic font-serif text-sm sm:text-base md:text-lg">Discover our quiz categories</span>
-        <span class="text-yellow-500 text-xl md:text-2xl">✨</span>
+        <span class="text-muted-text italic font-serif text-sm sm:text-base md:text-lg">Everything you need to excel</span>
       </div>
     </div>
 
-    <!-- Feature Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8" data-animate="features-cards">
       @for(feature of features; track $index){
-        <div class="feature-card bg-primary-foreground rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-border-hover">
+        <div class="feature-card bg-primary-foreground rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-border-hover group">
           <div class="text-center">
-            <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
               <span class="text-xl md:text-2xl">{{ feature.icon }}</span>
             </div>
             <h3 class="text-xl md:text-2xl font-bold text-text mb-3 md:mb-4">{{ feature.title }}</h3>
             <p class="text-sm md:text-base text-muted-text mb-4 md:mb-6 leading-relaxed">
               {{ feature.description }}
             </p>
-            <button (click)="exploreCategory(feature.title)" class="bg-gray-800 text-white px-4 md:px-6 py-2 md:py-3 rounded-full transition-all duration-300 flex items-center gap-2 mx-auto text-sm md:text-base">
-              Explore now <span>→</span>
-            </button>
           </div>
         </div>
       }
@@ -73,162 +58,150 @@
   </div>
 </section>
 
-<!-- Statistics Section -->
+<section class="py-20 bg-primary-foreground relative overflow-hidden border-y border-border">
+  <div class="max-w-6xl mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center gap-12">
+    <div class="flex-1 text-left" data-animate="leaderboard-text">
+      <div class="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-semibold mb-4">
+        🏆 Global Rankings
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold text-text mb-6">See where you stand.</h2>
+      <p class="text-lg text-muted-text mb-8">
+        Compete with developers worldwide. Earn points for every correct answer, maintain your streak, and climb the ranks from Junior to Architect.
+      </p>
+      <button (click)="register()" class="text-purple-600 font-semibold text-lg hover:text-purple-700 flex items-center gap-2 group">
+        Join the competition <span class="group-hover:translate-x-1 transition-transform">→</span>
+      </button>
+    </div>
+    
+    <div class="flex-1 w-full max-w-md" data-animate="leaderboard-card">
+      <div class="bg-bg border border-border rounded-2xl shadow-2xl p-6 relative">
+        <div class="absolute -top-4 -right-4 bg-yellow-400 text-black font-bold px-4 py-1 rounded-full shadow-lg transform rotate-12">
+          Top 3
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center justify-between p-3 bg-primary-foreground rounded-lg border border-purple-200 dark:border-purple-800">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-bold text-yellow-500">#1</span>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-text">Sarah J.</span>
+                        <span class="text-xs text-muted-text">US • 9,820 pts</span>
+                    </div>
+                </div>
+                <span>🥇</span>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-primary-foreground rounded-lg border border-border">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-bold text-gray-400">#2</span>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-text">Liam P.</span>
+                        <span class="text-xs text-muted-text">IN • 9,410 pts</span>
+                    </div>
+                </div>
+                <span>🥈</span>
+            </div>
+             <div class="flex items-center justify-between p-3 bg-primary-foreground rounded-lg border border-border">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-bold text-orange-400">#3</span>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-text">Sofia C.</span>
+                        <span class="text-xs text-muted-text">SG • 9,105 pts</span>
+                    </div>
+                </div>
+                <span>🥉</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section #statsSection class="py-20 bg-bg relative overflow-hidden">
-  <!-- Geometric Background Pattern -->
   <div class="absolute inset-0">
     <div class="geometric-pattern"></div>
   </div>
-
   <div class="max-w-6xl mx-auto px-4 relative z-10">
-    <div class="text-center mb-8 md:mb-16" data-animate="stats-title">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in">Join Our Community</h2>
-      <p class="text-base sm:text-lg md:text-xl text-muted-text animate-in px-4">Millions of learners trust Quizlynx for their knowledge journey</p>
-    </div>
-
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8" data-animate="stats-cards">
       @for (stat of stats; track stat) {
         <div class="text-center stat-card">
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 stat-counter" [class]="stat.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ stat.value }}</div>
-          <div class="text-xs sm:text-sm md:text-base text-muted-text">{{ stat.label }}</div>
+          <div class="text-3xl md:text-5xl font-bold mb-2 stat-counter bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            {{ stat.value }}
+          </div>
+          <div class="text-sm font-medium text-muted-text uppercase tracking-wider">{{ stat.label }}</div>
         </div>
       }
     </div>
   </div>
 </section>
 
-<!-- Testimonials Section -->
-<section #testimonialsSection class="py-20 bg-bg relative overflow-hidden">
-  <!-- Geometric Background Pattern -->
-  <div class="absolute inset-0">
-    <div class="geometric-pattern"></div>
-  </div>
-
-  <div class="max-w-6xl mx-auto px-4 relative z-10">
-    <div class="text-center mb-8 md:mb-16" data-animate="testimonials-title">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in">What Our Users Say</h2>
-      <p class="text-base sm:text-lg md:text-xl text-muted-text animate-in px-4">Real feedback from our amazing community</p>
+<section class="py-24 bg-gradient-to-br from-purple-900 via-blue-900 to-black text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/assets/noise.png')] opacity-10"></div> 
+    <div class="max-w-4xl mx-auto text-center px-4 relative z-10">
+      <h2 class="text-3xl md:text-5xl font-bold mb-6">Ready to prove your skills?</h2>
+      <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        Whether you are a student preparing for exams or a developer sharpening their stack, Quizlynx is your arena.
+      </p>
+      <button (click)="register()" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+        Get Started for Free
+      </button>
     </div>
+</section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8" data-animate="testimonials-cards">
-      @for (testimonial of testimonials; track $index) {
-        <div class="testimonial-card bg-primary-foreground border border-border rounded-2xl p-6 md:p-8 shadow-lg">
-          <div class="flex items-center mb-4">
-            <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-full flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
-              <span class="text-base md:text-lg font-bold" [class]="testimonial.color === 'purple' ? 'text-purple-600' : 'text-blue-600'">{{ testimonial.initial }}</span>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="font-semibold text-sm md:text-base text-text truncate">{{ testimonial.name }}</h4>
-              <div class="flex text-yellow-500 text-xs md:text-sm">
-                @for(star of getStarRating(testimonial.rating); track $index){
-                  <span>{{ star }}</span>
-                }
-              </div>
+<footer class="bg-bg border-t border-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 items-start">
+          <div>
+            <h3 class="text-2xl font-semibold text-text">Quizlynx</h3>
+            <p class="mt-3 text-muted-text max-w-sm">Learn smarter with bite-sized quizzes. Track progress, revisit topics, and keep growing.</p>
+            <div class="mt-4 flex items-center gap-3">
+              <a aria-label="Twitter" href="#" class="social-btn">
+                <svg class="h-4 w-4 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.9-2.6 1.1A3.9 3.9 0 0 0 12 8.6c0 .3 0 .6.1.9-3.3-.2-6.2-1.7-8.2-4.1-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.6 1.8 3.3-.6 0-1.2-.2-1.7-.5 0 2 1.4 3.7 3.3 4.1-.4.1-.8.1-1.2.1-.3 0-.6 0-.9-.1.6 1.7 2.2 3 4.1 3A7.9 7.9 0 0 1 2 19.6 11.2 11.2 0 0 0 8.1 21c7.3 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg>
+              </a>
+              <a aria-label="Instagram" href="#" class="social-btn">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16.5 7.5h.01"/><circle cx="12" cy="12" r="4"/></svg>
+              </a>
+              <a aria-label="LinkedIn" href="https://www.linkedin.com/in/mohd-sufiyan-jamal" class="social-btn">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-2-2c-1.1 0-2 .9-2 2v6h-4v-12h4v1.4"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
             </div>
           </div>
-          <p class="text-sm md:text-base text-muted-text italic">"{{ testimonial.comment }}"</p>
+    
+          <div class="grid grid-cols-2 gap-4 sm:gap-8">
+            <div>
+              <h4 class="text-sm font-semibold text-text">Product</h4>
+              <ul class="mt-3 space-y-2 text-sm">
+                <li><a class="footer-link" href="#">Features</a></li>
+                <li><a class="footer-link" href="#">Pricing</a></li>
+                <li><a class="footer-link" href="#">Categories</a></li>
+                <li><a class="footer-link" href="#">Mobile App</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-text">Company</h4>
+              <ul class="mt-3 space-y-2 text-sm">
+                <li><a class="footer-link" href="#">About</a></li>
+                <li><a class="footer-link" href="#">Contact</a></li>
+                <li><a class="footer-link" href="#">Privacy</a></li>
+                <li><a class="footer-link" href="#">Terms</a></li>
+              </ul>
+            </div>
+          </div>
+    
+          <div class="sm:col-span-2 md:col-span-1">
+            <h4 class="text-sm font-semibold text-text">Stay in the loop</h4>
+            <form class="mt-3 flex flex-col sm:flex-row gap-2">
+              <input type="email" placeholder="Email address" class="flex-1 rounded-md border border-border bg-primary-foreground px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+              <button type="submit" class="rounded-md bg-primary text-white px-4 py-2 text-sm transition-colors whitespace-nowrap">Subscribe</button>
+            </form>
+          </div>
         </div>
-      }
-    </div>
-  </div>
-</section>
-
-<!-- FAQ Section -->
-<section #faqSection class="py-20 bg-bg relative overflow-hidden">
-  <!-- Geometric Background Pattern -->
-  <div class="absolute inset-0">
-    <div class="geometric-pattern"></div>
-  </div>
-
-  <div class="max-w-4xl mx-auto px-4 relative z-10">
-    <div class="text-center mb-8 md:mb-16" data-animate="faq-title">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-text mb-4 animate-in">Frequently Asked Questions</h2>
-      <p class="text-base sm:text-lg md:text-xl text-muted-text animate-in px-4">Everything you need to know about Quizlynx</p>
-    </div>
-
-    <div class="space-y-4 md:space-y-6" data-animate="faq-cards">
-      @for (faq of faqs; track $index) {
-        <div class="faq-item bg-primary-foreground hover:bg-option-hover border border-border rounded-2xl p-4 md:p-6">
-          <h3 class="text-lg md:text-xl font-semibold text-text mb-2 md:mb-3">{{ faq.question }}</h3>
-          <p class="text-sm md:text-base text-muted-text">{{ faq.answer }}</p>
-        </div>
-      }
-    </div>
-  </div>
-</section>
-<section class="py-20 bg-gradient-to-br from-purple-900 via-blue-900 to-black text-white relative overflow-hidden">
-  <div class="absolute inset-0 bg-[url('/assets/noise.png')] opacity-10"></div> <div class="max-w-4xl mx-auto text-center px-4 relative z-10">
-    <h2 class="text-3xl md:text-5xl font-bold mb-6">Ready to expand your mind?</h2>
-    <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-      Join thousands of users who are learning something new every day. It's free to start.
-    </p>
-    <button (click)="register()" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-      Get Started for Free
-    </button>
-    <!-- <p class="mt-4 text-sm text-gray-400">No credit card required</p> -->
-  </div>
-</section>
-
-<!-- Footer (minimalist light theme) -->
-<footer class="bg-bg border-t border-border">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 items-start">
-      <!-- Brand -->
-      <div>
-        <h3 class="text-2xl font-semibold text-text">Quizlynx</h3>
-        <p class="mt-3 text-muted-text max-w-sm">Learn smarter with bite-sized quizzes. Track progress, revisit topics, and keep growing.</p>
-        <div class="mt-4 flex items-center gap-3">
-          <a aria-label="Twitter" href="#" class="social-btn">
-            <svg class="h-4 w-4 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.9-2.6 1.1A3.9 3.9 0 0 0 12 8.6c0 .3 0 .6.1.9-3.3-.2-6.2-1.7-8.2-4.1-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.6 1.8 3.3-.6 0-1.2-.2-1.7-.5 0 2 1.4 3.7 3.3 4.1-.4.1-.8.1-1.2.1-.3 0-.6 0-.9-.1.6 1.7 2.2 3 4.1 3A7.9 7.9 0 0 1 2 19.6 11.2 11.2 0 0 0 8.1 21c7.3 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg>
-          </a>
-          <a aria-label="Instagram" href="#" class="social-btn">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16.5 7.5h.01"/><circle cx="12" cy="12" r="4"/></svg>
-          </a>
-          <a aria-label="LinkedIn" href="https://www.linkedin.com/in/mohd-sufiyan-jamal" class="social-btn">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-2-2c-1.1 0-2 .9-2 2v6h-4v-12h4v1.4"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
+    
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-6 text-sm text-muted-text">
+          <p>© 2025 Quizlynx. All rights reserved.</p>
+          <div class="flex items-center gap-4">
+            <a class="footer-link" href="#">Privacy</a>
+            <a class="footer-link" href="#">Terms</a>
+            <a class="footer-link" href="#">Status</a>
+          </div>
         </div>
       </div>
-
-      <!-- Links -->
-      <div class="grid grid-cols-2 gap-4 sm:gap-8">
-        <div>
-          <h4 class="text-sm font-semibold text-text">Product</h4>
-          <ul class="mt-3 space-y-2 text-sm">
-            <li><a class="footer-link" href="#">Features</a></li>
-            <li><a class="footer-link" href="#">Pricing</a></li>
-            <li><a class="footer-link" href="#">Categories</a></li>
-            <li><a class="footer-link" href="#">Mobile App</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-sm font-semibold text-text">Company</h4>
-          <ul class="mt-3 space-y-2 text-sm">
-            <li><a class="footer-link" href="#">About</a></li>
-            <li><a class="footer-link" href="#">Contact</a></li>
-            <li><a class="footer-link" href="#">Privacy</a></li>
-            <li><a class="footer-link" href="#">Terms</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="sm:col-span-2 md:col-span-1">
-        <h4 class="text-sm font-semibold text-text">Stay in the loop</h4>
-        <form class="mt-3 flex flex-col sm:flex-row gap-2">
-          <input type="email" placeholder="Email address" class="flex-1 rounded-md border border-border bg-primary-foreground px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
-          <button type="submit" class="rounded-md bg-primary text-white px-4 py-2 text-sm transition-colors whitespace-nowrap">Subscribe</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-6 text-sm text-muted-text">
-      <p>© 2025 Quizlynx. All rights reserved.</p>
-      <div class="flex items-center gap-4">
-        <a class="footer-link" href="#">Privacy</a>
-        <a class="footer-link" href="#">Terms</a>
-        <a class="footer-link" href="#">Status</a>
-      </div>
-    </div>
-  </div>
 </footer>

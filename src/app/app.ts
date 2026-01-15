@@ -16,10 +16,11 @@ export class App implements OnInit {
   private readonly auth = inject(Auth);
 
   ngOnInit(): void {
-    if (!this.auth.getCachedUser()) {
+    const isGooglePending = localStorage.getItem('google_auth_pending');
+    if (!this.auth.getCachedUser() && isGooglePending) {
       this.auth.fetchProfile().subscribe({
-        next: (user) => console.log('Restored session via Cookie', user),
-        error: () => console.log('No active session')
+        next: (user) => localStorage.removeItem('google_auth_pending'),
+        error: () => localStorage.removeItem('google_auth_pending')
       });
     }
   }
