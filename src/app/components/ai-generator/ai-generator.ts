@@ -3,27 +3,31 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
 import { ButtonModule } from 'primeng/button';
-import { TextareaModule } from 'primeng/textarea';import { HttpClient } from '@angular/common/http';
+import { TextareaModule } from 'primeng/textarea'; import { HttpClient } from '@angular/common/http';
 import { SelectModule } from 'primeng/select'; // For selecting Quiz
 import { QuizService } from '../../core/service/quiz';
+import { UserService } from '../../core/service/user';
+import { Router } from '@angular/router';
 import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-ai-generator',
-  imports: [FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule],  templateUrl: './ai-generator.html',
+  imports: [FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule], templateUrl: './ai-generator.html',
   styleUrl: './ai-generator.scss'
 })
 export class AiGenerator implements OnInit {
   @Input() visible: boolean = false;
   // quizId is now optional, as user can select it later
-  @Input() preSelectedQuizId?: string; 
-  
+  @Input() preSelectedQuizId?: string;
+
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSaved = new EventEmitter<void>();
 
   private readonly http = inject(HttpClient);
   private readonly quizService = inject(QuizService); // To fetch quiz list
   private readonly common = inject(Common);
-  private readonly BASE_URL = 'https://localhost:8080/api'; 
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly BASE_URL = 'https://localhost:8080/api';
 
   // State Management
   step: 'input' | 'preview' = 'input';
@@ -33,7 +37,7 @@ export class AiGenerator implements OnInit {
   promptText: string = '';
   questionCount: number = 5;
   generatedQuestions: any[] = [];
-  
+
   // Selection
   quizzes: any[] = [];
   selectedQuiz: any = null;
@@ -42,6 +46,7 @@ export class AiGenerator implements OnInit {
 
   ngOnInit() {
     this.loadQuizzes();
+    this.checkAiUsage();
   }
 
   loadQuizzes() {
@@ -56,25 +61,41 @@ export class AiGenerator implements OnInit {
       }
     });
   }
+  checkAiUsage() {
+    // Check AI Usage
+    this.userService.checkAiUsage().subscribe({
+      next: (res) => {
+        if (!res) {
+          this.common.showMessage('warn', 'Limit Reached', 'You have reached your daily AI generation limit.');
+          this.router.navigate(['/pricing']);
+          return;
+        }
+      },
+      error: (err) => {
+        this.common.showMessage('error', 'Error', err?.error?.message || 'Could not verify usage limits.');
+      }
+    });
+  }
 
   // Step 1: Generate Preview
   generatePreview() {
     if (!this.promptText.trim()) return;
-    
+
+    // Proceed if allowed
     this.isProcessing = true;
     const payload = { contentText: this.promptText, numberOfQuestions: this.questionCount };
-
     this.http.post<any[]>(`${this.BASE_URL}/ai/preview`, payload).subscribe({
       next: (data) => {
         this.generatedQuestions = data.map(q => ({
-          ...q, 
-          marks: 0 
-      }));        
-      this.step = 'preview'; // Switch to preview mode
+          ...q,
+          marks: 0
+        }));
+        this.checkAiUsage();
+        this.step = 'preview'; // Switch to preview mode
         this.isProcessing = false;
       },
       error: (err) => {
-        this.common.showMessage('error','Error', 'AI Generation failed' );
+        this.common.showMessage('error', 'Error', 'AI Generation failed');
         this.isProcessing = false;
       }
     });
@@ -83,7 +104,7 @@ export class AiGenerator implements OnInit {
   // Step 2: Save to DB
   saveQuestions() {
     if (!this.selectedQuiz) {
-      this.common.showMessage('warn', 'Select Quiz','Please select a quiz to save these questions.' );
+      this.common.showMessage('warn', 'Select Quiz', 'Please select a quiz to save these questions.');
       return;
     }
 
@@ -95,14 +116,14 @@ export class AiGenerator implements OnInit {
 
     this.http.post(`${this.BASE_URL}/ai/save-bulk`, payload).subscribe({
       next: () => {
-        this.common.showMessage('success', 'Saved', 'Questions added to quiz successfully' );
+        this.common.showMessage('success', 'Saved', 'Questions added to quiz successfully');
         this.onSaved.emit();
         this.reset();
         this.closeDialog();
       },
       error: (err) => {
         this.isProcessing = false;
-        this.common.showMessage('error','Error', 'Failed to save questions' );
+        this.common.showMessage('error', 'Error', 'Failed to save questions');
       }
     });
   }
@@ -118,7 +139,7 @@ export class AiGenerator implements OnInit {
     this.visible = false;
     this.visibleChange.emit(false);
     // Optional: Reset state on close
-    setTimeout(() => this.reset(), 300); 
+    setTimeout(() => this.reset(), 300);
   }
 
   usePreset(text: string) {

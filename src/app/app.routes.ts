@@ -190,6 +190,10 @@ export const routes: Routes = [
         canActivate:[childAuthGuard,authGuard]
     },
     {
+        path: 'pricing',
+        loadComponent: () => import('./components/pricing/pricing').then(m => m.Pricing)
+    },
+    {
         path:'**',
         loadComponent:()=>import('./components/not-found/not-found').then(m=>m.NotFound)
     }

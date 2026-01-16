@@ -81,14 +81,14 @@
             pButton
             type="submit"
             [loading]="isGenerating"
+            icon="pi pi-bolt"
             [label]="isGenerating ? 'Generating...' : 'Generate quiz'"
-            [disabled]="isGenerating"
+            [disabled]="isGenerating || aiUsage() === 0"
             class="!h-10 w-full sm:w-auto !rounded-xl !bg-indigo-600 !px-5 !text-xs text-white !font-medium hover:!bg-indigo-500 dark:!bg-indigo-500 dark:hover:!bg-indigo-400"
           ></button>
-          <!-- <p class="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
-            This will create a quiz tailored to your selections. Later, this can be powered by the AI
-            generator.
-          </p> -->
+          <p class="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
+            You have {{ aiUsage() }} of 5 AI quizzes remaining today.
+          </p>
         </div>
       </form>
     </section>
