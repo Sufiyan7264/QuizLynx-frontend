@@ -9,6 +9,12 @@ export interface registerConfig {
     password:string,
     role: 'STUDENT' | 'INSTRUCTOR' | 'USER',
 }
+export interface AiUsage {
+  usage: number;
+  limit: number;
+  attemptsLeft: number;
+  isLimitReached: boolean;
+}
 export interface otpConfig{
     email:string,
     otp?:string,

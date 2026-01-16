@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AiUsage } from '../interface/interfaces';
 
 export interface UpdateProfileRequest {
   displayName?: string;
@@ -65,6 +66,9 @@ export class UserService {
   }
   getLeaderboard():Observable<any>{
     return this.http.get(`${this.BASE_URL}/explore/leaderboard`);
+  }
+  checkAiUsage(): Observable<any> {
+    return this.http.get(`https://localhost:8080/api/ai/usage`);
   }
 }
 

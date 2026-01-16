@@ -14,11 +14,11 @@ interface CustomQuizConfig {
 }
 
 interface MistakeReviewItem {
-  quizId:any;
+  quizId: any;
   quizTitle: string;
   topic: string;
   score: string;
-  totalMarks:string;
+  totalMarks: string;
   incorrectCount: number;
   submittedAt: string;
 }
@@ -26,11 +26,11 @@ interface MistakeReviewItem {
 @Component({
   selector: 'app-user-practice',
   standalone: true,
-  imports: [FormsModule, ButtonModule, Select,DatePipe],
+  imports: [FormsModule, ButtonModule, Select, DatePipe],
   templateUrl: './user-practice.html',
   styleUrl: './user-practice.scss',
 })
-export class UserPractice implements OnInit{
+export class UserPractice implements OnInit {
   difficultyOptions = [
     { label: 'Easy', value: 'Easy' },
     { label: 'Medium', value: 'Medium' },
@@ -43,23 +43,39 @@ export class UserPractice implements OnInit{
     questions: 10,
   };
 
-  mistakeReviewItems=signal<MistakeReviewItem[]> ([]);
+  mistakeReviewItems = signal<MistakeReviewItem[]>([]);
 
   private readonly router = inject(Router);
   private readonly common = inject(Common); // Use your Common service for spinner/toasts if available
   private readonly user = inject(UserService);
 
-
-ngOnInit(): void {
-  this.getMistakeQuiz();
-}
-  getMistakeQuiz(){
-    this.user.getMistakeQuiz().subscribe({
-      next:(res:any)=>{
-        
-        this.mistakeReviewItems.set(res.slice(0,5));
+  protected aiUsage = signal<number>(0);
+  ngOnInit(): void {
+    this.getMistakeQuiz();
+    // Check AI Usage
+    this.checkAiUsage();
+  }
+  checkAiUsage() {
+    this.user.checkAiUsage().subscribe({
+      next: (res) => {
+        if (!res) {
+          this.common.showMessage('warn', 'Limit Reached', 'You have reached your daily AI generation limit.');
+          this.router.navigate(['/pricing']);
+          return;
+        }
+        this.aiUsage.set(res.attemptsLeft);
       },
-      error:(err:any)=>{
+      error: (err) => {
+        this.common.showMessage('error', 'Error', err?.error?.message || 'Could not verify usage limits.');
+      }
+    });
+  }
+  getMistakeQuiz() {
+    this.user.getMistakeQuiz().subscribe({
+      next: (res: any) => {
+        this.mistakeReviewItems.set(res.slice(0, 5));
+      },
+      error: (err: any) => {
         this.common.showMessage('error', 'Error', err?.error?.message || 'Failed to generate quiz. Please try again.');
       }
     })
@@ -72,6 +88,9 @@ ngOnInit(): void {
       return;
     }
 
+
+
+    // Proceed if allowed
     // 1. Prepare Payload
     const payload = {
       topic: this.customQuiz.topic,
@@ -88,6 +107,7 @@ ngOnInit(): void {
         next: (res: any) => {
           // this.common.hideSpinner();
           console.log('Quiz Created!', res.quizId);
+          this.checkAiUsage();
           this.isGenerating = false;
           // 3. Navigate to Attempt Page
           this.router.navigate(['/quiz/attempt', res.quizId]);
@@ -104,7 +124,7 @@ ngOnInit(): void {
   retakeMistakes(item: MistakeReviewItem): void {
     // Placeholder: navigate to a "mistakes only" attempt for the quiz
     console.log('Retake only mistakes for quiz', item);
-    this.router.navigate(["quiz/attempt",item.quizId])
+    this.router.navigate(["quiz/attempt", item.quizId])
   }
 }
 
