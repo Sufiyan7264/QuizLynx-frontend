@@ -41,3 +41,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# SSL and Keystores
+localhost+2.pem
+localhost+2-key.pem
+keystore
+*.p12
+*.jks
