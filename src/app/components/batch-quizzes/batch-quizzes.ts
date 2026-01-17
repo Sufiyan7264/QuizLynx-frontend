@@ -73,8 +73,6 @@ export class BatchQuizzes implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.quizzes];
-
-    // Filter by search term
     if (this.searchTerm?.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(quiz =>
@@ -107,9 +105,9 @@ export class BatchQuizzes implements OnInit {
   formatDisplayDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'

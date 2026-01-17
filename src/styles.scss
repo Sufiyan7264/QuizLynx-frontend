@@ -5,71 +5,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
 
 :root {
-  /* Core */
-  // --color-bg: #0f1724; /* fallback: dark-ish background for apps, but we'll override below */
-  --color-surface: #ffffff;
+    --color-surface: #ffffff;
   --color-border: #dbdbdb;
   --color-glass: rgba(15, 23, 42, 0.03);
 
-  /* Main brand */
-  --color-primary: #4f95ff; /* Indigo-600 */
-  /* Card / surface background (match user-practice light cards) */
-  --color-primary-foreground: #ffffff;
+    --color-primary: #4f95ff;     --color-primary-foreground: #ffffff;
 
-  --color-secondary: #06b6d4; /* Cyan-500 */
-  --color-accent: #f97316; /* Orange-500 */
+  --color-secondary: #06b6d4;   --color-accent: #f97316; 
+    --color-success: #16a34a;   --color-warning: #f59e0b;   --color-danger: #ef4444;   --color-danger-bg: #f00b0b5c;   --hover-color:#e0eaff;
 
-  /* Feedback */
-  --color-success: #16a34a; /* Green-600 */
-  --color-warning: #f59e0b; /* Amber-500 */
-  --color-danger: #ef4444; /* Red-500 */
-  --color-danger-bg: #f00b0b5c; /* Red-500 */
-  --hover-color:#e0eaff;
-
-  /* Text */
-  --color-text: #0b1220; /* primary text */
-  --color-muted-text: #55607a; /* subdued text */
-  --placeholder-color: #334155;
+    --color-text: #0b1220;   --color-muted-text: #55607a;   --placeholder-color: #334155;
   --selected-bg: #383be721;
-  /* Background variants */
-  --color-bg-page: #ffffff; /* page background (light) */
-  --color-bg: var(--color-bg-page);
+    --color-bg-page: #ffffff;   --color-bg: var(--color-bg-page);
   --color-primary-bg: #3b82f65c;
   --color-warning-bg: #f59e0b5c;
   --input-bg-col: #f8fafc;
   --color-danger-bg: #f00b0b5c;
   --color-success-bg: #16a34a5c;
-  --icon-filter: brightness(0) saturate(100%) invert(0); /* black icons */
-
-  /* Elevation */
-  --elev-1: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --icon-filter: brightness(0) saturate(100%) invert(0); 
+    --elev-1: 0 1px 2px rgba(16, 24, 40, 0.04);
   --elev-2: 0 6px 18px rgba(15, 23, 42, 0.06);
-  // }
     --label-color: #333;
-  /* Light theme overrides */
+  }
 
-
-  // --color-option-hover: #eef2ff;
-}
-
-/* Dark theme overrides (applies when .dark class is on <html> or <body>) */
 .dark {
-  --icon-filter: brightness(0) saturate(100%) invert(1); /* white icons */
-  --color-bg-page: #000000;
+  --icon-filter: brightness(0) saturate(100%) invert(1);   --color-bg-page: #000000;
   --color-bg: var(--color-bg-page);
   --selected-bg: #3d3fe845;
   --input-bg-col: #1e293b;
-  --color-surface: #071128; /* deep surface */
-  // --selected-bg: #5555555c;
-  --color-border: rgba(226, 226, 226, 0.18);
+  --color-surface: #071128;   --color-border: rgba(226, 226, 226, 0.18);
   --color-glass: rgba(255, 255, 255, 0.03);
-  --label-color:#e0e0e0;  /* Light text for dark background */
-  --color-text: #e6eef8;
+  --label-color:#e0e0e0;    --color-text: #e6eef8;
   --color-muted-text: #9fb0ca;
   --placeholder-color: #64748b;
-  --color-primary: #3b82f6; /* slightly lighter indigo in dark */
-  /* Card / surface background (match user-practice dark cards - similar to slate-900) */
-  --color-primary-foreground: #0f172a;
+  --color-primary: #3b82f6;     --color-primary-foreground: #0f172a;
   --color-secondary: #22d3ee;
   --color-accent: #fb923c;
 
@@ -80,8 +49,6 @@
   --color-danger: #fb7185;
   --color-danger-bg: #fb71855c;
   --color-border-hover: rgba(255, 255, 255, 0.12);
-
-  // --color-option-hover: rgba(99, 102, 241, 0.15);
   --hover-color: #000c2c;
 }
 .p-paginator-page.p-paginator-page-selected{
@@ -98,7 +65,6 @@
   }
 }
 
-/* Utilities that map CSS variables to Tailwind-friendly classes (optional) */
 .theme-bg {
   background-color: var(--color-bg) !important;
 }
@@ -118,7 +84,6 @@
   border-color: var(--color-border) !important;
 }
 
-/* small helper for glass effect */
 .bg-glass {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
   backdrop-filter: blur(6px);
@@ -132,19 +97,14 @@ html {
   padding: 0;
   font-family: 'Mona Sans', sans-serif;
   scrollbar-width: thin;
-
-  // font-family: 'josefin Sans', sans-serif;
 }
 body{
   background-color: var(--color-bg);
 }
 html {
-//   scrollbar-track-color: var(--color-primary-foreground);
-  scrollbar-color: #b5b5b5 #f0f0f0; /* thumb track */
-  scrollbar-width: thin;
+  scrollbar-color: #b5b5b5 #f0f0f0;   scrollbar-width: thin;
 }
 html.dark {
-    // scrollbar-track-color: var(--color-primary-foreground);
   scrollbar-color: #555 #1e1e1e;
   scrollbar-width: thin;
 }

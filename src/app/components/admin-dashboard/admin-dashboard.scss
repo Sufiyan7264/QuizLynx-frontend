@@ -10,8 +10,6 @@
     font-size: 28px;
     font-weight: 700;
   }
-
-  // Statistics Cards Section
   .stats-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -89,8 +87,6 @@
       }
     }
   }
-
-  // Main Content Section
   .main-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -100,15 +96,11 @@
       grid-template-columns: 1fr;
     }
   }
-
-  // Left Section
   .left-section {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
-
-  // Charts Grid
   .charts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(33%, 1fr));
@@ -128,15 +120,11 @@
       }
     }
   }
-
-  // Right Section
   .right-section {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
   }
-
-  // Performance Summary Card
   .performance-summary-card {
     background: var(--color-primary-foreground);
     border-radius: 16px;
@@ -151,8 +139,6 @@
       border-color: var(--color-border-hover);
     }
   }
-
-  // Students Needing Attention Card
   .attention-card {
     background: var(--color-primary-foreground);
     border-radius: 16px;
@@ -226,8 +212,6 @@
       }
     }
   }
-
-  // Quick Stats Card
   .quick-stats-card {
     background: var(--color-primary-foreground);
     border-radius: 16px;
@@ -312,7 +296,6 @@
     }
   }
 }
-  // Top Students Card
   .top-students-card {
     margin-top: 0.5rem;
     background: var(--color-primary-foreground);

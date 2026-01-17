@@ -3,34 +3,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../../../core/service/question';
 import { QuizService } from '../../../core/service/quiz';
 import { Question, Quiz } from '../../../core/interface/interfaces';
-// import { Button } from 'primeng/button';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
-// import { ConfirmDialog } from 'primeng/confirmdialog';
-// import { ConfirmationService } from 'primeng/api';
 import { Common } from '../../../core/common/common';
 
 @Component({
   selector: 'app-list',
   imports: [
-    // Button,
-    // Toast,
-    // ConfirmDialog
   ],
   templateUrl: './list.html',
   styleUrl: './list.scss',
-  // providers: [MessageService, ConfirmationService]
 })
 export class List implements OnInit {
   private readonly questionService = inject(QuestionService);
   private readonly quizService = inject(QuizService);
-  // private readonly messageService = inject(MessageService);
-  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly common = inject(Common);
-  // private readonly confirmationService = inject(ConfirmationService);
 
   quizId?: string;
   quiz?: Quiz;
@@ -38,7 +25,7 @@ export class List implements OnInit {
 
   ngOnInit(): void {
     this.quizId = this.route.snapshot.queryParams['quizId'];
-    
+
     if (!this.quizId) {
       this.common.showMessage('error', 'Error', 'Quiz ID is required');
       this.router.navigate(['/instructor/quizzes']);
@@ -59,7 +46,6 @@ export class List implements OnInit {
       },
       error: (error) => {
         console.error('Error loading quiz:', error);
-        // this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load quiz');
         this.common.hideSpinner();
       }
     });
@@ -98,22 +84,22 @@ export class List implements OnInit {
 
     this.common.confirm('Confirm Deletion', 'Are you sure you want to delete this question?', 'Yes', 'No', () => {
       this.common.showSpinner();
-        this.questionService.deleteQuestion(question.id!).subscribe({
-          next: () => {
-            this.common.showMessage('success', 'Success', 'Question deleted successfully');
-            this.loadQuestions();
-            this.common.hideSpinner();
-          },
-          error: (error) => {
-              this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to delete question');
-              this.common.hideSpinner();
-            }
-          });
+      this.questionService.deleteQuestion(question.id!).subscribe({
+        next: () => {
+          this.common.showMessage('success', 'Success', 'Question deleted successfully');
+          this.loadQuestions();
+          this.common.hideSpinner();
         },
-        () => {
-          return;
+        error: (error) => {
+          this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to delete question');
+          this.common.hideSpinner();
         }
-      );
+      });
+    },
+      () => {
+        return;
+      }
+    );
   }
 
   goBack(): void {

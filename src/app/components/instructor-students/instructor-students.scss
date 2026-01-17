@@ -13,7 +13,6 @@
   box-shadow: var(--elev-2);
 }
 
-/* Card hover effect */
 .hoverable-card {
   transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
   border: 1px solid var(--color-border);
@@ -52,7 +51,6 @@
   }
 }
 
-/* Form Styles */
 .form-group {
   margin-bottom: 1.5rem;
 

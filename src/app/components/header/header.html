@@ -34,10 +34,12 @@
       }
       @else {
           <ul class="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-3 text-base font-medium text-text md:flex">
-            <li><a href="#about" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">About</a></li>
-            <li><a href="/pricing"
-                class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Pricing</a></li>
-            <li><a href="#contact" class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
+            <li><a href="/about" [class.active]="router.url === '/about'"
+                class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">About</a></li>
+            <li><a href="/pricing" [class.active]="router.url === '/pricing'"
+                 class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Pricing</a></li>
+            <li><a href="/contact" [class.active]="router.url === '/contact'"
+                class="hover:text-[#3b5ccc] hover:bg-option-hover hover:shadow-inner rounded-full py-1 px-4">Contact</a></li>
           </ul>
       }
       <div class="flex items-center gap-2">
@@ -117,10 +119,10 @@
           Register
         </a>
         <div class="border-t border-border pt-4 mt-4">
-          <a href="#about" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">About</a>
-          <a href="/pricing" (click)="closeMobileMenu()"
+          <a href="/about" [class.active]="router.url === '/about'" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">About</a>
+          <a href="/pricing" [class.active]="router.url === '/pricing'" (click)="closeMobileMenu()"
             class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">Pricing</a>
-          <a href="#contact" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">Contact</a>
+          <a href="/contact" [class.active]="router.url === '/contact'" (click)="closeMobileMenu()" class="block px-4 py-2 text-text hover:bg-option-hover rounded-lg">Contact</a>
         </div>
       }
     </div>

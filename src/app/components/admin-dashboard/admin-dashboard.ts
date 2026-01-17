@@ -1,17 +1,13 @@
-import { Component,OnInit,inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartOptions } from '../common/chart-configuration/chart-configuration';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
-// import { OnInit } from '@angular/core/types/core';
 import { Auth } from '../../core/service/auth';
 import { Instructor } from '../../core/service/instructor';
 import { InputText } from 'primeng/inputtext';
 import { MultiSelect } from 'primeng/multiselect';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-// import { NgxSpinnerService } from 'ngx-spinner';
 import { Common } from '../../core/common/common';
-// import { MessageService } from 'primeng/api';
-// import { inject } from '@angular/core/types/primitives-di';
 
 interface StatCard {
   title: string;
@@ -38,184 +34,182 @@ interface StudentNeedingAttention {
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [ChartConfiguration,Dialog,Button,InputText,MultiSelect,ReactiveFormsModule],
+  imports: [ChartConfiguration, Dialog, Button, InputText, MultiSelect, ReactiveFormsModule],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss'
 })
 export class AdminDashboard implements OnInit {
-  // Statistics Cards
   visible: boolean = false;
   private fb = inject(FormBuilder);
-  // private spinner = inject(NgxSpinnerService);
   private common = inject(Common);
   updateForm = this.fb.group({
-    displayName:['',[Validators.required,Validators.minLength(3)]],
-    bio:['',[Validators.maxLength(1000)]],
-    subjects:[[],[Validators.required]],
-    avatarUrl:['']
+    displayName: ['', [Validators.required, Validators.minLength(3)]],
+    bio: ['', [Validators.maxLength(1000)]],
+    subjects: [[], [Validators.required]],
+    avatarUrl: ['']
   })
-subjectOptions = [
-  {
-    "label": "Mathematics",
-    "value": "mathematics"
-  },
-  {
-    "label": "English",
-    "value": "english"
-  },
-  {
-    "label": "Science",
-    "value": "science"
-  },
-  {
-    "label": "Physics",
-    "value": "physics"
-  },
-  {
-    "label": "Chemistry",
-    "value": "chemistry"
-  },
-  {
-    "label": "Biology",
-    "value": "biology"
-  },
-  {
-    "label": "History",
-    "value": "history"
-  },
-  {
-    "label": "Geography",
-    "value": "geography"
-  },
-  {
-    "label": "Social Studies",
-    "value": "social_studies"
-  },
-  {
-    "label": "Computer Science",
-    "value": "computer_science"
-  },
-  {
-    "label": "Information Technology",
-    "value": "information_technology"
-  },
-  {
-    "label": "Economics",
-    "value": "economics"
-  },
-  {
-    "label": "Business Studies",
-    "value": "business_studies"
-  },
-  {
-    "label": "Accounting",
-    "value": "accounting"
-  },
-  {
-    "label": "Physical Education",
-    "value": "physical_education"
-  },
-  {
-    "label": "Art & Design",
-    "value": "art_design"
-  },
-  {
-    "label": "Music",
-    "value": "music"
-  },
-  {
-    "label": "Drama",
-    "value": "drama"
-  },
-  {
-    "label": "French",
-    "value": "french"
-  },
-  {
-    "label": "Spanish",
-    "value": "spanish"
-  },
-  {
-    "label": "German",
-    "value": "german"
-  },
-  {
-    "label": "Hindi",
-    "value": "hindi"
-  },
-  {
-    "label": "Sanskrit",
-    "value": "sanskrit"
-  },
-  {
-    "label": "Literature",
-    "value": "literature"
-  },
-  {
-    "label": "Philosophy",
-    "value": "philosophy"
-  },
-  {
-    "label": "Psychology",
-    "value": "psychology"
-  },
-  {
-    "label": "Sociology",
-    "value": "sociology"
-  },
-  {
-    "label": "Political Science",
-    "value": "political_science"
-  },
-  {
-    "label": "Environmental Science",
-    "value": "environmental_science"
-  },
-  {
-    "label": "Statistics",
-    "value": "statistics"
-  },
-  {
-    "label": "Home Science",
-    "value": "home_science"
-  },
-  {
-    "label": "Agriculture",
-    "value": "agriculture"
-  },
-  {
-    "label": "Engineering Drawing",
-    "value": "engineering_drawing"
-  },
-  {
-    "label": "Electronics",
-    "value": "electronics"
-  },
-  {
-    "label": "Law",
-    "value": "law"
-  },
-  {
-    "label": "Civics",
-    "value": "civics"
-  },
-  {
-    "label": "Religious Studies",
-    "value": "religious_studies"
-  },
-  {
-    "label": "Health Education",
-    "value": "health_education"
-  },
-  {
-    "label": "Nutrition",
-    "value": "nutrition"
-  },
-  {
-    "label": "Other",
-    "value": "other"
-  }
-];
+  subjectOptions = [
+    {
+      "label": "Mathematics",
+      "value": "mathematics"
+    },
+    {
+      "label": "English",
+      "value": "english"
+    },
+    {
+      "label": "Science",
+      "value": "science"
+    },
+    {
+      "label": "Physics",
+      "value": "physics"
+    },
+    {
+      "label": "Chemistry",
+      "value": "chemistry"
+    },
+    {
+      "label": "Biology",
+      "value": "biology"
+    },
+    {
+      "label": "History",
+      "value": "history"
+    },
+    {
+      "label": "Geography",
+      "value": "geography"
+    },
+    {
+      "label": "Social Studies",
+      "value": "social_studies"
+    },
+    {
+      "label": "Computer Science",
+      "value": "computer_science"
+    },
+    {
+      "label": "Information Technology",
+      "value": "information_technology"
+    },
+    {
+      "label": "Economics",
+      "value": "economics"
+    },
+    {
+      "label": "Business Studies",
+      "value": "business_studies"
+    },
+    {
+      "label": "Accounting",
+      "value": "accounting"
+    },
+    {
+      "label": "Physical Education",
+      "value": "physical_education"
+    },
+    {
+      "label": "Art & Design",
+      "value": "art_design"
+    },
+    {
+      "label": "Music",
+      "value": "music"
+    },
+    {
+      "label": "Drama",
+      "value": "drama"
+    },
+    {
+      "label": "French",
+      "value": "french"
+    },
+    {
+      "label": "Spanish",
+      "value": "spanish"
+    },
+    {
+      "label": "German",
+      "value": "german"
+    },
+    {
+      "label": "Hindi",
+      "value": "hindi"
+    },
+    {
+      "label": "Sanskrit",
+      "value": "sanskrit"
+    },
+    {
+      "label": "Literature",
+      "value": "literature"
+    },
+    {
+      "label": "Philosophy",
+      "value": "philosophy"
+    },
+    {
+      "label": "Psychology",
+      "value": "psychology"
+    },
+    {
+      "label": "Sociology",
+      "value": "sociology"
+    },
+    {
+      "label": "Political Science",
+      "value": "political_science"
+    },
+    {
+      "label": "Environmental Science",
+      "value": "environmental_science"
+    },
+    {
+      "label": "Statistics",
+      "value": "statistics"
+    },
+    {
+      "label": "Home Science",
+      "value": "home_science"
+    },
+    {
+      "label": "Agriculture",
+      "value": "agriculture"
+    },
+    {
+      "label": "Engineering Drawing",
+      "value": "engineering_drawing"
+    },
+    {
+      "label": "Electronics",
+      "value": "electronics"
+    },
+    {
+      "label": "Law",
+      "value": "law"
+    },
+    {
+      "label": "Civics",
+      "value": "civics"
+    },
+    {
+      "label": "Religious Studies",
+      "value": "religious_studies"
+    },
+    {
+      "label": "Health Education",
+      "value": "health_education"
+    },
+    {
+      "label": "Nutrition",
+      "value": "nutrition"
+    },
+    {
+      "label": "Other",
+      "value": "other"
+    }
+  ];
   stats: StatCard[] = [
     {
       title: 'Total Students',
@@ -246,8 +240,6 @@ subjectOptions = [
       period: 'Last 7 days'
     }
   ];
-
-  // Top Performing Students
   topStudents: TopStudent[] = [
     {
       name: 'Sarah Johnson',
@@ -286,8 +278,6 @@ subjectOptions = [
       status: 'Good'
     }
   ];
-
-  // Students Needing Attention
   studentsNeedingAttention: StudentNeedingAttention[] = [
     {
       name: 'Alex Thompson',
@@ -305,15 +295,12 @@ subjectOptions = [
       quizzesCompleted: 5
     }
   ];
-
-  // Quick Statistics
   quickStats = {
     totalStudents: 156,
     topPerformers: 42,
     averageCompletionTime: '18 min',
     averageScore: 87
   };
-  // Line Chart Data - Student Engagement Over Time
   studentEngagementData: ChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [{
@@ -349,8 +336,6 @@ subjectOptions = [
       containLabel: true
     }
   };
-
-  // Bar Chart Data - Student Performance by Quiz
   studentPerformanceData: ChartData = {
     labels: ['Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4', 'Quiz 5'],
     datasets: [{
@@ -382,8 +367,6 @@ subjectOptions = [
       containLabel: true
     }
   };
-
-  // Pie Chart Data - Quiz Completion Status
   quizCompletionData: ChartData = {
     labels: ['Completed', 'In Progress', 'Not Started'],
     datasets: [{
@@ -458,8 +441,6 @@ subjectOptions = [
       itemGap: 15
     }
   };
-
-  // Performance Summary Chart
   performanceSummaryData: ChartData = {
     labels: ['90-100%', '75-89%', '60-74%', 'Below 60%'],
     datasets: [{
@@ -532,54 +513,52 @@ subjectOptions = [
   private currentUser: any = "";
 
   ngOnInit(): void {
-      this.authService.user$.subscribe((u:any) => this.currentUser = u);
-      if(this.currentUser.role == 'INSTRUCTOR'){
-        this.getInstructorInfo();
-      }
-      this.instructorService.getDashboardStats().subscribe(data => {
-        this.stats = data.stats;
-        this.quickStats = data.quickStats;
-        this.topStudents = data.topStudents;
-        this.studentsNeedingAttention = data.studentsNeedingAttention;
-
-        // Map Charts
-        this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
-        this.studentPerformanceData = data.studentPerformance;
-        this.quizCompletionData = data.quizCompletion;
-        this.performanceSummaryData = data.performanceDistribution;
+    this.authService.user$.subscribe((u: any) => this.currentUser = u);
+    if (this.currentUser.role == 'INSTRUCTOR') {
+      this.getInstructorInfo();
+    }
+    this.instructorService.getDashboardStats().subscribe(data => {
+      this.stats = data.stats;
+      this.quickStats = data.quickStats;
+      this.topStudents = data.topStudents;
+      this.studentsNeedingAttention = data.studentsNeedingAttention;
+      this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
+      this.studentPerformanceData = data.studentPerformance;
+      this.quizCompletionData = data.quizCompletion;
+      this.performanceSummaryData = data.performanceDistribution;
     });
   }
-  getInstructorInfo(){
+  getInstructorInfo() {
     this.instructorService.getInstructorInfo().subscribe({
-      next:(res:any)=>{
-        if(res?.instructorCode){
+      next: (res: any) => {
+        if (res?.instructorCode) {
           this.visible = false;
         }
-        else{
+        else {
           this.visible = true;
         }
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })
   }
-  onSubmit(){
-    if(this.updateForm.invalid){
+  onSubmit() {
+    if (this.updateForm.invalid) {
       this.updateForm.markAllAsTouched();
       return;
     }
     this.common.showSpinner();
     this.instructorService.updateInstructorProfile(this.updateForm.value).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
-        this.common.showMessage( 'success', 'Success',  'Profile updated successfully' );
+        this.common.showMessage('success', 'Success', 'Profile updated successfully');
         this.visible = false;
         this.common.hideSpinner();
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
-        this.common.showMessage( 'error',  'Error',  err.message || 'Something went wrong' );
+        this.common.showMessage('error', 'Error', err.message || 'Something went wrong');
         this.common.hideSpinner();
       }
     })

@@ -14,7 +14,6 @@ import { Common } from '../../core/common/common';
 export class QuizResult implements OnInit {
   private readonly quizAttemptService = inject(QuizAttemptService);
   private readonly common = inject(Common);
-  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -25,7 +24,7 @@ export class QuizResult implements OnInit {
   ngOnInit(): void {
     this.resultId = this.route.snapshot.params['id'];
     this.quizId = this.route.snapshot.params['quizId'];
-    
+
     if (this.resultId) {
       this.loadResult();
     } else if (this.quizId) {
@@ -46,7 +45,7 @@ export class QuizResult implements OnInit {
       error: (error) => {
         console.error('Error loading result:', error);
         this.common.showMessage(
-'error','Error',error?.error?.message || 'Failed to load result'
+          'error', 'Error', error?.error?.message || 'Failed to load result'
         );
         this.common.hideSpinner();
         this.router.navigate(['/student-dashboard']);
@@ -65,7 +64,7 @@ export class QuizResult implements OnInit {
       error: (error) => {
         console.error('Error loading result:', error);
         this.common.showMessage(
-'error','Error',error?.error?.message || 'Failed to load result'
+          'error', 'Error', error?.error?.message || 'Failed to load result'
         );
         this.common.hideSpinner();
         this.router.navigate(['/student-dashboard']);
@@ -98,7 +97,6 @@ export class QuizResult implements OnInit {
 
   get timeTaken(): string {
     if (!this.result?.timeTaken) {
-      // Calculate from startedAt and submittedAt if timeTaken not provided
       if (this.result?.startedAt && this.result?.submittedAt) {
         const start = new Date(this.result.startedAt).getTime();
         const end = new Date(this.result.submittedAt).getTime();
@@ -114,7 +112,7 @@ export class QuizResult implements OnInit {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     if (hours > 0) {
       return `${hours}h ${minutes}m ${secs}s`;
     } else if (minutes > 0) {
@@ -127,9 +125,9 @@ export class QuizResult implements OnInit {
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -169,8 +167,6 @@ export class QuizResult implements OnInit {
     }
     return answer || 'No answer provided';
   }
-
-  // Get options as an array from option1, option2, option3, option4
   getReviewOptions(review: QuestionReview): string[] {
     const options: string[] = [];
     if (review.option1) options.push(review.option1);

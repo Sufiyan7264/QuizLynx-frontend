@@ -7,7 +7,7 @@ import { QuizService } from '../../core/service/quiz';
   selector: 'app-user-category-list',
   imports: [ButtonModule],
   templateUrl: './user-category-list.html',
-  styleUrl:'./user-category-list.scss'
+  styleUrl: './user-category-list.scss'
 })
 export class UserCategoryList implements OnInit {
   private route = inject(ActivatedRoute);
@@ -19,7 +19,6 @@ export class UserCategoryList implements OnInit {
   isLoading = true;
 
   ngOnInit() {
-    // Get subject from URL (e.g., /explore/category/Java)
     this.subject = this.route.snapshot.params['subject'];
     this.fetchQuizzes();
   }
@@ -39,9 +38,7 @@ export class UserCategoryList implements OnInit {
   startQuiz(quizId: number) {
     this.router.navigate(['/quiz/attempt', quizId]);
   }
-
-  // Reuse your AI generation logic here for the fallback button
   generateNew() {
-     // ... call your user.createAiTopics() ...
+    this.router.navigate(['/user/practice']);
   }
 }

@@ -4,12 +4,8 @@ import { QuizService } from '../../core/service/quiz';
 import { BatchService } from '../../core/service/batch';
 import { Quiz, CreateQuizRequest, Batch } from '../../core/interface/interfaces';
 import { Dialog } from 'primeng/dialog';
-// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
@@ -24,18 +20,14 @@ import { Common } from '../../core/common/common';
     DatePicker,
     InputNumber,
     Select,
-    // Toast
   ],
   templateUrl: './instructor-quizzes.html',
   styleUrl: './instructor-quizzes.scss',
-  // providers: [MessageService]
 })
 export class InstructorQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);
   private readonly batchService = inject(BatchService);
   private readonly fb = inject(FormBuilder);
-  // private readonly messageService = inject(MessageService);
-  // private readonly spinner = inject(NgxSpinnerService);
   private readonly common = inject(Common);
   private readonly router = inject(Router);
 
@@ -45,19 +37,17 @@ export class InstructorQuizzes implements OnInit {
   isEditMode = false;
   selectedQuiz: Quiz | null = null;
   minEndDate: Date | null = null;
-  minDueDate: Date | null = null;
 
   quizForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['',[Validators.required]],
-    subject: ['',[Validators.required]],
+    description: ['', [Validators.required]],
+    subject: ['', [Validators.required]],
     timerInMin: [60, [Validators.required, Validators.min(1)]],
     totalMarks: [100, [Validators.required, Validators.min(1)]],
     passingMarks: [50, [Validators.required, Validators.min(0)]],
-    startDate: [null,[Validators.required]],
-    endDate: [null,[Validators.required]],
-    dueDate: [null],
-    batchId: ['',[ Validators.required]],
+    startDate: [null, [Validators.required]],
+    endDate: [null, [Validators.required]],
+    batchId: ['', [Validators.required]],
     status: ['DRAFT', Validators.required]
   });
 
@@ -66,17 +56,6 @@ export class InstructorQuizzes implements OnInit {
     { label: 'Published', value: 'PUBLISHED' },
     { label: 'Closed', value: 'CLOSED' }
   ];
-
-  // get minEndDate(): Date | null {
-  //   console.log(this.quizForm.get('startDate')?.value);
-  //   const startDate = this.quizForm.get('startDate')?.value;
-  //   return startDate ? new Date(startDate) : null;
-  // }
-
-  // get minDueDate(): Date | null {
-  //   const endDate = this.quizForm.get('endDate')?.value;
-  //   return endDate ? new Date(endDate) : null;
-  // }
 
   ngOnInit(): void {
     this.loadQuizzes();
@@ -108,16 +87,10 @@ export class InstructorQuizzes implements OnInit {
       next: (batches) => {
         console.log(batches);
         this.batches = batches;
-        // batches.forEach(batch => {
-        //   this.batches.push({
-        //     label: batch.batchName,
-        //     value: batch.id || ''
-        //   })
-        // });
-        // console.log(this.batches)
       },
       error: (error) => {
         console.error('Error loading batches:', error);
+        this.common.hideSpinner();
       }
     });
   }
@@ -208,14 +181,13 @@ export class InstructorQuizzes implements OnInit {
       this.quizService.createQuiz(quizData).subscribe({
         next: (createdQuiz) => {
           this.common.showMessage(
-          'success',
-          'Success',
-          'Quiz created successfully'
+            'success',
+            'Success',
+            'Quiz created successfully'
           );
           this.loadQuizzes();
           this.closeDialog();
           this.common.hideSpinner();
-          // Navigate to add questions
           if (createdQuiz.id) {
             this.router.navigate(['/question/create'], { queryParams: { quizId: createdQuiz.id } });
           }
@@ -240,7 +212,7 @@ export class InstructorQuizzes implements OnInit {
         next: () => {
           this.common.showMessage(
             'success',
-                'Success',
+            'Success',
             'Quiz deleted successfully'
           );
           this.loadQuizzes();
@@ -275,37 +247,22 @@ export class InstructorQuizzes implements OnInit {
   formatDisplayDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   }
   setupDateValidators(): void {
-    // Watch for Start Date changes to update Min End Date
-  this.quizForm.get('startDate')?.valueChanges.subscribe((startDate) => {
-    console.log('Start Date Changed:', startDate); // This will now only log when you actually pick a date
-    this.minEndDate = startDate ? new Date(startDate) : null;
-    
-    // Optional: If start date is after current end date, clear end date
-    const currentEndDate = this.quizForm.get('endDate')?.value;
-    if (currentEndDate && this.minEndDate && new Date(currentEndDate) < this.minEndDate) {
-      this.quizForm.get('endDate')?.setValue(null);
-    }
-  });
-  this.quizForm.get('endDate')?.valueChanges.subscribe((endDate) => {
-    this.minDueDate = endDate ? new Date(endDate) : null;
-  });
-}
-
-  // formatDateForAPI(date: Date | string): string {
-  //   if (!date) return '';
-  //   const d = date instanceof Date ? date : new Date(date);
-  //   const year = d.getFullYear();
-  //   const month = String(d.getMonth() + 1).padStart(2, '0');
-  //   const day = String(d.getDate()).padStart(2, '0');
-  //   return `${year}-${month}-${day}`;
-  // }
+    this.quizForm.get('startDate')?.valueChanges.subscribe((startDate) => {
+      console.log('Start Date Changed:', startDate); // This will now only log when you actually pick a date
+      this.minEndDate = startDate ? new Date(startDate) : null;
+      const currentEndDate = this.quizForm.get('endDate')?.value;
+      if (currentEndDate && this.minEndDate && new Date(currentEndDate) < this.minEndDate) {
+        this.quizForm.get('endDate')?.setValue(null);
+      }
+    });
+  }
 
   getStatusClass(status?: string): string {
     switch (status) {

@@ -13,7 +13,7 @@ interface StatCard {
 }
 
 interface QuizHistoryItem {
-  quizId:any;
+  quizId: any;
   subject: string;
   score: string;
   status: 'Completed' | 'Unattempted';
@@ -30,11 +30,9 @@ interface QuizHistoryItem {
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.scss'
 })
-export class UserDashboard implements OnInit { 
-  
-  private router = inject(Router);
+export class UserDashboard implements OnInit {
 
-  // --- 3. Initialize Variables (Empty or Default) ---
+  public readonly router = inject(Router);
   stats: StatCard[] = []; // Start empty, will fill from API
   quizHistory: QuizHistoryItem[] = [];
   lastActiveQuizId: number | null = null;
@@ -45,14 +43,10 @@ export class UserDashboard implements OnInit {
     message: 'Please wait',
     description: 'Fetching your progress...'
   };
-
-  // Keep your default chart structure, data will be overwritten
   performanceChartData: ChartData = {
     labels: ['Excellent', 'Good', 'Average', 'Poor'],
     series: []
   };
-
-  // Keep your options as they are
   performanceChartOptions: ChartOptions = {
     tooltip: {
       trigger: 'item',
@@ -86,13 +80,9 @@ export class UserDashboard implements OnInit {
     message: 'Analyzing your performance...'
   };
   private user = inject(UserService);
-
-  // --- 4. Add ngOnInit ---
   ngOnInit() {
     this.fetchDashboardData();
   }
-
-  // --- 5. Add the API Method ---
   fetchDashboardData() {
     this.user.getDashboardData()
       .subscribe({
@@ -101,26 +91,22 @@ export class UserDashboard implements OnInit {
           this.updateHistory(data);
           this.updateChart(data);
           this.updateProgress(data);
-          
+
           this.lastActiveQuizId = data.lastActiveQuizId;
           this.totalQuizzes = data.totalQuizzesTaken;
-
-          // Update the "Total" text in the center of the donut chart
           this.updateChartGraphic(data.totalQuizzesTaken);
         },
-        error: (err:any) => {
+        error: (err: any) => {
 
         }
       });
   }
 
-  // --- 6. Add Helper Methods (Paste these below fetchDashboardData) ---
-
   resumeQuiz() {
     if (this.lastActiveQuizId) {
       this.router.navigate(['/quiz/attempt', this.lastActiveQuizId]);
     } else {
-      this.router.navigate(['/student/quizzes']); 
+      this.router.navigate(['/student/quizzes']);
     }
   }
 
@@ -148,9 +134,9 @@ export class UserDashboard implements OnInit {
       }
     ];
   }
-  protected retake(quiz:any){
+  protected retake(quiz: any) {
     console.log(quiz)
-    this.router.navigate(["quiz/attempt",quiz.quizId])
+    this.router.navigate(["quiz/attempt", quiz.quizId])
   }
 
   private updateHistory(data: any) {
@@ -207,7 +193,6 @@ export class UserDashboard implements OnInit {
   }
 
   private formatLegend(name: string): string {
-    // You can make this dynamic if needed, but for now simple return is safer
-    return name; 
+    return name;
   }
 }

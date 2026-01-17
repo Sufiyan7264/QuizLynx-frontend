@@ -60,7 +60,6 @@ import { ChartConfiguration } from './components/common/chart-configuration/char
 ### Line Chart
 
 ```typescript
-// Component TypeScript
 export class MyComponent {
   lineChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -248,7 +247,6 @@ Get the underlying ECharts instance for advanced operations:
 someMethod() {
   const chartInstance = this.chartComponent.getChartInstance();
   if (chartInstance) {
-    // Use ECharts API directly
     chartInstance.dispatchAction({
       type: 'highlight',
       seriesIndex: 0

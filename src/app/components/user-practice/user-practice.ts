@@ -52,7 +52,6 @@ export class UserPractice implements OnInit {
   protected aiUsage = signal<number>(0);
   ngOnInit(): void {
     this.getMistakeQuiz();
-    // Check AI Usage
     this.checkAiUsage();
   }
   checkAiUsage() {
@@ -80,18 +79,11 @@ export class UserPractice implements OnInit {
       }
     })
   }
-
-  // Updated Function
   startCustomQuiz(): void {
     if (!this.customQuiz.topic.trim()) {
       this.common.showMessage('error', 'Error', 'Please enter a topic for the quiz.');
       return;
     }
-
-
-
-    // Proceed if allowed
-    // 1. Prepare Payload
     const payload = {
       topic: this.customQuiz.topic,
       difficulty: this.customQuiz.difficulty,
@@ -99,21 +91,15 @@ export class UserPractice implements OnInit {
     };
     this.isGenerating = true;
     console.log('Generating quiz...', payload);
-    // this.common.showSpinner(); 
-
-    // 2. Call Backend
     this.user.createAiTopics(payload)
       .subscribe({
         next: (res: any) => {
-          // this.common.hideSpinner();
           console.log('Quiz Created!', res.quizId);
           this.checkAiUsage();
           this.isGenerating = false;
-          // 3. Navigate to Attempt Page
           this.router.navigate(['/quiz/attempt', res.quizId]);
         },
         error: (err: any) => {
-          // this.common.hideSpinner();
           this.isGenerating = false;
           console.error('Generation failed', err);
           this.common.showMessage('error', 'Error', err?.error?.message || 'Failed to generate quiz. Please try again.');
@@ -122,7 +108,6 @@ export class UserPractice implements OnInit {
   }
 
   retakeMistakes(item: MistakeReviewItem): void {
-    // Placeholder: navigate to a "mistakes only" attempt for the quiz
     console.log('Retake only mistakes for quiz', item);
     this.router.navigate(["quiz/attempt", item.quizId])
   }

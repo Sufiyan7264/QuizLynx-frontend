@@ -48,6 +48,15 @@
           </div>
           <p-slider [(ngModel)]="questionCount" [min]="1" [max]="20" styleClass="minimal-slider"></p-slider>
         </div>
+        <div class="mt-4 flex gap-1 items-center">
+          <i class="pi pi-exclamation-triangle text-danger"></i>
+          <span class="text-xs text-muted-text">please check that you have created at least one quiz to add this AI generated questions</span>
+        </div>
+        <div class="flex mt-4 gap-1 items-center">
+          <i class="pi pi-info-circle text-text"></i>
+          <span class="text-xs text-muted-text">You have {{ aiUsage }} of 5 AI questions generation remaining today. <a href="/pricing" class="text-blue-600 cursor-pointer hover:underline">Click here to upgrade.</a>
+          </span>
+        </div>
       </div>
     }
 
@@ -92,7 +101,7 @@
         icon="pi pi-bolt" 
         (click)="generatePreview()" 
         [loading]="isProcessing"
-        [disabled]="!promptText">
+        [disabled]="!promptText || aiUsage === 0">
       </button>
     } @else {
       <button pButton label="Back" icon="pi pi-arrow-left" class="p-button-text" (click)="step = 'input'"></button>

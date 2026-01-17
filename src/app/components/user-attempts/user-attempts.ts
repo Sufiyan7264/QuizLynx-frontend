@@ -26,28 +26,7 @@ export class UserAttempts implements OnInit {
   searchTerm: string = '';
 
   ngOnInit(): void {
-    // this.loadAttempts();
   }
-
-  // loadAttempts(): void {
-  //   this.common.showSpinner();
-  //   this.quizAttemptService.getStudentAttempts().subscribe({
-  //     next: (attempts) => {
-  //       // Sort by submitted date (most recent first)
-  //       this.attempts = attempts.sort((a, b) => {
-  //         const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
-  //         const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
-  //         return dateB - dateA;
-  //       });
-  //       this.applyFilters();
-  //       this.common.hideSpinner();
-  //     },
-  //     error: (error) => {
-  //       this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load attempts');
-  //       this.common.hideSpinner();
-  //     }
-  //   });
-  // }
 
   onSearchChange(): void {
     this.applyFilters();
@@ -55,8 +34,6 @@ export class UserAttempts implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.attempts];
-
-    // Filter by search term
     if (this.searchTerm?.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(attempt =>

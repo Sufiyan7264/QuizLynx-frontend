@@ -58,7 +58,6 @@ interface InstructorAnnouncement {
   styleUrl: './student-instructor-dashboard.scss'
 })
 export class StudentInstructorDashboard implements OnInit {
-  // Statistics Cards
   stats: StatCard[] = [
     {
       title: 'My Instructors',
@@ -89,8 +88,6 @@ export class StudentInstructorDashboard implements OnInit {
       period: 'Last 7 days'
     }
   ];
-
-  // My Instructors
   instructors: Instructor[] = [
     {
       id: '1',
@@ -129,8 +126,6 @@ export class StudentInstructorDashboard implements OnInit {
       lastActive: '3 days ago'
     }
   ];
-
-  // Instructor Quizzes
   instructorQuizzes: InstructorQuiz[] = [
     {
       id: '1',
@@ -177,8 +172,6 @@ export class StudentInstructorDashboard implements OnInit {
       status: 'Pending'
     }
   ];
-
-  // Instructor Feedback
   instructorFeedback: InstructorFeedback[] = [
     {
       id: '1',
@@ -205,8 +198,6 @@ export class StudentInstructorDashboard implements OnInit {
       rating: 4
     }
   ];
-
-  // Instructor Announcements
   instructorAnnouncements: InstructorAnnouncement[] = [
     {
       id: '1',
@@ -233,8 +224,6 @@ export class StudentInstructorDashboard implements OnInit {
       priority: 'low'
     }
   ];
-
-  // Performance Comparison Chart
   performanceComparisonData: ChartData = {
     labels: ['My Score', 'Class Average'],
     series: [{
@@ -251,16 +240,6 @@ export class StudentInstructorDashboard implements OnInit {
   };
 
   performanceComparisonOptions: ChartOptions = {
-    // title: {
-    //   text: 'My Performance vs Class Average',
-    //   left: 'center',
-    //   top: '0%',
-    //   textStyle: {
-    //     fontSize: 16,
-    //     fontWeight: '600',
-    //     color: '#0b1220'
-    //   }
-    // },
     tooltip: {
       trigger: 'axis',
       formatter: '{b}: {c}%'
@@ -284,8 +263,6 @@ export class StudentInstructorDashboard implements OnInit {
       }
     }
   };
-
-  // Quiz Completion by Instructor Chart
   quizCompletionData: ChartData = {
     labels: ['Dr. Sarah Johnson', 'Prof. Michael Chen', 'Dr. Emily Rodriguez', 'Prof. David Kim'],
     series: [{
@@ -320,16 +297,6 @@ export class StudentInstructorDashboard implements OnInit {
   };
 
   quizCompletionOptions: ChartOptions = {
-    // title: {
-    //   text: 'Quizzes by Instructor',
-    //   left: 'center',
-    //   top: '0%',
-    //   textStyle: {
-    //     fontSize: 16,
-    //     fontWeight: '600',
-    //     color: '#0b1220'
-    //   }
-    // },
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} quizzes ({d}%)'
@@ -348,17 +315,15 @@ export class StudentInstructorDashboard implements OnInit {
   private readonly studentService = inject(UserService);
   ngOnInit() {
     this.studentService.getDashboard().subscribe(data => {
-        this.stats = data.stats;
-        this.instructors = data.instructors;
-        this.instructorQuizzes = data.instructorQuizzes;
-        this.instructorFeedback = data.instructorFeedback;
-        this.instructorAnnouncements = data.instructorAnnouncements;
- 
-        // Map charts
-        this.performanceComparisonData = data.performanceComparison;
-        this.quizCompletionData = data.quizCompletion;
+      this.stats = data.stats;
+      this.instructors = data.instructors;
+      this.instructorQuizzes = data.instructorQuizzes;
+      this.instructorFeedback = data.instructorFeedback;
+      this.instructorAnnouncements = data.instructorAnnouncements;
+      this.performanceComparisonData = data.performanceComparison;
+      this.quizCompletionData = data.quizCompletion;
     });
- }
+  }
 
   getStatusClass(status: string): string {
     switch (status) {

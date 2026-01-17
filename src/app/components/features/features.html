@@ -1,0 +1,70 @@
+<div class="page-container">
+  <!-- Background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container text-center">
+      <div class="hero-badge">
+        <i class="pi pi-star"></i>
+        <span>Platform Features</span>
+      </div>
+      <h1 class="page-title">
+        Powerful Features for<br>
+        <span class="highlight">Modern Learning</span>
+      </h1>
+      <p class="page-subtitle">
+        Everything you need to create, manage, and track quizzes effectively.
+        Built for educators and learners alike.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        @for (feature of features; track feature.title; let i = $index) {
+          <div class="feature-detail-card" [style.animation-delay]="i * 0.1 + 's'">
+            <div class="feature-icon-lg">
+              <i [class]="feature.icon"></i>
+            </div>
+            <h3 class="feature-title">{{ feature.title }}</h3>
+            <p class="feature-description">{{ feature.description }}</p>
+            <ul class="feature-highlights">
+              @for (highlight of feature.highlights; track highlight) {
+                <li><i class="pi pi-check-circle"></i>{{ highlight }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <div class="cta-glow"></div>
+      <h2 class="cta-title">Ready to experience these features?</h2>
+      <p class="cta-desc">Start using QuizLynx today and transform how you learn and teach.</p>
+      <a routerLink="/register" class="btn btn-primary btn-lg">Get Started Free</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="minimal-footer">
+    <div class="container">
+      <div class="footer-logo">QuizLynx</div>
+      <div class="footer-links">
+        <a routerLink="/features">Features</a>
+        <a routerLink="/pricing">Pricing</a>
+        <a routerLink="/about">About</a>
+        <a routerLink="/privacy">Privacy</a>
+        <a routerLink="/contact">Contact</a>
+      </div>
+      <p class="copy">© 2025 QuizLynx. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

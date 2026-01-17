@@ -18,7 +18,6 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-/* Card hover effect */
 .hoverable-card {
   transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
   border: 1px solid var(--color-border);
@@ -43,7 +42,6 @@
   min-height: 400px;
 }
 
-/* Status Badge Styling */
 .status-published {
   background: var(--color-success-bg);
   color: var(--color-success);
@@ -61,26 +59,6 @@
   color: var(--color-danger);
   border: 1px solid var(--color-danger);
 }
-
-// .dark {
-//   .status-published {
-//     background: rgba(22, 101, 52, 0.3);
-//     color: #86efac;
-//     border-color: rgba(134, 239, 172, 0.3);
-//   }
-
-//   .status-draft {
-//     background: rgba(55, 65, 81, 0.3);
-//     color: #d1d5db;
-//     border-color: rgba(209, 213, 219, 0.3);
-//   }
-
-//   .status-closed {
-//     background: var(--color-danger-bg);
-//     color: var(--color-danger);
-//     border-color: var(--color-danger-bg);
-//   }
-// }
 
 .dark {
   .instructor-quizzes-page {
@@ -167,13 +145,11 @@
     }
   }
 
-  /* PrimeNG Select styling */
-  .p-select .p-select-label {
+    .p-select .p-select-label {
     color: var(--color-text);
   }
 
-  /* Form error styling */
-  .error-message {
+    .error-message {
     color: var(--color-danger);
     font-size: 0.75rem;
     margin-top: 0.25rem;
@@ -196,7 +172,7 @@
       transform: translateY(-1px);
     }
     &:disabled{
-      background:#4e46e546;
+      background:#2920d627;
     }
   }
   .cancel-btn{

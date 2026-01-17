@@ -3,18 +3,14 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BatchService } from '../../core/service/batch';
 import { Batch } from '../../core/interface/interfaces';
-// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-// import { Toast } from 'primeng/toast';
 import { Common } from '../../core/common/common';
 
 @Component({
   selector: 'app-student-join',
   imports: [
     ReactiveFormsModule,
-    // Button,
     InputText,
-    // Toast
   ],
   templateUrl: './student-join.html',
   styleUrl: './student-join.scss',
@@ -34,7 +30,6 @@ export class StudentJoin implements OnInit {
   isLoadingPreview = false;
 
   ngOnInit(): void {
-    // Auto-focus on code input
   }
 
   onCodeInput(): void {
@@ -56,7 +51,6 @@ export class StudentJoin implements OnInit {
         this.isLoadingPreview = false;
       },
       error: (error) => {
-        // Batch not found or invalid code - hide preview
         this.previewBatchs = null;
         this.showPreview = false;
         this.isLoadingPreview = false;
@@ -83,7 +77,6 @@ export class StudentJoin implements OnInit {
         this.previewBatchs = null;
         this.showPreview = false;
         this.common.hideSpinner();
-        // Navigate to student batches page after a short delay
         setTimeout(() => {
           this.router.navigate(['/student/batches']);
         }, 1500);
@@ -98,10 +91,10 @@ export class StudentJoin implements OnInit {
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   }
 }

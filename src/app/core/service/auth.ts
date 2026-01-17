@@ -27,12 +27,10 @@ export class Auth {
   fetchProfile(): Observable<boolean> {
     return this.http.get<UserInfo>(`${this.BASE_URL}/me`).pipe(
       tap((user: UserInfo) => {
-        // Success: Save to storage
-        this.setLoggedIn(user); 
+        this.setLoggedIn(user);
       }),
       map(() => true), // Transform response to "true" (Allowed)
       catchError(() => {
-        // Error: Token invalid or missing
         this.setLoggedOut();
         return of(false); // Transform error to "false" (Blocked)
       })
@@ -56,8 +54,8 @@ export class Auth {
       })
     );
   }
-  register(data:registerConfig){
-    return this.http.post(`${this.BASE_URL}/register`,data);
+  register(data: registerConfig) {
+    return this.http.post(`${this.BASE_URL}/register`, data);
   }
   verifyOtp(data: otpConfig) {
     return this.http.post<UserInfo>(`${this.BASE_URL}/verify-otp`, data).pipe(
@@ -66,23 +64,17 @@ export class Auth {
       })
     );
   }
-  resendOtp(data:otpConfig){
-    return this.http.post(`${this.BASE_URL}/resend-otp`,data);
+  resendOtp(data: otpConfig) {
+    return this.http.post(`${this.BASE_URL}/resend-otp`, data);
   }
-  // logout() {
-  //   return this.http.post(`${this.BASE_URL}/logout`, {}).pipe(
-  //     tap(() => this.setLoggedOut()) // Clear state even if server errors
-  //   );
-  // }
-  updatePassword(data:any){
-    return this.http.patch(`${this.BASE_URL}/change-password`,data);
+  updatePassword(data: any) {
+    return this.http.patch(`${this.BASE_URL}/change-password`, data);
   }
-  forgotPassword(data:any){
-    return this.http.post(`${this.BASE_URL}/forgot-password`,data);
+  forgotPassword(data: any) {
+    return this.http.post(`${this.BASE_URL}/forgot-password`, data);
   }
 
   refreshToken() {
-    // We don't need to pass data, the HttpOnly cookie does the work
     return this.http.post(`${this.BASE_URL}/refresh-token`, {});
   }
 
