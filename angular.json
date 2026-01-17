@@ -31,10 +31,10 @@
               }
             ],
             "styles": [
-                "node_modules/primeicons/primeicons.css",
-                "node_modules/ngx-spinner/animations/square-jelly-box.css",
-                "src/styles.scss"
-                          ]
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/ngx-spinner/animations/square-jelly-box.css",
+              "src/styles.scss"
+            ]
           },
           "configurations": {
             "production": {
@@ -62,13 +62,6 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {
-            "port": 4300,
-            "ssl": true,
-            "sslKey": "localhost+2-key.pem",
-            "sslCert": "localhost+2.pem",
-            "host": "localhost"
-          },
           "configurations": {
             "production": {
               "buildTarget": "quiz-frontend:build:production"
