@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Auth } from '../../core/service/auth';
-
+import { environment } from '../../../environments/environment';
 interface RoleOption {
   key: 'STUDENT' | 'INSTRUCTOR' | 'USER';
   title: string;
@@ -27,7 +27,7 @@ export class SelectRole {
 
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
-  private apiUrl = 'https://localhost:8080/auth/complete-oauth-registration';
+  private apiUrl = `${environment.apiUrl}/auth/complete-oauth-registration`;
 
   roleOptions: RoleOption[] = [
     {

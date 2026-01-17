@@ -9,6 +9,7 @@ import { QuizService } from '../../core/service/quiz';
 import { UserService } from '../../core/service/user';
 import { Router } from '@angular/router';
 import { Common } from '../../core/common/common';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-ai-generator',
   imports: [FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule], templateUrl: './ai-generator.html',
@@ -26,7 +27,7 @@ export class AiGenerator implements OnInit {
   private readonly common = inject(Common);
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
-  private readonly BASE_URL = 'https://localhost:8080/api';
+  private readonly BASE_URL = `${environment.apiUrl}/api`;
   step: 'input' | 'preview' = 'input';
   isProcessing: boolean = false;
   promptText: string = '';

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AiUsage } from '../interface/interfaces';
-
+import { environment } from '../../../environments/environment';
 export interface UpdateProfileRequest {
   displayName?: string;
   firstName?: string;
@@ -24,7 +24,7 @@ export class UserService {
     return this.http.get(`${this.BASE_URL}/search?query=${encodeURIComponent(searchQuery)}`);
   }
   private readonly http = inject(HttpClient);
-  private readonly BASE_URL = 'https://localhost:8080/api/users';
+  private readonly BASE_URL = `${environment.apiUrl}/api/users`;
   getCurrentUserProfile(): Observable<any> {
     return this.http.get(`${this.BASE_URL}/me`);
   }
@@ -32,10 +32,10 @@ export class UserService {
     return this.http.put(`${this.BASE_URL}/me`, data);
   }
   getDashboard(): Observable<any> {
-    return this.http.get(`https://localhost:8080/api/student/dashboard`);
+    return this.http.get(`${environment.apiUrl}/api/student/dashboard`);
   }
   deleteAccount(): Observable<any> {
-    return this.http.delete<any>(`https://localhost:8080/auth/delete-account`);
+    return this.http.delete<any>(`${environment.apiUrl}/auth/delete-account`);
   }
   getDashboardData(): Observable<any> {
     return this.http.get(`${this.BASE_URL}/dashboard`)
@@ -53,20 +53,20 @@ export class UserService {
     return this.http.post(`${this.BASE_URL}/explore/generate`, payload);
   }
   createAiTopics<T>(payload: any): Observable<any> {
-    return this.http.post(`https://localhost:8080/api/ai/generate-from-topic`, payload);
+    return this.http.post(`${environment.apiUrl}/api/ai/generate-from-topic`, payload);
   }
   getMistakeQuiz(): Observable<any> {
-    return this.http.get(`https://localhost:8080/api/quiz/getFailedQuiz`)
+    return this.http.get(`${environment.apiUrl}/api/quiz/getFailedQuiz`)
   }
   getLeaderboard(): Observable<any> {
     return this.http.get(`${this.BASE_URL}/explore/leaderboard`);
   }
   checkAiUsage(): Observable<any> {
-    return this.http.get(`https://localhost:8080/api/ai/usage`);
+    return this.http.get(`${environment.apiUrl}/api/ai/usage`);
   }
   contactUs(payload: any): Observable<any> {
     console.log(payload)
-    return this.http.post(`https://localhost:8080/api/public/contact`, payload);
+    return this.http.post(`${environment.apiUrl}/api/public/contact`, payload);
   }
 }
 

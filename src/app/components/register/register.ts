@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ɵInternalForm
 import { Auth } from '../../core/service/auth';
 import { Router } from '@angular/router';
 import { Common } from '../../core/common/common';
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -68,7 +68,7 @@ export class Register {
     this.registerForm.get('role')?.setValue(role);
   }
   onGoogleClick() {
-    window.location.assign('https://localhost:8080/oauth2/authorization/google');
+    window.location.assign(`${environment.apiUrl}/oauth2/authorization/google`);
   }
 
 }

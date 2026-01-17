@@ -3,13 +3,13 @@ import { inject, Injectable } from '@angular/core';
 import { otpConfig, registerConfig, signConfig, UserInfo } from '../interface/interfaces';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
   private readonly STORAGE_KEY = 'cachedUser';
-  private readonly BASE_URL = 'https://localhost:8080/auth'
+  private readonly BASE_URL = `${environment.apiUrl}/auth`
   private readonly http = inject(HttpClient);
   public isLoggedIn$ = new BehaviorSubject<boolean>(!!this.getCachedUser());
   private readonly userSubject = new BehaviorSubject<UserInfo | null>(this.getCachedUser());

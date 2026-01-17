@@ -2,13 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Batch, CreateBatchRequest } from '../interface/interfaces';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class BatchService {
   private readonly http = inject(HttpClient);
-  private readonly BASE_URL = 'https://localhost:8080/api/batches';
+  private readonly BASE_URL = `${environment.apiUrl}/api/batches`;
   getBatches(): Observable<Batch[]> {
     return this.http.get<Batch[]>(`${this.BASE_URL}`);
   }
@@ -36,7 +36,7 @@ export class BatchService {
     });
   }
   joinBatchByCode(code: string): Observable<Batch> {
-    return this.http.post<Batch>(`https://localhost:8080/api/instructor/bind-by-code`, { code });
+    return this.http.post<Batch>(`${environment.apiUrl}/api/instructor/bind-by-code`, { code });
   }
   getBatchByCode(code: string): Observable<Batch> {
     return this.http.get<Batch>(`${this.BASE_URL}/code/${code}`);

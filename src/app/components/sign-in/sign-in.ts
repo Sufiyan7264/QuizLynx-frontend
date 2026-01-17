@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Auth } from '../../core/service/auth';
 import { Router } from '@angular/router';
 import { Common } from '../../core/common/common';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-sign-in',
   imports: [HalfCircle, ReactiveFormsModule],
@@ -52,6 +52,6 @@ export class SignIn {
   }
   onGoogleClick() {
     localStorage.setItem('google_auth_pending', 'true');
-    globalThis.location.assign('https://localhost:8080/oauth2/authorization/google');
+    globalThis.location.assign(`${environment.apiUrl}/oauth2/authorization/google`);
   }
 }

@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Quiz, CreateQuizRequest, QuestionWrapper } from '../interface/interfaces';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService {
   private readonly http = inject(HttpClient);
-  private readonly BASE_URL = 'https://localhost:8080/api/quiz';
+  private readonly BASE_URL = `${environment.apiUrl}/api/quiz`;
   getQuizzes(): Observable<Quiz[]> {
     return this.http.get<Quiz[]>(`${this.BASE_URL}/student/active-quizzes`);
   }
