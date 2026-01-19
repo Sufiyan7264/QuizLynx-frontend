@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://api.quizlynx.in'
+    apiUrl: 'https://quizlynx-backend.onrender.com'
 };
