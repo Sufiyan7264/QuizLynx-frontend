@@ -18,7 +18,4 @@ export class Instructor {
     getDashboardStats(): Observable<any> {
         return this.http.get<any>(`${this.BASE_URL}/dashboard`);
     }
-    getDashboardStats(): Observable<any> {
-        return this.http.get<any>(`${this.BASE_URL}/dashboard`);
-    }
 }

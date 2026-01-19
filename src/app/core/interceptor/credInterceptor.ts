@@ -6,10 +6,6 @@ import { Auth } from '../service/auth';
 let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<any>(null);
 
-// --- STATE VARIABLES (Must be outside the function) ---
-let isRefreshing = false;
-const refreshTokenSubject = new BehaviorSubject<any>(null);
-
 export const CredInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const auth = inject(Auth);
