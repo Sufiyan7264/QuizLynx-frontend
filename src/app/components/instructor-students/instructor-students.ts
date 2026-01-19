@@ -2,9 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { StudentService } from '../../core/service/student';
 import { BatchService } from '../../core/service/batch';
 import { Student, Batch } from '../../core/interface/interfaces';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
 import { Select } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +13,6 @@ import { Common } from '../../core/common/common';
     FormsModule,
     Select,
     InputText,
-    // Toast
   ],
   templateUrl: './instructor-students.html',
   styleUrl: './instructor-students.scss',
@@ -76,20 +72,17 @@ export class InstructorStudents implements OnInit {
   applyFilters(): void {
     let filtered = [...this.students];
     console.log(filtered)
-    // Filter by batch
     if (this.selectedBatchId) {
-      filtered = filtered.filter(student => 
+      filtered = filtered.filter(student =>
         student.enrolledBatches?.includes(this.selectedBatchId!) ||
-        student.batchNames?.some(name => 
+        student.batchNames?.some(name =>
           this.batches.find(b => b.id === this.selectedBatchId && b.batchName === name)
         )
       );
     }
-
-    // Filter by search term
     if (this.searchTerm.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
-      filtered = filtered.filter(student => 
+      filtered = filtered.filter(student =>
         student.username?.toLowerCase().includes(search) ||
         student.email?.toLowerCase().includes(search) ||
         student.firstName?.toLowerCase().includes(search) ||
@@ -126,15 +119,15 @@ export class InstructorStudents implements OnInit {
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   }
 
   getBatchNames(student: Student): string {
-    if (student.batchNames && student.batchNames.length > 0) { 
+    if (student.batchNames && student.batchNames.length > 0) {
       return student.batchNames.join(', ');
     }
     if (student.enrolledBatches && student.enrolledBatches.length > 0) {

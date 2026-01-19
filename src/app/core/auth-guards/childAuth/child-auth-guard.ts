@@ -3,8 +3,6 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const childAuthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-
-  // Get the stored user info from sessionStorage
   const getStoredUser = (): { username: string; role: string } | null => {
     try {
       const raw = sessionStorage.getItem('cachedUser'); // your storage key
@@ -17,7 +15,6 @@ export const childAuthGuard: CanActivateFn = (route, state) => {
   const user = getStoredUser();
 
   if (!user || !user.role) {
-    // No user info -> redirect to signin
     router.navigate(['/signin'], { queryParams: { returnUrl: state.url } });
     return false;
   }

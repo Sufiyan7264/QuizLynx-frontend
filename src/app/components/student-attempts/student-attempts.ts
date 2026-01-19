@@ -13,7 +13,6 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
     FormsModule,
     InputText,
     PaginatorModule
-    // Toast
   ],
   templateUrl: './student-attempts.html',
   styleUrl: './student-attempts.scss',
@@ -23,7 +22,7 @@ export class StudentAttempts implements OnInit {
   private readonly router = inject(Router);
   private readonly common = inject(Common);
   first: number = 0;
-  totalElement=signal<any>(10);
+  totalElement = signal<any>(10);
   rows: number = 10;
   payload: any = {
     page: 0,
@@ -38,11 +37,10 @@ export class StudentAttempts implements OnInit {
     this.loadAttempts(this.payload);
   }
 
-  loadAttempts(payload:any): void {
+  loadAttempts(payload: any): void {
     this.common.showSpinner();
     this.quizAttemptService.getStudentAttempts(payload).subscribe({
       next: (attempts: any) => {
-        // Sort by submitted date (most recent first)
         const sorted = [...attempts.content].sort((a, b) => {
           const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
           const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
@@ -66,8 +64,6 @@ export class StudentAttempts implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.attempts];
-
-    // Filter by search term
     if (this.searchTerm?.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(attempt =>
@@ -133,12 +129,12 @@ export class StudentAttempts implements OnInit {
   goToDashboard(): void {
     this.router.navigate(['/student-dashboard']);
   }
-    onPageChange(event: PaginatorState) {
+  onPageChange(event: PaginatorState) {
     this.first = event.first ?? 0;
     this.rows = event.rows ?? 10;
     this.payload = {
       page: event.page,
-      size:this.rows,
+      size: this.rows,
     }
     this.loadAttempts(this.payload);
   }

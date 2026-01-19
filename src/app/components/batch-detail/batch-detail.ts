@@ -6,9 +6,6 @@ import { QuizService } from '../../core/service/quiz';
 import { BatchService } from '../../core/service/batch';
 import { Student, Quiz, Batch } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-// import { Toast } from 'primeng/toast';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -16,11 +13,9 @@ import { Common } from '../../core/common/common';
   imports: [
     FormsModule,
     InputText,
-    // Toast
   ],
   templateUrl: './batch-detail.html',
   styleUrl: './batch-detail.scss',
-  // providers: [MessageService]
 })
 export class BatchDetail implements OnInit {
   private readonly studentService = inject(StudentService);
@@ -32,17 +27,13 @@ export class BatchDetail implements OnInit {
 
   batchId?: string;
   batch?: Batch;
-  
-  // Students
   students: Student[] = [];
   filteredStudents: Student[] = [];
   studentSearchTerm: string = '';
-  
-  // Quizzes
   quizzes: Quiz[] = [];
   filteredQuizzes: Quiz[] = [];
   quizSearchTerm: string = '';
-  
+
   activeTab: 'students' | 'quizzes' = 'students';
 
   ngOnInit(): void {
@@ -181,9 +172,9 @@ export class BatchDetail implements OnInit {
   formatDisplayDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'

@@ -17,8 +17,6 @@ type ViewState = 'start' | 'exam' | 'submitting';
 export class QuizAttempt implements OnInit, OnDestroy {
   private readonly quizAttemptService = inject(QuizAttemptService);
   private readonly quizService = inject(QuizService);
-  // private readonly messageService = inject(MessageService);
-  // private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly common = inject(Common);
@@ -30,8 +28,6 @@ export class QuizAttempt implements OnInit, OnDestroy {
   viewState: ViewState = 'start';
   attemptId?: string;
   startedAt?: Date;
-  
-  // Timer
   timeRemaining: number = 0; // in seconds
   timerInterval?: any;
   isTimeUp = false;
@@ -66,55 +62,37 @@ export class QuizAttempt implements OnInit, OnDestroy {
       }
     });
   }
-  
-
-// 1. Entry Point: Checks if we are Resuming or Starting Fresh
   startQuiz() {
     if (!this.quizId) return;
-    
-    // 1. Check if attempt exists
     this.quizAttemptService.getAttemptStatus(this.quizId).subscribe({
       next: (status: any) => {
-          // CHECK: Do we have a specific saved time? (from the Pause feature)
-          if (status && status.remainingSeconds !== undefined && status.remainingSeconds !== null) {
-              
-              // --- RESUME FLOW ---
-              console.log('Resuming quiz with seconds remaining:', status.remainingSeconds);
-              this.timeRemaining = status.remainingSeconds;
-              console.log('Time remaining set to:', this.timeRemaining);
-              if (this.timeRemaining <= 0) {
-                  this.autoSubmit(); // Time expired while paused
-              } else {
-                  // Load questions and show Exam UI
-                  this.loadQuestionsAndStart(); 
-              }
+        if (status && status.remainingSeconds !== undefined && status.remainingSeconds !== null) {
+          console.log('Resuming quiz with seconds remaining:', status.remainingSeconds);
+          this.timeRemaining = status.remainingSeconds;
+          console.log('Time remaining set to:', this.timeRemaining);
+          if (this.timeRemaining <= 0) {
+            this.autoSubmit(); // Time expired while paused
           } else {
-              // --- NEW ATTEMPT FLOW ---
-              console.log('Starting fresh quiz');
-              this.startNewQuiz(); 
+            this.loadQuestionsAndStart();
           }
+        } else {
+          console.log('Starting fresh quiz');
+          this.startNewQuiz();
+        }
       },
       error: (err) => {
         console.error('Error checking status', err);
-        // Fallback to new quiz if status check fails (optional)
         this.startNewQuiz();
       }
     });
   }
-
-  // 2. Fresh Start Logic
   startNewQuiz(): void {
     if (!this.quizId || !this.quiz) return;
-    
-    // Set Full Duration
     this.timeRemaining = this.quiz.timerInMin * 60;
 
     this.common.showSpinner();
-
-    // Notify backend to create the Attempt Row in DB
     this.quizAttemptService.startQuiz(this.quizId).subscribe({
       next: () => {
-        // Once DB row is created, load the questions
         this.loadQuestionsAndStart();
       },
       error: (err) => {
@@ -123,23 +101,17 @@ export class QuizAttempt implements OnInit, OnDestroy {
       }
     });
   }
-
-  // 3. Helper: Fetches Questions & Switches View (Used by both Resume & New)
   loadQuestionsAndStart(): void {
     if (!this.quizId) return;
 
     this.common.showSpinner();
-    
+
     this.quizService.getQuizQuestions(this.quizId).subscribe({
       next: (questions) => {
         this.questions = questions;
-        
-        // Switch UI to Exam Mode
         this.viewState = 'exam';
-        
-        // Start the countdown
         this.startTimer();
-        
+
         this.common.hideSpinner();
       },
       error: (error: any) => {
@@ -149,20 +121,15 @@ export class QuizAttempt implements OnInit, OnDestroy {
       }
     });
   }
-
-  // 4. Timer Logic
   startTimer(): void {
-    // Safety check: If time is missing/zero, default to full time (should rarely happen due to logic above)
-    if (this.timeRemaining <= 0 && this.quiz?.timerInMin) { 
-        this.timeRemaining = this.quiz.timerInMin * 60;
+    if (this.timeRemaining <= 0 && this.quiz?.timerInMin) {
+      this.timeRemaining = this.quiz.timerInMin * 60;
     }
-    
-    // Clear any existing timer to prevent duplicates
     this.clearTimer();
 
     this.timerInterval = setInterval(() => {
       this.timeRemaining--;
-      
+
       if (this.timeRemaining <= 0) {
         this.isTimeUp = true;
         this.clearTimer();
@@ -195,8 +162,6 @@ export class QuizAttempt implements OnInit, OnDestroy {
   get answeredCount(): number {
     return this.responses.size;
   }
-
-  // Get options as an array from option1, option2, option3, option4
   getQuestionOptions(question: QuestionWrapper | undefined): string[] {
     if (!question) return [];
     const options: string[] = [];
@@ -264,7 +229,7 @@ export class QuizAttempt implements OnInit, OnDestroy {
   getQuestionNavButtonClass(index: number): string {
     const isActive = index === this.currentQuestionIndex;
     const isAnswered = this.isQuestionAnswered(index);
-    
+
     if (isActive) {
       return 'bg-indigo-600 text-white';
     } else if (isAnswered) {
@@ -297,12 +262,11 @@ export class QuizAttempt implements OnInit, OnDestroy {
   submitQuiz(): void {
     if (!this.quizId || !this.canSubmit()) return;
 
-    this.common.confirm('Submit Quiz','Are you sure you want to submit? You cannot change your answers after submission.', 'Yes', 'No', () => {
+    this.common.confirm('Submit Quiz', 'Are you sure you want to submit? You cannot change your answers after submission.', 'Yes', 'No', () => {
       this.viewState = 'submitting';
       this.clearTimer();
       this.performSubmission();
     }, () => {
-      // Do nothing
     });
   }
 
@@ -326,7 +290,6 @@ export class QuizAttempt implements OnInit, OnDestroy {
     this.quizAttemptService.submitQuizAttempt(request, this.quizId).subscribe({
       next: (result) => {
         this.common.hideSpinner();
-        // Navigate to result page
         this.router.navigate(['/quiz/result', result.id || this.quizId]);
       },
       error: (error: any) => {
@@ -339,13 +302,8 @@ export class QuizAttempt implements OnInit, OnDestroy {
   }
   saveProgress() {
     if (!this.quizId || this.isTimeUp || this.viewState === 'submitting') return;
-    
-    // Call the new Pause Endpoint
     this.quizAttemptService.pauseQuiz(this.quizId, this.timeRemaining).subscribe();
   }
-
-
-  // When user closes the browser tab or refreshes
   @HostListener('window:beforeunload', ['$event'])
   handleClose(event: any) {
     this.saveProgress();

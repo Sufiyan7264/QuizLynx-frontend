@@ -5,13 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BatchService } from '../../core/service/batch';
 import { Batch, CreateBatchRequest } from '../../core/interface/interfaces';
 import { Dialog } from 'primeng/dialog';
-// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-// import { DatePicker } from 'primeng/datepicker';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
-// import { ConfirmationService } from 'primeng/api';
 import { Common } from '../../core/common/common';
 @Component({
   selector: 'app-batches',
@@ -19,14 +13,10 @@ import { Common } from '../../core/common/common';
     ReactiveFormsModule,
     FormsModule,
     Dialog,
-    // Button,
     InputText,
-    // DatePicker,
-    // Toast
   ],
   templateUrl: './batches.html',
   styleUrl: './batches.scss',
-  // providers: [MessageService]
 })
 export class Batches implements OnInit {
   private readonly batchService = inject(BatchService);
@@ -44,14 +34,7 @@ export class Batches implements OnInit {
   batchForm: FormGroup = this.fb.group({
     batchName: ['', [Validators.required, Validators.minLength(3)]],
     description: [''],
-    // startDate: [null],
-    // endDate: [null]
   });
-
-  // get minEndDate(): Date | null {
-  //   const startDate = this.batchForm.get('startDate')?.value;
-  //   return startDate ? new Date(startDate) : null;
-  // }
 
   ngOnInit(): void {
     this.loadBatches();
@@ -66,7 +49,7 @@ export class Batches implements OnInit {
         this.common.hideSpinner();
       },
       error: (error) => {
-        this.common.showMessage( 'error', 'Error', error?.error?.message || 'Failed to load batches' );
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load batches');
         this.common.hideSpinner();
       }
     });
@@ -85,8 +68,6 @@ export class Batches implements OnInit {
     this.batchForm.patchValue({
       batchName: batch.batchName,
       description: batch.description || '',
-      // startDate: batch.startDate ? new Date(batch.startDate) : null,
-      // endDate: batch.endDate ? new Date(batch.endDate) : null
     });
     this.showCreateDialog = true;
   }
@@ -108,35 +89,33 @@ export class Batches implements OnInit {
     const batchData: CreateBatchRequest = {
       batchName: formValue.batchName,
       description: formValue.description || undefined,
-      // startDate: formValue.startDate ? this.formatDateForAPI(formValue.startDate) : undefined,
-      // endDate: formValue.endDate ? this.formatDateForAPI(formValue.endDate) : undefined
     };
 
     this.common.showSpinner();
 
     if (this.isEditMode && this.selectedBatch?.id) {
       this.batchService.updateBatch(this.selectedBatch.id, batchData).subscribe({
-        next: (response:any) => {
-          this.common.showMessage( 'success', 'Success',response.message ?? 'Batch updated successfully' );
+        next: (response: any) => {
+          this.common.showMessage('success', 'Success', response.message ?? 'Batch updated successfully');
           this.loadBatches();
           this.closeDialog();
           this.common.hideSpinner();
         },
         error: (error) => {
-          this.common.showMessage( 'error', 'Error',error?.error?.message || 'Failed to update batch' );
+          this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to update batch');
           this.common.hideSpinner();
         }
       });
     } else {
       this.batchService.createBatch(batchData).subscribe({
         next: () => {
-          this.common.showMessage( 'success', 'Success', 'Batch created successfully' );
+          this.common.showMessage('success', 'Success', 'Batch created successfully');
           this.loadBatches();
           this.closeDialog();
           this.common.hideSpinner();
         },
         error: (error) => {
-          this.common.showMessage( 'error', 'Error',error?.error?.message || 'Failed to create batch' );
+          this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to create batch');
           this.common.hideSpinner();
         }
       });
@@ -145,7 +124,7 @@ export class Batches implements OnInit {
 
   deleteBatch(batch: Batch): void {
     if (!batch.id) return;
-    this.common.confirm( 'Delete Batch', `Are you sure you want to delete "${batch.batchName}"?`, 'Delete', 'Cancel', () => {
+    this.common.confirm('Delete Batch', `Are you sure you want to delete "${batch.batchName}"?`, 'Delete', 'Cancel', () => {
       this.deleteBatchConfirm(batch);
     }, () => {
       return;
@@ -155,12 +134,12 @@ export class Batches implements OnInit {
     this.common.showSpinner();
     this.batchService.deleteBatch(batch.id!).subscribe({
       next: () => {
-        this.common.showMessage( 'success', 'Success', 'Batch deleted successfully' );
+        this.common.showMessage('success', 'Success', 'Batch deleted successfully');
         this.loadBatches();
         this.common.hideSpinner();
       },
       error: (error) => {
-        this.common.showMessage( 'error', 'Error', error?.error?.message || 'Failed to delete batch' );
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to delete batch');
         this.common.hideSpinner();
       }
     });
@@ -170,10 +149,10 @@ export class Batches implements OnInit {
   formatDisplayDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   }
 
@@ -192,8 +171,6 @@ export class Batches implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.batches];
-
-    // Filter by search term
     if (this.searchTerm?.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(batch =>

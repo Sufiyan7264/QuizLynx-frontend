@@ -1,25 +1,38 @@
 .pricing-container {
-  // Using radial gradient with some transparency for that "glow" effect, 
-  // relying on background-color from tailwind (bg-bg) for base.
   background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.05), transparent 55%),
               radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 55%);
 
   .pricing-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     backdrop-filter: blur(10px);
+    background: var(--color-primary-foreground);
     
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12); // Slightly stronger shadow
+      box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+    }
+    h3 {
+      color: var(--color-text);
+    }
+
+    p {
+      color: var(--color-muted-text);
+    }
+    .text-5xl, .text-4xl {
+      color: var(--color-text);
     }
   }
-
-  // Enhanced Pro Card Glow
   .pro-card {
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.15); // Primary color glow
-      &:hover {
-        box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
-      }
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+    border-color: var(--color-primary);
+    
+    &:hover {
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
+    }
+
+    h3 {
+      color: var(--color-primary);
+    }
   }
 
   .p-card {
@@ -33,15 +46,76 @@
         flex-grow: 1;
     }
   }
-
-  // Popular Badge
   .popular-badge {
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);
   }
 }
+.dark {
+  .pricing-container {
+    background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.08), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.1), transparent 55%);
+  }
 
-// Custom Animations
+  .pricing-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.82));
+    border-color: rgba(148, 163, 184, 0.25);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      border-color: rgba(148, 163, 184, 0.4);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    h3 {
+      color: #f1f5f9; // Bright text for titles
+    }
+    .text-5xl, .text-4xl {
+      color: #ffffff;
+    }
+  }
+
+  .pro-card {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.1));
+    border-color: rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+
+    &:hover {
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.35);
+    }
+  }
+}
+::ng-deep {
+  .pricing-card {
+    .p-button-outlined {
+      color: var(--color-text);
+      border-color: var(--color-border);
+      background: transparent;
+
+      &:hover {
+        background: var(--hover-color);
+        border-color: var(--color-primary);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        color: var(--color-muted-text);
+      }
+    }
+
+    .p-button-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      border: none;
+      color: white;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+
+      &:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+      }
+    }
+  }
+}
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -52,6 +126,6 @@
 }
 
 .cards-container {
-  animation: fadeIn 0.8s ease-out forwards 0.2s; // Delay
-  opacity: 0; // Start hidden
+  animation: fadeIn 0.8s ease-out forwards 0.2s;
+  opacity: 0;
 }

@@ -38,7 +38,7 @@ export interface ChartOptions {
 })
 export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @ViewChild('chartContainer', { static: false }) chartContainer!: ElementRef<HTMLDivElement>;
-  
+
   @Input() chartType: ChartType = 'line';
   @Input() data: ChartData = {};
   @Input() width: string | number = '100%';
@@ -51,7 +51,6 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
   private chartInstance: echarts.ECharts | null = null;
 
   ngOnInit(): void {
-    // Component initialization
   }
 
   ngAfterViewInit(): void {
@@ -91,12 +90,10 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
     this.chartInstance = echarts.init(
       this.chartContainer.nativeElement,
       this.theme,
-      {renderer:'svg'}
+      { renderer: 'svg' }
     );
 
     this.updateChart();
-
-    // Handle window resize
     window.addEventListener('resize', this.onResize);
   }
 
@@ -127,8 +124,6 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
       animation: this.options.animation !== undefined ? this.options.animation : true,
       animationDuration: this.options.animationDuration || 1000,
     };
-
-    // Add title if provided
     if (this.options.title) {
       baseOption.title = this.options.title;
     }
@@ -138,8 +133,6 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
       fontWeight: 'normal',
       color: '#000'
     }
-
-    // Add tooltip if not provided
     if (!baseOption.tooltip) {
       baseOption.tooltip = {
         trigger: 'axis',
@@ -148,8 +141,6 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
         }
       };
     }
-
-    // Build chart-specific configuration
     switch (this.chartType) {
       case 'line':
         return this.buildLineChartOption(baseOption);
@@ -193,13 +184,13 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
       },
       yAxis: this.options.yAxis || {
         type: 'value',
-          splitLine: {
-            show: true, // Ensure grid lines are shown
-            lineStyle: {
-                color: 'var(--color-border)', 
-                type: 'dashed' 
-            }
+        splitLine: {
+          show: true, // Ensure grid lines are shown
+          lineStyle: {
+            color: 'var(--color-border)',
+            type: 'dashed'
           }
+        }
       },
       series: this.data.series || this.buildSeriesFromDatasets('line')
     };
@@ -233,8 +224,8 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
         splitLine: {
           show: true, // Ensure grid lines are shown
           lineStyle: {
-              color: 'var(--color-border)', 
-              type: 'dashed' 
+            color: 'var(--color-border)',
+            type: 'dashed'
           }
         }
       },
@@ -272,13 +263,10 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
       },
       data: this.buildPieData()
     };
-
-    // If custom series are provided, merge label properties to remove outline
     let series = this.data.series || [defaultSeries];
     if (this.data.series) {
       series = this.data.series.map((s: any) => {
         const mergedSeries = { ...s };
-        // Merge label properties to ensure outline is removed
         if (mergedSeries.label) {
           mergedSeries.label = {
             ...mergedSeries.label,
@@ -296,7 +284,6 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
             textBorderWidth: 0
           };
         }
-        // Merge emphasis label properties
         if (mergedSeries.emphasis?.label) {
           mergedSeries.emphasis.label = {
             ...mergedSeries.emphasis.label,
@@ -569,13 +556,9 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
       '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'
     ];
   }
-
-  // Public method to get chart instance (useful for advanced operations)
   public getChartInstance(): echarts.ECharts | null {
     return this.chartInstance;
   }
-
-  // Public method to manually refresh chart
   public refresh(): void {
     if (this.chartInstance) {
       this.updateChart();

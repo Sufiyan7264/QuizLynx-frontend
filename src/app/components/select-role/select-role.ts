@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Auth } from '../../core/service/auth';
-
+import { environment } from '../../../environments/environment';
 interface RoleOption {
   key: 'STUDENT' | 'INSTRUCTOR' | 'USER';
   title: string;
@@ -27,9 +27,7 @@ export class SelectRole {
 
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
-
-  // In a real app, consider pulling from environment.ts
-  private apiUrl = 'https://localhost:8080/auth/complete-oauth-registration';
+  private apiUrl = `${environment.apiUrl}/auth/complete-oauth-registration`;
 
   roleOptions: RoleOption[] = [
     {
@@ -63,9 +61,9 @@ export class SelectRole {
     const payload = { role: role.key };
 
     this.http.patch(this.apiUrl, payload).subscribe({
-      next: (data:any) => {
+      next: (data: any) => {
         this.isSubmitting.set(false);
-        this.auth.setLoggedIn({username:data.username,role:data.role,enabled:data.wasReactivated});
+        this.auth.setLoggedIn({ username: data.username, role: data.role, enabled: data.wasReactivated });
         this.router.navigate([role.primaryRoute]);
       },
       error: (err: any) => {

@@ -1,13 +1,7 @@
-/* Base state: full-width, subtle gradient like image 1 */
 :host {
   display: block;
 }
 
-// header {
-//   background: linear-gradient(180deg, #eaf1ff 0%, #e7eefb 100%);
-// }
-
-/* Allow the compact floating nav look on scroll (image 2) */
 .backdrop-blur {
   backdrop-filter: saturate(180%) blur(10px);
 }

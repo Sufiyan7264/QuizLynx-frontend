@@ -1,0 +1,147 @@
+<div class="page-container">
+  <!-- Background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container text-center">
+      <div class="hero-badge">
+        <i class="pi pi-send"></i>
+        <span>Get in Touch</span>
+      </div>
+      <h1 class="page-title">
+        Contact <span class="highlight">Us</span>
+      </h1>
+      <p class="page-subtitle">
+        Have questions, feedback, or need support? We'd love to hear from you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact Content -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        
+        <!-- Contact Form -->
+        <div class="contact-form-card">
+          @if (submitted) {
+            <div class="success-message">
+              <div class="success-icon">
+                <i class="pi pi-check-circle"></i>
+              </div>
+              <h3>Message Sent!</h3>
+              <p>Thank you for reaching out. We'll get back to you within 24-48 hours.</p>
+              <button class="btn btn-ghost" (click)="submitted = false">Send Another Message</button>
+            </div>
+          } @else {
+            <h2>Send us a message</h2>
+            <form (ngSubmit)="submitForm()" [formGroup]="contactForm">
+              <div class="form-group">
+                <label class="required" for="name">Your Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  formControlName="name"
+                  placeholder="John Doe"
+                  required
+                >
+                @if (isInvalid('name')) {
+                  <div class="error-message text-xs text-red-500">Name is required.</div>
+                }
+              </div>
+              
+              <div class="form-group">
+                <label class="required" for="email">Email Address</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email"
+                  placeholder="john@example.com"
+                  required
+                >
+                @if (isInvalid('email')) {
+                  <div class="error-message text-xs text-red-500">Email is required.</div>
+                }
+              </div>
+              
+              <div class="form-group">
+                <label class="required" for="subject">Subject</label>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  formControlName="subject"
+                  placeholder="How can we help?"
+                >
+                @if (isInvalid('subject')) {
+                  <div class="error-message text-xs text-red-500">Subject is required.</div>
+                }
+              </div>
+              
+              <div class="form-group">
+                <label for="message" class="required">Message</label>
+                <textarea 
+                  id="message" 
+                  formControlName="message"
+                  rows="5"
+                  placeholder="Tell us more about your inquiry..."
+                  required
+                ></textarea>
+                @if (isInvalid('message')) {
+                  <div class="error-message text-xs text-red-500">Message is required.</div>
+                }
+              </div>
+
+              <button type="submit" pButton class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2 py-2 hover:shadow-lg hover:shadow-indigo-100 dark:hover:shadow-indigo-900/40 hover:translate-y-[-1px]" [label]="isSubmitting ? 'Sending...' : 'Send Message'" [disabled]="isSubmitting" [loading]="isSubmitting"></button>
+            </form>
+          }
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info-card">
+          <h2>Other Ways to Reach Us</h2>
+          <p class="info-desc">
+            Prefer not to use the form? Reach out through any of these channels.
+          </p>
+          
+          <div class="contact-methods">
+            @for (info of contactInfo; track info.label) {
+              <a [href]="info.link" target="_blank" class="contact-method">
+                <div class="method-icon">
+                  <i [class]="info.icon"></i>
+                </div>
+                <div class="method-details">
+                  <span class="method-label">{{ info.label }}</span>
+                  <span class="method-value">{{ info.value }}</span>
+                </div>
+                <i class="pi pi-external-link"></i>
+              </a>
+            }
+          </div>
+
+          <div class="response-note">
+            <i class="pi pi-clock"></i>
+            <p>We typically respond within 24-48 business hours.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="minimal-footer">
+    <div class="container">
+      <div class="footer-logo">QuizLynx</div>
+      <div class="footer-links">
+        <a routerLink="/features">Features</a>
+        <a routerLink="/pricing">Pricing</a>
+        <a routerLink="/about">About</a>
+        <a routerLink="/privacy">Privacy</a>
+        <a routerLink="/contact">Contact</a>
+      </div>
+      <p class="copy">© 2025 QuizLynx. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

@@ -4,9 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../core/service/quiz';
 import { Quiz } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-// import { Toast } from 'primeng/toast';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
 import { Auth } from '../../core/service/auth';
 import { Common } from '../../core/common/common';
 
@@ -16,15 +13,12 @@ import { Common } from '../../core/common/common';
     FormsModule,
     RouterModule,
     InputText,
-    // Toast
   ],
   templateUrl: './student-quizzes.html',
   styleUrl: './student-quizzes.scss',
-  // providers: [MessageService]
 })
 export class StudentQuizzes implements OnInit {
   private readonly quizService = inject(QuizService);
-  // private readonly messageService = inject(MessageService);
   private common = inject(Common);
   private readonly router = inject(Router);
   private readonly authService = inject(Auth);
@@ -39,12 +33,8 @@ export class StudentQuizzes implements OnInit {
 
   loadQuizzes(): void {
     this.common.showSpinner();
-    // Get quizzes for all batches the student is enrolled in
-    // For now, we'll get all published quizzes
-    // You may need to adjust this based on your API
     this.quizService.getQuizzes().subscribe({
       next: (quizzes) => {
-        // Filter only published quizzes
         this.quizzes = quizzes.filter(q => q.status === 'PUBLISHED');
         this.filteredQuizzes = [...this.quizzes];
         this.common.hideSpinner();
@@ -53,8 +43,8 @@ export class StudentQuizzes implements OnInit {
         console.error('Error loading quizzes:', error);
         this.common.showMessage(
           'error',
-           'Error',
-           error?.error?.message || 'Failed to load quizzes'
+          'Error',
+          error?.error?.message || 'Failed to load quizzes'
         );
         this.common.hideSpinner();
       }

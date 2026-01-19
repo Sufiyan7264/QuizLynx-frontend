@@ -128,7 +128,7 @@
           <span class="text-[11px] text-slate-500 dark:text-slate-300">{{ practiceSuggestion.subject }}</span>
         </div>
         <p class="text-sm text-slate-700 dark:text-slate-200 mb-3">{{ practiceSuggestion.message }}</p>
-        <button pButton type="button" label="Create custom quiz"
+        <button pButton type="button" label="Create custom quiz" (click)="router.navigate(['/user/practice'])"
           class="!h-9 !rounded-xl !bg-slate-900 !text-white !text-xs !font-semibold hover:!bg-slate-800 dark:!bg-slate-100 dark:!text-slate-900 dark:hover:!bg-slate-200 w-full"></button>
       </section>
     </div>

@@ -1,0 +1,108 @@
+<div class="page-container">
+  <!-- Background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container text-center">
+      <div class="hero-badge">
+        <i class="pi pi-info-circle"></i>
+        <span>About Us</span>
+      </div>
+      <h1 class="page-title">
+        Empowering Learning<br>
+        <span class="highlight">Through Technology</span>
+      </h1>
+      <p class="page-subtitle">
+        QuizLynx is on a mission to transform education by making 
+        quiz creation effortless and learning more engaging.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="content-section">
+    <div class="container">
+      <div class="content-card mission-card">
+        <div class="card-icon">
+          <i class="pi pi-compass"></i>
+        </div>
+        <h2>Our Mission</h2>
+        <p>
+          We believe that effective assessment shouldn't require hours of manual work. 
+          QuizLynx combines artificial intelligence with intuitive design to help educators 
+          focus on what matters most: teaching and inspiring students.
+        </p>
+        <p>
+          Whether you're an instructor managing a classroom of 30, a self-learner pursuing 
+          new skills, or a student preparing for exams, QuizLynx provides the tools you 
+          need to succeed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <div class="container">
+      <h2 class="section-title text-center">What We Stand For</h2>
+      <div class="values-grid">
+        @for (value of values; track value.title; let i = $index) {
+          <div class="value-card" [style.animation-delay]="i * 0.1 + 's'">
+            <div class="value-icon">
+              <i [class]="value.icon"></i>
+            </div>
+            <h3>{{ value.title }}</h3>
+            <p>{{ value.description }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="content-section">
+    <div class="container">
+      <div class="content-card">
+        <h2>Why QuizLynx?</h2>
+        <p>
+          Traditional quiz platforms are either too complex for quick use or too simple 
+          for meaningful assessment. QuizLynx bridges this gap by offering powerful 
+          AI-driven features wrapped in an interface anyone can use.
+        </p>
+        <ul class="feature-list">
+          <li><i class="pi pi-check"></i> Create quizzes in minutes, not hours</li>
+          <li><i class="pi pi-check"></i> Track student progress with real-time analytics</li>
+          <li><i class="pi pi-check"></i> Engage learners through gamification and leaderboards</li>
+          <li><i class="pi pi-check"></i> Scale from individual practice to classroom management</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <div class="cta-glow"></div>
+      <h2 class="cta-title">Join Our Growing Community</h2>
+      <p class="cta-desc">Start creating smarter quizzes today.</p>
+      <a routerLink="/register" class="btn btn-primary btn-lg">Get Started Free</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="minimal-footer">
+    <div class="container">
+      <div class="footer-logo">QuizLynx</div>
+      <div class="footer-links">
+        <a routerLink="/features">Features</a>
+        <a routerLink="/pricing">Pricing</a>
+        <a routerLink="/about">About</a>
+        <a routerLink="/privacy">Privacy</a>
+        <a routerLink="/contact">Contact</a>
+      </div>
+      <p class="copy">© 2025 QuizLynx. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

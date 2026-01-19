@@ -9,6 +9,7 @@ import { QuizService } from '../../core/service/quiz';
 import { UserService } from '../../core/service/user';
 import { Router } from '@angular/router';
 import { Common } from '../../core/common/common';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-ai-generator',
   imports: [FormsModule, DialogModule, TextareaModule, SliderModule, ButtonModule, SelectModule], templateUrl: './ai-generator.html',
@@ -16,7 +17,6 @@ import { Common } from '../../core/common/common';
 })
 export class AiGenerator implements OnInit {
   @Input() visible: boolean = false;
-  // quizId is now optional, as user can select it later
   @Input() preSelectedQuizId?: string;
 
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -27,22 +27,17 @@ export class AiGenerator implements OnInit {
   private readonly common = inject(Common);
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
-  private readonly BASE_URL = 'https://localhost:8080/api';
-
-  // State Management
+  private readonly BASE_URL = `${environment.apiUrl}/api`;
   step: 'input' | 'preview' = 'input';
   isProcessing: boolean = false;
-
-  // Data
   promptText: string = '';
   questionCount: number = 5;
   generatedQuestions: any[] = [];
-
-  // Selection
   quizzes: any[] = [];
   selectedQuiz: any = null;
 
   presets = ["class 9th hindi first chapter", "History of Space Travel", "Photosynthesis basics"];
+  aiUsage: any;
 
   ngOnInit() {
     this.loadQuizzes();
@@ -50,19 +45,15 @@ export class AiGenerator implements OnInit {
   }
 
   loadQuizzes() {
-    // Fetch all active quizzes so user can choose where to save
-    // Assuming you have a method like getActiveQuizzes() in QuizService
     this.quizService.getAllQuizzes().subscribe(data => {
       this.quizzes = data;
       console.log(this.quizzes)
-      // If parent passed an ID, auto-select it
       if (this.preSelectedQuizId) {
         this.selectedQuiz = this.quizzes.find(q => q.id === this.preSelectedQuizId);
       }
     });
   }
   checkAiUsage() {
-    // Check AI Usage
     this.userService.checkAiUsage().subscribe({
       next: (res) => {
         if (!res) {
@@ -70,18 +61,15 @@ export class AiGenerator implements OnInit {
           this.router.navigate(['/pricing']);
           return;
         }
+        this.aiUsage = res.attemptsLeft;
       },
       error: (err) => {
         this.common.showMessage('error', 'Error', err?.error?.message || 'Could not verify usage limits.');
       }
     });
   }
-
-  // Step 1: Generate Preview
   generatePreview() {
     if (!this.promptText.trim()) return;
-
-    // Proceed if allowed
     this.isProcessing = true;
     const payload = { contentText: this.promptText, numberOfQuestions: this.questionCount };
     this.http.post<any[]>(`${this.BASE_URL}/ai/preview`, payload).subscribe({
@@ -100,8 +88,6 @@ export class AiGenerator implements OnInit {
       }
     });
   }
-
-  // Step 2: Save to DB
   saveQuestions() {
     if (!this.selectedQuiz) {
       this.common.showMessage('warn', 'Select Quiz', 'Please select a quiz to save these questions.');
@@ -138,7 +124,6 @@ export class AiGenerator implements OnInit {
   closeDialog() {
     this.visible = false;
     this.visibleChange.emit(false);
-    // Optional: Reset state on close
     setTimeout(() => this.reset(), 300);
   }
 

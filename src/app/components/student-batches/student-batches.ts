@@ -4,9 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { BatchService } from '../../core/service/batch';
 import { Batch } from '../../core/interface/interfaces';
 import { InputText } from 'primeng/inputtext';
-// import { Toast } from 'primeng/toast';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
 import { Common } from '../../core/common/common';
 
 @Component({
@@ -14,7 +11,6 @@ import { Common } from '../../core/common/common';
   imports: [
     FormsModule,
     InputText,
-    // Toast
   ],
   templateUrl: './student-batches.html',
   styleUrl: './student-batches.scss',
@@ -53,8 +49,6 @@ export class StudentBatches implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.batches];
-
-    // Filter by search term
     if (this.searchTerm?.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(batch =>
@@ -85,10 +79,10 @@ export class StudentBatches implements OnInit {
   formatDisplayDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   }
 }

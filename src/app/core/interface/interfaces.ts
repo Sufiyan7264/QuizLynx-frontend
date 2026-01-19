@@ -1,13 +1,13 @@
 export interface signConfig {
-    username:string,
-    password:string
+  username: string,
+  password: string
 
 }
 export interface registerConfig {
-    username:string,
-    email:string,
-    password:string,
-    role: 'STUDENT' | 'INSTRUCTOR' | 'USER',
+  username: string,
+  email: string,
+  password: string,
+  role: 'STUDENT' | 'INSTRUCTOR' | 'USER',
 }
 export interface AiUsage {
   usage: number;
@@ -15,19 +15,20 @@ export interface AiUsage {
   attemptsLeft: number;
   isLimitReached: boolean;
 }
-export interface otpConfig{
-    email:string,
-    otp?:string,
-    username?:string
+export interface otpConfig {
+  email: string,
+  otp?: string,
+  username?: string
 }
 
 export interface UserInfo {
-    username: string;
-    role: string;
-    enabled?: boolean;
-  }
+  username: string;
+  role: string;
+  enabled?: boolean;
+  email?: string;
+}
 
-  export interface ExploreCategory {
+export interface ExploreCategory {
   name: string;
   description: string;
   icon: string;
@@ -42,7 +43,7 @@ export interface TrendingQuiz {
   attempts: number;
   rating: number;
 }
-  export interface Instructor {
+export interface Instructor {
   id: string;
   userId: string;
   firstName?: string;
@@ -134,7 +135,6 @@ export interface Question {
 export interface CreateQuestionRequest {
   quizId: string | number;
   questionTitle: string;
-  // questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
   option1: string;
   option2: string;
   option3: string;
@@ -147,7 +147,7 @@ export interface CreateQuestionRequest {
 export interface Student {
   id?: string;
   userId?: string;
-  username?:string;
+  username?: string;
   name?: string;
   email?: string;
   firstName?: string;
@@ -204,7 +204,6 @@ export interface QuestionReview {
   questionId: string;
   questionText: string;
   questionType: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
-  // options?: string[]; // Commented out - using option1, option2, option3, option4 instead
   option1?: string;
   option2?: string;
   option3?: string;
@@ -246,7 +245,6 @@ export interface BatchResult {
 export interface QuestionWrapper {
   id: string;
   questionTitle: string;
-  // questionType?: 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'ESSAY';
   option1?: string;
   option2?: string;
   option3?: string;
@@ -254,6 +252,5 @@ export interface QuestionWrapper {
   rightAnswer: string;
   marks: number;
   order?: number;
-  // Note: correctAnswer is NOT included in QuestionWrapper for students
 }
 

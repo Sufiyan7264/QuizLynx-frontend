@@ -4,39 +4,28 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { QuizService } from '../../../core/service/quiz';
 import { BatchService } from '../../../core/service/batch';
 import { Quiz, CreateQuizRequest, Batch } from '../../../core/interface/interfaces';
-// import { Dialog } from 'primeng/dialog';
-// import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
 import { Common } from '../../../core/common/common';
 
 @Component({
   selector: 'app-create',
   imports: [
     ReactiveFormsModule,
-    // Dialog,
-    // Button,
     InputText,
     DatePicker,
     InputNumber,
     Select,
-    // Toast
   ],
   templateUrl: './create.html',
   styleUrl: './create.scss',
-  // providers: [MessageService]
 })
 export class Create implements OnInit {
   private readonly quizService = inject(QuizService);
   private readonly batchService = inject(BatchService);
   private readonly fb = inject(FormBuilder);
-  // private readonly messageService = inject(MessageService);
-  // private readonly spinner = inject(NgxSpinnerService);
   private readonly common = inject(Common);
   public readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

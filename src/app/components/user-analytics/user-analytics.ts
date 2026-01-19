@@ -18,7 +18,6 @@ interface TopicStrength {
   styleUrl: './user-analytics.scss',
 })
 export class UserAnalytics {
-  // Strong vs. weak topics (bar chart)
   topicStrengthData: ChartData = {
     labels: ['Python', 'Java', 'History', 'Math', 'Computer Science'],
     series: [
@@ -52,8 +51,6 @@ export class UserAnalytics {
       max: 100,
     },
   };
-
-  // Accuracy over time (line chart)
   accuracyOverTimeData: ChartData = {
     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
     series: [
@@ -88,8 +85,6 @@ export class UserAnalytics {
       max: 100,
     },
   };
-
-  // Speed analysis (line chart – average time per question)
   speedData: ChartData = {
     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
     series: [

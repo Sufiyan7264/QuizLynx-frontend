@@ -9,8 +9,6 @@ import { DecimalPipe } from '@angular/common';
 import { Dialog } from 'primeng/dialog';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
-// Interfaces match your DTOs
-
 
 @Component({
   selector: 'app-user-explore',
@@ -20,13 +18,12 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
   styleUrl: './user-explore.scss',
 })
 export class UserExplore implements OnInit {
-  // private http = inject(HttpClient);
   private router = inject(Router);
   private common = inject(Common);
   private user = inject(UserService);
-  payload :any= {
-    page:0,
-    size:10
+  payload: any = {
+    page: 0,
+    size: 10
   }
 
   searchQuery = '';
@@ -35,7 +32,7 @@ export class UserExplore implements OnInit {
   showDifficultyModal = false;
   selectedCategoryForQuiz = '';
   first: number = 0;
-  totalRecords=signal<any>(10);
+  totalRecords = signal<any>(10);
   rows: number = 10;
 
 
@@ -62,17 +59,13 @@ export class UserExplore implements OnInit {
       });
   }
 
-  fetchTrending(payload:any) {
+  fetchTrending(payload: any) {
     this.user.getByTrending<TrendingQuiz[]>(payload)
       .subscribe({
-        next: (res: any) => {this.trendingQuizzes = res.content;this.totalRecords.set(res.totalElements)},
+        next: (res: any) => { this.trendingQuizzes = res.content; this.totalRecords.set(res.totalElements) },
         error: (err) => this.common.showMessage('error', "Error", err.error.message || 'Error loading trending quizzes')
       });
   }
-
-  // startQuiz(quizId: number) {
-  //   this.router.navigate(['/quiz/attempt', quizId]);
-  // }
 
   get filteredTrendingQuizzes(): TrendingQuiz[] {
     const query = this.searchQuery.toLowerCase().trim();
@@ -83,8 +76,6 @@ export class UserExplore implements OnInit {
       (quiz.title + quiz.category).toLowerCase().includes(query)
     );
   }
-
-  // Inside UserExplore Component
 
   generateQuiz(difficulty: string, category: string) {
     this.common.showSpinner();
@@ -97,7 +88,6 @@ export class UserExplore implements OnInit {
     this.user.getByGenerateQuiz<any>(payload).subscribe({
       next: (res: any) => {
         this.common.hideSpinner();
-        // Navigate immediately to the newly generated quiz
         this.router.navigate(['/quiz/attempt', res.quizId]);
       },
       error: (err) => {
@@ -119,8 +109,6 @@ export class UserExplore implements OnInit {
       .subscribe({
         next: (data: any) => {
           this.trendingQuizzes = data;
-
-          // Check if results are empty
           this.isSearchEmpty = data.length === 0;
         },
         error: (err: any) => console.error(err)
@@ -131,7 +119,7 @@ export class UserExplore implements OnInit {
     this.rows = event.rows ?? 10;
     this.payload = {
       page: event.page,
-      size:this.rows,
+      size: this.rows,
     }
     this.fetchTrending(this.payload);
   }

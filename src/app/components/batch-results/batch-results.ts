@@ -4,9 +4,6 @@ import { BatchResultService } from '../../core/service/batch-result';
 import { BatchService } from '../../core/service/batch';
 import { QuizService } from '../../core/service/quiz';
 import { BatchResult, StudentResult, Batch, Quiz } from '../../core/interface/interfaces';
-// import { MessageService } from 'primeng/api';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { Toast } from 'primeng/toast';
 import { Select } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -20,18 +17,15 @@ type SortOption = 'highest-score' | 'lowest-score' | 'date-asc' | 'date-desc';
     FormsModule,
     Select,
     InputText,
-    // Toast
   ],
   templateUrl: './batch-results.html',
   styleUrl: './batch-results.scss',
-  // providers: [MessageService]
 })
 export class BatchResults implements OnInit {
   private readonly batchResultService = inject(BatchResultService);
   private readonly batchService = inject(BatchService);
   private readonly quizService = inject(QuizService);
-  private  common = inject(Common);
-  // private readonly spinner = inject(NgxSpinnerService);
+  private common = inject(Common);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -43,12 +37,12 @@ export class BatchResults implements OnInit {
   studentResults: StudentResult[] = [];
   sortedResults: StudentResult[] = [];
   filteredResults: StudentResult[] = [];
-  
+
   batches: Batch[] = [];
   quizzes: Quiz[] = [];
   selectedBatchId?: string;
   selectedQuizId?: string;
-  
+
   sortOption: SortOption = 'highest-score';
   searchTerm: string = '';
   sortOptions = [
@@ -61,7 +55,7 @@ export class BatchResults implements OnInit {
   ngOnInit(): void {
     this.batchId = this.route.snapshot.params['batchId'];
     this.quizId = this.route.snapshot.queryParams['quizId'];
-    
+
     this.loadBatches();
     if (this.batchId) {
       this.selectedBatchId = this.batchId;
@@ -130,7 +124,7 @@ export class BatchResults implements OnInit {
 
   loadResults(): void {
     if (!this.batchId || !this.quizId) return;
-    
+
     this.common.showSpinner();
     this.batchResultService.getBatchResults(this.batchId, this.quizId).subscribe({
       next: (result) => {
@@ -143,7 +137,7 @@ export class BatchResults implements OnInit {
       },
       error: (error) => {
         console.error('Error loading results:', error);
-        this.common.showMessage('error','Error',error?.error?.message || 'Failed to load results');
+        this.common.showMessage('error', 'Error', error?.error?.message || 'Failed to load results');
         this.common.hideSpinner();
       }
     });
@@ -167,7 +161,7 @@ export class BatchResults implements OnInit {
 
   applySort(): void {
     this.sortedResults = [...this.studentResults];
-    
+
     switch (this.sortOption) {
       case 'highest-score':
         this.sortedResults.sort((a, b) => b.percentage - a.percentage);
@@ -190,13 +184,9 @@ export class BatchResults implements OnInit {
         });
         break;
     }
-
-    // Update ranks
     this.sortedResults.forEach((result, index) => {
       result.rank = index + 1;
     });
-
-    // Apply search filter after sorting
     this.applyFilters();
   }
 
@@ -206,8 +196,6 @@ export class BatchResults implements OnInit {
 
   applyFilters(): void {
     let filtered = [...this.sortedResults];
-
-    // Filter by search term
     if (this.searchTerm.trim()) {
       const search = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(result =>
@@ -229,7 +217,7 @@ export class BatchResults implements OnInit {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     if (hours > 0) {
       return `${hours}h ${minutes}m ${secs}s`;
     } else if (minutes > 0) {
@@ -242,9 +230,9 @@ export class BatchResults implements OnInit {
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'

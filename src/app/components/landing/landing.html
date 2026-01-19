@@ -1,157 +1,132 @@
 <div class="landing-container">
 
+  <!-- Animated Background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="container text-center relative z-10">
-      <div class="hero-badge">
-        <span class="text-xl">✨</span>
-        <span>The ultimate platform for Students & Instructors</span>
+      <div class="hero-badge animate-fade-in">
+        <i class="pi pi-sparkles"></i>
+        <span>AI-Powered Quiz Platform</span>
       </div>
-            <h1 class="hero-title">
-              Master Your Stack.<br>
-              <span class="highlight">Empower Your Class.</span>
-            </h1>
-            <p class="hero-subtitle">
-              Whether you're a student preparing for exams or an instructor managing a batch,
-              QuizLynx provides the tools you need to succeed.
-            </p>
-            <div class="cta-group">
-              <button (click)="tryQuizlynx()" class="btn btn-primary">Start as Student</button>
-              <button (click)="register()" class="btn btn-ghost">Instructor Sign Up</button>
-            </div>
-            </div>
-            </section>
-
-    <!-- Stats Floating Section -->
-    <div class="container relative z-20">
-      <div class="stats-container">
-        @for (stat of stats; track stat.label) {
-        <div class="stat-item">
-          <span class="value">{{ stat.value }}</span>
-          <span class="label">{{ stat.label }}</span>
-        </div>
-            }
-            </div>
+      <h1 class="hero-title animate-fade-up">
+        Smart Quizzes.<br>
+        <span class="highlight">Smarter Learning.</span>
+      </h1>
+      <p class="hero-subtitle animate-fade-up delay-1">
+        Create quizzes with AI, manage classrooms, track progress, and compete on leaderboards.
+        Built for students, instructors, and self-learners.
+      </p>
+      <div class="cta-group animate-fade-up delay-2">
+        <button (click)="register()" class="btn btn-primary">Get Started Free</button>
+        <a href="#how-it-works" class="btn btn-ghost">See How It Works</a>
+      </div>
     </div>
+  </section>
 
-    <!-- Student vs Instructor Roles -->
-    <section class="roles-section">
-      <div class="container">
-        <div class="text-center mb-16">
-          <h2 class="section-title">One Platform, Two Powerful Roles</h2>
-          <p class="section-desc">We've tailored experiences for both learners and educators.</p>
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Everything you need to succeed</h2>
+        <p class="section-desc">Powerful features designed for modern learning experiences.</p>
+      </div>
+      <div class="features-grid">
+        @for (feature of features; track feature.title; let i = $index) {
+          <div class="feature-card animate-on-scroll" [style.animation-delay]="i * 0.1 + 's'">
+            <div class="feature-icon">
+              <i [class]="feature.icon"></i>
             </div>
-<div class="role-split">
-  <!-- Student Card -->
-  <div class="role-card">
-    <div class="role-badge student">For Students</div>
-    <div class="role-icon">🎓</div>
-    <h3 class="role-title">Learn & Compete</h3>
-    <p class="text-slate-500 mb-6">
-      Sharpen your skills with topic-wise quizzes, track your growth, and climb the leaderboard.
-    </p>
-                    <ul class="role-features">
-                      @for(feature of studentFeatures; track feature) {
-                      <li>{{ feature }}</li>
-                      }
-                    </ul>
-                    <button (click)="register()" class="btn btn-ghost text-indigo-500 hover:text-indigo-600 pl-0">
-                      Start Learning →
-                    </button>
-                </div>
-<!-- Instructor Card -->
-<div class="role-card">
-  <div class="role-badge instructor">For Instructors</div>
-  <div class="role-icon">👨‍🏫</div>
-  <h3 class="role-title">Teach & Track</h3>
-  <p class="text-slate-500 mb-6">
-    Create custom batches, assign quizzes, and monitor your students' performance effortlessly.
-  </p>
-  <ul class="role-features">
-    @for(feature of instructorFeatures; track feature) {
-    <li>{{ feature }}</li>
-    }
-  </ul>
-  <button (click)="register()" class="btn btn-ghost text-purple-500 hover:text-purple-600 pl-0">
-    Start Teaching →
-  </button>
-                </div>
-            </div>
-            </div>
-            </section>
-
-    <!-- Glassmorphism Showcase Section -->
-    <section class="showcase-section">
-      <div class="container flex flex-col md:flex-row items-center gap-16">
-        <div class="flex-1">
-          <div class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-sm font-semibold mb-6">
-            🏆 Global Rankings
+            <span class="feature-badge">{{ feature.badge }}</span>
+            <h3 class="feature-title">{{ feature.title }}</h3>
+            <p class="feature-desc">{{ feature.description }}</p>
           </div>
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                  See where you stand<br>in real-time.
-                </h2>
-                <p class="text-slate-400 text-lg mb-8 leading-relaxed">
-                  Compete daily on our global leaderboard. Earn badges, maintain stripes, and showcase your expertise.
-                </p>
-                <button (click)="register()"
-                  class="text-indigo-400 hover:text-indigo-300 font-semibold text-lg flex items-center gap-2 group transition-colors">
-                  Join the Leaderboard <span class="group-hover:translate-x-1 transition-transform">→</span>
-                </button>
-                </div>
+        }
+      </div>
+    </div>
+  </section>
 
-            <div class="flex-1 w-full max-w-md">
-              <div class="glass-card transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div class="glass-header">
-                  <span class="font-bold text-lg">Top Performers</span>
-                  <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">Live</span>
-                </div>
-                    <div class="glass-row">
-                      <span class="rank">01</span>
-                      <div class="avatar">👨‍💻</div>
-                      <div class="name">Sarah Jenkins</div>
-                      <div class="score">9,840</div>
-                    </div>
-                    <div class="glass-row">
-                      <span class="rank">02</span>
-                      <div class="avatar">👩‍💻</div>
-                      <div class="name">Alex Chen</div>
-                      <div class="score">9,620</div>
-                    </div>
-                    <div class="glass-row">
-                      <span class="rank">03</span>
-                      <div class="avatar">🚀</div>
-                      <div class="name">Jordan Smith</div>
-                      <div class="score">9,150</div>
-                    </div>
-                </div>
+  <!-- How It Works Section -->
+  <section class="how-it-works-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-desc">Get started in minutes with three simple steps.</p>
+      </div>
+      <div class="steps-container">
+        @for (step of steps; track step.number; let i = $index) {
+          <div class="step-card animate-on-scroll" [style.animation-delay]="i * 0.15 + 's'">
+            <div class="step-icon">
+              <i [class]="step.icon"></i>
             </div>
-            </div>
-            </section>
+            <div class="step-number">{{ step.number }}</div>
+            <h3 class="step-title">{{ step.title }}</h3>
+            <p class="step-desc">{{ step.description }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
 
-    <!-- CTA Section -->
-    <section class="py-24 bg-white text-center" style="background: var(--color-bg)">
-      <div class="container max-w-3xl">
-        <h2 class="text-4xl font-bold mb-6" style="color: var(--color-text)">Ready to start your journey?</h2>
-        <p class="text-xl mb-10" style="color: var(--color-muted-text)">
-          Join thousands of students and instructors transforming the way they learn and teach.
-        </p>
-            <button (click)="register()" class="btn btn-primary text-lg px-8 py-4 shadow-xl shadow-indigo-500/20">
-              Get Started for Free
+  <!-- Role Cards Section -->
+  <section class="roles-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Choose Your Path</h2>
+        <p class="section-desc">Tailored experiences for every type of learner.</p>
+      </div>
+      <div class="role-grid">
+        @for (role of roles; track role.type; let i = $index) {
+          <div class="role-card animate-on-scroll" [class]="role.type" [style.animation-delay]="i * 0.1 + 's'">
+            <div class="role-badge" [class]="role.type">{{ role.badge }}</div>
+            <div class="role-icon">
+              <i [class]="role.icon"></i>
+            </div>
+            <h3 class="role-title">{{ role.title }}</h3>
+            <p class="role-desc">{{ role.description }}</p>
+            <ul class="role-features">
+              @for (feature of role.features; track feature) {
+                <li><i class="pi pi-check"></i>{{ feature }}</li>
+              }
+            </ul>
+            <button (click)="register()" class="btn btn-ghost role-cta">
+              Get Started <i class="pi pi-arrow-right"></i>
             </button>
-            </div>
-            </section>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
 
-    <!-- Minimal Footer -->
-    <footer class="minimal-footer">
-      <div class="container">
-        <div class="footer-logo">Quizlynx</div>
-        <div class="footer-links">
-          <a href="#">Features</a>
-          <a href="#">Pricing</a>
-          <a href="#">About</a>
-          <a href="#">Privacy</a>
-        </div>
-            <p class="copy">© 2025 Quizlynx. All rights reserved.</p>
-        </div>
-        </footer>
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <div class="cta-glow"></div>
+      <h2 class="cta-title animate-on-scroll">Ready to transform your learning?</h2>
+      <p class="cta-desc animate-on-scroll">
+        Join educators and students who are already using QuizLynx to create smarter learning experiences.
+      </p>
+      <button (click)="register()" class="btn btn-primary btn-lg animate-on-scroll">
+        Start Your Free Account
+      </button>
+    </div>
+  </section>
+
+  <!-- Minimal Footer -->
+  <footer class="minimal-footer">
+    <div class="container">
+      <div class="footer-logo">QuizLynx</div>
+      <div class="footer-links">
+        <a routerLink="/features">Features</a>
+        <a routerLink="/pricing">Pricing</a>
+        <a routerLink="/about">About</a>
+        <a routerLink="/privacy">Privacy</a>
+        <a routerLink="/contact">Contact</a>
+      </div>
+      <p class="copy">© 2025 QuizLynx. All rights reserved.</p>
+    </div>
+  </footer>
+
 </div>

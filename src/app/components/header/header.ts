@@ -16,7 +16,7 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [ButtonModule,AsyncPipe, TooltipModule, RouterModule, Avatar, MenuModule, BadgeModule, Tag, AiGenerator],
+  imports: [ButtonModule, AsyncPipe, TooltipModule, RouterModule, Avatar, MenuModule, BadgeModule, Tag, AiGenerator],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -44,20 +44,15 @@ export class Header implements OnInit {
     { label: 'Leaderboard', routerLink: '/leaderboard', icon: 'pi pi-trophy' }
   ];
   currentNavItems: NavItem[] = [];
-  // 2. Helper to open it
   openAiTool() {
     this.showAiModal = true;
   }
   onAiSuccess() {
-    // If you are on a quiz page, you might want to refresh it.
-    // Since the header is global, we usually just show a success message 
-    // (which the component handles internally) and close the modal.
     this.showAiModal = false;
   }
   isScrolled = false;
   public readonly authService = inject(Auth)
   public readonly router = inject(Router)
-  // private readonly msg = inject(MessageService)
   private readonly common = inject(Common);
   isLoggedIn$!: Observable<boolean>;
   user$!: Observable<UserInfo | null>;
@@ -102,15 +97,9 @@ export class Header implements OnInit {
             icon: 'pi pi-cog',
             routerLink: '/settings'
           },
-          // {
-          //   label: 'Messages',
-          //   icon: 'pi pi-inbox',
-          //   badge: '2'
-          // },
           {
             label: 'Logout',
             icon: 'pi pi-sign-out',
-            // shortcut: '⌘+Q',
             linkClass: '!text-red-500 dark:!text-red-400',
             command: () => this.logout()
           }
@@ -131,7 +120,6 @@ export class Header implements OnInit {
   logout() {
     this.authService.logout().subscribe({
       next: (res: any) => {
-        // this.authService.setLoggedOut();
         this.router.navigate(['']);
         this.common.showMessage('success', 'Success', 'User Logout successfully');
       },

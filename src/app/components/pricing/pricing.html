@@ -75,6 +75,7 @@
                 </li> -->
             </ul>
             <p-button label="Upgrade to Pro"
+            (click)="upgradeToPro()"
                 styleClass="w-full p-button-primary text-white bg-indigo-600 hover:bg-indigo-700 py-2 border-none"></p-button>
         </div>
 
@@ -102,7 +103,7 @@
                     <span>Dedicated Success Manager</span>
                 </li>
             </ul>
-            <p-button label="Contact Sales" styleClass="w-full border-border border py-2 text-text hover:shadow-md p-button-outlined p-button-secondary"></p-button>
+            <p-button label="Contact Sales" (click)="router.navigate(['/contact'])" styleClass="w-full border-border border py-2 text-text hover:shadow-md p-button-outlined p-button-secondary"></p-button>
         </div>
 
     </div>
