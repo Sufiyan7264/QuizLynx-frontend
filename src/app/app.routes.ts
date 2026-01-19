@@ -32,6 +32,8 @@ export const routes: Routes = [
     {
         path: 'user-dashboard',
         loadComponent: () => import('./components/user-dashboard/user-dashboard').then(m => m.UserDashboard),
+        canActivate: [authGuard],
+        data: { role: "USER" }
     },
     // {
     //     path:'user/attempts',
@@ -42,86 +44,123 @@ export const routes: Routes = [
     {
         path: 'explore/category/:subject',
         loadComponent: () => import('./components/user-category-list/user-category-list').then(m => m.UserCategoryList),
+        canActivate: [roleGuard],
+        data: { role: 'USER' }
     },
     {
         path: 'user/explore',
         loadComponent: () => import('./components/user-explore/user-explore').then(m => m.UserExplore),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'USER' }
     },
     {
         path: 'user/practice',
         loadComponent: () => import('./components/user-practice/user-practice').then(m => m.UserPractice),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'USER' }
     },
     {
         path: 'student-dashboard',
         loadComponent: () => import('./components/student-instructor-dashboard/student-instructor-dashboard').then(m => m.StudentInstructorDashboard),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'STUDENT' }
     },
     {
         path: 'dashboard',
         loadComponent: () => import('./components/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'question/create',
         loadComponent: () => import('./components/question/create/create').then(m => m.Create),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'question/update/:id',
         loadComponent: () => import('./components/question/create/create').then(m => m.Create),
+        canActivate: [childAuthGuard, authGuard]
     },
     {
         path: 'quiz/create',
         loadComponent: () => import('./components/quiz/create/create').then(m => m.Create),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'quiz/update/:id',
         loadComponent: () => import('./components/quiz/create/create').then(m => m.Create),
+        canActivate: [childAuthGuard, authGuard]
     },
     {
         path: 'leaderboard',
         loadComponent: () => import('./components/leaderboard/leaderboard').then(m => m.Leaderboard),
+        canActivate: [childAuthGuard, authGuard]
     },
     {
         path: 'quiz/score',
         loadComponent: () => import('./components/quiz/score/score').then(m => m.Score),
+        canActivate: [childAuthGuard, authGuard]
     },
     {
         path: 'quiz/attempt/:id',
         loadComponent: () => import('./components/quiz-attempt/quiz-attempt').then(m => m.QuizAttempt),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: ['STUDENT', 'USER'] }
     },
     {
         path: 'quiz/result/:id',
         loadComponent: () => import('./components/quiz-result/quiz-result').then(m => m.QuizResult),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: ['STUDENT', 'USER'] }
     },
     {
         path: 'question/all',
         loadComponent: () => import('./components/question/list/list').then(m => m.List),
+        canActivate: [childAuthGuard, authGuard]
     },
     {
         path: 'instructor/batches',
         loadComponent: () => import('./components/batches/batches').then(m => m.Batches),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'instructor/quizzes',
         loadComponent: () => import('./components/instructor-quizzes/instructor-quizzes').then(m => m.InstructorQuizzes),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'instructor/students',
         loadComponent: () => import('./components/instructor-students/instructor-students').then(m => m.InstructorStudents),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'student/join',
         loadComponent: () => import('./components/student-join/student-join').then(m => m.StudentJoin),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'STUDENT' }
     },
     {
         path: 'batch/:batchId/results',
         loadComponent: () => import('./components/batch-results/batch-results').then(m => m.BatchResults),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'student/batches',
         loadComponent: () => import('./components/student-batches/student-batches').then(m => m.StudentBatches),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'STUDENT' }
     },
     {
         path: 'attempts',
         loadComponent: () => import('./components/student-attempts/student-attempts').then(m => m.StudentAttempts),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: ['STUDENT', 'USER'] }
     },
     {
         path: 'select-role',
@@ -130,18 +169,25 @@ export const routes: Routes = [
     {
         path: 'student/quizzes',
         loadComponent: () => import('./components/student-quizzes/student-quizzes').then(m => m.StudentQuizzes),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'STUDENT' }
     },
     {
         path: 'batch/:batchId/quizzes',
         loadComponent: () => import('./components/batch-quizzes/batch-quizzes').then(m => m.BatchQuizzes),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'STUDENT' }
     },
     {
         path: 'batch/:batchId/detail',
         loadComponent: () => import('./components/batch-detail/batch-detail').then(m => m.BatchDetail),
+        canActivate: [childAuthGuard, authGuard, roleGuard],
+        data: { role: 'INSTRUCTOR' }
     },
     {
         path: 'settings',
         loadComponent: () => import('./components/common/settings/settings').then(m => m.Settings),
+        canActivate: [childAuthGuard, authGuard]
     },
     {
         path: 'features',
