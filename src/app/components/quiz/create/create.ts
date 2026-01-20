@@ -41,10 +41,10 @@ export class Create implements OnInit {
     timerInMin: [60, [Validators.required, Validators.min(1)]],
     totalMarks: [100, [Validators.required, Validators.min(1)]],
     passingMarks: [50, [Validators.required, Validators.min(0)]],
-    startDate: [null],
-    endDate: [null],
-    dueDate: [null],
-    batchId: [null],
+    startDate: [null, Validators.required],
+    endDate: [null, Validators.required],
+    // dueDate: [null,Validators.required],
+    batchId: [null, Validators.required],
     status: ['DRAFT', Validators.required]
   });
 
@@ -87,7 +87,7 @@ export class Create implements OnInit {
           passingMarks: quiz.passingMarks || 50,
           startDate: quiz.startDate ? new Date(quiz.startDate) : null,
           endDate: quiz.endDate ? new Date(quiz.endDate) : null,
-          dueDate: quiz.dueDate ? new Date(quiz.dueDate) : null,
+          // dueDate: quiz.dueDate ? new Date(quiz.dueDate) : null,
           batchId: quiz.batchId || null,
           status: quiz.status || 'DRAFT'
         });
@@ -132,7 +132,7 @@ export class Create implements OnInit {
       passingMarks: formValue.passingMarks,
       startDate: formValue.startDate ? this.formatDateForAPI(formValue.startDate) : undefined,
       endDate: formValue.endDate ? this.formatDateForAPI(formValue.endDate) : undefined,
-      dueDate: formValue.dueDate ? this.formatDateForAPI(formValue.dueDate) : undefined,
+      // dueDate: formValue.dueDate ? this.formatDateForAPI(formValue.dueDate) : undefined,
       batchId: formValue.batchId || undefined,
       status: formValue.status
     };

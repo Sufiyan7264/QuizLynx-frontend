@@ -114,6 +114,14 @@ html.dark {
 .p-toast-message {
   padding: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+  .p-toast {
+    width: 90vw !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
 .required::after {
   content: " *";
   color: red;
@@ -290,4 +298,50 @@ td{
 .p-dialog-footer{
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+}
+
+.p-dialog {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--elev-2);
+
+  .p-dialog-header {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 1.25rem;
+    
+    .p-dialog-title {
+      font-weight: 600;
+    }
+
+    .p-dialog-header-icon {
+        color: var(--color-muted-text);
+        &:hover {
+            color: var(--color-text);
+            background: var(--hover-color);
+        }
+    }
+  }
+
+  .p-dialog-content {
+    background: var(--color-surface);
+    color: var(--color-text);
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    
+    &:last-of-type {
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+  }
+
+  .p-dialog-footer {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding: 1.25rem;
+  }
 }

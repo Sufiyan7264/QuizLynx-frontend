@@ -56,17 +56,25 @@
         </div>
 
         <div class="form-group">
-          <label for="batchId" class="form-label">Batch</label>
+          <label for="batchId" class="form-label required">Batch</label>
           <p-select
             id="batchId"
             formControlName="batchId"
             [options]="batches"
             optionLabel="name"
             optionValue="id"
-            placeholder="Select batch (optional)"
+            placeholder="Select batch"
             styleClass="w-full"
             [showClear]="true"
+            [invalid]="quizForm.get('batchId')?.invalid && quizForm.get('batchId')?.touched"
           ></p-select>
+          @if (quizForm.get('batchId')?.invalid && quizForm.get('batchId')?.touched) {
+          <span class="error-message">
+            @if (quizForm.get('batchId')?.errors?.['required']) {
+            Batch is required
+            }
+          </span>
+          }
         </div>
       </div>
 
@@ -81,6 +89,7 @@
             placeholder="60"
             styleClass="w-full"
             inputStyleClass="w-full"
+            [invalid]="quizForm.get('timerInMin')?.invalid && quizForm.get('timerInMin')?.touched"
           ></p-inputNumber>
           @if (quizForm.get('timerInMin')?.invalid && quizForm.get('timerInMin')?.touched) {
             <span class="error-message">Duration is required</span>
@@ -110,7 +119,11 @@
             placeholder="100"
             styleClass="w-full"
             inputStyleClass="w-full"
+            [invalid]="quizForm.get('totalMarks')?.invalid && quizForm.get('totalMarks')?.touched"
           ></p-inputNumber>
+          @if (quizForm.get('totalMarks')?.invalid && quizForm.get('totalMarks')?.touched) {
+          <span class="error-message">Total marks is required</span>
+          }
         </div>
 
         <div class="form-group">
@@ -122,7 +135,11 @@
             placeholder="50"
             styleClass="w-full"
             inputStyleClass="w-full"
+            [invalid]="quizForm.get('passingMarks')?.invalid && quizForm.get('passingMarks')?.touched"
           ></p-inputNumber>
+          @if (quizForm.get('passingMarks')?.invalid && quizForm.get('passingMarks')?.touched) {
+          <span class="error-message">Passing marks is required</span>
+          }
         </div>
       </div>
 
@@ -136,7 +153,11 @@
             placeholder="Select start date"
             styleClass="w-full"
             inputStyleClass="w-full"
+            [invalid]="quizForm.get('startDate')?.invalid && quizForm.get('startDate')?.touched"
           ></p-datepicker>
+          @if (quizForm.get('startDate')?.invalid && quizForm.get('startDate')?.touched) {
+          <span class="error-message">Start date is required</span>
+          }
         </div>
 
         <div class="form-group">
@@ -149,11 +170,15 @@
             [minDate]="minEndDate"
             styleClass="w-full"
             inputStyleClass="w-full"
+            [invalid]="quizForm.get('endDate')?.invalid && quizForm.get('endDate')?.touched"
           ></p-datepicker>
+          @if (quizForm.get('endDate')?.invalid && quizForm.get('endDate')?.touched) {
+          <span class="error-message">End date is required</span>
+          }
         </div>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="dueDate" class="form-label">Due Date</label>
         <p-datepicker
           id="dueDate"
@@ -164,13 +189,14 @@
           styleClass="w-full"
           inputStyleClass="w-full"
         ></p-datepicker>
-      </div>
+      </div> -->
 
       <div class="form-actions">
         <button type="button" pButton (click)="router.navigate(['/instructor/quizzes'])" class="cancel-btn">
           Cancel
         </button>
-        <button type="submit" pButton [disabled]="quizForm.invalid" class="submit-btn">
+        <button type="submit" pButton [disabled]="quizForm.invalid"
+          class="submit-btn p-2 !bg-indigo-600 hover:!bg-indigo-700 rounded-md">
           {{ isEditMode ? 'Update Quiz' : 'Create Quiz' }}
         </button>
       </div>

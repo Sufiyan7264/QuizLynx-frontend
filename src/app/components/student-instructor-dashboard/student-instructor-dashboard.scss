@@ -1,6 +1,12 @@
 .student-instructor-dashboard-page {
   background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.05), transparent 55%),
     radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 55%);
+
+  @media (max-width: 768px) {
+    padding-top: 5rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
 }
 
 .surface-card {

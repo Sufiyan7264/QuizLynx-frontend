@@ -61,6 +61,10 @@
 .page-hero {
   position: relative;
   padding: 8rem 0 3rem;
+
+  @media (max-width: 768px) {
+    padding: 6rem 0 2rem;
+  }
 }
 
 .hero-badge {
@@ -110,6 +114,7 @@
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -118,6 +123,10 @@
   border: 1px solid var(--page-border);
   border-radius: 20px;
   padding: 2.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 
   h2 {
     font-size: 1.35rem;
@@ -203,6 +212,10 @@
   border: 1px solid var(--page-border);
   border-radius: 20px;
   padding: 2.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 
   h2 {
     font-size: 1.25rem;
