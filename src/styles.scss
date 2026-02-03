@@ -8,7 +8,7 @@
     --color-surface: #ffffff;
   --color-border: #dbdbdb;
   --color-glass: rgba(15, 23, 42, 0.03);
-
+  --color-disable: #5a595f42;
     --color-primary: #4f95ff;     --color-primary-foreground: #ffffff;
 
   --color-secondary: #06b6d4;   --color-accent: #f97316; 
@@ -30,6 +30,7 @@
   }
 
 .dark {
+  --color-disable: #1e1e1f2c;
   --icon-filter: brightness(0) saturate(100%) invert(1);   --color-bg-page: #000000;
   --color-bg: var(--color-bg-page);
   --selected-bg: #3d3fe845;
@@ -345,4 +346,7 @@ td{
     border-bottom-right-radius: 12px;
     padding: 1.25rem;
   }
+}
+.p-disabled{
+  background-color: var(--color-disable);
 }
