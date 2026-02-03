@@ -440,20 +440,20 @@ export class AdminDashboard implements OnInit {
   private currentUser: any = "";
 
   ngOnInit(): void {
-    // this.authService.user$.subscribe((u: any) => this.currentUser = u);
-    // if (this.currentUser.role == 'INSTRUCTOR') {
-    //   this.getInstructorInfo();
-    // }
-    // this.instructorService.getDashboardStats().subscribe(data => {
-    //   this.stats = data.stats;
-    //   this.quickStats = data.quickStats;
-    //   this.topStudents = data.topStudents;
-    //   this.studentsNeedingAttention = data.studentsNeedingAttention;
-    //   this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
-    //   this.studentPerformanceData = data.studentPerformance;
-    //   this.quizCompletionData = data.quizCompletion;
-    //   this.performanceSummaryData = data.performanceDistribution;
-    // });
+    this.authService.user$.subscribe((u: any) => this.currentUser = u);
+    if (this.currentUser.role == 'INSTRUCTOR') {
+      this.getInstructorInfo();
+    }
+    this.instructorService.getDashboardStats().subscribe(data => {
+      this.stats = data.stats;
+      this.quickStats = data.quickStats;
+      this.topStudents = data.topStudents;
+      this.studentsNeedingAttention = data.studentsNeedingAttention;
+      this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
+      this.studentPerformanceData = data.studentPerformance;
+      this.quizCompletionData = data.quizCompletion;
+      this.performanceSummaryData = data.performanceDistribution;
+    });
   }
   getInstructorInfo() {
     this.instructorService.getInstructorInfo().subscribe({

@@ -123,6 +123,7 @@ export class InstructorQuizzes implements OnInit {
       batchId: quiz.batchId || null,
       status: quiz.status || 'DRAFT'
     });
+    this.quizForm.get('batchId')?.disable();
     this.showCreateDialog = true;
   }
 

@@ -127,10 +127,10 @@ export class StudentInstructorDashboard implements OnInit {
         }
       },
       data: [
-        { value: 0, name: 'Dr. Sarah Johnson', itemStyle: { color: '#3b82f6' } },
-        { value: 0, name: 'Prof. Michael Chen', itemStyle: { color: '#10b981' } },
-        { value: 0, name: 'Dr. Emily Rodriguez', itemStyle: { color: '#f59e0b' } },
-        { value: 0, name: 'Prof. David Kim', itemStyle: { color: '#ef4444' } }
+        { value: 0, itemStyle: { color: '#3b82f6' } },
+        { value: 0, itemStyle: { color: '#10b981' } },
+        { value: 0, itemStyle: { color: '#f59e0b' } },
+        { value: 0, itemStyle: { color: '#ef4444' } }
       ]
     }]
   };

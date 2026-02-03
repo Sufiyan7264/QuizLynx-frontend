@@ -71,8 +71,8 @@ export class StudentJoin implements OnInit {
 
     this.common.showSpinner();
     this.batchService.joinBatchByCode(code).subscribe({
-      next: (batch) => {
-        this.common.showMessage('success', 'Success', `Successfully joined "${batch.batchName}"!`);
+      next: (res: any) => {
+        this.common.showMessage('success', 'Success', res?.message);
         this.joinForm.reset();
         this.previewBatchs = null;
         this.showPreview = false;
