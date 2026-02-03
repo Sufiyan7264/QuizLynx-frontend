@@ -275,5 +275,10 @@ export class InstructorQuizzes implements OnInit {
         return 'status-draft';
     }
   }
+  showResults(quiz: Quiz): void {
+    if (quiz.id) {
+      this.router.navigate(['/batch/', quiz.batchId, '/results'], { queryParams: { quizId: quiz.id } });
+    }
+  }
 }
 

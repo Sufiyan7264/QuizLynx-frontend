@@ -84,12 +84,19 @@
             </div>
 
             <div class="flex flex-col gap-2">
-              <button
-                class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
-                (click)="addQuestions(quiz)">
-                <i class="pi pi-plus"></i>
-                <span>Add Questions</span>
-              </button>
+              <div class="flex gap-2">
+                <button
+                  class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                  (click)="addQuestions(quiz)">
+                  <i class="pi pi-plus"></i>
+                  <span>Add Questions</span>
+                </button>
+                <button (click)="showResults(quiz)"
+                  class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2">
+                  <i class="pi pi-chart-bar"></i>
+                  <span>Show Results</span>
+                </button>
+                </div>
               <div class="flex gap-2">
                 <button
                   class="flex-1 px-3 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 rounded-lg text-xs font-semibold transition-colors"
