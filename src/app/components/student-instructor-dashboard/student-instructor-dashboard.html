@@ -39,8 +39,8 @@
     <div class="flex flex-col gap-3 xl:col-span-2 lg:col-span-2">
       <!-- My Instructors Card -->
       <section class="surface-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">My Instructors</h3>
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-50">My Instructors</h3>
         </div>
         <div class="space-y-4">
           @for(instructor of instructors; track instructor.id){
@@ -88,9 +88,11 @@
 
       <!-- Instructor Quizzes Card -->
       <section class="surface-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">Recent Quizzes</h3>
-          <a href="/student/quizzes" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">View all</a>
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-50">Recent Quizzes</h3>
+          <a href="/student/quizzes"
+            class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">View
+            all</a>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full">
@@ -140,8 +142,8 @@
     <div class="flex flex-col gap-3">
       <!-- Performance Comparison Chart -->
       <section class="surface-card">
-        <div class="mb-4">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">My Performance vs Class Average</h3>
+        <div class="mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-50">My Performance vs Class Average</h3>
         </div>
         <app-chart-configuration
           [chartType]="'bar'"
@@ -154,8 +156,8 @@
 
       <!-- Quiz Completion by Instructor Chart -->
       <section class="surface-card">
-        <div class="mb-4">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">Quiz Completion</h3>
+        <div class="mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-50">Quiz Completion</h3>
         </div>
         <app-chart-configuration
           [chartType]="'pie'"

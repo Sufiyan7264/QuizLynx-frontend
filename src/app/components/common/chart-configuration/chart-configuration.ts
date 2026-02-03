@@ -266,6 +266,7 @@ export class ChartConfiguration implements OnInit, OnChanges, AfterViewInit, OnD
     let series = this.data.series || [defaultSeries];
     if (this.data.series) {
       series = this.data.series.map((s: any) => {
+        s.center = ['65%', '50%'];
         const mergedSeries = { ...s };
         if (mergedSeries.label) {
           mergedSeries.label = {

@@ -1,59 +1,66 @@
-# QuizFrontend
+# QuizLynx - Master Your Knowledge 🧠
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+QuizLynx is a modern, responsive, and intelligent quiz management platform designed to empower Instructors, Students, and lifelong Learners. It features AI-driven quiz generation, comprehensive analytics, and a seamless role-based experience.
 
-## Development server
+## 🚀 Features
 
-To start a local development server, run:
+### 👤 Role-Based Access
+- **Instructor**:
+  - Create and manage custom quizzes.
+  - Generate quizzes instantly using **AI**.
+  - Track student performance with detailed analytics and charts.
+  - Manage students and batches.
+- **Student**:
+  - Join batches and take assigned quizzes.
+  - enhanced dashboard with performance tracking and history.
+  - Review detailed result analysis after every attempt.
+- **User (Explorer)**:
+  - Explore public quizzes by category.
+  - Practice mode for self-improvement.
 
-```bash
-ng serve
-```
+### 🎨 UI/UX & Design
+- **Responsive Design**: Fully optimized for Desktop, Tablet, and Mobile devices.
+- **Modern Interface**: Built with sleek Tailwind CSS components and animations.
+- **Dark/Light Mode**: Seamless theme switching for comfortable reading.
+- **Interactive Dashboards**: Data visualization using Chart.js.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🛠️ Tech Stack
 
-## Code scaffolding
+- **Framework**: [Angular 18+](https://angular.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & SCSS
+- **Components**: [PrimeNG](https://primeng.org/)
+- **Charts**: [ng2-charts](https://valor-software.com/ng2-charts/) (Chart.js)
+- **Icons**: PrimeIcons
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🏁 Getting Started
 
-```bash
-ng generate component component-name
-```
+### Prerequisites
+- Node.js (Latest LTS recommended)
+- Angular CLI
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Installation
 
-```bash
-ng generate --help
-```
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/Sufiyan7264/QuizLynx-frontend.git
+    cd QuizLynx-frontend
+    ```
 
-## Building
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-To build the project run:
+3.  **Run the development server**:
+    ```bash
+    ng serve
+    ```
+    Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-```bash
-ng build
-```
+## 📦 Build
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## 🤝 Contributing
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Contributions are welcome! Please feel free to submit a Pull Request.

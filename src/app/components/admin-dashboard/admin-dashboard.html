@@ -3,18 +3,19 @@
   <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
     @for (stat of stats; track $index) {
     <div class="stat-card">
-      <div class="stat-header">
-        <span class="stat-title">{{ stat.title }}</span>
-        <span class="stat-period">{{ stat.period }}</span>
+      <div class="stat-header justify-between flex">
+        <span class="stat-title text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">{{ stat.title
+          }}</span>
+        <span class="stat-period text-xs text-slate-400 dark:text-slate-500">{{ stat.period }}</span>
       </div>
-      <div class="stat-content">
-        <span class="stat-value">{{ stat.value }}</span>
+      <div class="stat-content mt-2">
+        <span class="stat-value text-3xl font-bold text-slate-900 dark:text-slate-50">{{ stat.value }}</span>
         <span
-          class="stat-change"
+          class="stat-change ml-2 text-sm font-semibold px-2 py-0.5 rounded-full"
           [class.increase]="stat.changeType === 'increase'"
           [class.decrease]="stat.changeType === 'decrease'"
         >
-          <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+          <i [class]="stat.changeType === 'increase' ? 'pi pi-arrow-up text-xs' : 'pi pi-arrow-down text-xs'"></i>
           {{ stat.change }}%
         </span>
       </div>
@@ -66,8 +67,8 @@
         </div>
         <!-- Quick Stats Card -->
         <div class="chart-card quick-stats-card md:col-span-2 lg:col-span-1">
-          <div class="card-header mb-2 md:mb-4">
-            <h3 class="card-title text-base md:text-lg">Quick Statistics</h3>
+          <div class="card-header mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+            <h3 class="card-title text-lg font-bold text-slate-900 dark:text-slate-50">Quick Statistics</h3>
           </div>
           <div class="quick-stats-grid grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
             <div class="quick-stat-item">
@@ -127,8 +128,8 @@
 
       <!-- Students Needing Attention -->
       <div class="attention-card">
-        <div class="card-header mb-2 md:mb-4">
-          <h3 class="card-title text-base md:text-lg">Students Needing Attention</h3>
+        <div class="card-header mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+          <h3 class="card-title text-lg font-bold text-slate-900 dark:text-slate-50">Students Needing Attention</h3>
         </div>
         <div class="attention-list flex flex-col gap-2 md:gap-3">
           @for (student of studentsNeedingAttention; track $index) {
@@ -150,10 +151,13 @@
     </div>
   </div>
   <!-- Top Students Card -->
-  <div class="chart-card top-students-card mt-2 md:mt-4">
-    <div class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-      <h3 class="card-title text-base md:text-lg">Top Performing Students</h3>
-      <a href="/instructor/students" class="view-all-link text-sm">View all</a>
+  <div class="chart-card top-students-card mt-4">
+    <div
+      class="card-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 border-slate-100 dark:border-slate-700/50 pb-3">
+      <h3 class="card-title text-lg font-bold text-slate-900 dark:text-slate-50">Top Performing Students</h3>
+      <a href="/instructor/students"
+        class="view-all-link text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">View
+        all</a>
     </div>
     <div class="overflow-x-auto">
       <table class="students-table w-full min-w-[600px]">

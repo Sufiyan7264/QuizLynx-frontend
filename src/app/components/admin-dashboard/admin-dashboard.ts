@@ -210,105 +210,23 @@ export class AdminDashboard implements OnInit {
       "value": "other"
     }
   ];
-  stats: StatCard[] = [
-    {
-      title: 'Total Students',
-      value: 156,
-      change: 12,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Active Students',
-      value: 134,
-      change: 8,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Average Score',
-      value: '87%',
-      change: 5,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    },
-    {
-      title: 'Top Performers',
-      value: 42,
-      change: 15,
-      changeType: 'increase',
-      period: 'Last 7 days'
-    }
-  ];
-  topStudents: TopStudent[] = [
-    {
-      name: 'Sarah Johnson',
-      averageScore: 96,
-      quizzesCompleted: 12,
-      status: 'Excellent'
-    },
-    {
-      name: 'Michael Chen',
-      averageScore: 94,
-      quizzesCompleted: 11,
-      status: 'Excellent'
-    },
-    {
-      name: 'Emily Rodriguez',
-      averageScore: 92,
-      quizzesCompleted: 10,
-      status: 'Excellent'
-    },
-    {
-      name: 'David Kim',
-      averageScore: 89,
-      quizzesCompleted: 9,
-      status: 'Good'
-    },
-    {
-      name: 'Jessica Martinez',
-      averageScore: 87,
-      quizzesCompleted: 8,
-      status: 'Good'
-    },
-    {
-      name: 'James Wilson',
-      averageScore: 85,
-      quizzesCompleted: 7,
-      status: 'Good'
-    }
-  ];
-  studentsNeedingAttention: StudentNeedingAttention[] = [
-    {
-      name: 'Alex Thompson',
-      score: 58,
-      quizzesCompleted: 3
-    },
-    {
-      name: 'Maria Garcia',
-      score: 62,
-      quizzesCompleted: 4
-    },
-    {
-      name: 'Robert Brown',
-      score: 65,
-      quizzesCompleted: 5
-    }
-  ];
+  stats: StatCard[] = [];
+  topStudents: TopStudent[] = [];
+  studentsNeedingAttention: StudentNeedingAttention[] = [];
   quickStats = {
-    totalStudents: 156,
-    topPerformers: 42,
-    averageCompletionTime: '18 min',
-    averageScore: 87
+    totalStudents: 0,
+    topPerformers: 0,
+    averageCompletionTime: '0 min',
+    averageScore: 0
   };
   studentEngagementData: ChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [{
       label: 'Active Students',
-      data: [45, 52, 48, 61, 55, 38, 42]
+      data: []
     }, {
       label: 'Quiz Completions',
-      data: [28, 35, 32, 41, 38, 25, 30]
+      data: []
     }]
   };
 
@@ -318,7 +236,9 @@ export class AdminDashboard implements OnInit {
       left: 'center',
       top: '2%',
       textStyle: {
-        fontSize: 14
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#0f172a' // slate-900
       }
     },
     tooltip: {
@@ -340,7 +260,7 @@ export class AdminDashboard implements OnInit {
     labels: ['Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4', 'Quiz 5'],
     datasets: [{
       label: 'Average Score (%)',
-      data: [87, 82, 91, 79, 88]
+      data: []
     }]
   };
 
@@ -350,7 +270,9 @@ export class AdminDashboard implements OnInit {
       left: 'center',
       top: '2%',
       textStyle: {
-        fontSize: 14
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#0f172a'
       }
     },
     tooltip: {
@@ -370,19 +292,23 @@ export class AdminDashboard implements OnInit {
   quizCompletionData: ChartData = {
     labels: ['Completed', 'In Progress', 'Not Started'],
     datasets: [{
-      data: [245, 78, 45]
+      data: []
     }],
     series: [{
-      name: 'Quiz Completion Status',
       type: 'pie',
       radius: ['35%', '65%'],
-      center: ['50%', '55%'],
+      center: ['60%', '55%'],
       avoidLabelOverlap: true,
       itemStyle: {
         borderRadius: 8,
         borderColor: '#fff',
         borderWidth: 0,
       },
+      title: {
+        text: 'Quiz Completion Status',
+        left: '1%'
+      },
+
       label: {
         show: true,
         formatter: '{b}: {d}%',
@@ -414,9 +340,9 @@ export class AdminDashboard implements OnInit {
         }
       },
       data: [
-        { value: 245, name: 'Completed' },
-        { value: 78, name: 'In Progress' },
-        { value: 45, name: 'Not Started' }
+        { value: 0, name: 'Completed' },
+        { value: 0, name: 'In Progress' },
+        { value: 0, name: 'Not Started' }
       ]
     }]
   };
@@ -427,7 +353,9 @@ export class AdminDashboard implements OnInit {
       left: 'center',
       top: '3%',
       textStyle: {
-        fontSize: 14
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#0f172a'
       }
     },
     tooltip: {
@@ -435,16 +363,19 @@ export class AdminDashboard implements OnInit {
       formatter: '{a} <br/>{b}: {c} ({d}%)'
     },
     legend: {
-      orient: 'horizontal',
-      bottom: '2%',
-      left: 'center',
-      itemGap: 15
+      orient: 'vertical',
+      left: 'left',
+      bottom: '5%',
+      itemGap: 10,
+      textStyle: {
+        fontSize: 12
+      }
     }
   };
   performanceSummaryData: ChartData = {
     labels: ['90-100%', '75-89%', '60-74%', 'Below 60%'],
     datasets: [{
-      data: [42, 68, 32, 14]
+      data: []
     }],
     series: [{
       name: 'Performance Distribution',
@@ -475,12 +406,7 @@ export class AdminDashboard implements OnInit {
           fontWeight: 'bold'
         }
       },
-      data: [
-        { value: 42, name: '90-100%', itemStyle: { color: '#10b981' } },
-        { value: 68, name: '75-89%', itemStyle: { color: '#3b82f6' } },
-        { value: 32, name: '60-74%', itemStyle: { color: '#f59e0b' } },
-        { value: 14, name: 'Below 60%', itemStyle: { color: '#ef4444' } }
-      ]
+      data: []
     }]
   };
 
@@ -490,8 +416,9 @@ export class AdminDashboard implements OnInit {
       left: 'center',
       top: '2%',
       textStyle: {
-        fontSize: 14,
-        fontWeight: '600'
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#0f172a'
       }
     },
     tooltip: {
@@ -513,20 +440,20 @@ export class AdminDashboard implements OnInit {
   private currentUser: any = "";
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((u: any) => this.currentUser = u);
-    if (this.currentUser.role == 'INSTRUCTOR') {
-      this.getInstructorInfo();
-    }
-    this.instructorService.getDashboardStats().subscribe(data => {
-      this.stats = data.stats;
-      this.quickStats = data.quickStats;
-      this.topStudents = data.topStudents;
-      this.studentsNeedingAttention = data.studentsNeedingAttention;
-      this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
-      this.studentPerformanceData = data.studentPerformance;
-      this.quizCompletionData = data.quizCompletion;
-      this.performanceSummaryData = data.performanceDistribution;
-    });
+    // this.authService.user$.subscribe((u: any) => this.currentUser = u);
+    // if (this.currentUser.role == 'INSTRUCTOR') {
+    //   this.getInstructorInfo();
+    // }
+    // this.instructorService.getDashboardStats().subscribe(data => {
+    //   this.stats = data.stats;
+    //   this.quickStats = data.quickStats;
+    //   this.topStudents = data.topStudents;
+    //   this.studentsNeedingAttention = data.studentsNeedingAttention;
+    //   this.studentEngagementData = data.studentEngagement; // Ensure structure matches Chart.js
+    //   this.studentPerformanceData = data.studentPerformance;
+    //   this.quizCompletionData = data.quizCompletion;
+    //   this.performanceSummaryData = data.performanceDistribution;
+    // });
   }
   getInstructorInfo() {
     this.instructorService.getInstructorInfo().subscribe({

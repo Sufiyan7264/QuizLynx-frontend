@@ -63,15 +63,15 @@ export class UserDashboard implements OnInit {
       textStyle: { fontSize: 10, color: '#0b1220' },
       formatter: this.formatLegend.bind(this)
     },
-    graphic: [{
-      type: 'text',
-      left: '18%', top: '52%', z: 10,
-      style: {
-        text: 'Total\nLoading', // Will update this dynamically
-        fontSize: 12, fontWeight: 'bold', fontFamily: 'Mona Sans, sans-serif',
-        fill: '#0b1220', textAlign: 'center', textVerticalAlign: 'middle'
-      }
-    }]
+    // graphic: [{
+    //   type: 'text',
+    //   left: '18%', top: '52%', z: 10,
+    //   style: {
+    //     text: 'Total\nLoading', // Will update this dynamically
+    //     fontSize: 12, fontWeight: 'bold', fontFamily: 'Mona Sans, sans-serif',
+    //     fill: '#0b1220', textAlign: 'center', textVerticalAlign: 'middle'
+    //   }
+    // }]
   };
 
   practiceSuggestion = {
